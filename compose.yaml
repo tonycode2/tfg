@@ -6,4 +6,4 @@ services:
       - 'POSTGRES_PASSWORD=gersonandre'
       - 'POSTGRES_USER=tony'
     ports:
-      - '5432'
+      - '5432:5432'
