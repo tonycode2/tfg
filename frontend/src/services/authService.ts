@@ -1,5 +1,7 @@
 const API_URL = 'http://localhost:8080';
 
+export type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
+
 export interface LoginRequest {
   username: string;
   password: string;
@@ -12,6 +14,11 @@ export interface RegisterRequest {
 
 export interface AuthResponse {
   token: string;
+}
+
+export interface UserInfo {
+  username: string;
+  role: Role;
 }
 
 export const authService = {
@@ -61,5 +68,27 @@ export const authService = {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  },
+
+  // Función temporal para simular usuario - será reemplazada cuando conectemos al backend
+  getUserInfo(): UserInfo {
+    // TODO: Decodificar el token JWT para obtener el rol real
+    // Por ahora retornamos un usuario de prueba
+    return {
+      username: localStorage.getItem('username') || 'Usuario',
+      role: (localStorage.getItem('role') as Role) || 'EMPLEADO',
+    };
+  },
+
+  // Función temporal para establecer rol de prueba
+  setUserInfo(username: string, role: Role): void {
+    localStorage.setItem('username', username);
+    localStorage.setItem('role', role);
+  },
+
+  logout(): void {
+    this.removeToken();
+    localStorage.removeItem('username');
+    localStorage.removeItem('role');
   },
 };

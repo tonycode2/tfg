@@ -5,13 +5,17 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { authService } from '@/services/authService';
+import type { Role } from '@/services/authService';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedRole, setSelectedRole] = useState<Role>('EMPLEADO');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,9 +23,22 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await authService.login({ username, password });
-      authService.saveToken(response.token);
-      navigate('/dashboard');
+      // Modo de prueba: simular login sin backend
+      const demoMode = true;
+      
+      if (demoMode) {
+        // Simular delay de red
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Guardar token ficticio y datos del usuario
+        authService.saveToken('demo-token-' + Date.now());
+        authService.setUserInfo(username || 'Usuario Demo', selectedRole);
+        navigate('/dashboard');
+      } else {
+        const response = await authService.login({ username, password });
+        authService.saveToken(response.token);
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError('Usuario o contraseña incorrectos');
     } finally {
@@ -30,7 +47,25 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 relative">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={toggleTheme}
+        className="absolute top-4 right-4 h-9 w-9"
+        title="Cambiar tema"
+      >
+        {theme === 'light' ? (
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+        ) : (
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4" strokeWidth={2} />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M17.66 6.34l1.41-1.41" />
+          </svg>
+        )}
+      </Button>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">
@@ -64,6 +99,28 @@ export default function LoginPage() {
                 required
               />
             </div>
+            
+            {/* Selector de rol temporal para pruebas */}
+            <div className="space-y-2 p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-300 dark:border-blue-800 rounded-md">
+              <p className="text-xs font-bold !text-black dark:!text-blue-100">
+                🧪 Modo Demo - Selecciona un rol:
+              </p>
+              <select 
+                id="role"
+                value={selectedRole}
+                onChange={(e) => setSelectedRole(e.target.value as Role)}
+                className="w-full p-2 border border-blue-400 dark:border-blue-700 rounded-md text-sm bg-white dark:bg-blue-950/50 !text-black dark:!text-blue-100"
+              >
+                <option value="EMPLEADO">Empleado</option>
+                <option value="JEFE">Jefe de Departamento</option>
+                <option value="HR">Recursos Humanos</option>
+                <option value="ADMIN">Administrador</option>
+              </select>
+              <p className="text-xs !text-black dark:!text-blue-200">
+                Este selector es temporal. Será removido al conectar con el backend.
+              </p>
+            </div>
+            
             {error && (
               <div className="text-sm text-red-600 text-center">
                 {error}
