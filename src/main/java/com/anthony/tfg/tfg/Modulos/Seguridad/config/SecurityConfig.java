@@ -1,4 +1,4 @@
-package com.anthony.tfg.tfg.Seguridad.config;
+package com.anthony.tfg.tfg.Modulos.Seguridad.config;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.anthony.tfg.tfg.Seguridad.jwt.JwtAuthenticationFilter;
+import com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtAuthenticationFilter;
 
 import lombok.RequiredArgsConstructor;
 

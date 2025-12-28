@@ -1,4 +1,4 @@
-package com.anthony.tfg.tfg.Seguridad.auth;
+package com.anthony.tfg.tfg.Modulos.Seguridad.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-    String username;
-    String password;
-
+public class AuthResponse {
+    String token;
 }

@@ -1,4 +1,4 @@
-package com.anthony.tfg.tfg.Seguridad.user;
+package com.anthony.tfg.tfg.Modulos.Seguridad.user;
 
 import java.util.Collection;
 import java.util.List;

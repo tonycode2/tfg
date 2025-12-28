@@ -1,4 +1,4 @@
-package com.anthony.tfg.tfg.Seguridad.auth;
+package com.anthony.tfg.tfg.Modulos.Seguridad.auth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

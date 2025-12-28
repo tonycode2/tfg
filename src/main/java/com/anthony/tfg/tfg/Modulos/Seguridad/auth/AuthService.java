@@ -1,4 +1,4 @@
-package com.anthony.tfg.tfg.Seguridad.auth;
+package com.anthony.tfg.tfg.Modulos.Seguridad.auth;
 
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -6,9 +6,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.anthony.tfg.tfg.Seguridad.jwt.JwtService;
-import com.anthony.tfg.tfg.Seguridad.user.User;
-import com.anthony.tfg.tfg.Seguridad.user.UserRepository;
+import com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtService;
+import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
+import com.anthony.tfg.tfg.Modulos.Seguridad.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,7 +34,7 @@ public class AuthService {
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(com.anthony.tfg.tfg.Seguridad.user.Role.EMPLEADO)
+                .role(com.anthony.tfg.tfg.Modulos.Seguridad.user.Role.EMPLEADO)
                 .build();
         userRepository.save(user);
         return AuthResponse.builder()

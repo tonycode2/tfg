@@ -1,4 +1,4 @@
-package com.anthony.tfg.tfg.Seguridad.jwt;
+package com.anthony.tfg.tfg.Modulos.Seguridad.jwt;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.anthony.tfg.tfg.Seguridad.user.User;
+import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

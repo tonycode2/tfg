@@ -1,4 +1,4 @@
-package com.anthony.tfg.tfg.Seguridad.jwt;
+package com.anthony.tfg.tfg.Modulos.Seguridad.jwt;
 
 import java.io.IOException;
 

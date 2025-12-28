@@ -1,4 +1,4 @@
-package com.anthony.tfg.tfg.Seguridad.config;
+package com.anthony.tfg.tfg.Modulos.Seguridad.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.anthony.tfg.tfg.Seguridad.user.UserRepository;
+import com.anthony.tfg.tfg.Modulos.Seguridad.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
