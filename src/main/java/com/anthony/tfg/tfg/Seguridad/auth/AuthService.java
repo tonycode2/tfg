@@ -1,6 +1,5 @@
 package com.anthony.tfg.tfg.Seguridad.auth;
 
-import javax.management.relation.Role;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
