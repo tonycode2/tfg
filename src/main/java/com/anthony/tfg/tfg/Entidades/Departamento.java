@@ -1,5 +1,20 @@
 package com.anthony.tfg.tfg.Entidades;
 
-public class Departamento {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.Data;
 
+@Data
+@Entity
+@Table(name = "departamentos")
+@Builder
+public class Departamento {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+    String nombre;
 }
