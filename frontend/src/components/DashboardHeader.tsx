@@ -19,6 +19,11 @@ export function DashboardHeader({ username }: DashboardHeaderProps) {
   return (
     <header className="bg-card border-b border-border px-6 py-4 flex items-center justify-between">
       <div className="flex items-center gap-4">
+        <img 
+          src={theme === 'light' ? '/logo.png' : '/logo_invertido.png'} 
+          alt="Logo Sastrería Gerson Andre" 
+          className="h-10 w-auto"
+        />
         <h2 className="text-lg font-semibold text-foreground">Panel de Control</h2>
       </div>
       

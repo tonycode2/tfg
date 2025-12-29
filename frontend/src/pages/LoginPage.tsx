@@ -53,6 +53,13 @@ export default function LoginPage() {
       </Button>
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
+          <div className="flex justify-center mb-4">
+            <img 
+              src={theme === 'light' ? '/logo.png' : '/logo_invertido.png'} 
+              alt="Logo Sastrería Gerson Andre" 
+              className="h-20 w-auto"
+            />
+          </div>
           <CardTitle className="text-2xl font-bold text-center">
             Iniciar Sesión
           </CardTitle>
