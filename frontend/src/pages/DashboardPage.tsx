@@ -14,15 +14,9 @@ export default function DashboardPage() {
   });
 
   useEffect(() => {
-    // Obtener información del usuario
+    // Obtener información del usuario desde el JWT
     const info = authService.getUserInfo();
     setUserInfo(info);
-
-    // Para pruebas: establecer un rol de ejemplo si no existe
-    if (!localStorage.getItem('username')) {
-      authService.setUserInfo('Juan Pérez', 'EMPLEADO');
-      setUserInfo({ username: 'Juan Pérez', role: 'EMPLEADO' });
-    }
   }, []);
 
   const renderView = () => {

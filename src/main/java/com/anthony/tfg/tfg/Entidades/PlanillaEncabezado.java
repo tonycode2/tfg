@@ -12,13 +12,19 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "planilla_encabezado")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PlanillaEncabezado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

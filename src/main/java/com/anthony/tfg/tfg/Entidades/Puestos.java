@@ -5,14 +5,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "puestos")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Puestos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +28,8 @@ public class Puestos {
     String nombre;
     @Column(name = "salario_minimo")
     Double salarioMinimo;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_departamento")
+    Departamento departamento;
 }

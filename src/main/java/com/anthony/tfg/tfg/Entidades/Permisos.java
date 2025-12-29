@@ -12,14 +12,22 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "permisos")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Permisos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +49,8 @@ public class Permisos {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_permiso")
     TipoPermiso tipoPermiso;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_empleado")
+    Empleados empleado;
 }

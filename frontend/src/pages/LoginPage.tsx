@@ -5,13 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { authService } from '@/services/authService';
-import type { Role } from '@/services/authService';
 import { useTheme } from '@/hooks/useTheme';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState<Role>('EMPLEADO');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -23,22 +21,9 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // Modo de prueba: simular login sin backend
-      const demoMode = true;
-      
-      if (demoMode) {
-        // Simular delay de red
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        // Guardar token ficticio y datos del usuario
-        authService.saveToken('demo-token-' + Date.now());
-        authService.setUserInfo(username || 'Usuario Demo', selectedRole);
-        navigate('/dashboard');
-      } else {
-        const response = await authService.login({ username, password });
-        authService.saveToken(response.token);
-        navigate('/dashboard');
-      }
+      const response = await authService.login({ username, password });
+      authService.saveToken(response.token);
+      navigate('/dashboard');
     } catch (err) {
       setError('Usuario o contraseña incorrectos');
     } finally {
@@ -98,27 +83,6 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-            </div>
-            
-            {/* Selector de rol temporal para pruebas */}
-            <div className="space-y-2 p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-300 dark:border-blue-800 rounded-md">
-              <p className="text-xs font-bold !text-black dark:!text-blue-100">
-                🧪 Modo Demo - Selecciona un rol:
-              </p>
-              <select 
-                id="role"
-                value={selectedRole}
-                onChange={(e) => setSelectedRole(e.target.value as Role)}
-                className="w-full p-2 border border-blue-400 dark:border-blue-700 rounded-md text-sm bg-white dark:bg-blue-950/50 !text-black dark:!text-blue-100"
-              >
-                <option value="EMPLEADO">Empleado</option>
-                <option value="JEFE">Jefe de Departamento</option>
-                <option value="HR">Recursos Humanos</option>
-                <option value="ADMIN">Administrador</option>
-              </select>
-              <p className="text-xs !text-black dark:!text-blue-200">
-                Este selector es temporal. Será removido al conectar con el backend.
-              </p>
             </div>
             
             {error && (

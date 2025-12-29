@@ -70,25 +70,33 @@ export const authService = {
     return !!this.getToken();
   },
 
-  // Función temporal para simular usuario - será reemplazada cuando conectemos al backend
+  // Decodificar el token JWT para obtener la información del usuario
   getUserInfo(): UserInfo {
-    // TODO: Decodificar el token JWT para obtener el rol real
-    // Por ahora retornamos un usuario de prueba
-    return {
-      username: localStorage.getItem('username') || 'Usuario',
-      role: (localStorage.getItem('role') as Role) || 'EMPLEADO',
-    };
-  },
+    const token = this.getToken();
+    if (!token) {
+      return {
+        username: 'Usuario',
+        role: 'EMPLEADO',
+      };
+    }
 
-  // Función temporal para establecer rol de prueba
-  setUserInfo(username: string, role: Role): void {
-    localStorage.setItem('username', username);
-    localStorage.setItem('role', role);
+    try {
+      // Decodificar el JWT (el payload es la parte central del token)
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return {
+        username: payload.sub || 'Usuario',
+        role: payload.role || 'EMPLEADO',
+      };
+    } catch (error) {
+      console.error('Error al decodificar el token:', error);
+      return {
+        username: 'Usuario',
+        role: 'EMPLEADO',
+      };
+    }
   },
 
   logout(): void {
     this.removeToken();
-    localStorage.removeItem('username');
-    localStorage.removeItem('role');
   },
 };
