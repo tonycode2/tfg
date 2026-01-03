@@ -1,5 +1,30 @@
 package com.anthony.tfg.tfg.Modulos.Mantenimientos;
 
-public class MantenimientosDepartamentos {
+import org.springframework.stereotype.Service;
+
+import com.anthony.tfg.tfg.Entidades.Departamento;
+import com.anthony.tfg.tfg.Modulos.Interfaces.MantenimientoInterface;
+import com.anthony.tfg.tfg.Repositorios.DepartamentoRepositorio;
+
+@Service
+public class MantenimientosDepartamentos implements MantenimientoInterface<Departamento>{
+
+    private final DepartamentoRepositorio departamentoRepositorio;
+
+    public MantenimientosDepartamentos(DepartamentoRepositorio departamentoRepositorio) {
+        this.departamentoRepositorio = departamentoRepositorio;
+    }
+
+    public Departamento crear(Departamento entidad) {
+        return departamentoRepositorio.save(entidad);
+    }
+
+    public Departamento actualizar(Departamento entidad) {
+        return departamentoRepositorio.save(entidad);
+    }
+
+    public void eliminar(Long id) {
+        departamentoRepositorio.deleteById(id);
+    }
 
 }

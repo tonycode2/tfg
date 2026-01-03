@@ -1,7 +1,7 @@
 package com.anthony.tfg.tfg.Modulos.Interfaces;
 
-public interface MantenimientoInterface <T, K>{
-    public T crear(K k);
-    public T actualizar(K k);
+public interface MantenimientoInterface <T>{
+    public T crear(T entidad);
+    public T actualizar(T entidad);
     public void eliminar(Long id);
 }

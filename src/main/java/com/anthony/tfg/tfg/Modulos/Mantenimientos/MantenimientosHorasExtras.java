@@ -1,5 +1,30 @@
 package com.anthony.tfg.tfg.Modulos.Mantenimientos;
 
-public class MantenimientosHorasExtras {
+import org.springframework.stereotype.Service;
+
+import com.anthony.tfg.tfg.Entidades.HorasExtra;
+import com.anthony.tfg.tfg.Modulos.Interfaces.MantenimientoInterface;
+import com.anthony.tfg.tfg.Repositorios.HorasExtraRepositorio;
+
+@Service
+public class MantenimientosHorasExtras implements MantenimientoInterface<HorasExtra>{
+
+    private final HorasExtraRepositorio repo;
+
+    public MantenimientosHorasExtras(HorasExtraRepositorio repo) {
+        this.repo = repo;
+    }
+
+    public HorasExtra crear(HorasExtra entidad) {
+        return repo.save(entidad);
+    }
+
+    public HorasExtra actualizar(HorasExtra entidad) {
+        return repo.save(entidad);
+    }
+
+    public void eliminar(Long id) {
+        repo.deleteById(id);
+    }
 
 }
