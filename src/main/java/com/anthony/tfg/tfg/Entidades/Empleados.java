@@ -61,10 +61,6 @@ public class Empleados {
     TipoDeJornada tipoDeJornada;
     
     @ManyToOne
-    @JoinColumn(name = "id_departamento")
-    Departamento departamento;
-    
-    @ManyToOne
     @JoinColumn(name = "id_puesto")
     Puestos puesto;
     
@@ -75,4 +71,5 @@ public class Empleados {
     @OneToOne
     @JoinColumn(name = "id_usuario")
     User usuario;
+    
 }

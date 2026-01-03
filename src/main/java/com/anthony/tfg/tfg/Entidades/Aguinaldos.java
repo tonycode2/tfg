@@ -40,7 +40,6 @@ public class Aguinaldos {
     Date fechaCalculo;
     @Column(name = "fecha_pago")
     Date fechaPago;
-    
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     Empleados empleado;
