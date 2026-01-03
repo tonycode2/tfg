@@ -1,9 +1,12 @@
 package com.anthony.tfg.tfg.Entidades;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +26,7 @@ public class Departamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String nombre;
+    
+    @OneToMany(mappedBy = "departamento")
+    List<Puestos> puestos;
 }

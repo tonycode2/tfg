@@ -1,6 +1,7 @@
 package com.anthony.tfg.tfg.Entidades;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoPlanilla;
 
@@ -11,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,4 +44,7 @@ public class PlanillaEncabezado {
     @Column(name = "estado_planilla")
     @Enumerated(EnumType.STRING)
     EstadoPlanilla estadoPlanilla;
+    
+    @OneToMany(mappedBy = "planillaEncabezado")
+    List<PlanillaDetalle> detalles;
 }

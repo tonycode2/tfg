@@ -1,6 +1,7 @@
 package com.anthony.tfg.tfg.Entidades;
 
 import java.sql.Date;
+import java.util.List;
 
 import com.anthony.tfg.tfg.Entidades.Enums.TipoDeJornada;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -71,5 +73,26 @@ public class Empleados {
     @OneToOne
     @JoinColumn(name = "id_usuario")
     User usuario;
+    
+    @OneToMany(mappedBy = "empleado")
+    List<Permisos> permisos;
+    
+    @OneToMany(mappedBy = "empleado")
+    List<Asistencia> asistencias;
+    
+    @OneToMany(mappedBy = "empleado")
+    List<HorasExtra> horasExtra;
+    
+    @OneToMany(mappedBy = "empleado")
+    List<Aguinaldos> aguinaldos;
+    
+    @OneToMany(mappedBy = "empleado")
+    List<EvaluacionDeDesempeno> evaluaciones;
+    
+    @OneToMany(mappedBy = "empleado")
+    List<Liquidaciones> liquidaciones;
+    
+    @OneToMany(mappedBy = "empleado")
+    List<PlanillaDetalle> planillaDetalles;
     
 }

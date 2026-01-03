@@ -1,5 +1,11 @@
 package com.anthony.tfg.tfg.Entidades.Enums;
 
 public enum MotivoSalida {
-
+    RENUNCIA_VOLUNTARIA,
+    DESPIDO_CON_RESPONSABILIDAD,
+    DESPIDO_SIN_RESPONSABILIDAD,
+    FINALIZACION_CONTRATO,
+    JUBILACION,
+    MUERTE,
+    MUTUO_ACUERDO
 }
