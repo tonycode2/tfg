@@ -68,10 +68,6 @@ public class SolicitudEmpleadosDTO {
 
     @NotBlank
     @Positive
-    Long idDepartamento;
-
-    @NotBlank
-    @Positive
     Long idPuesto;
 
     @NotBlank

@@ -1,5 +1,12 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
-public class RespuestaPlanillaEncabezadoDTO {
+import java.sql.Date;
 
+public class RespuestaPlanillaEncabezadoDTO {
+    Date fechaInicioPeriodo;
+    Date fechaFinPeriodo;
+    Date fechaPago;
+    Double totalPlanillaBruto;
+    Double totalPlanillaNeto;
+    String estadoPlanilla;
 }
