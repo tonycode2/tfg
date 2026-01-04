@@ -3,6 +3,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { InicioView } from '@/components/dashboard/InicioView';
 import { PlaceholderView } from '@/components/dashboard/PlaceholderView';
+import { MantenimientosView } from '@/components/dashboard/MantenimientosView';
 import { authService } from '@/services/authService';
 import type { Role } from '@/services/authService';
 
@@ -86,6 +87,8 @@ export default function DashboardPage() {
             description="Genera reportes y análisis del sistema"
           />
         );
+      case 'mantenimientos':
+        return <MantenimientosView />;
       default:
         return <InicioView userRole={userInfo.role} />;
     }
