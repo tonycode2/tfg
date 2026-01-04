@@ -4,34 +4,34 @@ import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 
 public class SolicitudLiquidacionesDTO {
-    @NotBlank
     public Long id;
-    @NotBlank
+    @NotNull
     @Past
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaSalida;
-    @NotBlank
+    @NotNull
     @Positive
     public Double montoPreaviso;
-    @NotBlank
+    @NotNull
     @Positive
     public Double montoCesantia;
-    @NotBlank
+    @NotNull
     @Positive
     public Double montoVacacionesPendientes;
-    @NotBlank
+    @NotNull
     @Positive
     public Double montoAguinaldoPendiente;
-    @NotBlank
+    @NotNull
     @Positive
     public Double totalLiquidacion;
     @NotBlank
     public String motivoSalida;
-    @NotBlank
+    @NotNull
     @Positive
     public Long idEmpleado;
 }

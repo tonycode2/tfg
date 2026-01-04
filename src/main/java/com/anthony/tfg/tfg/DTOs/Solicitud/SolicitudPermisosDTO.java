@@ -5,21 +5,21 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class SolicitudPermisosDTO {
-    @NotBlank
     public Long id;
-    @NotBlank
+    @NotNull
     @Future
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaInicio;
-    @NotBlank
+    @NotNull
     @Future
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaFin;
-    @NotBlank
+    @NotNull
     @Positive
     public Integer diasTotales;
     @NotBlank
@@ -32,6 +32,6 @@ public class SolicitudPermisosDTO {
     public String estadoSolicitud;
     @NotBlank
     public String tipoPermiso;
-    @NotBlank
+    @NotNull
     public Long idEmpleado;
 }

@@ -4,45 +4,44 @@ import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 
 public class SolicitudAguinaldosDTO {
-    @NotBlank
     public Long id;
     
-    @NotBlank
+    @NotNull
     public Integer anio;
     
-    @NotBlank
+    @NotNull
     @Past
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaInicioPeriodo;
     
-    @NotBlank
+    @NotNull
     @Past
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaFinPeriodo;
     
-    @NotBlank
+    @NotNull
     @Positive
     public Double totalSalariosDevengados;
     
-    @NotBlank
+    @NotNull
     @Positive
     public Double montoAguinaldo;
     
-    @NotBlank
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaCalculo;
     
-    @NotBlank
+    @NotNull
     @Future
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaPago;
     
-    @NotBlank
+    @NotNull
     @Positive
     public Long idEmpleado;
 }

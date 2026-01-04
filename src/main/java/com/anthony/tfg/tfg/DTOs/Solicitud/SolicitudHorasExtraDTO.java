@@ -4,18 +4,18 @@ import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class SolicitudHorasExtraDTO {
-    @NotBlank
     public Long id;
 
-    @NotBlank
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaSolicitud;
 
-    @NotBlank
+    @NotNull
     @Positive
     public Integer cantidadDeHoras;
 
@@ -23,10 +23,10 @@ public class SolicitudHorasExtraDTO {
     @Size(min = 5, max = 200)
     public String motivo;
 
-    @NotBlank
+    @NotNull
     public Boolean aprobado;
 
-    @NotBlank
+    @NotNull
     public Boolean procesado;
 
     @NotBlank
@@ -35,6 +35,6 @@ public class SolicitudHorasExtraDTO {
     @NotBlank
     public String tipoTarifa;
 
-    @NotBlank
+    @NotNull
     public Long idEmpleado;
 }

@@ -1,21 +1,20 @@
 package com.anthony.tfg.tfg.DTOs.Solicitud;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 public class SolicitudConfiguracionRentaDTO {
-    @NotBlank
     public Long id;
 
-    @NotBlank
+    @NotNull
     @Positive
     public Double montoMinimo;
 
-    @NotBlank
+    @NotNull
     @Positive
     public Double montoMaximo;
 
-    @NotBlank
+    @NotNull
     @Positive
     public Double porcentaje;
 }
