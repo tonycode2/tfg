@@ -8,6 +8,7 @@ import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAguinaldosDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudAguinaldosDTO;
 import com.anthony.tfg.tfg.Entidades.Aguinaldos;
 import com.anthony.tfg.tfg.Entidades.Empleados;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasAguinaldos;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
@@ -32,13 +33,13 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
     }
 
     public RespuestaAguinaldosDTO obtenerPorId(Long id) {
-        RespuestaAguinaldosDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado el aguinaldo con ID: " + id);
-        } else {
+        Aguinaldos aguinaldo = consulta.obtenerPorId(id);
+        if(aguinaldo == null){
             log.warn("No se ha encontrado el aguinaldo con ID: " + id);
+            throw new ResourceNotFoundException("Aguinaldos", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado el aguinaldo con ID: " + id);
+        return deEntidadDtoARespuesta(aguinaldo);
     }
 
     public List<RespuestaAguinaldosDTO> obtenerTodos() {
@@ -58,7 +59,7 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         Aguinaldos aguinaldoExistente = consulta.obtenerPorId(id);
         if(aguinaldoExistente == null){
             log.warn("No se ha encontrado el aguinaldo con ID: " + id + " para actualizar");
-            return null;
+            throw new ResourceNotFoundException("Aguinaldos", "id", id);
         }
         aguinaldoExistente.setAnio(entidad.anio);
         aguinaldoExistente.setFechaInicioPeriodo(entidad.fechaInicioPeriodo);

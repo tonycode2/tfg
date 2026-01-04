@@ -8,6 +8,7 @@ import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEvaluacionDeDesempenoDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudEvaluacionDeDesempenoDTO;
 import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.EvaluacionDeDesempeno;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEvaluacionDeDesempeno;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
@@ -32,13 +33,13 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
     }
 
     public RespuestaEvaluacionDeDesempenoDTO obtenerPorId(Long id) {
-        RespuestaEvaluacionDeDesempenoDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado la evaluación de desempeño con ID: " + id);
-        } else {
+        EvaluacionDeDesempeno evaluacion = consulta.obtenerPorId(id);
+        if(evaluacion == null){
             log.warn("No se ha encontrado la evaluación de desempeño con ID: " + id);
+            throw new ResourceNotFoundException("EvaluacionDeDesempeno", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado la evaluación de desempeño con ID: " + id);
+        return deEntidadDtoARespuesta(evaluacion);
     }
 
     public List<RespuestaEvaluacionDeDesempenoDTO> obtenerTodos() {

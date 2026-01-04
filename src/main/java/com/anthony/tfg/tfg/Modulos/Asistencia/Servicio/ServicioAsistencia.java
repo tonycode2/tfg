@@ -8,6 +8,7 @@ import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAsistenciaDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudAsistenciaDTO;
 import com.anthony.tfg.tfg.Entidades.Asistencia;
 import com.anthony.tfg.tfg.Entidades.Empleados;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasAsistencias;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
@@ -32,13 +33,13 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
     }
 
     public RespuestaAsistenciaDTO obtenerPorId(Long id) {
-        RespuestaAsistenciaDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado la asistencia con ID: " + id);
-        } else {
+        Asistencia asistencia = consulta.obtenerPorId(id);
+        if(asistencia == null){
             log.warn("No se ha encontrado la asistencia con ID: " + id);
+            throw new ResourceNotFoundException("Asistencia", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado la asistencia con ID: " + id);
+        return deEntidadDtoARespuesta(asistencia);
     }
 
     public List<RespuestaAsistenciaDTO> obtenerTodos() {
@@ -58,7 +59,7 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         Asistencia asistenciaExistente = consulta.obtenerPorId(id);
         if(asistenciaExistente == null){
             log.warn("No se ha encontrado la asistencia con ID: " + id + " para actualizar");
-            return null;
+            throw new ResourceNotFoundException("Asistencia", "id", id);
         }
         asistenciaExistente.setFecha(entidad.fecha);
         asistenciaExistente.setHoraEntrada(entidad.horaEntrada);

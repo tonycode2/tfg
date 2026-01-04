@@ -10,6 +10,7 @@ import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.Permisos;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPermisos;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
@@ -34,13 +35,13 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
     }
 
     public RespuestaPermisosDTO obtenerPorId(Long id) {
-        RespuestaPermisosDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado el permiso con ID: " + id);
-        } else {
+        Permisos permiso = consulta.obtenerPorId(id);
+        if(permiso == null){
             log.warn("No se ha encontrado el permiso con ID: " + id);
+            throw new ResourceNotFoundException("Permisos", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado el permiso con ID: " + id);
+        return deEntidadDtoARespuesta(permiso);
     }
 
     public List<RespuestaPermisosDTO> obtenerTodos() {

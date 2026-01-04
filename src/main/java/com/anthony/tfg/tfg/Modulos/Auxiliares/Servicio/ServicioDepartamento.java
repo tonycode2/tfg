@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudDepartamentoDTO;
 import com.anthony.tfg.tfg.Entidades.Departamento;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasDepartamentos;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosDepartamentos;
@@ -28,13 +29,13 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
     }
 
     public RespuestaDepartamentoDTO obtenerPorId(Long id) {
-        RespuestaDepartamentoDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado el departamento con ID: " + id);
-        } else {
+        Departamento departamento = consulta.obtenerPorId(id);
+        if(departamento == null){
             log.warn("No se ha encontrado el departamento con ID: " + id);
+            throw new ResourceNotFoundException("Departamento", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado el departamento con ID: " + id);
+        return deEntidadDtoARespuesta(departamento);
     }
 
     public List<RespuestaDepartamentoDTO> obtenerTodos() {
@@ -54,7 +55,7 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
         Departamento departamentoExistente = consulta.obtenerPorId(id);
         if(departamentoExistente == null){
             log.warn("No se ha encontrado el departamento con ID: " + id + " para actualizar");
-            return null;
+            throw new ResourceNotFoundException("Departamento", "id", id);
         }
         departamentoExistente.setNombre(entidad.nombre);
         Departamento departamentoActualizado = mantenimiento.actualizar(departamentoExistente);

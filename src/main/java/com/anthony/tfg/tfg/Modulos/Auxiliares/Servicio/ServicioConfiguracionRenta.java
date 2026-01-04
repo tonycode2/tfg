@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaConfiguracionRentaDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudConfiguracionRentaDTO;
 import com.anthony.tfg.tfg.Entidades.ConfiguracionRenta;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasConfiguracionRentas;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosConfiguracionRenta;
@@ -28,13 +29,13 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
     }
 
     public RespuestaConfiguracionRentaDTO obtenerPorId(Long id) {
-        RespuestaConfiguracionRentaDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado la configuración de renta con ID: " + id);
-        } else {
+        ConfiguracionRenta configuracionRenta = consulta.obtenerPorId(id);
+        if(configuracionRenta == null){
             log.warn("No se ha encontrado la configuración de renta con ID: " + id);
+            throw new ResourceNotFoundException("ConfiguracionRenta", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado la configuración de renta con ID: " + id);
+        return deEntidadDtoARespuesta(configuracionRenta);
     }
 
     public List<RespuestaConfiguracionRentaDTO> obtenerTodos() {
@@ -54,7 +55,7 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
         ConfiguracionRenta configuracionRentaExistente = consulta.obtenerPorId(id);
         if(configuracionRentaExistente == null){
             log.warn("No se ha encontrado la configuración de renta con ID: " + id + " para actualizar");
-            return null;
+            throw new ResourceNotFoundException("ConfiguracionRenta", "id", id);
         }
         configuracionRentaExistente.setMontoMaximo(entidad.montoMaximo);
         configuracionRentaExistente.setMontoMinimo(entidad.montoMinimo);

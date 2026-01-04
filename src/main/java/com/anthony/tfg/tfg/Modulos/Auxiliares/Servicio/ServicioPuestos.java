@@ -8,6 +8,7 @@ import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPuestosDTO;
 import com.anthony.tfg.tfg.Entidades.Departamento;
 import com.anthony.tfg.tfg.Entidades.Puestos;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasDepartamentos;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPuestos;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
@@ -32,13 +33,13 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
     }
 
     public RespuestaPuestosDTO obtenerPorId(Long id) {
-        RespuestaPuestosDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado el puesto con ID: " + id);
-        } else {
+        Puestos puesto = consulta.obtenerPorId(id);
+        if(puesto == null){
             log.warn("No se ha encontrado el puesto con ID: " + id);
+            throw new ResourceNotFoundException("Puestos", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado el puesto con ID: " + id);
+        return deEntidadDtoARespuesta(puesto);
     }
 
     public List<RespuestaPuestosDTO> obtenerTodos() {
@@ -58,7 +59,7 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
         Puestos puestoExistente = consulta.obtenerPorId(id);
         if(puestoExistente == null){
             log.warn("No se ha encontrado el puesto con ID: " + id + " para actualizar");
-            return null;
+            throw new ResourceNotFoundException("Puestos", "id", id);
         }
         puestoExistente.setNombre(entidad.nombre);
         puestoExistente.setSalarioMinimo(entidad.salarioMinimo);
@@ -66,9 +67,10 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
         puestoExistente.setHoraSalida(entidad.horaSalida);
         
         Departamento departamento = consultasDepartamentos.obtenerPorId(entidad.idDepartamento);
-        if(departamento != null){
-            puestoExistente.setDepartamento(departamento);
+        if(departamento == null){
+            throw new ResourceNotFoundException("Departamento", "id", entidad.idDepartamento);
         }
+        puestoExistente.setDepartamento(departamento);
         
         Puestos puestoActualizado = mantenimiento.actualizar(puestoExistente);
         log.info("Se ha actualizado el puesto con ID: " + id);

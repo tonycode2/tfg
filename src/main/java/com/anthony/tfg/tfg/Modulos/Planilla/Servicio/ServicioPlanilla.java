@@ -8,6 +8,7 @@ import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO;
 import com.anthony.tfg.tfg.Entidades.PlanillaEncabezado;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoPlanilla;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPlanillaEncabezado;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPlanillaEncabezados;
@@ -29,13 +30,13 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
     }
 
     public RespuestaPlanillaEncabezadoDTO obtenerPorId(Long id) {
-        RespuestaPlanillaEncabezadoDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado la planilla con ID: " + id);
-        } else {
+        PlanillaEncabezado planilla = consulta.obtenerPorId(id);
+        if(planilla == null){
             log.warn("No se ha encontrado la planilla con ID: " + id);
+            throw new ResourceNotFoundException("PlanillaEncabezado", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado la planilla con ID: " + id);
+        return deEntidadDtoARespuesta(planilla);
     }
 
     public List<RespuestaPlanillaEncabezadoDTO> obtenerTodos() {

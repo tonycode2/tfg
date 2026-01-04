@@ -9,6 +9,7 @@ import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudLiquidacionesDTO;
 import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.Liquidaciones;
 import com.anthony.tfg.tfg.Entidades.Enums.MotivoSalida;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasLiquidaciones;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
@@ -33,13 +34,13 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
     }
 
     public RespuestaLiquidacionesDTO obtenerPorId(Long id) {
-        RespuestaLiquidacionesDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado la liquidación con ID: " + id);
-        } else {
+        Liquidaciones liquidacion = consulta.obtenerPorId(id);
+        if(liquidacion == null){
             log.warn("No se ha encontrado la liquidación con ID: " + id);
+            throw new ResourceNotFoundException("Liquidaciones", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado la liquidación con ID: " + id);
+        return deEntidadDtoARespuesta(liquidacion);
     }
 
     public List<RespuestaLiquidacionesDTO> obtenerTodos() {

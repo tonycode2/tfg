@@ -10,6 +10,7 @@ import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.HorasExtra;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoTarifa;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasHorasExtras;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
@@ -34,13 +35,13 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     }
 
     public RespuestaHorasExtraDTO obtenerPorId(Long id) {
-        RespuestaHorasExtraDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado la hora extra con ID: " + id);
-        } else {
+        HorasExtra horaExtra = consulta.obtenerPorId(id);
+        if(horaExtra == null){
             log.warn("No se ha encontrado la hora extra con ID: " + id);
+            throw new ResourceNotFoundException("HorasExtra", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado la hora extra con ID: " + id);
+        return deEntidadDtoARespuesta(horaExtra);
     }
 
     public List<RespuestaHorasExtraDTO> obtenerTodos() {

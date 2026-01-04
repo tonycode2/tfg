@@ -10,6 +10,7 @@ import com.anthony.tfg.tfg.Entidades.Direccion;
 import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.Puestos;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoDeJornada;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasDirecciones;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPuestos;
@@ -43,13 +44,13 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
     }
 
     public RespuestaEmpleadosDTO obtenerPorId(Long id) {
-        RespuestaEmpleadosDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado el empleado con ID: " + id);
-        } else {
+        Empleados empleado = consulta.obtenerPorId(id);
+        if(empleado == null){
             log.warn("No se ha encontrado el empleado con ID: " + id);
+            throw new ResourceNotFoundException("Empleados", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado el empleado con ID: " + id);
+        return deEntidadDtoARespuesta(empleado);
     }
 
     public List<RespuestaEmpleadosDTO> obtenerTodos() {

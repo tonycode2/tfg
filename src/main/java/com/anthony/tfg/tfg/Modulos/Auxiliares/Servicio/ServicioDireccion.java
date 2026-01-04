@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDireccionDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudDireccionDTO;
 import com.anthony.tfg.tfg.Entidades.Direccion;
+import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasDirecciones;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosDirecciones;
@@ -28,13 +29,13 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
     }
 
     public RespuestaDireccionDTO obtenerPorId(Long id) {
-        RespuestaDireccionDTO respuesta = deEntidadDtoARespuesta(consulta.obtenerPorId(id));
-        if(respuesta != null){
-            log.info("Se ha encontrado la dirección con ID: " + id);
-        } else {
+        Direccion direccion = consulta.obtenerPorId(id);
+        if(direccion == null){
             log.warn("No se ha encontrado la dirección con ID: " + id);
+            throw new ResourceNotFoundException("Direccion", "id", id);
         }
-        return respuesta;
+        log.info("Se ha encontrado la dirección con ID: " + id);
+        return deEntidadDtoARespuesta(direccion);
     }
 
     public List<RespuestaDireccionDTO> obtenerTodos() {
@@ -54,7 +55,7 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
         Direccion direccionExistente = consulta.obtenerPorId(id);
         if(direccionExistente == null){
             log.warn("No se ha encontrado la dirección con ID: " + id + " para actualizar");
-            return null;
+            throw new ResourceNotFoundException("Direccion", "id", id);
         }
         direccionExistente.setProvincia(entidad.provincia);
         direccionExistente.setCanton(entidad.canton);
