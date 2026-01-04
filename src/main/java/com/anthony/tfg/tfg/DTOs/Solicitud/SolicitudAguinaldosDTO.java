@@ -2,6 +2,7 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -16,10 +17,12 @@ public class SolicitudAguinaldosDTO {
     
     @NotBlank
     @Past
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaInicioPeriodo;
     
     @NotBlank
     @Past
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaFinPeriodo;
     
     @NotBlank
@@ -31,10 +34,12 @@ public class SolicitudAguinaldosDTO {
     public Double montoAguinaldo;
     
     @NotBlank
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaCalculo;
     
     @NotBlank
     @Future
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaPago;
     
     @NotBlank

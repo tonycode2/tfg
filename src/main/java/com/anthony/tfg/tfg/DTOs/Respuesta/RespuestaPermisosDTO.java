@@ -2,8 +2,12 @@ package com.anthony.tfg.tfg.DTOs.Respuesta;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class RespuestaPermisosDTO {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaInicio;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaFin;
     public Integer diasTotales;
     public String motivo;

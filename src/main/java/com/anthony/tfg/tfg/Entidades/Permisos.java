@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,8 +34,10 @@ public class Permisos {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Column(name = "fecha_inicio")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaInicio;
     @Column(name = "fecha_fin")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaFin;
     @Column(name = "dias_totales")
     Integer diasTotales;

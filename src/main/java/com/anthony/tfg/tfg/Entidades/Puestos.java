@@ -3,6 +3,8 @@ package com.anthony.tfg.tfg.Entidades;
 import java.sql.Time;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,8 +35,10 @@ public class Puestos {
     @Column(name = "salario_minimo")
     Double salarioMinimo;
     @Column(name = "hora_entrada")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     Time horaEntrada;
     @Column(name = "hora_salida")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     Time horaSalida;
     
     @ManyToOne

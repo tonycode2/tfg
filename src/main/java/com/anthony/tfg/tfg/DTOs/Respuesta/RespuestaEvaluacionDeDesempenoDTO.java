@@ -2,7 +2,10 @@ package com.anthony.tfg.tfg.DTOs.Respuesta;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class RespuestaEvaluacionDeDesempenoDTO {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaEvaluacion;
     public String periodoEvaluado;
     public Double puntuacionFinal;

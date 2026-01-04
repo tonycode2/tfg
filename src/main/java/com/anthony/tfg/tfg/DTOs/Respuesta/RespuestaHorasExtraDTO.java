@@ -2,7 +2,10 @@ package com.anthony.tfg.tfg.DTOs.Respuesta;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class RespuestaHorasExtraDTO {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaSolicitud;
     public Integer cantidadDeHoras;
     public String motivo;

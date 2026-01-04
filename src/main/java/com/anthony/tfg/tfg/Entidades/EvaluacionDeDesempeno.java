@@ -2,6 +2,8 @@ package com.anthony.tfg.tfg.Entidades;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ public class EvaluacionDeDesempeno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Column(name = "empleado_id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaEvaluacion;
     @Column(name = "empleado_nombre")
     String periodoEvaluado;

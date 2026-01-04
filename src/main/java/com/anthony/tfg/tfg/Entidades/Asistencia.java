@@ -3,6 +3,8 @@ package com.anthony.tfg.tfg.Entidades;
 import java.sql.Date;
 import java.sql.Time;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,10 +30,13 @@ public class Asistencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fecha;
     @Column(name = "hora_entrada")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     Time horaEntrada;
     @Column(name = "hora_salida")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     Time horaSalida;
     @Column(name = "horas_trabajadas")
     Double horasTrabajadas;

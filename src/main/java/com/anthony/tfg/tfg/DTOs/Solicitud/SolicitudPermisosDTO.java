@@ -2,6 +2,7 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -12,9 +13,11 @@ public class SolicitudPermisosDTO {
     public Long id;
     @NotBlank
     @Future
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaInicio;
     @NotBlank
     @Future
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaFin;
     @NotBlank
     @Positive

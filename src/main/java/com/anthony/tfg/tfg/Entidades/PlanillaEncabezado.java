@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoPlanilla;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,10 +33,13 @@ public class PlanillaEncabezado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Column(name = "fecha_inicio_periodo")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaInicioPeriodo;
     @Column(name = "fecha_fin_periodo")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaFinPeriodo;
     @Column(name = "fecha_pago")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaPago;
     @Column(name = "total_planilla_bruto")
     Double totalPlanillaBruto;

@@ -2,6 +2,8 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -36,10 +38,12 @@ public class SolicitudEmpleadosDTO {
 
     @NotBlank
     @Past
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaNacimiento;
     
     @NotBlank
     @Future //Esto se puede cambiar dependiendo de como se maneje. Puede que no sea futuro. 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaIngreso;
 
     @NotBlank

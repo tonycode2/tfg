@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoTarifa;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +34,7 @@ public class HorasExtra {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     @Column(name = "fecha_solicitud")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaSolicitud;
     @Column(name = "cantidad_de_horas")
     Integer cantidadDeHoras;

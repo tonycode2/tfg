@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.anthony.tfg.tfg.Entidades.Enums.TipoDeJornada;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,7 +44,9 @@ public class Empleados {
     String segundoApellido;
     @Column(name = "correo_personal")
     String correoPersonal;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaNacimiento;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaIngreso;
     @Column(name = "salario_base")
     Double salarioBase;
