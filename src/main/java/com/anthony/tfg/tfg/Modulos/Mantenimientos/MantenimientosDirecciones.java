@@ -1,9 +1,12 @@
 package com.anthony.tfg.tfg.Modulos.Mantenimientos;
 
+import org.springframework.stereotype.Service;
+
 import com.anthony.tfg.tfg.Entidades.Direccion;
 import com.anthony.tfg.tfg.Modulos.Interfaces.MantenimientoInterface;
 import com.anthony.tfg.tfg.Repositorios.DireccionRepositorio;
 
+@Service
 public class MantenimientosDirecciones implements MantenimientoInterface<Direccion>{
 
     private final DireccionRepositorio repo;
