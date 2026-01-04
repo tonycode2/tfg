@@ -85,7 +85,7 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         empleadoExistente.setEstaActivo(entidad.estaActivo);
         empleadoExistente.setEstaCasado(entidad.estaCasado);
         
-        TipoDeJornada tipoJornada = obtenerTipoDeJornada(entidad.idTipoDeJornada);
+        TipoDeJornada tipoJornada = obtenerTipoDeJornada(entidad.tipoDeJornada);
         if(tipoJornada != null){
             empleadoExistente.setTipoDeJornada(tipoJornada);
         }
@@ -121,9 +121,9 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
             return null;
         }
         
-        TipoDeJornada tipoJornada = obtenerTipoDeJornada(solicitud.idTipoDeJornada);
+        TipoDeJornada tipoJornada = obtenerTipoDeJornada(solicitud.tipoDeJornada);
         if(tipoJornada == null){
-            log.warn("No se ha encontrado el tipo de jornada con ID: " + solicitud.idTipoDeJornada);
+            log.warn("No se ha encontrado el tipo de jornada: " + solicitud.tipoDeJornada);
             return null;
         }
         
@@ -218,11 +218,12 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
                 .toList();
     }
     
-    private TipoDeJornada obtenerTipoDeJornada(Long id) {
-        if(id == 1) return TipoDeJornada.COMPLETA;
-        if(id == 2) return TipoDeJornada.MEDIA_JORNADA;
-        if(id == 3) return TipoDeJornada.POR_HORAS;
-        return null;
+    private TipoDeJornada obtenerTipoDeJornada(String tipo) {
+        try {
+            return TipoDeJornada.valueOf(tipo.toUpperCase());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

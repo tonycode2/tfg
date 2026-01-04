@@ -63,8 +63,7 @@ public class SolicitudEmpleadosDTO {
     public Boolean estaCasado;
 
     @NotBlank
-    @Positive
-    public Long idTipoDeJornada;
+    public String tipoDeJornada;
 
     @NotBlank
     @Positive
