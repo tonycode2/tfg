@@ -57,6 +57,14 @@ export class ApiService<T> {
     return this.handleResponse<PaginatedResponse<T>>(response);
   }
 
+  async getAllUnpaginated(): Promise<T[]> {
+    const response = await fetch(`${API_URL}/${this.endpoint}`, {
+      method: 'GET',
+      headers: this.getAuthHeaders(),
+    });
+    return this.handleResponse<T[]>(response);
+  }
+
   async getById(id: number | string): Promise<T> {
     const response = await fetch(`${API_URL}/${this.endpoint}/${id}`, {
       method: 'GET',
@@ -98,28 +106,32 @@ export class ApiService<T> {
 
 // Interfaces para las entidades principales
 export interface Empleado {
-  id?: number;
-  cedula: string;
-  nombre: string;
+  id: number;
+  primerNombre: string;
+  segundoNombre?: string;
   primerApellido: string;
-  segundoApellido: string;
-  correoPersonal: string;
+  segundoApellido?: string;
+  numeroIdentificacion: string;
   fechaNacimiento: string;
-  fechaIngreso: string;
+  fechaContratacion: string;
   salarioBase: number;
-  cantidadDeHijos: number;
-  saldoVacaciones: number;
-  cuentaIban: string;
-  estaActivo: boolean;
-  estaCasado: boolean;
-  tipoDeJornada: string;
-  idPuesto?: number;
-  idDireccion?: number;
-  idUsuario?: number;
+  correoPersonal: string;
+  correoEmpresarial: string;
+  puesto: {
+    id: number;
+    nombre: string;
+  };
+  departamento: {
+    id: number;
+    nombre: string;
+  };
+  horaEntrada: string;
+  horaSalida: string;
+  nombreUsuario?: string;
 }
 
 export interface Departamento {
-  id?: number;
+  id: number;
   nombre: string;
 }
 
@@ -132,7 +144,7 @@ export interface Direccion {
 }
 
 export interface Puesto {
-  id?: number;
+  id: number;
   nombre: string;
   salarioMinimo: number;
   horaEntrada: string;
@@ -224,8 +236,46 @@ export interface EvaluacionDesempeno {
   idEmpleado: number;
 }
 
+export type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
+
+export interface GenerarUsuarioRequest {
+  role: Role;
+}
+
+export interface CredencialesResponse {
+  username: string;
+  password: string;
+  correoEmpleado: string;
+  nombreCompleto: string;
+}
+
+// Extender ApiService para incluir generación de usuario
+export class EmpleadosService extends ApiService<Empleado> {
+  async generarUsuario(idEmpleado: number, role: Role): Promise<CredencialesResponse> {
+    const token = localStorage.getItem('token');
+    const response = await fetch(
+      `${API_URL}/empleados/${idEmpleado}/generar-usuario`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ role }),
+      }
+    );
+    
+    if (!response.ok) {
+      const errorData: ErrorResponse = await response.json();
+      throw new Error(errorData.message || 'Error en la solicitud');
+    }
+    
+    return response.json();
+  }
+}
+
 // Servicios específicos para cada entidad
-export const empleadosService = new ApiService<Empleado>('empleados');
+export const empleadosService = new EmpleadosService('empleados');
 export const departamentosService = new ApiService<Departamento>('departamentos');
 export const direccionesService = new ApiService<Direccion>('direcciones');
 export const puestosService = new ApiService<Puesto>('puestos');

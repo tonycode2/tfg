@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO;
+import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaCredencialesDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudEmpleadosDTO;
+import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudGenerarUsuarioDTO;
 import com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioEmpleados;
+import com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioGeneracionUsuario;
 
 import jakarta.validation.Valid;
 
@@ -27,9 +30,11 @@ import jakarta.validation.Valid;
 public class ControladorEmpleados {
 
     private final ServicioEmpleados servicio;
+    private final ServicioGeneracionUsuario servicioGeneracionUsuario;
 
-    public ControladorEmpleados(ServicioEmpleados servicio) {
+    public ControladorEmpleados(ServicioEmpleados servicio, ServicioGeneracionUsuario servicioGeneracionUsuario) {
         this.servicio = servicio;
+        this.servicioGeneracionUsuario = servicioGeneracionUsuario;
     }
 
     @GetMapping("/{id}")
@@ -75,5 +80,17 @@ public class ControladorEmpleados {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @PostMapping("/{id}/generar-usuario")
+    public ResponseEntity<RespuestaCredencialesDTO> generarUsuario(
+            @PathVariable Long id,
+            @Valid @RequestBody SolicitudGenerarUsuarioDTO solicitud) {
+        solicitud.idEmpleado = id;
+        RespuestaCredencialesDTO respuesta = servicioGeneracionUsuario.generarUsuarioParaEmpleado(
+            solicitud.idEmpleado, 
+            solicitud.role
+        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 }

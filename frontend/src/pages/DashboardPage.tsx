@@ -4,6 +4,7 @@ import { DashboardHeader } from '@/components/DashboardHeader';
 import { InicioView } from '@/components/dashboard/InicioView';
 import { PlaceholderView } from '@/components/dashboard/PlaceholderView';
 import { MantenimientosView } from '@/components/dashboard/MantenimientosView';
+import { EmpleadosView } from '@/components/dashboard/EmpleadosView';
 import { authService } from '@/services/authService';
 import type { Role } from '@/services/authService';
 
@@ -87,6 +88,8 @@ export default function DashboardPage() {
             description="Genera reportes y análisis del sistema"
           />
         );
+      case 'empleados':
+        return <EmpleadosView />;
       case 'mantenimientos':
         return <MantenimientosView />;
       default:

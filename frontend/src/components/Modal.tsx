@@ -7,7 +7,7 @@ interface ModalProps {
   onClose: () => void;
   title: string;
   children: ReactNode;
-  onSubmit: () => void;
+  onSubmit?: () => void;
   submitLabel?: string;
   isLoading?: boolean;
 }
@@ -52,18 +52,20 @@ export function Modal({
 
           <div className="space-y-4">{children}</div>
 
-          <div className="flex justify-end gap-2 mt-6">
-            <Button
-              variant="outline"
-              onClick={onClose}
-              disabled={isLoading}
-            >
-              Cancelar
-            </Button>
-            <Button onClick={onSubmit} disabled={isLoading}>
-              {isLoading ? 'Guardando...' : submitLabel}
-            </Button>
-          </div>
+          {onSubmit && (
+            <div className="flex justify-end gap-2 mt-6">
+              <Button
+                variant="outline"
+                onClick={onClose}
+                disabled={isLoading}
+              >
+                Cancelar
+              </Button>
+              <Button onClick={onSubmit} disabled={isLoading}>
+                {isLoading ? 'Guardando...' : submitLabel}
+              </Button>
+            </div>
+          )}
         </div>
       </Card>
     </div>

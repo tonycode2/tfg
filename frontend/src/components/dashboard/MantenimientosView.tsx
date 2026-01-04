@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { DataTable, type Column } from '@/components/DataTable';
 import { Modal } from '@/components/Modal';
+import { GenerarUsuarioModal } from '@/components/GenerarUsuarioModal';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { SearchableSelect, type SearchableSelectOption } from '@/components/ui/searchable-select';
 import {
   empleadosService,
@@ -102,6 +104,10 @@ export function MantenimientosView() {
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [relationOptions, setRelationOptions] = useState<Record<string, SearchableSelectOption[]>>({});
+  
+  // Estado para modal de generar usuario
+  const [isGenerarUsuarioModalOpen, setIsGenerarUsuarioModalOpen] = useState(false);
+  const [empleadoParaUsuario, setEmpleadoParaUsuario] = useState<{ id: number; nombre: string } | null>(null);
 
   // Cargar opciones para los dropdowns de relaciones
   useEffect(() => {
@@ -165,6 +171,21 @@ export function MantenimientosView() {
     setIsModalOpen(false);
     setEditingItem(null);
     setFormData({});
+  };
+  
+  const handleGenerarUsuario = (empleado: any) => {
+    const nombreCompleto = `${empleado.nombre} ${empleado.primerApellido} ${empleado.segundoApellido || ''}`.trim();
+    setEmpleadoParaUsuario({
+      id: empleado.id,
+      nombre: nombreCompleto,
+    });
+    setIsGenerarUsuarioModalOpen(true);
+  };
+  
+  const handleGenerarUsuarioSuccess = () => {
+    setRefreshTrigger((prev) => prev + 1);
+    setIsGenerarUsuarioModalOpen(false);
+    setEmpleadoParaUsuario(null);
   };
 
   // Helper para convertir tiempo HH:mm a HH:mm:ss
@@ -1325,6 +1346,23 @@ export function MantenimientosView() {
         onEdit={handleEdit}
         onCreate={handleCreate}
         refreshTrigger={refreshTrigger}
+        customActions={
+          selectedEntity === 'empleados'
+            ? (item: any) =>
+                !item.nombreUsuario && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e: React.MouseEvent) => {
+                      e.stopPropagation();
+                      handleGenerarUsuario(item);
+                    }}
+                  >
+                    👤 Generar Usuario
+                  </Button>
+                )
+            : undefined
+        }
       />
 
       <Modal
@@ -1340,6 +1378,19 @@ export function MantenimientosView() {
       >
         {renderForm()}
       </Modal>
+      
+      {empleadoParaUsuario && (
+        <GenerarUsuarioModal
+          isOpen={isGenerarUsuarioModalOpen}
+          onClose={() => {
+            setIsGenerarUsuarioModalOpen(false);
+            setEmpleadoParaUsuario(null);
+          }}
+          empleadoId={empleadoParaUsuario.id}
+          empleadoNombre={empleadoParaUsuario.nombre}
+          onSuccess={handleGenerarUsuarioSuccess}
+        />
+      )}
     </div>
   );
 }

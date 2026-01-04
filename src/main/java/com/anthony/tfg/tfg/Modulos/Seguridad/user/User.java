@@ -40,6 +40,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
     
+    @Column(name = "password_change_required", nullable = false, columnDefinition = "boolean default false")
+    @Builder.Default
+    Boolean passwordChangeRequired = false;
+    
     @OneToOne(mappedBy = "usuario")
     Empleados empleado;
 

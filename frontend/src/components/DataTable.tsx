@@ -17,6 +17,7 @@ interface DataTableProps<T> {
   onEdit: (item: T) => void;
   onCreate: () => void;
   refreshTrigger?: number;
+  customActions?: (item: T) => React.ReactNode;
 }
 
 export function DataTable<T extends { id?: number | string }>({
@@ -26,6 +27,7 @@ export function DataTable<T extends { id?: number | string }>({
   onEdit,
   onCreate,
   refreshTrigger = 0,
+  customActions,
 }: DataTableProps<T>) {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
@@ -208,6 +210,7 @@ export function DataTable<T extends { id?: number | string }>({
                         </svg>
                         Editar
                       </Button>
+                      {customActions && customActions(item)}
                       <Button
                         variant="destructive"
                         size="sm"
