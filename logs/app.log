@@ -648,3 +648,500 @@ org.springframework.security.authentication.BadCredentialsException: Bad credent
 2026-01-04T10:20:26.273-06:00 DEBUG 6132 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ErrorResponse(timestamp=2026-01-04T10:20:26.270756300, status=500, error=Internal Server Error, mess (truncated)...]
 2026-01-04T10:20:26.273-06:00  WARN 6132 --- [tfg] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.security.authentication.BadCredentialsException: Bad credentials]
 2026-01-04T10:20:26.277-06:00 DEBUG 6132 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 500 INTERNAL_SERVER_ERROR
+2026-01-04T12:26:54.079-06:00  INFO 4132 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 4132 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-04T12:26:54.083-06:00  INFO 4132 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-04T12:26:54.173-06:00  INFO 4132 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-04T12:26:54.173-06:00  INFO 4132 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-04T12:26:54.211-06:00  INFO 4132 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-04T12:26:55.860-06:00  INFO 4132 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-04T12:26:57.702-06:00  INFO 4132 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-04T12:26:57.984-06:00  INFO 4132 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 258 ms. Found 14 JPA repository interfaces.
+2026-01-04T12:26:59.399-06:00  INFO 4132 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-04T12:26:59.428-06:00  INFO 4132 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-04T12:26:59.430-06:00  INFO 4132 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-04T12:26:59.503-06:00  INFO 4132 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-04T12:26:59.503-06:00  INFO 4132 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3625 ms
+2026-01-04T12:26:59.831-06:00  INFO 4132 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-04T12:26:59.920-06:00  INFO 4132 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-04T12:26:59.993-06:00  INFO 4132 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-04T12:27:00.805-06:00  INFO 4132 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-04T12:27:00.898-06:00  INFO 4132 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-04T12:27:01.314-06:00  INFO 4132 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4782eb42
+2026-01-04T12:27:01.318-06:00  INFO 4132 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-04T12:27:01.377-06:00  WARN 4132 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-04T12:27:01.425-06:00  INFO 4132 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-04T12:27:03.646-06:00  INFO 4132 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-04T12:27:03.978-06:00  INFO 4132 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04T12:27:05.134-06:00  INFO 4132 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-04T12:27:05.134-06:00  WARN 4132 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-04T12:27:05.214-06:00  WARN 4132 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-04T12:27:05.554-06:00 DEBUG 4132 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 64 mappings in 'requestMappingHandlerMapping'
+2026-01-04T12:27:05.832-06:00 DEBUG 4132 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-04T12:27:06.015-06:00 DEBUG 4132 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-04T12:27:06.145-06:00 DEBUG 4132 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-04T12:27:06.244-06:00 DEBUG 4132 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-04T12:27:06.404-06:00  INFO 4132 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-04T12:27:06.421-06:00  INFO 4132 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-04T12:27:06.422-06:00  INFO 4132 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-04T12:27:06.424-06:00  INFO 4132 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-04T12:27:06.425-06:00  INFO 4132 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-04T12:27:06.426-06:00  INFO 4132 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-04T12:27:06.426-06:00  INFO 4132 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-04T12:27:06.426-06:00  INFO 4132 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@368bc230
+2026-01-04T12:27:06.520-06:00  INFO 4132 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-04T12:27:06.581-06:00  INFO 4132 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-04T12:27:06.589-06:00  INFO 4132 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-04T12:27:06.589-06:00  INFO 4132 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-04T12:27:06.603-06:00  INFO 4132 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 13.534 seconds (process running for 15.254)
+2026-01-04T12:27:38.140-06:00  INFO 4132 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04T12:27:38.142-06:00  INFO 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-04T12:27:38.143-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-04T12:27:38.143-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-04T12:27:38.143-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-04T12:27:38.148-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@be9d690
+2026-01-04T12:27:38.150-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@632ef997
+2026-01-04T12:27:38.152-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-04T12:27:38.154-06:00  INFO 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 11 ms
+2026-01-04T12:27:38.191-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/register
+2026-01-04T12:27:38.208-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-04T12:27:38.214-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/register
+2026-01-04T12:27:38.222-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/auth/register", parameters={}
+2026-01-04T12:27:38.226-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#register(RegisterRequest)
+2026-01-04T12:27:38.304-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [RegisterRequest(username=Empleado, password=doremi123)]
+2026-01-04T12:27:38.793-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-04T12:27:38.795-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJFTVBMRUFETyIsInN1YiI6IkVtcGxlYWRv (truncated)...]
+2026-01-04T12:27:38.805-06:00 DEBUG 4132 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-04T12:28:00.919-06:00  INFO 21848 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 21848 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-04T12:28:00.921-06:00  INFO 21848 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-04T12:28:01.017-06:00  INFO 21848 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-04T12:28:01.017-06:00  INFO 21848 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-04T12:28:01.057-06:00  INFO 21848 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-04T12:28:02.496-06:00  INFO 21848 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-04T12:28:04.003-06:00  INFO 21848 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-04T12:28:04.270-06:00  INFO 21848 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 242 ms. Found 14 JPA repository interfaces.
+2026-01-04T12:28:05.549-06:00  INFO 21848 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-04T12:28:05.604-06:00  INFO 21848 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-04T12:28:05.605-06:00  INFO 21848 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-04T12:28:05.685-06:00  INFO 21848 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-04T12:28:05.685-06:00  INFO 21848 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3170 ms
+2026-01-04T12:28:05.914-06:00  INFO 21848 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-04T12:28:06.009-06:00  INFO 21848 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-04T12:28:06.061-06:00  INFO 21848 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-04T12:28:06.578-06:00  INFO 21848 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-04T12:28:06.613-06:00  INFO 21848 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-04T12:28:06.901-06:00  INFO 21848 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@49483480
+2026-01-04T12:28:06.906-06:00  INFO 21848 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-04T12:28:06.966-06:00  WARN 21848 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-04T12:28:07.000-06:00  INFO 21848 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-04T12:28:08.663-06:00  INFO 21848 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-04T12:28:08.933-06:00  INFO 21848 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04T12:28:09.929-06:00  INFO 21848 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-04T12:28:09.932-06:00  WARN 21848 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-04T12:28:10.003-06:00  WARN 21848 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-04T12:28:10.147-06:00 DEBUG 21848 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 64 mappings in 'requestMappingHandlerMapping'
+2026-01-04T12:28:10.295-06:00 DEBUG 21848 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-04T12:28:10.479-06:00 DEBUG 21848 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-04T12:28:10.593-06:00 DEBUG 21848 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-04T12:28:10.659-06:00 DEBUG 21848 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-04T12:28:10.818-06:00  INFO 21848 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-04T12:28:10.823-06:00  INFO 21848 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-04T12:28:10.823-06:00  INFO 21848 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-04T12:28:10.833-06:00  INFO 21848 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-04T12:28:10.834-06:00  INFO 21848 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-04T12:28:10.835-06:00  INFO 21848 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-04T12:28:10.835-06:00  INFO 21848 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-04T12:28:10.836-06:00  INFO 21848 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@54489a24
+2026-01-04T12:28:10.928-06:00  INFO 21848 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-04T12:28:11.040-06:00  INFO 21848 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-04T12:28:11.043-06:00  INFO 21848 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-04T12:28:11.044-06:00  INFO 21848 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-04T12:28:11.053-06:00  INFO 21848 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 11.02 seconds (process running for 12.302)
+2026-01-04T12:28:22.417-06:00  INFO 21848 --- [tfg] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04T12:28:22.417-06:00  INFO 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-04T12:28:22.419-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-04T12:28:22.420-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-04T12:28:22.420-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-04T12:28:22.421-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@49f07b3c
+2026-01-04T12:28:22.423-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@24703c0f
+2026-01-04T12:28:22.424-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-04T12:28:22.425-06:00  INFO 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2026-01-04T12:28:22.460-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /auth/register
+2026-01-04T12:28:22.475-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-04T12:28:22.480-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /auth/register
+2026-01-04T12:28:22.485-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/auth/register", parameters={}
+2026-01-04T12:28:22.488-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#register(RegisterRequest)
+2026-01-04T12:28:22.550-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [RegisterRequest(username=Admin, password=doremi123)]
+2026-01-04T12:28:23.018-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-04T12:28:23.019-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJBRE1JTiIsInN1YiI6IkFkbWluIiwiaWF0 (truncated)...]
+2026-01-04T12:28:23.031-06:00 DEBUG 21848 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-04T12:28:39.753-06:00  INFO 8764 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 8764 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-04T12:28:39.761-06:00  INFO 8764 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-04T12:28:39.851-06:00  INFO 8764 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-04T12:28:39.858-06:00  INFO 8764 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-04T12:28:39.893-06:00  INFO 8764 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-04T12:28:41.283-06:00  INFO 8764 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-04T12:28:42.862-06:00  INFO 8764 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-04T12:28:43.117-06:00  INFO 8764 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 236 ms. Found 14 JPA repository interfaces.
+2026-01-04T12:28:44.230-06:00  INFO 8764 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-04T12:28:44.260-06:00  INFO 8764 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-04T12:28:44.262-06:00  INFO 8764 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-04T12:28:44.343-06:00  INFO 8764 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-04T12:28:44.348-06:00  INFO 8764 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3040 ms
+2026-01-04T12:28:44.574-06:00  INFO 8764 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-04T12:28:44.664-06:00  INFO 8764 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-04T12:28:44.712-06:00  INFO 8764 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-04T12:28:45.165-06:00  INFO 8764 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-04T12:28:45.210-06:00  INFO 8764 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-04T12:28:45.487-06:00  INFO 8764 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@14e9ede5
+2026-01-04T12:28:45.490-06:00  INFO 8764 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-04T12:28:45.552-06:00  WARN 8764 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-04T12:28:45.583-06:00  INFO 8764 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-04T12:28:47.221-06:00  INFO 8764 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-04T12:28:47.485-06:00  INFO 8764 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04T12:28:48.505-06:00  INFO 8764 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-04T12:28:48.505-06:00  WARN 8764 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-04T12:28:48.570-06:00  WARN 8764 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-04T12:28:48.758-06:00 DEBUG 8764 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 64 mappings in 'requestMappingHandlerMapping'
+2026-01-04T12:28:48.909-06:00 DEBUG 8764 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-04T12:28:49.057-06:00 DEBUG 8764 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-04T12:28:49.165-06:00 DEBUG 8764 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-04T12:28:49.274-06:00 DEBUG 8764 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-04T12:28:49.421-06:00  INFO 8764 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-04T12:28:49.438-06:00  INFO 8764 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-04T12:28:49.438-06:00  INFO 8764 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-04T12:28:49.441-06:00  INFO 8764 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-04T12:28:49.441-06:00  INFO 8764 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-04T12:28:49.443-06:00  INFO 8764 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-04T12:28:49.443-06:00  INFO 8764 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-04T12:28:49.444-06:00  INFO 8764 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@50beb06c
+2026-01-04T12:28:49.526-06:00  INFO 8764 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-04T12:28:49.590-06:00  INFO 8764 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-04T12:28:49.594-06:00  INFO 8764 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-04T12:28:49.594-06:00  INFO 8764 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-04T12:28:49.604-06:00  INFO 8764 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 10.686 seconds (process running for 11.992)
+2026-01-04T12:28:58.159-06:00  INFO 8764 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04T12:28:58.159-06:00  INFO 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-04T12:28:58.161-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-04T12:28:58.162-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-04T12:28:58.162-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-04T12:28:58.165-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@6cf0c2c5
+2026-01-04T12:28:58.166-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@13f703a6
+2026-01-04T12:28:58.168-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-04T12:28:58.169-06:00  INFO 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2026-01-04T12:28:58.207-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/register
+2026-01-04T12:28:58.222-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-04T12:28:58.226-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/register
+2026-01-04T12:28:58.231-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/auth/register", parameters={}
+2026-01-04T12:28:58.235-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#register(RegisterRequest)
+2026-01-04T12:28:58.290-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [RegisterRequest(username=Jefe, password=doremi123)]
+2026-01-04T12:28:58.744-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-04T12:28:58.745-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJKRUZFIiwic3ViIjoiSmVmZSIsImlhdCI6 (truncated)...]
+2026-01-04T12:28:58.833-06:00 DEBUG 8764 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-04T12:29:11.583-06:00  INFO 15436 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 15436 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-04T12:29:11.588-06:00  INFO 15436 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-04T12:29:11.676-06:00  INFO 15436 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-04T12:29:11.676-06:00  INFO 15436 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-04T12:29:11.713-06:00  INFO 15436 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-04T12:29:13.151-06:00  INFO 15436 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-04T12:29:14.771-06:00  INFO 15436 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-04T12:29:15.032-06:00  INFO 15436 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 236 ms. Found 14 JPA repository interfaces.
+2026-01-04T12:29:16.475-06:00  INFO 15436 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-04T12:29:16.504-06:00  INFO 15436 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-04T12:29:16.505-06:00  INFO 15436 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-04T12:29:16.579-06:00  INFO 15436 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-04T12:29:16.580-06:00  INFO 15436 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3411 ms
+2026-01-04T12:29:16.849-06:00  INFO 15436 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-04T12:29:16.952-06:00  INFO 15436 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-04T12:29:17.019-06:00  INFO 15436 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-04T12:29:17.489-06:00  INFO 15436 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-04T12:29:17.535-06:00  INFO 15436 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-04T12:29:17.773-06:00  INFO 15436 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2ef9e42c
+2026-01-04T12:29:17.829-06:00  INFO 15436 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-04T12:29:17.864-06:00  WARN 15436 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-04T12:29:17.890-06:00  INFO 15436 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-04T12:29:19.509-06:00  INFO 15436 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-04T12:29:19.771-06:00  INFO 15436 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04T12:29:20.791-06:00  INFO 15436 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-04T12:29:20.791-06:00  WARN 15436 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-04T12:29:20.852-06:00  WARN 15436 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-04T12:29:21.014-06:00 DEBUG 15436 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 64 mappings in 'requestMappingHandlerMapping'
+2026-01-04T12:29:21.158-06:00 DEBUG 15436 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-04T12:29:21.301-06:00 DEBUG 15436 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-04T12:29:21.426-06:00 DEBUG 15436 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-04T12:29:21.516-06:00 DEBUG 15436 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-04T12:29:21.677-06:00  INFO 15436 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-04T12:29:21.705-06:00  INFO 15436 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-04T12:29:21.705-06:00  INFO 15436 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-04T12:29:21.706-06:00  INFO 15436 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-04T12:29:21.709-06:00  INFO 15436 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-04T12:29:21.711-06:00  INFO 15436 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-04T12:29:21.711-06:00  INFO 15436 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-04T12:29:21.712-06:00  INFO 15436 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@6f937d70
+2026-01-04T12:29:21.819-06:00  INFO 15436 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-04T12:29:21.894-06:00  INFO 15436 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-04T12:29:21.912-06:00  INFO 15436 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-04T12:29:21.913-06:00  INFO 15436 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-04T12:29:21.923-06:00  INFO 15436 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 11.206 seconds (process running for 12.495)
+2026-01-04T12:29:30.114-06:00  INFO 15436 --- [tfg] [http-nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04T12:29:30.114-06:00  INFO 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-04T12:29:30.114-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-04T12:29:30.114-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-04T12:29:30.114-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-04T12:29:30.114-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@296df22b
+2026-01-04T12:29:30.114-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@332c8c2a
+2026-01-04T12:29:30.120-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-04T12:29:30.120-06:00  INFO 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2026-01-04T12:29:30.154-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /auth/register
+2026-01-04T12:29:30.164-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-04T12:29:30.169-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /auth/register
+2026-01-04T12:29:30.173-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/auth/register", parameters={}
+2026-01-04T12:29:30.177-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#register(RegisterRequest)
+2026-01-04T12:29:30.286-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [RegisterRequest(username=HHRR, password=doremi123)]
+2026-01-04T12:29:30.866-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-04T12:29:30.866-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJIUiIsInN1YiI6IkhIUlIiLCJpYXQiOjE3 (truncated)...]
+2026-01-04T12:29:30.885-06:00 DEBUG 15436 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-04T12:31:12.246-06:00  INFO 14392 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 14392 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-04T12:31:12.249-06:00  INFO 14392 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-04T12:31:12.351-06:00  INFO 14392 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-04T12:31:12.351-06:00  INFO 14392 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-04T12:31:12.395-06:00  INFO 14392 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-04T12:31:13.861-06:00  INFO 14392 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-04T12:31:15.533-06:00  INFO 14392 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-04T12:31:15.932-06:00  INFO 14392 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 368 ms. Found 14 JPA repository interfaces.
+2026-01-04T12:31:17.154-06:00  INFO 14392 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-04T12:31:17.180-06:00  INFO 14392 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-04T12:31:17.184-06:00  INFO 14392 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-04T12:31:17.273-06:00  INFO 14392 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-04T12:31:17.273-06:00  INFO 14392 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3394 ms
+2026-01-04T12:31:17.560-06:00  INFO 14392 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-04T12:31:17.658-06:00  INFO 14392 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-04T12:31:17.716-06:00  INFO 14392 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-04T12:31:18.193-06:00  INFO 14392 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-04T12:31:18.249-06:00  INFO 14392 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-04T12:31:18.475-06:00  INFO 14392 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2002958b
+2026-01-04T12:31:18.477-06:00  INFO 14392 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-04T12:31:18.518-06:00  WARN 14392 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-04T12:31:18.552-06:00  INFO 14392 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-04T12:31:20.519-06:00  INFO 14392 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-04T12:31:20.851-06:00  INFO 14392 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04T12:31:21.911-06:00  INFO 14392 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-04T12:31:21.911-06:00  WARN 14392 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-04T12:31:21.985-06:00  WARN 14392 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-04T12:31:22.166-06:00 DEBUG 14392 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 64 mappings in 'requestMappingHandlerMapping'
+2026-01-04T12:31:22.331-06:00 DEBUG 14392 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-04T12:31:22.510-06:00 DEBUG 14392 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-04T12:31:22.593-06:00 DEBUG 14392 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-04T12:31:22.657-06:00 DEBUG 14392 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-04T12:31:22.797-06:00  INFO 14392 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-04T12:31:22.809-06:00  INFO 14392 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-04T12:31:22.809-06:00  INFO 14392 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-04T12:31:22.809-06:00  INFO 14392 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-04T12:31:22.809-06:00  INFO 14392 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-04T12:31:22.809-06:00  INFO 14392 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-04T12:31:22.815-06:00  INFO 14392 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-04T12:31:22.815-06:00  INFO 14392 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@264f3b5
+2026-01-04T12:31:22.907-06:00  INFO 14392 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-04T12:31:22.964-06:00  INFO 14392 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-04T12:31:22.964-06:00  INFO 14392 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-04T12:31:22.969-06:00  INFO 14392 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-04T12:31:22.979-06:00  INFO 14392 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 11.627 seconds (process running for 13.008)
+2026-01-04T12:31:34.189-06:00  INFO 14392 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04T12:31:34.189-06:00  INFO 14392 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-04T12:31:34.189-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-04T12:31:34.199-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-04T12:31:34.199-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-04T12:31:34.201-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@109e71a1
+2026-01-04T12:31:34.201-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@71ca1907
+2026-01-04T12:31:34.206-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-04T12:31:34.210-06:00  INFO 14392 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 17 ms
+2026-01-04T12:31:34.252-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /auth/login
+2026-01-04T12:31:34.308-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-04T12:31:34.317-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-04T12:31:34.324-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-04T12:31:34.326-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-04T12:31:34.336-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-04T12:31:34.390-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=Empleado, password=doremi123)]
+2026-01-04T12:31:34.880-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-04T12:31:35.035-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-04T12:31:35.035-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJFTVBMRUFETyIsInN1YiI6IkVtcGxlYWRv (truncated)...]
+2026-01-04T12:31:35.048-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-04T12:31:43.393-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-04T12:31:43.396-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-04T12:31:43.398-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-04T12:31:43.398-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-04T12:31:43.399-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-04T12:31:43.403-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=Admin, password=doremi123)]
+2026-01-04T12:31:43.525-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-04T12:31:43.541-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-04T12:31:43.543-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJBRE1JTiIsInN1YiI6IkFkbWluIiwiaWF0 (truncated)...]
+2026-01-04T12:31:43.546-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-04T12:31:55.980-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/empleados?page=0&size=10
+2026-01-04T12:31:55.982-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/empleados?page=0&size=10
+2026-01-04T12:31:55.989-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados?page=0&size=10
+2026-01-04T12:31:56.125-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados?page=0&size=10
+2026-01-04T12:31:56.127-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados?page=0&size=10", parameters={masked}
+2026-01-04T12:31:56.129-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos(Pageable)
+2026-01-04T12:31:56.266-06:00  INFO 14392 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-04T12:31:56.284-06:00  WARN 14392 --- [tfg] [http-nio-8080-exec-8] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2026-01-04T12:31:56.284-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-04T12:31:56.284-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Page 1 of 0 containing UNKNOWN instances]
+2026-01-04T12:31:56.308-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-04T12:31:56.310-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados?page=0&size=10
+2026-01-04T12:31:56.332-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados?page=0&size=10
+2026-01-04T12:31:56.333-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados?page=0&size=10", parameters={masked}
+2026-01-04T12:31:56.336-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos(Pageable)
+2026-01-04T12:31:56.349-06:00  INFO 14392 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-04T12:31:56.351-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-04T12:31:56.352-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [Page 1 of 0 containing UNKNOWN instances]
+2026-01-04T12:31:56.355-06:00 DEBUG 14392 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-04T12:37:07.816-06:00  INFO 14864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 14864 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-04T12:37:07.825-06:00  INFO 14864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-04T12:37:07.909-06:00  INFO 14864 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-04T12:37:07.909-06:00  INFO 14864 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-04T12:37:07.950-06:00  INFO 14864 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-04T12:37:09.120-06:00  INFO 14864 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-04T12:37:10.467-06:00  INFO 14864 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-04T12:37:10.713-06:00  INFO 14864 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 225 ms. Found 14 JPA repository interfaces.
+2026-01-04T12:37:11.828-06:00  INFO 14864 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-04T12:37:11.855-06:00  INFO 14864 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-04T12:37:11.857-06:00  INFO 14864 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-04T12:37:11.950-06:00  INFO 14864 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-04T12:37:11.950-06:00  INFO 14864 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2817 ms
+2026-01-04T12:37:12.188-06:00  INFO 14864 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-04T12:37:12.421-06:00  INFO 14864 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-04T12:37:12.483-06:00  INFO 14864 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-04T12:37:12.940-06:00  INFO 14864 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-04T12:37:12.999-06:00  INFO 14864 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-04T12:37:13.228-06:00  INFO 14864 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3875dccd
+2026-01-04T12:37:13.231-06:00  INFO 14864 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-04T12:37:13.269-06:00  WARN 14864 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-04T12:37:13.301-06:00  INFO 14864 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-04T12:37:14.971-06:00  INFO 14864 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-04T12:37:15.250-06:00  INFO 14864 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04T12:37:16.394-06:00  INFO 14864 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-04T12:37:16.396-06:00  WARN 14864 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-04T12:37:16.455-06:00  WARN 14864 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-04T12:37:16.608-06:00 DEBUG 14864 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 64 mappings in 'requestMappingHandlerMapping'
+2026-01-04T12:37:16.760-06:00 DEBUG 14864 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-04T12:37:16.938-06:00 DEBUG 14864 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-04T12:37:17.068-06:00 DEBUG 14864 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-04T12:37:17.145-06:00 DEBUG 14864 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-04T12:37:17.349-06:00  INFO 14864 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-04T12:37:17.366-06:00  INFO 14864 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-04T12:37:17.366-06:00  INFO 14864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-04T12:37:17.366-06:00  INFO 14864 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-04T12:37:17.366-06:00  INFO 14864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-04T12:37:17.366-06:00  INFO 14864 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-04T12:37:17.366-06:00  INFO 14864 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-04T12:37:17.366-06:00  INFO 14864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@4194704a
+2026-01-04T12:37:17.463-06:00  INFO 14864 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-04T12:37:17.531-06:00  INFO 14864 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-04T12:37:17.536-06:00  INFO 14864 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-04T12:37:17.538-06:00  INFO 14864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-04T12:37:17.551-06:00  INFO 14864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 10.419 seconds (process running for 11.527)
+2026-01-04T12:37:26.966-06:00  INFO 14864 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-04T12:37:26.966-06:00  INFO 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-04T12:37:26.967-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-04T12:37:26.967-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-04T12:37:26.967-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-04T12:37:26.970-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@64ceceaf
+2026-01-04T12:37:26.970-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@27a62136
+2026-01-04T12:37:26.973-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-04T12:37:26.973-06:00  INFO 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2026-01-04T12:37:27.008-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-04T12:37:27.054-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-04T12:37:27.059-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-04T12:37:27.063-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-04T12:37:27.065-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-04T12:37:27.110-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=Admin, password=doremi123)]
+2026-01-04T12:37:27.523-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-04T12:37:27.644-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-04T12:37:27.644-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJBRE1JTiIsInN1YiI6IkFkbWluIiwiaWF0 (truncated)...]
+2026-01-04T12:37:27.649-06:00 DEBUG 14864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK

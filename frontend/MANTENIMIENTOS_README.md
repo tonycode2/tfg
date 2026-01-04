@@ -12,7 +12,7 @@ El módulo de **Mantenimientos y Consultas** es una interfaz administrativa que 
 
 ### Entidades Gestionables
 
-El módulo soporta las siguientes entidades:
+El módulo soporta las siguientes **12 entidades**:
 
 1. **Empleados** 👥
    - Gestión completa de información de empleados
@@ -41,6 +41,26 @@ El módulo soporta las siguientes entidades:
 7. **Aguinaldos** 🎁
    - Gestión de aguinaldos anuales
    - Campos: año, fecha inicio/fin período, monto, fecha de pago
+
+8. **Horas Extra** ⏱️
+   - Control de solicitudes de horas extra
+   - Campos: fecha solicitud, cantidad horas, motivo, tipo tarifa, estado
+
+9. **Permisos** 📋
+   - Administración de permisos y licencias
+   - Campos: fechas inicio/fin, días totales, tipo permiso, motivo, estado
+
+10. **Liquidaciones** 💵
+    - Cálculo y gestión de liquidaciones laborales
+    - Campos: fecha salida, preaviso, cesantía, vacaciones, aguinaldo, total
+
+11. **Planillas** 📊
+    - Gestión de planillas de pago
+    - Campos: período, fecha pago, total bruto/neto, estado
+
+12. **Evaluaciones de Desempeño** ⭐
+    - Registro de evaluaciones de personal
+    - Campos: fecha, período, puntuación, observaciones, plan de mejora
 
 ## Arquitectura del Módulo
 
@@ -165,6 +185,45 @@ El token se obtiene del `localStorage` mediante `authService.getToken()`.
 - **Monto Aguinaldo** (number): Monto calculado
 - **Fecha Pago** (date): Fecha de pago programada
 
+### Horas Extra
+- **Fecha Solicitud** (date): Fecha de la solicitud
+- **Cantidad de Horas** (number): Horas solicitadas (múltiplos de 0.5)
+- **Motivo** (text): Justificación de las horas extra
+- **Tipo Tarifa** (select): Normal (1.5x) o Feriado (2x)
+- **Estado** (select): Pendiente, Aprobada, Rechazada
+
+### Permisos
+- **Fecha Inicio** (date): Inicio del permiso
+- **Fecha Fin** (date): Fin del permiso
+- **Días Totales** (number): Cantidad de días
+- **Tipo Permiso** (select): Vacaciones, Enfermedad, Personal, Maternidad, Paternidad
+- **Motivo** (text): Justificación del permiso
+- **Estado** (select): Pendiente, Aprobada, Rechazada
+
+### Liquidaciones
+- **Fecha Salida** (date): Fecha de finalización laboral
+- **Motivo Salida** (text): Razón de la salida
+- **Monto Preaviso** (number): Monto de preaviso
+- **Monto Cesantía** (number): Monto de cesantía
+- **Vacaciones Pendientes** (number): Monto de vacaciones no tomadas
+- **Aguinaldo Pendiente** (number): Aguinaldo proporcional
+- **Total Liquidación** (number): Suma total a pagar
+
+### Planillas
+- **Fecha Inicio Período** (date): Inicio del período de pago
+- **Fecha Fin Período** (date): Fin del período de pago
+- **Fecha Pago** (date): Fecha programada de pago
+- **Total Planilla Bruto** (number): Total antes deducciones
+- **Total Planilla Neto** (number): Total después deducciones
+- **Estado** (select): Borrador, Procesada, Pagada
+
+### Evaluaciones de Desempeño
+- **Fecha Evaluación** (date): Fecha de realización
+- **Período Evaluado** (text): Período que se evalúa (ej: "Enero-Junio 2026")
+- **Puntuación Final** (number): Puntuación de 0 a 100
+- **Observaciones** (text): Comentarios generales
+- **Plan de Mejora** (text): Acciones de mejora propuestas
+
 ## Personalización de Columnas
 
 Las columnas se configuran en el método `getColumnsForEntity()`:
@@ -196,24 +255,18 @@ Las columnas se configuran en el método `getColumnsForEntity()`:
 
 ## Mejoras Futuras
 
-### Entidades Pendientes
-- Empleados (requiere selects para FK)
-- Horas Extra
-- Permisos
-- Liquidaciones
-- Planillas
-- Evaluaciones de Desempeño
-
 ### Funcionalidades Adicionales
 - [ ] Búsqueda/filtrado en tablas
 - [ ] Ordenamiento por columnas
 - [ ] Exportación a CSV/Excel
 - [ ] Validación de formularios más robusta
 - [ ] Mensajes de éxito (toast notifications)
-- [ ] Manejo de relaciones FK con selects dinámicos
+- [ ] Manejo de relaciones FK con selects dinámicos para Empleados
 - [ ] Vista previa antes de eliminar
 - [ ] Historial de cambios (audit log)
 - [ ] Filtros avanzados por fecha/rango
+- [ ] Validación de campos según reglas de negocio
+- [ ] Cálculos automáticos (ej: días de permiso, total liquidación)
 
 ## Dependencias
 
