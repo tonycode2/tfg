@@ -71,7 +71,7 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
 
     public ConfiguracionRenta deSolicitudDtoAEntidad(SolicitudConfiguracionRentaDTO solicitud) {
         if(solicitud == null){
-            log.warn("El DTO de solicitud es nulo");
+            log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad ConfiguracionRenta.");
             return null;
         }
         ConfiguracionRenta configuracionRenta = ConfiguracionRenta.builder()
@@ -80,20 +80,20 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
                     .montoMinimo(solicitud.montoMinimo)
                     .porcentaje(solicitud.porcentaje)
                     .build();
-        log.info("El DTO ha sido exitosamente convertido a un modelo");
+        log.info("Se ha convertido el DTO de solicitud a entidad ConfiguracionRenta: {}", configuracionRenta);
         return configuracionRenta;
     }
 
     public RespuestaConfiguracionRentaDTO deEntidadDtoARespuesta(ConfiguracionRenta entidad) {
         if(entidad == null){
-            log.warn("El modelo es nulo");
+            log.warn("La entidad ConfiguracionRenta es nula, no se puede convertir a DTO de respuesta.");
             return null;
         }
         RespuestaConfiguracionRentaDTO respuesta = new RespuestaConfiguracionRentaDTO();
         respuesta.montoMaximo = entidad.getMontoMaximo();
         respuesta.montoMinimo = entidad.getMontoMinimo();
         respuesta.porcentaje = entidad.getPorcentaje();
-        log.info("El modelo ha sido exitosamente convertido a un DTO");
+        log.info("Se ha convertido la entidad ConfiguracionRenta a DTO de respuesta: {}", respuesta);
         return respuesta;
     }
 
