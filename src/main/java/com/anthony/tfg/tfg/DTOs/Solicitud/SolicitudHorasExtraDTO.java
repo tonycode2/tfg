@@ -8,31 +8,31 @@ import jakarta.validation.constraints.Size;
 
 public class SolicitudHorasExtraDTO {
     @NotBlank
-    Long id;
+    public Long id;
 
     @NotBlank
-    Date fechaSolicitud;
+    public Date fechaSolicitud;
 
     @NotBlank
     @Positive
-    Integer cantidadDeHoras;
+    public Integer cantidadDeHoras;
 
     @NotBlank
     @Size(min = 5, max = 200)
-    String motivo;
+    public String motivo;
 
     @NotBlank
-    Boolean aprobado;
+    public Boolean aprobado;
 
     @NotBlank
-    Boolean procesado;
+    public Boolean procesado;
 
     @NotBlank
-    String estadoSolicitud;
+    public String estadoSolicitud;
 
     @NotBlank
-    String tipoTarifa;
+    public String tipoTarifa;
 
     @NotBlank
-    Long idEmpleado;
+    public Long idEmpleado;
 }

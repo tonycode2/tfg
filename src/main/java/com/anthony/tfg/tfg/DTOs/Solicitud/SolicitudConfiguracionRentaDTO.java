@@ -5,17 +5,17 @@ import jakarta.validation.constraints.Positive;
 
 public class SolicitudConfiguracionRentaDTO {
     @NotBlank
-    Long id;
+    public Long id;
 
     @NotBlank
     @Positive
-    Double montoMinimo;
+    public Double montoMinimo;
 
     @NotBlank
     @Positive
-    Double montoMaximo;
+    public Double montoMaximo;
 
     @NotBlank
     @Positive
-    Double porcentaje;
+    public Double porcentaje;
 }

@@ -4,11 +4,11 @@ import java.sql.Date;
 import java.sql.Time;
 
 public class RespuestaAsistenciaDTO {
-    Date fecha;
-    Time horaEntrada;
-    Time horaSalida;
-    Double horasTrabajadas;
-    String nombreEmpleado;
-    String primerApellidoEmpleado;
-    String segundoApellidoEmpleado;
+    public Date fecha;
+    public Time horaEntrada;
+    public Time horaSalida;
+    public Double horasTrabajadas;
+    public String nombreEmpleado;
+    public String primerApellidoEmpleado;
+    public String segundoApellidoEmpleado;
 }

@@ -9,26 +9,26 @@ import jakarta.validation.constraints.Size;
 
 public class SolicitudPermisosDTO {
     @NotBlank
-    Long id;
+    public Long id;
     @NotBlank
     @Future
-    Date fechaInicio;
+    public Date fechaInicio;
     @NotBlank
     @Future
-    Date fechaFin;
+    public Date fechaFin;
     @NotBlank
     @Positive
-    Integer diasTotales;
+    public Integer diasTotales;
     @NotBlank
     @Size(min = 10, max = 500)
-    String motivo;
+    public String motivo;
     @NotBlank
     @Size(min = 5, max = 200)
-    String urlDocumentoAdjunto;
+    public String urlDocumentoAdjunto;
     @NotBlank
-    String estadoSolicitud;
+    public String estadoSolicitud;
     @NotBlank
-    String tipoPermiso;
+    public String tipoPermiso;
     @NotBlank
-    Long idEmpleado;
+    public Long idEmpleado;
 }

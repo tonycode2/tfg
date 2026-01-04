@@ -9,22 +9,22 @@ import jakarta.validation.constraints.Positive;
 
 public class SolicitudPlanillaEncabezadoDTO {
     @NotBlank
-    Long id;
+    public Long id;
     @NotBlank
     @Past
-    Date fechaInicioPeriodo;
+    public Date fechaInicioPeriodo;
     @NotBlank
     @Past
-    Date fechaFinPeriodo;
+    public Date fechaFinPeriodo;
     @NotBlank
     @Future
-    Date fechaPago;
+    public Date fechaPago;
     @NotBlank
     @Positive
-    Double totalPlanillaBruto;
+    public Double totalPlanillaBruto;
     @NotBlank
     @Positive
-    Double totalPlanillaNeto;
+    public Double totalPlanillaNeto;
     @NotBlank
-    String estadoPlanilla;
+    public String estadoPlanilla;
 }

@@ -1,15 +1,15 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
 public class RespuestaPlanillaDetalleDTO {
-    Double salarioBasePeriodo;
-    Integer cantidadDiasFeriados;
-    Double montoHorasExtra;
-    Double montoIncapacidad;
-    Double deduccionCcssIvm;
-    Double deduccionCcssSem;
-    Double impuestoDeRenta;
-    Double otrasDeducciones;
-    String nombreEmpleado;
-    String primerApellidoEmpleado;
-    String segundoApellidoEmpleado;
+    public Double salarioBasePeriodo;
+    public Integer cantidadDiasFeriados;
+    public Double montoHorasExtra;
+    public Double montoIncapacidad;
+    public Double deduccionCcssIvm;
+    public Double deduccionCcssSem;
+    public Double impuestoDeRenta;
+    public Double otrasDeducciones;
+    public String nombreEmpleado;
+    public String primerApellidoEmpleado;
+    public String segundoApellidoEmpleado;
 }

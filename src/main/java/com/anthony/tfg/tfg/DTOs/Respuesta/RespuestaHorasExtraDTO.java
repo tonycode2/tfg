@@ -3,14 +3,14 @@ package com.anthony.tfg.tfg.DTOs.Respuesta;
 import java.sql.Date;
 
 public class RespuestaHorasExtraDTO {
-    Date fechaSolicitud;
-    Integer cantidadDeHoras;
-    String motivo;
-    Boolean aprobado;
-    Boolean procesado;
-    String estadoSolicitud;
-    String tipoTarifa;
-    String nombreEmpleado;
-    String primerApellidoEmpleado;
-    String segundoApellidoEmpleado;
+    public Date fechaSolicitud;
+    public Integer cantidadDeHoras;
+    public String motivo;
+    public Boolean aprobado;
+    public Boolean procesado;
+    public String estadoSolicitud;
+    public String tipoTarifa;
+    public String nombreEmpleado;
+    public String primerApellidoEmpleado;
+    public String segundoApellidoEmpleado;
 }

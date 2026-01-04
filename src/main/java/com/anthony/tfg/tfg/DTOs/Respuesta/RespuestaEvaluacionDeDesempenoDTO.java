@@ -3,12 +3,12 @@ package com.anthony.tfg.tfg.DTOs.Respuesta;
 import java.sql.Date;
 
 public class RespuestaEvaluacionDeDesempenoDTO {
-    Date fechaEvaluacion;
-    String periodoEvaluado;
-    Double puntuacionFinal;
-    String observaciones;
-    String planDeMejora;
-    String nombreEmpleado;
-    String primerApellidoEmpleado;
-    String segundoApellidoEmpleado;
+    public Date fechaEvaluacion;
+    public String periodoEvaluado;
+    public Double puntuacionFinal;
+    public String observaciones;
+    public String planDeMejora;
+    public String nombreEmpleado;
+    public String primerApellidoEmpleado;
+    public String segundoApellidoEmpleado;
 }

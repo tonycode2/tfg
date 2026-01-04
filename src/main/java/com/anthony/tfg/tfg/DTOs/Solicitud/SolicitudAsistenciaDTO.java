@@ -8,22 +8,22 @@ import jakarta.validation.constraints.Positive;
 
 public class SolicitudAsistenciaDTO {
     @NotBlank
-    Long id;
+    public Long id;
 
     @NotBlank
-    Date fecha;
+    public Date fecha;
 
     @NotBlank
-    Time horaEntrada;
+    public Time horaEntrada;
 
     @NotBlank
-    Time horaSalida;
-
-    @NotBlank
-    @Positive
-    Double horasTrabajadas;
+    public Time horaSalida;
 
     @NotBlank
     @Positive
-    Long idEmpleado;
+    public Double horasTrabajadas;
+    
+    @NotBlank
+    @Positive
+    public Long idEmpleado;
 }

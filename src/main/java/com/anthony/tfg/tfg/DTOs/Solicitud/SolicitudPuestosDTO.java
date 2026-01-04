@@ -1,18 +1,24 @@
 package com.anthony.tfg.tfg.DTOs.Solicitud;
 
+import java.sql.Time;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class SolicitudPuestosDTO {
     @NotBlank
-    Long id;
+    public Long id;
     @NotBlank
     @Size(min = 3, max = 50)
-    String nombre;
+    public String nombre;
     @NotBlank
     @Positive
-    Double salarioMinimo;
+    public Double salarioMinimo;
     @NotBlank
-    Long idDepartamento;
+    public Time horaEntrada;
+    @NotBlank
+    public Time horaSalida;
+    @NotBlank
+    public Long idDepartamento;
 }

@@ -8,20 +8,20 @@ import jakarta.validation.constraints.Size;
 
 public class SolicitudEvaluacionDeDesempenoDTO {
     @NotBlank
-    Long id;
+    public Long id;
     @NotBlank
-    Date fechaEvaluacion;
+    public Date fechaEvaluacion;
     @NotBlank
-    String periodoEvaluado;
+    public String periodoEvaluado;
     @NotBlank
     @Positive
-    Double puntuacionFinal;
+    public Double puntuacionFinal;
     @NotBlank
     @Size(min = 10, max = 500)
-    String observaciones;
+    public String observaciones;
     @NotBlank
     @Size(min = 10, max = 500)
-    String planDeMejora;
+    public String planDeMejora;
     @NotBlank
-    Long idEmpleado;
+    public Long idEmpleado;
 }

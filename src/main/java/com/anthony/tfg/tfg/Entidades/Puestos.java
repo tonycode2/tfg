@@ -1,5 +1,6 @@
 package com.anthony.tfg.tfg.Entidades;
 
+import java.sql.Time;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -31,6 +32,10 @@ public class Puestos {
     String nombre;
     @Column(name = "salario_minimo")
     Double salarioMinimo;
+    @Column(name = "hora_entrada")
+    Time horaEntrada;
+    @Column(name = "hora_salida")
+    Time horaSalida;
     
     @ManyToOne
     @JoinColumn(name = "id_departamento")

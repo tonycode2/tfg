@@ -5,8 +5,8 @@ import jakarta.validation.constraints.Size;
 
 public class SolicitudDepartamentoDTO {
     @NotNull
-    Long id;
+    public Long id;
     @NotNull
     @Size(min = 3, max = 100)
-    String nombre;
+    public String nombre;
 }

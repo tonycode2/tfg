@@ -5,35 +5,35 @@ import jakarta.validation.constraints.Positive;
 
 public class SolicitudPlanillaDetalleDTO {
     @NotBlank
-    Long id;
+    public Long id;
     @NotBlank
     @Positive
-    Double salarioBasePeriodo;
+    public Double salarioBasePeriodo;
     @NotBlank
     @Positive
-    Integer cantidadDiasFeriados;
+    public Integer cantidadDiasFeriados;
     @NotBlank
     @Positive
-    Double montoHorasExtra;
+    public Double montoHorasExtra;
     @NotBlank
     @Positive
-    Double montoIncapacidad;
+    public Double montoIncapacidad;
     @NotBlank
     @Positive
-    Double deduccionCcssIvm;
+    public Double deduccionCcssIvm;
     @NotBlank
     @Positive
-    Double deduccionCcssSem;
+    public Double deduccionCcssSem;
     @NotBlank
     @Positive
-    Double impuestoDeRenta;
+    public Double impuestoDeRenta;
     @NotBlank
     @Positive
-    Double otrasDeducciones;
+    public Double otrasDeducciones;
     @NotBlank
     @Positive
-    Long idEmpleado;
+    public Long idEmpleado;
     @NotBlank
     @Positive
-    Long idPlanillaEncabezado;
+    public Long idPlanillaEncabezado;
 }

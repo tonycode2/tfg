@@ -9,35 +9,35 @@ import jakarta.validation.constraints.Positive;
 
 public class SolicitudAguinaldosDTO {
     @NotBlank
-    Long id;
+    public Long id;
     
     @NotBlank
-    Integer anio;
-    
-    @NotBlank
-    @Past
-    Date fechaInicioPeriodo;
+    public Integer anio;
     
     @NotBlank
     @Past
-    Date fechaFinPeriodo;
+    public Date fechaInicioPeriodo;
+    
+    @NotBlank
+    @Past
+    public Date fechaFinPeriodo;
     
     @NotBlank
     @Positive
-    Double totalSalariosDevengados;
+    public Double totalSalariosDevengados;
     
     @NotBlank
     @Positive
-    Double montoAguinaldo;
+    public Double montoAguinaldo;
     
     @NotBlank
-    Date fechaCalculo;
+    public Date fechaCalculo;
     
     @NotBlank
     @Future
-    Date fechaPago;
+    public Date fechaPago;
     
     @NotBlank
     @Positive
-    Long idEmpleado;
+    public Long idEmpleado;
 }

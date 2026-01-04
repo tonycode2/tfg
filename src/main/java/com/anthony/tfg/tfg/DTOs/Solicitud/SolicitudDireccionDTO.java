@@ -5,17 +5,17 @@ import jakarta.validation.constraints.Size;
 
 public class SolicitudDireccionDTO {
     @NotNull
-    Long id;
+    public Long id;
     @NotNull
     @Size(min = 5, max = 100)
-    String provincia;
+    public String provincia;
     @NotNull
     @Size(min = 5, max = 100)
-    String canton;
+    public String canton;
     @NotNull
     @Size(min = 5, max = 100)
-    String distrito;
+    public String distrito;
     @NotNull
     @Size(min = 5, max = 100)
-    String indicaciones;
+    public String indicaciones;
 }

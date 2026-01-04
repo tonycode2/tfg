@@ -1,7 +1,7 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
 public class RespuestaConfiguracionRentaDTO {
-    Double montoMinimo;
-    Double montoMaximo;
-    Double porcentaje;
+    public Double montoMinimo;
+    public Double montoMaximo;
+    public Double porcentaje;
 }

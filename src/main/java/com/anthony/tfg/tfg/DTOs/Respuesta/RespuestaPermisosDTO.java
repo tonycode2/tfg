@@ -3,14 +3,14 @@ package com.anthony.tfg.tfg.DTOs.Respuesta;
 import java.sql.Date;
 
 public class RespuestaPermisosDTO {
-    Date fechaInicio;
-    Date fechaFin;
-    Integer diasTotales;
-    String motivo;
-    String urlDocumentoAdjunto;
-    String estadoSolicitud;
-    String tipoPermiso;
-    String nombreEmpleado;
-    String primerApellidoEmpleado;
-    String segundApellidoEmpleado;
+    public Date fechaInicio;
+    public Date fechaFin;
+    public Integer diasTotales;
+    public String motivo;
+    public String urlDocumentoAdjunto;
+    public String estadoSolicitud;
+    public String tipoPermiso;
+    public String nombreEmpleado;
+    public String primerApellidoEmpleado;
+    public String segundApellidoEmpleado;
 }

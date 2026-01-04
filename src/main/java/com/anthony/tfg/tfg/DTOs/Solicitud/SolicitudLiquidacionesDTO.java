@@ -8,28 +8,28 @@ import jakarta.validation.constraints.Positive;
 
 public class SolicitudLiquidacionesDTO {
     @NotBlank
-    Long id;
+    public Long id;
     @NotBlank
     @Past
-    Date fechaSalida;
+    public Date fechaSalida;
     @NotBlank
     @Positive
-    Double montoPreaviso;
+    public Double montoPreaviso;
     @NotBlank
     @Positive
-    Double montoCesantia;
+    public Double montoCesantia;
     @NotBlank
     @Positive
-    Double montoVacacionesPendientes;
+    public Double montoVacacionesPendientes;
     @NotBlank
     @Positive
-    Double montoAguinaldoPendiente;
+    public Double montoAguinaldoPendiente;
     @NotBlank
     @Positive
-    Double totalLiquidacion;
+    public Double totalLiquidacion;
     @NotBlank
-    String motivoSalida;
+    public String motivoSalida;
     @NotBlank
     @Positive
-    Long idEmpleado;
+    public Long idEmpleado;
 }

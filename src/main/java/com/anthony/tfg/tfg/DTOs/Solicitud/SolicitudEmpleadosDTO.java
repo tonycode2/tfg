@@ -15,66 +15,66 @@ public class SolicitudEmpleadosDTO {
 
     @NotBlank
     @Size(min = 9, max = 12)
-    String cedula;
+    public String cedula;
 
     @NotBlank
     @Size(min = 2, max = 100)
-    String nombre;
+    public String nombre;
     
     @NotBlank
     @Size(min = 2, max = 100)
-    String primerApellido;
+    public String primerApellido;
 
     @NotBlank
     @Size(min = 2, max = 100)
-    String segundoApellido;
+    public String segundoApellido;
 
     @NotBlank
     @Size(min = 2, max = 100)
     @Email
-    String correoPersonal;
+    public String correoPersonal;
 
     @NotBlank
     @Past
-    Date fechaNacimiento;
+    public Date fechaNacimiento;
     
     @NotBlank
     @Future //Esto se puede cambiar dependiendo de como se maneje. Puede que no sea futuro. 
-    Date fechaIngreso;
+    public Date fechaIngreso;
 
     @NotBlank
-    Double salarioBase;
+    public Double salarioBase;
 
     @NotBlank
     @Positive
-    Integer cantidadDeHijos;
+    public Integer cantidadDeHijos;
 
     @NotBlank
-    Integer saldoVacaciones;
+    public Integer saldoVacaciones;
 
     @NotBlank
     @Size(min = 22, max = 22)
-    String cuentaIban;
+    public String cuentaIban;
 
     @NotBlank
-    Boolean estaActivo;
+    public Boolean estaActivo;
 
     @NotBlank
-    Boolean estaCasado;
-
-    @NotBlank
-    @Positive
-    Long idTipoDeJornada;
+    public Boolean estaCasado;
 
     @NotBlank
     @Positive
-    Long idPuesto;
+    public Long idTipoDeJornada;
 
     @NotBlank
     @Positive
-    Long idDireccion;
+    public Long idPuesto;
 
     @NotBlank
     @Positive
-    Long idUsuario;
+    public Long idDireccion;
+
+    @NotBlank
+    @Positive
+    public Long idUsuario;
 }

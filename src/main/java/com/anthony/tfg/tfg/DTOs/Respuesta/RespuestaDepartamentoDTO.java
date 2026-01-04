@@ -1,6 +1,6 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
 public class RespuestaDepartamentoDTO {
-    Long id;
-    String nombre;
+    public Long id;
+    public String nombre;
 }
