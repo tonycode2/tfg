@@ -42,7 +42,14 @@ public class ControladorPuestos {
     }
 
     @GetMapping
-    public ResponseEntity<Page<RespuestaPuestosDTO>> obtenerTodos(Pageable pageable) {
+    public ResponseEntity<?> obtenerTodos(Pageable pageable) {
+        // Si no se especifica paginación, devolver todos
+        if (pageable.isUnpaged()) {
+            var todos = servicio.obtenerTodos();
+            return ResponseEntity.ok(todos);
+        }
+        
+        // Con paginación
         var todos = servicio.obtenerTodos();
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), todos.size());

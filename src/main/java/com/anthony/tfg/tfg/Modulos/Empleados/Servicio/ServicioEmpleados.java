@@ -101,9 +101,12 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
             empleadoExistente.setDireccion(direccion);
         }
         
-        User usuario = userRepository.findById(entidad.idUsuario).orElse(null);
-        if(usuario != null){
-            empleadoExistente.setUsuario(usuario);
+        // Usuario es opcional - solo se actualiza si se proporciona
+        if(entidad.idUsuario != null){
+            User usuario = userRepository.findById(entidad.idUsuario).orElse(null);
+            if(usuario != null){
+                empleadoExistente.setUsuario(usuario);
+            }
         }
         
         Empleados empleadoActualizado = mantenimiento.actualizar(empleadoExistente);
@@ -140,10 +143,13 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
             return null;
         }
         
-        User usuario = userRepository.findById(solicitud.idUsuario).orElse(null);
-        if(usuario == null){
-            log.warn("No se ha encontrado el usuario con ID: " + solicitud.idUsuario);
-            return null;
+        // Usuario es opcional - solo se asigna después con el botón "Generar Usuario"
+        User usuario = null;
+        if(solicitud.idUsuario != null){
+            usuario = userRepository.findById(solicitud.idUsuario).orElse(null);
+            if(usuario == null){
+                log.warn("No se ha encontrado el usuario con ID: " + solicitud.idUsuario);
+            }
         }
         
         Empleados empleado = Empleados.builder()
@@ -195,14 +201,29 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         }
         
         if(entidad.getPuesto() != null){
-            respuesta.puesto = entidad.getPuesto().getNombre();
+            RespuestaEmpleadosDTO.PuestoInfo puestoInfo = new RespuestaEmpleadosDTO.PuestoInfo();
+            puestoInfo.id = entidad.getPuesto().getId();
+            puestoInfo.nombre = entidad.getPuesto().getNombre();
+            puestoInfo.salarioMinimo = entidad.getPuesto().getSalarioMinimo();
+            
+            if(entidad.getPuesto().getDepartamento() != null){
+                RespuestaEmpleadosDTO.DepartamentoInfo deptInfo = new RespuestaEmpleadosDTO.DepartamentoInfo();
+                deptInfo.id = entidad.getPuesto().getDepartamento().getId();
+                deptInfo.nombre = entidad.getPuesto().getDepartamento().getNombre();
+                puestoInfo.departamento = deptInfo;
+            }
+            
+            respuesta.puesto = puestoInfo;
         }
         
         if(entidad.getDireccion() != null){
-            respuesta.direccionExacta = entidad.getDireccion().getIndicaciones();
-            respuesta.provincia = entidad.getDireccion().getProvincia();
-            respuesta.canton = entidad.getDireccion().getCanton();
-            respuesta.distrito = entidad.getDireccion().getDistrito();
+            RespuestaEmpleadosDTO.DireccionInfo dirInfo = new RespuestaEmpleadosDTO.DireccionInfo();
+            dirInfo.id = entidad.getDireccion().getId();
+            dirInfo.provincia = entidad.getDireccion().getProvincia();
+            dirInfo.canton = entidad.getDireccion().getCanton();
+            dirInfo.distrito = entidad.getDireccion().getDistrito();
+            dirInfo.direccionExacta = entidad.getDireccion().getIndicaciones();
+            respuesta.direccion = dirInfo;
         }
         
         if(entidad.getUsuario() != null){

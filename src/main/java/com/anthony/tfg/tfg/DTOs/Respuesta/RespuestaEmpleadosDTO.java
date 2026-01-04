@@ -22,10 +22,27 @@ public class RespuestaEmpleadosDTO {
     public Boolean estaActivo;
     public Boolean estaCasado;
     public String tipoDeJornada;
-    public String puesto;
-    public String direccionExacta;
-    public String provincia;
-    public String canton;
-    public String distrito;
+    public PuestoInfo puesto;
+    public DireccionInfo direccion;
     public String nombreUsuario;
+    
+    public static class PuestoInfo {
+        public Long id;
+        public String nombre;
+        public Double salarioMinimo;
+        public DepartamentoInfo departamento;
+    }
+    
+    public static class DepartamentoInfo {
+        public Long id;
+        public String nombre;
+    }
+    
+    public static class DireccionInfo {
+        public Long id;
+        public String provincia;
+        public String canton;
+        public String distrito;
+        public String direccionExacta;
+    }
 }

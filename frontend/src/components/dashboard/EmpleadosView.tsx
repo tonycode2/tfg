@@ -5,36 +5,31 @@ import { SimpleDataTable } from '@/components/SimpleDataTable';
 import { Modal } from '@/components/Modal';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { empleadosService, departamentosService, puestosService, type Empleado, type Departamento, type Puesto } from '@/services/apiService';
+import { empleadosService, puestosService, direccionesService, type Empleado, type Puesto } from '@/services/apiService';
 import { GenerarUsuarioModal } from '@/components/GenerarUsuarioModal';
 
 interface EmpleadoFormData {
-  primerNombre: string;
-  segundoNombre: string;
+  cedula: string;
+  nombre: string;
   primerApellido: string;
   segundoApellido: string;
-  numeroIdentificacion: string;
-  fechaNacimiento: string;
-  fechaContratacion: string;
-  salarioBase: string | number;
   correoPersonal: string;
-  correoEmpresarial: string;
-  puesto: { id: number };
-  departamento: { id: number };
-  horaEntrada: string;
-  horaSalida: string;
+  fechaNacimiento: string;
+  fechaIngreso: string;
+  salarioBase: string | number;
+  cantidadDeHijos: number;
+  saldoVacaciones: number;
+  cuentaIban: string;
+  estaActivo: boolean;
+  estaCasado: boolean;
+  tipoDeJornada: string;
+  idPuesto: number;
+  // Campos de dirección
+  provincia: string;
+  canton: string;
+  distrito: string;
+  direccionExacta: string;
 }
-
-const formatTimeForBackend = (time: string): string => {
-  if (!time) return '';
-  if (time.includes(':')) {
-    const parts = time.split(':');
-    if (parts.length === 2) {
-      return `${time}:00`;
-    }
-  }
-  return time;
-};
 
 export function EmpleadosView() {
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
@@ -43,28 +38,31 @@ export function EmpleadosView() {
   const [isGenerarUsuarioModalOpen, setIsGenerarUsuarioModalOpen] = useState(false);
   const [selectedEmpleadoId, setSelectedEmpleadoId] = useState<number | null>(null);
   const [editingEmpleado, setEditingEmpleado] = useState<Empleado | null>(null);
-  const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
   const [puestos, setPuestos] = useState<Puesto[]>([]);
   const [formData, setFormData] = useState<EmpleadoFormData>({
-    primerNombre: '',
-    segundoNombre: '',
+    cedula: '',
+    nombre: '',
     primerApellido: '',
     segundoApellido: '',
-    numeroIdentificacion: '',
-    fechaNacimiento: '',
-    fechaContratacion: '',
-    salarioBase: '',
     correoPersonal: '',
-    correoEmpresarial: '',
-    puesto: { id: 0 },
-    departamento: { id: 0 },
-    horaEntrada: '',
-    horaSalida: '',
+    fechaNacimiento: '',
+    fechaIngreso: '',
+    salarioBase: '',
+    cantidadDeHijos: 0,
+    saldoVacaciones: 0,
+    cuentaIban: '',
+    estaActivo: true,
+    estaCasado: false,
+    tipoDeJornada: 'COMPLETA',
+    idPuesto: 0,
+    provincia: '',
+    canton: '',
+    distrito: '',
+    direccionExacta: '',
   });
 
   useEffect(() => {
     loadEmpleados();
-    loadDepartamentos();
     loadPuestos();
   }, []);
 
@@ -72,7 +70,11 @@ export function EmpleadosView() {
     try {
       setIsLoading(true);
       const data = await empleadosService.getAllUnpaginated();
-      setEmpleados(Array.isArray(data) ? data : []);
+      console.log('Datos recibidos de empleados:', data);
+      
+      // Si el backend devuelve un objeto paginado, extraer el array content
+      const empleadosArray = (data as any).content || data;
+      setEmpleados(Array.isArray(empleadosArray) ? empleadosArray : []);
     } catch (error) {
       console.error('Error cargando empleados:', error);
       setEmpleados([]);
@@ -81,20 +83,12 @@ export function EmpleadosView() {
     }
   };
 
-  const loadDepartamentos = async () => {
-    try {
-      const data = await departamentosService.getAllUnpaginated();
-      setDepartamentos(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error('Error cargando departamentos:', error);
-      setDepartamentos([]);
-    }
-  };
-
   const loadPuestos = async () => {
     try {
       const data = await puestosService.getAllUnpaginated();
-      setPuestos(Array.isArray(data) ? data : []);
+      // Si el backend devuelve un objeto paginado, extraer el array content
+      const puestosArray = (data as any).content || data;
+      setPuestos(Array.isArray(puestosArray) ? puestosArray : []);
     } catch (error) {
       console.error('Error cargando puestos:', error);
       setPuestos([]);
@@ -104,51 +98,52 @@ export function EmpleadosView() {
   const handleAdd = () => {
     setEditingEmpleado(null);
     setFormData({
-      primerNombre: '',
-      segundoNombre: '',
+      cedula: '',
+      nombre: '',
       primerApellido: '',
       segundoApellido: '',
-      numeroIdentificacion: '',
-      fechaNacimiento: '',
-      fechaContratacion: '',
-      salarioBase: '',
       correoPersonal: '',
-      correoEmpresarial: '',
-      puesto: { id: 0 },
-      departamento: { id: 0 },
-      horaEntrada: '',
-      horaSalida: '',
+      fechaNacimiento: '',
+      fechaIngreso: '',
+      salarioBase: '',
+      cantidadDeHijos: 0,
+      saldoVacaciones: 0,
+      cuentaIban: '',
+      estaActivo: true,
+      estaCasado: false,
+      tipoDeJornada: 'COMPLETA',
+      idPuesto: 0,
+      provincia: '',
+      canton: '',
+      distrito: '',
+      direccionExacta: '',
     });
     setIsModalOpen(true);
   };
 
   const handleEdit = (empleado: Empleado) => {
     setEditingEmpleado(empleado);
-    
-    const formatTimeForInput = (time: string): string => {
-      if (!time) return '';
-      if (time.includes(':')) {
-        const parts = time.split(':');
-        return `${parts[0]}:${parts[1]}`;
-      }
-      return time;
-    };
 
     setFormData({
-      primerNombre: empleado.primerNombre,
-      segundoNombre: empleado.segundoNombre || '',
+      cedula: empleado.cedula,
+      nombre: empleado.nombre,
       primerApellido: empleado.primerApellido,
-      segundoApellido: empleado.segundoApellido || '',
-      numeroIdentificacion: empleado.numeroIdentificacion,
-      fechaNacimiento: empleado.fechaNacimiento,
-      fechaContratacion: empleado.fechaContratacion,
-      salarioBase: empleado.salarioBase.toString(),
+      segundoApellido: empleado.segundoApellido,
       correoPersonal: empleado.correoPersonal,
-      correoEmpresarial: empleado.correoEmpresarial,
-      puesto: { id: empleado.puesto.id },
-      departamento: { id: empleado.departamento.id },
-      horaEntrada: formatTimeForInput(empleado.horaEntrada),
-      horaSalida: formatTimeForInput(empleado.horaSalida),
+      fechaNacimiento: empleado.fechaNacimiento,
+      fechaIngreso: empleado.fechaIngreso,
+      salarioBase: empleado.salarioBase.toString(),
+      cantidadDeHijos: empleado.cantidadDeHijos,
+      saldoVacaciones: empleado.saldoVacaciones,
+      cuentaIban: empleado.cuentaIban || '',
+      estaActivo: empleado.estaActivo,
+      estaCasado: empleado.estaCasado,
+      tipoDeJornada: empleado.tipoDeJornada,
+      idPuesto: empleado.puesto.id,
+      provincia: empleado.direccion?.provincia || '',
+      canton: empleado.direccion?.canton || '',
+      distrito: empleado.direccion?.distrito || '',
+      direccionExacta: empleado.direccion?.direccionExacta || '',
     });
     setIsModalOpen(true);
   };
@@ -166,16 +161,42 @@ export function EmpleadosView() {
   };
 
   const handleSubmit = async () => {
-    const dataToSend: any = {
-      ...formData,
-      salarioBase: typeof formData.salarioBase === 'string' 
-        ? parseFloat(formData.salarioBase) 
-        : formData.salarioBase,
-      horaEntrada: formatTimeForBackend(formData.horaEntrada),
-      horaSalida: formatTimeForBackend(formData.horaSalida),
-    };
-
     try {
+      // Paso 1: Crear dirección primero
+      const direccionData = {
+        provincia: formData.provincia,
+        canton: formData.canton,
+        distrito: formData.distrito,
+        indicaciones: formData.direccionExacta, // Backend usa "indicaciones"
+      };
+
+      const direccionResponse = await direccionesService.create(direccionData);
+      const idDireccion = direccionResponse.id;
+
+      // Paso 2: Preparar datos del empleado con el ID de dirección
+      const dataToSend = {
+        cedula: formData.cedula,
+        nombre: formData.nombre,
+        primerApellido: formData.primerApellido,
+        segundoApellido: formData.segundoApellido,
+        correoPersonal: formData.correoPersonal,
+        fechaNacimiento: formData.fechaNacimiento,
+        fechaIngreso: formData.fechaIngreso,
+        salarioBase: typeof formData.salarioBase === 'string' 
+          ? parseFloat(formData.salarioBase) 
+          : formData.salarioBase,
+        cantidadDeHijos: formData.cantidadDeHijos,
+        saldoVacaciones: formData.saldoVacaciones,
+        cuentaIban: formData.cuentaIban || undefined, // Opcional
+        estaActivo: formData.estaActivo,
+        estaCasado: formData.estaCasado,
+        tipoDeJornada: formData.tipoDeJornada,
+        idPuesto: formData.idPuesto,
+        idDireccion: idDireccion,
+        // idUsuario se asigna después con el botón "Generar Usuario"
+      };
+
+      // Paso 3: Crear empleado
       if (editingEmpleado) {
         await empleadosService.update(editingEmpleado.id, dataToSend);
       } else {
@@ -195,19 +216,19 @@ export function EmpleadosView() {
   };
 
   const columns = [
-    { key: 'numeroIdentificacion' as keyof Empleado, label: 'Identificación' },
-    { key: 'primerNombre' as keyof Empleado, label: 'Primer Nombre' },
+    { key: 'cedula' as keyof Empleado, label: 'Cédula' },
+    { key: 'nombre' as keyof Empleado, label: 'Nombre' },
     { key: 'primerApellido' as keyof Empleado, label: 'Primer Apellido' },
-    { key: 'correoEmpresarial' as keyof Empleado, label: 'Correo' },
+    { key: 'correoPersonal' as keyof Empleado, label: 'Correo' },
     { 
       key: 'puesto' as keyof Empleado, 
       label: 'Puesto',
       render: (value: any) => value?.nombre || 'N/A'
     },
     { 
-      key: 'departamento' as keyof Empleado, 
+      key: 'puesto.departamento' as any, 
       label: 'Departamento',
-      render: (value: any) => value?.nombre || 'N/A'
+      render: (_value: any, item: Empleado) => item.puesto?.departamento?.nombre || 'N/A'
     },
     {
       key: 'nombreUsuario' as keyof Empleado,
@@ -269,20 +290,21 @@ export function EmpleadosView() {
       >
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="primerNombre">Primer Nombre *</Label>
+            <Label htmlFor="cedula">Cédula *</Label>
             <Input
-              id="primerNombre"
-              value={formData.primerNombre}
-              onChange={(e) => setFormData({ ...formData, primerNombre: e.target.value })}
+              id="cedula"
+              value={formData.cedula}
+              onChange={(e) => setFormData({ ...formData, cedula: e.target.value })}
               required
             />
           </div>
           <div>
-            <Label htmlFor="segundoNombre">Segundo Nombre</Label>
+            <Label htmlFor="nombre">Nombre Completo *</Label>
             <Input
-              id="segundoNombre"
-              value={formData.segundoNombre}
-              onChange={(e) => setFormData({ ...formData, segundoNombre: e.target.value })}
+              id="nombre"
+              value={formData.nombre}
+              onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+              required
             />
           </div>
           <div>
@@ -295,19 +317,21 @@ export function EmpleadosView() {
             />
           </div>
           <div>
-            <Label htmlFor="segundoApellido">Segundo Apellido</Label>
+            <Label htmlFor="segundoApellido">Segundo Apellido *</Label>
             <Input
               id="segundoApellido"
               value={formData.segundoApellido}
               onChange={(e) => setFormData({ ...formData, segundoApellido: e.target.value })}
+              required
             />
           </div>
           <div>
-            <Label htmlFor="numeroIdentificacion">Identificación *</Label>
+            <Label htmlFor="correoPersonal">Correo Electrónico *</Label>
             <Input
-              id="numeroIdentificacion"
-              value={formData.numeroIdentificacion}
-              onChange={(e) => setFormData({ ...formData, numeroIdentificacion: e.target.value })}
+              id="correoPersonal"
+              type="email"
+              value={formData.correoPersonal}
+              onChange={(e) => setFormData({ ...formData, correoPersonal: e.target.value })}
               required
             />
           </div>
@@ -322,70 +346,113 @@ export function EmpleadosView() {
             />
           </div>
           <div>
-            <Label htmlFor="fechaContratacion">Fecha de Contratación *</Label>
+            <Label htmlFor="fechaIngreso">Fecha de Ingreso *</Label>
             <Input
-              id="fechaContratacion"
+              id="fechaIngreso"
               type="date"
-              value={formData.fechaContratacion}
-              onChange={(e) => setFormData({ ...formData, fechaContratacion: e.target.value })}
+              value={formData.fechaIngreso}
+              onChange={(e) => setFormData({ ...formData, fechaIngreso: e.target.value })}
               required
             />
           </div>
           <div>
-            <Label htmlFor="salarioBase">Salario Base *</Label>
+            <Label htmlFor="salarioBase">Salario Base * (automático del puesto)</Label>
             <Input
               id="salarioBase"
               type="number"
               step="0.01"
               value={formData.salarioBase}
               onChange={(e) => setFormData({ ...formData, salarioBase: e.target.value })}
+              readOnly
+              className="bg-muted"
               required
             />
           </div>
           <div>
-            <Label htmlFor="correoPersonal">Correo Personal *</Label>
+            <Label htmlFor="cantidadDeHijos">Cantidad de Hijos *</Label>
             <Input
-              id="correoPersonal"
-              type="email"
-              value={formData.correoPersonal}
-              onChange={(e) => setFormData({ ...formData, correoPersonal: e.target.value })}
+              id="cantidadDeHijos"
+              type="number"
+              value={formData.cantidadDeHijos}
+              onChange={(e) => setFormData({ ...formData, cantidadDeHijos: parseInt(e.target.value) || 0 })}
               required
             />
           </div>
           <div>
-            <Label htmlFor="correoEmpresarial">Correo Empresarial *</Label>
+            <Label htmlFor="saldoVacaciones">Saldo de Vacaciones (días) *</Label>
             <Input
-              id="correoEmpresarial"
-              type="email"
-              value={formData.correoEmpresarial}
-              onChange={(e) => setFormData({ ...formData, correoEmpresarial: e.target.value })}
+              id="saldoVacaciones"
+              type="number"
+              value={formData.saldoVacaciones}
+              onChange={(e) => setFormData({ ...formData, saldoVacaciones: parseInt(e.target.value) || 0 })}
               required
             />
           </div>
           <div>
-            <Label htmlFor="departamento">Departamento *</Label>
+            <Label htmlFor="cuentaIban">Cuenta IBAN</Label>
+            <Input
+              id="cuentaIban"
+              value={formData.cuentaIban}
+              maxLength={22}
+              onChange={(e) => setFormData({ ...formData, cuentaIban: e.target.value })}
+              placeholder="Opcional"
+            />
+          </div>
+          <div>
+            <Label htmlFor="tipoDeJornada">Tipo de Jornada *</Label>
             <select
-              id="departamento"
+              id="tipoDeJornada"
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              value={formData.departamento.id}
-              onChange={(e) => setFormData({ ...formData, departamento: { id: parseInt(e.target.value) } })}
+              value={formData.tipoDeJornada}
+              onChange={(e) => setFormData({ ...formData, tipoDeJornada: e.target.value })}
               required
             >
-              <option value={0}>Seleccione un departamento</option>
-              {Array.isArray(departamentos) && departamentos.map((dept) => (
-                <option key={dept.id} value={dept.id}>
-                  {dept.nombre}
-                </option>
-              ))}
+              <option value="COMPLETA">Completa</option>
+              <option value="PARCIAL">Parcial</option>
+              <option value="MEDIO_TIEMPO">Medio Tiempo</option>
             </select>
           </div>
+          <div className="flex items-center gap-4">
+            <div>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={formData.estaActivo}
+                  onChange={(e) => setFormData({ ...formData, estaActivo: e.target.checked })}
+                />
+                <span>Activo</span>
+              </label>
+            </div>
+            <div>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={formData.estaCasado}
+                  onChange={(e) => setFormData({ ...formData, estaCasado: e.target.checked })}
+                />
+                <span>Casado</span>
+              </label>
+            </div>
+          </div>
           <div>
-            <Label htmlFor="puesto">Puesto *</Label>
+            <Label htmlFor="idPuesto">Puesto *</Label>
             <select
-              id="puesto"
+              id="idPuesto"
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              value={formData.puesto.id}
-              onChange={(e) => setFormData({ ...formData, puesto: { id: parseInt(e.target.value) } })}
+              value={formData.idPuesto}
+              onChange={(e) => {
+                const puestoId = parseInt(e.target.value);
+                const puestoSeleccionado = puestos.find(p => p.id === puestoId);
+                if (puestoSeleccionado) {
+                  setFormData({ 
+                    ...formData, 
+                    idPuesto: puestoId,
+                    salarioBase: puestoSeleccionado.salarioMinimo,
+                  });
+                } else {
+                  setFormData({ ...formData, idPuesto: puestoId });
+                }
+              }}
               required
             >
               <option value={0}>Seleccione un puesto</option>
@@ -396,23 +463,60 @@ export function EmpleadosView() {
               ))}
             </select>
           </div>
+
+          {/* Sección de Dirección */}
+          <div className="col-span-2">
+            <h3 className="text-lg font-semibold mb-3 border-b pb-2">Dirección</h3>
+          </div>
+
           <div>
-            <Label htmlFor="horaEntrada">Hora de Entrada *</Label>
+            <Label htmlFor="provincia">Provincia *</Label>
+            <select
+              id="provincia"
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={formData.provincia}
+              onChange={(e) => setFormData({ ...formData, provincia: e.target.value })}
+              required
+            >
+              <option value="">Seleccione una provincia</option>
+              <option value="San José">San José</option>
+              <option value="Alajuela">Alajuela</option>
+              <option value="Cartago">Cartago</option>
+              <option value="Heredia">Heredia</option>
+              <option value="Guanacaste">Guanacaste</option>
+              <option value="Puntarenas">Puntarenas</option>
+              <option value="Limón">Limón</option>
+            </select>
+          </div>
+
+          <div>
+            <Label htmlFor="canton">Cantón *</Label>
             <Input
-              id="horaEntrada"
-              type="time"
-              value={formData.horaEntrada}
-              onChange={(e) => setFormData({ ...formData, horaEntrada: e.target.value })}
+              id="canton"
+              value={formData.canton}
+              onChange={(e) => setFormData({ ...formData, canton: e.target.value })}
               required
             />
           </div>
+
           <div>
-            <Label htmlFor="horaSalida">Hora de Salida *</Label>
+            <Label htmlFor="distrito">Distrito *</Label>
             <Input
-              id="horaSalida"
-              type="time"
-              value={formData.horaSalida}
-              onChange={(e) => setFormData({ ...formData, horaSalida: e.target.value })}
+              id="distrito"
+              value={formData.distrito}
+              onChange={(e) => setFormData({ ...formData, distrito: e.target.value })}
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="direccionExacta">Dirección Exacta *</Label>
+            <textarea
+              id="direccionExacta"
+              className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              value={formData.direccionExacta}
+              onChange={(e) => setFormData({ ...formData, direccionExacta: e.target.value })}
+              placeholder="Indique señas exactas de la dirección..."
               required
             />
           </div>

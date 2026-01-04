@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
 import { authService } from './services/authService';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -12,6 +13,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/change-password"
+          element={
+            <ProtectedRoute>
+              <ChangePasswordPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={

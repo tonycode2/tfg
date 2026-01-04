@@ -4,7 +4,7 @@ import com.anthony.tfg.tfg.Modulos.Seguridad.user.Role;
 import jakarta.validation.constraints.NotNull;
 
 public class SolicitudGenerarUsuarioDTO {
-    @NotNull
+    // Se asigna desde el path parameter en el controlador
     public Long idEmpleado;
     
     @NotNull

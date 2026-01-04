@@ -14,6 +14,12 @@ export interface RegisterRequest {
 
 export interface AuthResponse {
   token: string;
+  passwordChangeRequired?: boolean;
+}
+
+export interface ChangePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
 }
 
 export interface UserInfo {
@@ -98,5 +104,22 @@ export const authService = {
 
   logout(): void {
     this.removeToken();
+  },
+
+  async changePassword(request: ChangePasswordRequest): Promise<void> {
+    const token = this.getToken();
+    const response = await fetch(`${API_URL}/auth/change-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(error || 'Error al cambiar la contraseña');
+    }
   },
 };

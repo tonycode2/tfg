@@ -107,26 +107,36 @@ export class ApiService<T> {
 // Interfaces para las entidades principales
 export interface Empleado {
   id: number;
-  primerNombre: string;
-  segundoNombre?: string;
+  cedula: string;
+  nombre: string;
   primerApellido: string;
-  segundoApellido?: string;
-  numeroIdentificacion: string;
-  fechaNacimiento: string;
-  fechaContratacion: string;
-  salarioBase: number;
+  segundoApellido: string;
   correoPersonal: string;
-  correoEmpresarial: string;
+  fechaNacimiento: string;
+  fechaIngreso: string;
+  salarioBase: number;
+  cantidadDeHijos: number;
+  saldoVacaciones: number;
+  cuentaIban?: string;
+  estaActivo: boolean;
+  estaCasado: boolean;
+  tipoDeJornada: string;
   puesto: {
     id: number;
     nombre: string;
+    salarioMinimo: number;
+    departamento?: {
+      id: number;
+      nombre: string;
+    };
   };
-  departamento: {
+  direccion?: {
     id: number;
-    nombre: string;
+    provincia: string;
+    canton: string;
+    distrito: string;
+    direccionExacta: string;
   };
-  horaEntrada: string;
-  horaSalida: string;
   nombreUsuario?: string;
 }
 
@@ -150,6 +160,10 @@ export interface Puesto {
   horaEntrada: string;
   horaSalida: string;
   idDepartamento: number;
+  departamento?: {
+    id: number;
+    nombre: string;
+  };
 }
 
 export interface ConfiguracionRenta {

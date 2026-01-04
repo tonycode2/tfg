@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,19 +11,37 @@ export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    // Check for success message from navigation state
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message);
+      // Clear the state
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccessMessage('');
     setLoading(true);
 
     try {
       const response = await authService.login({ username, password });
       authService.saveToken(response.token);
-      navigate('/dashboard');
+      
+      // Check if password change is required
+      if (response.passwordChangeRequired) {
+        navigate('/change-password');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (err) {
       setError('Usuario o contraseña incorrectos');
     } finally {
@@ -91,6 +109,12 @@ export default function LoginPage() {
                 required
               />
             </div>
+            
+            {successMessage && (
+              <div className="text-sm text-green-600 bg-green-50 border border-green-200 rounded p-3 text-center">
+                {successMessage}
+              </div>
+            )}
             
             {error && (
               <div className="text-sm text-red-600 text-center">

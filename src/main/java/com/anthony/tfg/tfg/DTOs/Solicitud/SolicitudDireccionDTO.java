@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class SolicitudDireccionDTO {
-    @NotNull
+    // ID es opcional - se genera automáticamente al crear
     public Long id;
     @NotNull
     @Size(min = 5, max = 100)

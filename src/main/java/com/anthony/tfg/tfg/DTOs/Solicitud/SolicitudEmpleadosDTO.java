@@ -5,8 +5,8 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -35,48 +35,47 @@ public class SolicitudEmpleadosDTO {
     @Email
     public String correoPersonal;
 
-    @NotBlank
+    @NotNull
     @Past
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaNacimiento;
     
-    @NotBlank
-    @Future //Esto se puede cambiar dependiendo de como se maneje. Puede que no sea futuro. 
+    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaIngreso;
 
-    @NotBlank
+    @NotNull
+    @Positive
     public Double salarioBase;
 
-    @NotBlank
+    @NotNull
     @Positive
     public Integer cantidadDeHijos;
 
-    @NotBlank
+    @NotNull
     public Integer saldoVacaciones;
 
-    @NotBlank
     @Size(min = 22, max = 22)
     public String cuentaIban;
 
-    @NotBlank
+    @NotNull
     public Boolean estaActivo;
 
-    @NotBlank
+    @NotNull
     public Boolean estaCasado;
 
     @NotBlank
     public String tipoDeJornada;
 
-    @NotBlank
+    @NotNull
     @Positive
     public Long idPuesto;
 
-    @NotBlank
+    @NotNull
     @Positive
     public Long idDireccion;
 
-    @NotBlank
+    // Opcional - se asigna después con el botón "Generar Usuario"
     @Positive
     public Long idUsuario;
 }
