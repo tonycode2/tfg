@@ -128,6 +128,7 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
             return null;
         }
         RespuestaLiquidacionesDTO respuesta = new RespuestaLiquidacionesDTO();
+        respuesta.id = entidad.getId();
         respuesta.fechaSalida = entidad.getFechaSalida();
         respuesta.montoPreaviso = entidad.getMontoPreaviso();
         respuesta.montoCesantia = entidad.getMontoCesantia();

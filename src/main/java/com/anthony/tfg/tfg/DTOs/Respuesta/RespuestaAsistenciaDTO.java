@@ -6,6 +6,7 @@ import java.sql.Time;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class RespuestaAsistenciaDTO {
+    public Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fecha;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")

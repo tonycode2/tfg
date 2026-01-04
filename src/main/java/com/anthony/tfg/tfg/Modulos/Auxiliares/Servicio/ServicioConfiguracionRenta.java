@@ -91,6 +91,7 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
             return null;
         }
         RespuestaConfiguracionRentaDTO respuesta = new RespuestaConfiguracionRentaDTO();
+        respuesta.id = entidad.getId();
         respuesta.montoMaximo = entidad.getMontoMaximo();
         respuesta.montoMinimo = entidad.getMontoMinimo();
         respuesta.porcentaje = entidad.getPorcentaje();

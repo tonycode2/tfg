@@ -110,6 +110,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             return null;
         }
         RespuestaPlanillaEncabezadoDTO respuesta = new RespuestaPlanillaEncabezadoDTO();
+        respuesta.id = entidad.getId();
         respuesta.fechaInicioPeriodo = entidad.getFechaInicioPeriodo();
         respuesta.fechaFinPeriodo = entidad.getFechaFinPeriodo();
         respuesta.fechaPago = entidad.getFechaPago();

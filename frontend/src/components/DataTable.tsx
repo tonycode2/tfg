@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
 import type { ApiService, PaginatedResponse } from '@/services/apiService';
 
 export interface Column<T> {
@@ -32,6 +33,9 @@ export function DataTable<T extends { id?: number | string }>({
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<number | string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const pageSize = 10;
 
   const loadData = async () => {
@@ -54,16 +58,34 @@ export function DataTable<T extends { id?: number | string }>({
   }, [page, refreshTrigger]);
 
   const handleDelete = async (id: number | string) => {
-    if (!confirm('¿Está seguro de que desea eliminar este registro?')) {
-      return;
-    }
+    console.log('Intentando eliminar ID:', id);
+    setItemToDelete(id);
+    setIsConfirmOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
 
     try {
-      await service.delete(id);
+      setIsDeleting(true);
+      console.log('Llamando a service.delete con ID:', itemToDelete);
+      await service.delete(itemToDelete);
+      console.log('Eliminación exitosa, recargando datos');
+      setIsConfirmOpen(false);
+      setItemToDelete(null);
       loadData();
     } catch (err) {
+      console.error('Error al eliminar:', err);
       alert(err instanceof Error ? err.message : 'Error al eliminar el registro');
+    } finally {
+      setIsDeleting(false);
     }
+  };
+
+  const cancelDelete = () => {
+    console.log('Eliminación cancelada por el usuario');
+    setIsConfirmOpen(false);
+    setItemToDelete(null);
   };
 
   const getCellValue = (item: T, column: Column<T>) => {
@@ -165,7 +187,10 @@ export function DataTable<T extends { id?: number | string }>({
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => onEdit(item)}
+                        onClick={() => {
+                          console.log('Botón Editar clickeado, item:', item);
+                          onEdit(item);
+                        }}
                         className="gap-1"
                       >
                         <svg
@@ -186,7 +211,14 @@ export function DataTable<T extends { id?: number | string }>({
                       <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() => item.id && handleDelete(item.id)}
+                        onClick={() => {
+                          console.log('Botón Eliminar clickeado, item:', item, 'item.id:', item.id);
+                          if (item.id) {
+                            handleDelete(item.id);
+                          } else {
+                            console.error('Item no tiene ID!');
+                          }
+                        }}
                         className="gap-1"
                       >
                         <svg
@@ -238,6 +270,25 @@ export function DataTable<T extends { id?: number | string }>({
           </div>
         )}
       </Card>
+
+      <ConfirmDialog
+        isOpen={isConfirmOpen}
+        onClose={cancelDelete}
+        onConfirm={confirmDelete}
+        title="Confirmar Eliminación"
+        message={
+          <>
+            ¿Está seguro de que desea eliminar este registro?
+            <br />
+            <span className="text-sm text-muted-foreground mt-2 block">
+              Esta acción no se puede deshacer.
+            </span>
+          </>
+        }
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        isLoading={isDeleting}
+      />
     </div>
   );
 }

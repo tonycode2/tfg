@@ -1,6 +1,7 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
 public class RespuestaPlanillaDetalleDTO {
+    public Long id;
     public Double salarioBasePeriodo;
     public Integer cantidadDiasFeriados;
     public Double montoHorasExtra;

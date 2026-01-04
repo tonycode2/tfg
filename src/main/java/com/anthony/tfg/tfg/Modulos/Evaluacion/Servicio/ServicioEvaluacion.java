@@ -113,6 +113,7 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
             return null;
         }
         RespuestaEvaluacionDeDesempenoDTO respuesta = new RespuestaEvaluacionDeDesempenoDTO();
+        respuesta.id = entidad.getId();
         respuesta.fechaEvaluacion = entidad.getFechaEvaluacion();
         respuesta.periodoEvaluado = entidad.getPeriodoEvaluado();
         respuesta.puntuacionFinal = entidad.getPuntuacionFinal();

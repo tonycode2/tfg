@@ -117,6 +117,7 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
             return null;
         }
         RespuestaAguinaldosDTO respuesta = new RespuestaAguinaldosDTO();
+        respuesta.id = entidad.getId();
         respuesta.anio = entidad.getAnio();
         respuesta.fechaInicioPeriodo = entidad.getFechaInicioPeriodo();
         respuesta.fechaFinPeriodo = entidad.getFechaFinPeriodo();

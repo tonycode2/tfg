@@ -139,6 +139,7 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
             return null;
         }
         RespuestaHorasExtraDTO respuesta = new RespuestaHorasExtraDTO();
+        respuesta.id = entidad.getId();
         respuesta.fechaSolicitud = entidad.getFechaSolicitud();
         respuesta.cantidadDeHoras = entidad.getCantidadDeHoras();
         respuesta.motivo = entidad.getMotivo();

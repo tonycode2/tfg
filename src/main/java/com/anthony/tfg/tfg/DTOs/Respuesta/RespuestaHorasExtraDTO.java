@@ -5,6 +5,7 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class RespuestaHorasExtraDTO {
+    public Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaSolicitud;
     public Integer cantidadDeHoras;

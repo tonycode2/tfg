@@ -5,6 +5,7 @@ import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class RespuestaAguinaldosDTO {
+    public Long id;
     public Integer anio;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaInicioPeriodo;

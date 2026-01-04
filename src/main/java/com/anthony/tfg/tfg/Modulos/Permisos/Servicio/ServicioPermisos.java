@@ -139,6 +139,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
             return null;
         }
         RespuestaPermisosDTO respuesta = new RespuestaPermisosDTO();
+        respuesta.id = entidad.getId();
         respuesta.fechaInicio = entidad.getFechaInicio();
         respuesta.fechaFin = entidad.getFechaFin();
         respuesta.diasTotales = entidad.getDiasTotales();

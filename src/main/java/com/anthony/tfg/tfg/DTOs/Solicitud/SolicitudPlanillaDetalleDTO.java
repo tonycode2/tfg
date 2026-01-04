@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
 public class SolicitudPlanillaDetalleDTO {
-    @NotBlank
     public Long id;
     @NotBlank
     @Positive

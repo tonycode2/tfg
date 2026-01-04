@@ -93,6 +93,7 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
             return null;
         }
         RespuestaDireccionDTO respuesta = new RespuestaDireccionDTO();
+        respuesta.id = entidad.getId();
         respuesta.provincia = entidad.getProvincia();
         respuesta.canton = entidad.getCanton();
         respuesta.distrito = entidad.getDistrito();

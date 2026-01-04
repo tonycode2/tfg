@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DataTable, type Column } from '@/components/DataTable';
 import { Modal } from '@/components/Modal';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
+import { SearchableSelect, type SearchableSelectOption } from '@/components/ui/searchable-select';
 import {
   empleadosService,
   departamentosService,
@@ -53,6 +54,46 @@ const entities: Record<EntityType, EntityConfig> = {
   evaluaciones: { name: 'Evaluaciones de Desempeño', icon: '⭐' },
 };
 
+// Configuración de relaciones entre entidades
+interface FieldRelation {
+  fieldName: string;
+  label: string;
+  entityType: EntityType;
+  displayField: string; // Campo que se mostrará en el dropdown
+}
+
+const entityRelations: Record<EntityType, FieldRelation[]> = {
+  empleados: [
+    { fieldName: 'idPuesto', label: 'Puesto', entityType: 'puestos', displayField: 'nombre' },
+    { fieldName: 'idDireccion', label: 'Dirección', entityType: 'direcciones', displayField: 'provincia' },
+  ],
+  puestos: [
+    { fieldName: 'idDepartamento', label: 'Departamento', entityType: 'departamentos', displayField: 'nombre' },
+  ],
+  asistencias: [
+    { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
+  ],
+  aguinaldos: [
+    { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
+  ],
+  'horas-extra': [
+    { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
+  ],
+  permisos: [
+    { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
+  ],
+  liquidaciones: [
+    { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
+  ],
+  evaluaciones: [
+    { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
+  ],
+  departamentos: [],
+  direcciones: [],
+  'configuracion-renta': [],
+  planillas: [],
+};
+
 export function MantenimientosView() {
   const [selectedEntity, setSelectedEntity] = useState<EntityType | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,6 +101,39 @@ export function MantenimientosView() {
   const [formData, setFormData] = useState<any>({});
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [relationOptions, setRelationOptions] = useState<Record<string, SearchableSelectOption[]>>({});
+
+  // Cargar opciones para los dropdowns de relaciones
+  useEffect(() => {
+    if (!selectedEntity || !isModalOpen) return;
+
+    const relations = entityRelations[selectedEntity];
+    if (!relations || relations.length === 0) return;
+
+    const loadOptions = async () => {
+      const options: Record<string, SearchableSelectOption[]> = {};
+      
+      for (const relation of relations) {
+        try {
+          const service = getServiceForEntity(relation.entityType);
+          const response = await service.getAll();
+          const data = Array.isArray(response) ? response : response.content || [];
+          
+          options[relation.fieldName] = data.map((item: any) => ({
+            value: item.id,
+            label: item[relation.displayField] || `${item.nombre || ''} ${item.primerApellido || ''}`.trim() || `ID: ${item.id}`,
+          }));
+        } catch (error) {
+          console.error(`Error cargando opciones para ${relation.fieldName}:`, error);
+          options[relation.fieldName] = [];
+        }
+      }
+      
+      setRelationOptions(options);
+    };
+
+    loadOptions();
+  }, [selectedEntity, isModalOpen]);
 
   const handleCreate = () => {
     setEditingItem(null);
@@ -68,8 +142,22 @@ export function MantenimientosView() {
   };
 
   const handleEdit = (item: any) => {
+    console.log('handleEdit llamado con item:', item);
+    console.log('Item ID:', item?.id);
     setEditingItem(item);
-    setFormData({ ...item });
+    
+    // Preparar datos para edición, ajustando formatos de tiempo
+    const editData = { ...item };
+    
+    // Convertir tiempos de HH:mm:ss a HH:mm para los inputs
+    if (editData.horaEntrada && typeof editData.horaEntrada === 'string') {
+      editData.horaEntrada = editData.horaEntrada.substring(0, 5); // HH:mm:ss -> HH:mm
+    }
+    if (editData.horaSalida && typeof editData.horaSalida === 'string') {
+      editData.horaSalida = editData.horaSalida.substring(0, 5);
+    }
+    
+    setFormData(editData);
     setIsModalOpen(true);
   };
 
@@ -79,6 +167,15 @@ export function MantenimientosView() {
     setFormData({});
   };
 
+  // Helper para convertir tiempo HH:mm a HH:mm:ss
+  const formatTimeForBackend = (timeValue: string): string => {
+    if (!timeValue) return timeValue;
+    // Si ya tiene segundos, retornar tal cual
+    if (timeValue.split(':').length === 3) return timeValue;
+    // Agregar :00 para los segundos
+    return `${timeValue}:00`;
+  };
+
   const handleSubmit = async () => {
     if (!selectedEntity) return;
 
@@ -86,15 +183,31 @@ export function MantenimientosView() {
       setIsLoading(true);
       const service = getServiceForEntity(selectedEntity);
 
+      // Preparar datos ajustando formatos de tiempo
+      const preparedData = { ...formData };
+      
+      // Convertir campos de tiempo al formato correcto (HH:mm:ss)
+      if (preparedData.horaEntrada) {
+        preparedData.horaEntrada = formatTimeForBackend(preparedData.horaEntrada);
+      }
+      if (preparedData.horaSalida) {
+        preparedData.horaSalida = formatTimeForBackend(preparedData.horaSalida);
+      }
+
       if (editingItem?.id) {
-        await service.update(editingItem.id, formData);
+        // Asegurar que el ID esté en los datos para la actualización
+        const dataToUpdate = { ...preparedData, id: editingItem.id };
+        console.log('Actualizando con ID:', editingItem.id, 'Datos:', dataToUpdate);
+        await service.update(editingItem.id, dataToUpdate);
       } else {
-        await service.create(formData);
+        console.log('Creando nuevo registro:', preparedData);
+        await service.create(preparedData);
       }
 
       setRefreshTrigger((prev) => prev + 1);
       handleCloseModal();
     } catch (error) {
+      console.error('Error al guardar:', error);
       alert(error instanceof Error ? error.message : 'Error al guardar');
     } finally {
       setIsLoading(false);
@@ -154,7 +267,6 @@ export function MantenimientosView() {
         ];
       case 'departamentos':
         return [
-          { key: 'id', label: 'ID' },
           { key: 'nombre', label: 'Nombre' },
         ];
       case 'direcciones':
@@ -467,6 +579,16 @@ export function MantenimientosView() {
                 }
               />
             </div>
+            <div>
+              <Label htmlFor="idDepartamento">Departamento</Label>
+              <SearchableSelect
+                options={relationOptions['idDepartamento'] || []}
+                value={formData.idDepartamento}
+                onChange={(value) => setFormData({ ...formData, idDepartamento: value })}
+                placeholder="Seleccionar departamento..."
+                searchPlaceholder="Buscar departamento..."
+              />
+            </div>
           </div>
         );
 
@@ -502,6 +624,28 @@ export function MantenimientosView() {
                 onChange={(e) =>
                   setFormData({ ...formData, horaSalida: e.target.value })
                 }
+              />
+            </div>
+            <div>
+              <Label htmlFor="horasTrabajadas">Horas Trabajadas</Label>
+              <Input
+                id="horasTrabajadas"
+                type="number"
+                step="0.5"
+                value={formData.horasTrabajadas || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, horasTrabajadas: parseFloat(e.target.value) })
+                }
+              />
+            </div>
+            <div>
+              <Label htmlFor="idEmpleado">Empleado</Label>
+              <SearchableSelect
+                options={relationOptions['idEmpleado'] || []}
+                value={formData.idEmpleado}
+                onChange={(value) => setFormData({ ...formData, idEmpleado: value })}
+                placeholder="Seleccionar empleado..."
+                searchPlaceholder="Buscar empleado..."
               />
             </div>
           </div>
@@ -564,6 +708,16 @@ export function MantenimientosView() {
                 onChange={(e) =>
                   setFormData({ ...formData, fechaPago: e.target.value })
                 }
+              />
+            </div>
+            <div>
+              <Label htmlFor="idEmpleado">Empleado</Label>
+              <SearchableSelect
+                options={relationOptions['idEmpleado'] || []}
+                value={formData.idEmpleado}
+                onChange={(value) => setFormData({ ...formData, idEmpleado: value })}
+                placeholder="Seleccionar empleado..."
+                searchPlaceholder="Buscar empleado..."
               />
             </div>
           </div>
@@ -631,6 +785,16 @@ export function MantenimientosView() {
                 <option value="APROBADA">Aprobada</option>
                 <option value="RECHAZADA">Rechazada</option>
               </select>
+            </div>
+            <div>
+              <Label htmlFor="idEmpleado">Empleado</Label>
+              <SearchableSelect
+                options={relationOptions['idEmpleado'] || []}
+                value={formData.idEmpleado}
+                onChange={(value) => setFormData({ ...formData, idEmpleado: value })}
+                placeholder="Seleccionar empleado..."
+                searchPlaceholder="Buscar empleado..."
+              />
             </div>
           </div>
         );
@@ -710,6 +874,16 @@ export function MantenimientosView() {
                 <option value="APROBADA">Aprobada</option>
                 <option value="RECHAZADA">Rechazada</option>
               </select>
+            </div>
+            <div>
+              <Label htmlFor="idEmpleado">Empleado</Label>
+              <SearchableSelect
+                options={relationOptions['idEmpleado'] || []}
+                value={formData.idEmpleado}
+                onChange={(value) => setFormData({ ...formData, idEmpleado: value })}
+                placeholder="Seleccionar empleado..."
+                searchPlaceholder="Buscar empleado..."
+              />
             </div>
           </div>
         );
@@ -805,6 +979,16 @@ export function MantenimientosView() {
                     totalLiquidacion: parseFloat(e.target.value),
                   })
                 }
+              />
+            </div>
+            <div>
+              <Label htmlFor="idEmpleado">Empleado</Label>
+              <SearchableSelect
+                options={relationOptions['idEmpleado'] || []}
+                value={formData.idEmpleado}
+                onChange={(value) => setFormData({ ...formData, idEmpleado: value })}
+                placeholder="Seleccionar empleado..."
+                searchPlaceholder="Buscar empleado..."
               />
             </div>
           </div>
@@ -953,6 +1137,103 @@ export function MantenimientosView() {
                 onChange={(e) =>
                   setFormData({ ...formData, planDeMejora: e.target.value })
                 }
+              />
+            </div>
+            <div>
+              <Label htmlFor="idEmpleado">Empleado</Label>
+              <SearchableSelect
+                options={relationOptions['idEmpleado'] || []}
+                value={formData.idEmpleado}
+                onChange={(value) => setFormData({ ...formData, idEmpleado: value })}
+                placeholder="Seleccionar empleado..."
+                searchPlaceholder="Buscar empleado..."
+              />
+            </div>
+          </div>
+        );
+
+      case 'empleados':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="cedula">Cédula</Label>
+              <Input
+                id="cedula"
+                value={formData.cedula || ''}
+                onChange={(e) => setFormData({ ...formData, cedula: e.target.value })}
+                placeholder="1-2345-6789"
+              />
+            </div>
+            <div>
+              <Label htmlFor="nombre">Nombre</Label>
+              <Input
+                id="nombre"
+                value={formData.nombre || ''}
+                onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="primerApellido">Primer Apellido</Label>
+              <Input
+                id="primerApellido"
+                value={formData.primerApellido || ''}
+                onChange={(e) => setFormData({ ...formData, primerApellido: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="segundoApellido">Segundo Apellido</Label>
+              <Input
+                id="segundoApellido"
+                value={formData.segundoApellido || ''}
+                onChange={(e) => setFormData({ ...formData, segundoApellido: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="correoPersonal">Correo Personal</Label>
+              <Input
+                id="correoPersonal"
+                type="email"
+                value={formData.correoPersonal || ''}
+                onChange={(e) => setFormData({ ...formData, correoPersonal: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="fechaNacimiento">Fecha de Nacimiento</Label>
+              <Input
+                id="fechaNacimiento"
+                type="date"
+                value={formData.fechaNacimiento || ''}
+                onChange={(e) => setFormData({ ...formData, fechaNacimiento: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="salarioBase">Salario Base</Label>
+              <Input
+                id="salarioBase"
+                type="number"
+                step="0.01"
+                value={formData.salarioBase || ''}
+                onChange={(e) => setFormData({ ...formData, salarioBase: parseFloat(e.target.value) })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="idPuesto">Puesto</Label>
+              <SearchableSelect
+                options={relationOptions['idPuesto'] || []}
+                value={formData.idPuesto}
+                onChange={(value) => setFormData({ ...formData, idPuesto: value })}
+                placeholder="Seleccionar puesto..."
+                searchPlaceholder="Buscar puesto..."
+              />
+            </div>
+            <div>
+              <Label htmlFor="idDireccion">Dirección</Label>
+              <SearchableSelect
+                options={relationOptions['idDireccion'] || []}
+                value={formData.idDireccion}
+                onChange={(value) => setFormData({ ...formData, idDireccion: value })}
+                placeholder="Seleccionar dirección..."
+                searchPlaceholder="Buscar dirección..."
               />
             </div>
           </div>

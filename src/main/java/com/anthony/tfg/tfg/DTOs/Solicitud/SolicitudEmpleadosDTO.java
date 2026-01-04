@@ -12,8 +12,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class SolicitudEmpleadosDTO {
-    // @NotBlank //Revisar si esto debe seguir o no comentado
-    // Long id;
+    Long id;
 
     @NotBlank
     @Size(min = 9, max = 12)

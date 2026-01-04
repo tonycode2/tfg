@@ -112,6 +112,7 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
             return null;
         }
         RespuestaPuestosDTO respuesta = new RespuestaPuestosDTO();
+        respuesta.id = entidad.getId();
         respuesta.nombre = entidad.getNombre();
         respuesta.salarioMinimo = entidad.getSalarioMinimo();
         respuesta.horaEntrada = entidad.getHoraEntrada();

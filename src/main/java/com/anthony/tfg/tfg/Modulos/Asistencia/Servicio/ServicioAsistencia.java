@@ -111,6 +111,7 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
             return null;
         }
         RespuestaAsistenciaDTO respuesta = new RespuestaAsistenciaDTO();
+        respuesta.id = entidad.getId();
         respuesta.fecha = entidad.getFecha();
         respuesta.horaEntrada = entidad.getHoraEntrada();
         respuesta.horaSalida = entidad.getHoraSalida();

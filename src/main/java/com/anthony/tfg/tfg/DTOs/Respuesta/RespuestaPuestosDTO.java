@@ -5,7 +5,7 @@ import java.sql.Time;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class RespuestaPuestosDTO {
-
+    public Long id;
     public String nombre;
     public Double salarioMinimo;
     public String nombreDepartamento;
