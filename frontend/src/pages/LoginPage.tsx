@@ -18,6 +18,7 @@ export default function LoginPage() {
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
+    document.title = 'Iniciar Sesión - Sistema de RH';
     // Check for success message from navigation state
     if (location.state?.message) {
       setSuccessMessage(location.state.message);
@@ -130,12 +131,6 @@ export default function LoginPage() {
             >
               {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </Button>
-            <p className="text-sm text-center text-gray-600">
-              ¿No tienes cuenta?{' '}
-              <Link to="/register" className="text-primary hover:underline font-medium">
-                Regístrate aquí
-              </Link>
-            </p>
           </CardFooter>
         </form>
       </Card>

@@ -16,6 +16,7 @@ export default function DashboardPage() {
   });
 
   useEffect(() => {
+    document.title = 'Dashboard - Sistema de RH';
     // Obtener información del usuario desde el JWT
     const info = authService.getUserInfo();
     setUserInfo(info);
