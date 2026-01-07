@@ -98,4 +98,7 @@ public class Empleados {
     @OneToMany(mappedBy = "empleado")
     List<PlanillaDetalle> planillaDetalles;
     
+    @OneToMany(mappedBy = "empleado")
+    List<JefesDepartamento> jefesDepartamento;
+    
 }

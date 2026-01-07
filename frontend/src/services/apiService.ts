@@ -59,7 +59,7 @@ export class ApiService<T> {
 
   async getAllUnpaginated(): Promise<T[]> {
     const response = await fetch(
-      `${API_URL}/${this.endpoint}?page=0&size=10000`,
+      `${API_URL}/${this.endpoint}`,
       {
         method: 'GET',
         headers: this.getAuthHeaders(),
@@ -256,6 +256,19 @@ export interface EvaluacionDesempeno {
   idEmpleado: number;
 }
 
+export interface JefeDepartamento {
+  id?: number;
+  idDepartamento: number;
+  nombreDepartamento?: string;
+  idEmpleado: number;
+  nombreEmpleado?: string;
+  primerApellidoEmpleado?: string;
+  segundoApellidoEmpleado?: string;
+  fechaInicio: string;
+  fechaFin?: string;
+  estaActivo: boolean;
+}
+
 export type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
 
 export interface GenerarUsuarioRequest {
@@ -307,3 +320,4 @@ export const permisosService = new ApiService<Permiso>('permisos');
 export const liquidacionesService = new ApiService<Liquidacion>('liquidaciones');
 export const planillasService = new ApiService<PlanillaEncabezado>('planillas');
 export const evaluacionesService = new ApiService<EvaluacionDesempeno>('evaluaciones');
+export const jefesDepartamentoService = new ApiService<JefeDepartamento>('jefes-departamento');

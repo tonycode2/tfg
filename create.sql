@@ -451,3 +451,4 @@
        foreign key (id_departamento) 
        references departamentos;
 
+

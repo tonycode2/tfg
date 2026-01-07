@@ -29,4 +29,7 @@ public class Departamento {
     
     @OneToMany(mappedBy = "departamento")
     List<Puestos> puestos;
+    
+    @OneToMany(mappedBy = "departamento")
+    List<JefesDepartamento> jefes;
 }

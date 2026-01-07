@@ -2,6 +2,14 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import type { ApiService, PaginatedResponse } from '@/services/apiService';
 
 export interface Column<T> {
@@ -38,7 +46,7 @@ export function DataTable<T extends { id?: number | string }>({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<number | string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const pageSize = 10;
+  const pageSize = 5;
 
   const loadData = async () => {
     try {
@@ -101,14 +109,6 @@ export function DataTable<T extends { id?: number | string }>({
     return value;
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="text-lg text-muted-foreground">Cargando...</div>
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -144,7 +144,12 @@ export function DataTable<T extends { id?: number | string }>({
         </Button>
       </div>
 
-      <Card>
+      <Card className="relative">
+        {loading && (
+          <div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10 rounded-lg">
+            <div className="text-lg text-muted-foreground">Cargando...</div>
+          </div>
+        )}
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-muted">
@@ -185,94 +190,131 @@ export function DataTable<T extends { id?: number | string }>({
                           : String(getCellValue(item, column) ?? '')}
                       </td>
                     ))}
-                    <td className="px-4 py-3 text-sm text-right space-x-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          console.log('Botón Editar clickeado, item:', item);
-                          onEdit(item);
-                        }}
-                        className="gap-1"
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                    <td className="px-4 py-3 text-sm text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            console.log('Botón Editar clickeado, item:', item);
+                            onEdit(item);
+                          }}
+                          className="h-8 w-8 p-0 hover:bg-muted"
+                          title="Editar"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                          />
-                        </svg>
-                        Editar
-                      </Button>
-                      {customActions && customActions(item)}
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => {
-                          console.log('Botón Eliminar clickeado, item:', item, 'item.id:', item.id);
-                          if (item.id) {
-                            handleDelete(item.id);
-                          } else {
-                            console.error('Item no tiene ID!');
-                          }
-                        }}
-                        className="gap-1"
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                            />
+                          </svg>
+                        </Button>
+                        {customActions && customActions(item)}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => {
+                            console.log('Botón Eliminar clickeado, item:', item, 'item.id:', item.id);
+                            if (item.id) {
+                              handleDelete(item.id);
+                            } else {
+                              console.error('Item no tiene ID!');
+                            }
+                          }}
+                          className="h-8 w-8 p-0 hover:bg-destructive/10 text-destructive"
+                          title="Eliminar"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                          />
-                        </svg>
-                        Eliminar
-                      </Button>
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))
               )}
+              {/* Agregar filas vacías para mantener altura constante */}
+              {data.length > 0 && Array.from({ length: Math.max(0, pageSize - data.length) }).map((_, index) => (
+                <tr key={`empty-${index}`} className="hover:bg-muted/50 transition-colors" style={{ height: '56px' }}>
+                  {columns.map((_, colIndex) => (
+                    <td key={colIndex} className="px-4 py-3 text-sm">&nbsp;</td>
+                  ))}
+                  <td className="px-4 py-3 text-sm">&nbsp;</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-
-        {totalPages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-border">
-            <div className="text-sm text-muted-foreground">
-              Página {page + 1} de {totalPages}
-            </div>
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setPage(Math.max(0, page - 1))}
-                disabled={page === 0}
-              >
-                Anterior
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setPage(Math.min(totalPages - 1, page + 1))}
-                disabled={page === totalPages - 1}
-              >
-                Siguiente
-              </Button>
-            </div>
-          </div>
-        )}
       </Card>
+
+      {totalPages > 1 && (
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious 
+                onClick={() => setPage(Math.max(0, page - 1))}
+                className={page === 0 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+              />
+            </PaginationItem>
+            
+            {Array.from({ length: totalPages }, (_, i) => i).map((pageNum) => {
+              // Mostrar solo algunas páginas alrededor de la actual
+              if (
+                pageNum === 0 || // Primera página
+                pageNum === totalPages - 1 || // Última página
+                (pageNum >= page - 1 && pageNum <= page + 1) // Páginas cercanas a la actual
+              ) {
+                return (
+                  <PaginationItem key={pageNum}>
+                    <PaginationLink
+                      onClick={() => setPage(pageNum)}
+                      isActive={pageNum === page}
+                      className="cursor-pointer"
+                    >
+                      {pageNum + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              } else if (pageNum === page - 2 || pageNum === page + 2) {
+                return (
+                  <PaginationItem key={pageNum}>
+                    <span className="flex h-9 w-9 items-center justify-center">...</span>
+                  </PaginationItem>
+                );
+              }
+              return null;
+            })}
+            
+            <PaginationItem>
+              <PaginationNext 
+                onClick={() => setPage(Math.min(totalPages - 1, page + 1))}
+                className={page === totalPages - 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
+
+      <div className="text-sm text-muted-foreground text-center">
+        Página {page + 1} de {totalPages} • Total: {totalElements} registros
+      </div>
 
       <ConfirmDialog
         isOpen={isConfirmOpen}

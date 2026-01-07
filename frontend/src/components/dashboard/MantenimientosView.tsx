@@ -20,6 +20,7 @@ import {
   liquidacionesService,
   planillasService,
   evaluacionesService,
+  jefesDepartamentoService,
 } from '@/services/apiService';
 
 type EntityType =
@@ -34,7 +35,8 @@ type EntityType =
   | 'permisos'
   | 'liquidaciones'
   | 'planillas'
-  | 'evaluaciones';
+  | 'evaluaciones'
+  | 'jefes-departamento';
 
 interface EntityConfig {
   name: string;
@@ -54,6 +56,7 @@ const entities: Record<EntityType, EntityConfig> = {
   liquidaciones: { name: 'Liquidaciones', icon: '💵' },
   planillas: { name: 'Planillas', icon: '📊' },
   evaluaciones: { name: 'Evaluaciones de Desempeño', icon: '⭐' },
+  'jefes-departamento': { name: 'Jefes de Departamento', icon: '👔' },
 };
 
 // Configuración de relaciones entre entidades
@@ -88,6 +91,10 @@ const entityRelations: Record<EntityType, FieldRelation[]> = {
     { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
   ],
   evaluaciones: [
+    { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
+  ],
+  'jefes-departamento': [
+    { fieldName: 'idDepartamento', label: 'Departamento', entityType: 'departamentos', displayField: 'nombre' },
     { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
   ],
   departamentos: [],
@@ -261,6 +268,8 @@ export function MantenimientosView() {
         return planillasService;
       case 'evaluaciones':
         return evaluacionesService;
+      case 'jefes-departamento':
+        return jefesDepartamentoService;
       default:
         throw new Error('Entidad no soportada');
     }
@@ -456,6 +465,23 @@ export function MantenimientosView() {
             render: (value) => `⭐ ${value}/100`,
           },
           { key: 'observaciones', label: 'Observaciones' },
+        ];
+      case 'jefes-departamento':
+        return [
+          { key: 'nombreDepartamento', label: 'Departamento' },
+          { 
+            key: 'nombreEmpleado', 
+            label: 'Empleado',
+            render: (value, row) => 
+              `${row.nombreEmpleado} ${row.primerApellidoEmpleado} ${row.segundoApellidoEmpleado || ''}`.trim()
+          },
+          { key: 'fechaInicio', label: 'Fecha Inicio' },
+          { key: 'fechaFin', label: 'Fecha Fin' },
+          {
+            key: 'estaActivo',
+            label: 'Estado',
+            render: (value) => (value ? '✅ Activo' : '❌ Inactivo'),
+          },
         ];
       default:
         return [];
@@ -1170,6 +1196,67 @@ export function MantenimientosView() {
                 placeholder="Seleccionar empleado..."
                 searchPlaceholder="Buscar empleado..."
               />
+            </div>
+          </div>
+        );
+
+      case 'jefes-departamento':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="idDepartamento">Departamento</Label>
+              <SearchableSelect
+                options={relationOptions['idDepartamento'] || []}
+                value={formData.idDepartamento}
+                onChange={(value) => setFormData({ ...formData, idDepartamento: value })}
+                placeholder="Seleccionar departamento..."
+                searchPlaceholder="Buscar departamento..."
+              />
+            </div>
+            <div>
+              <Label htmlFor="idEmpleado">Empleado</Label>
+              <SearchableSelect
+                options={relationOptions['idEmpleado'] || []}
+                value={formData.idEmpleado}
+                onChange={(value) => setFormData({ ...formData, idEmpleado: value })}
+                placeholder="Seleccionar empleado..."
+                searchPlaceholder="Buscar empleado..."
+              />
+            </div>
+            <div>
+              <Label htmlFor="fechaInicio">Fecha de Inicio</Label>
+              <Input
+                id="fechaInicio"
+                type="date"
+                value={formData.fechaInicio || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, fechaInicio: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <Label htmlFor="fechaFin">Fecha de Fin (opcional)</Label>
+              <Input
+                id="fechaFin"
+                type="date"
+                value={formData.fechaFin || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, fechaFin: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <Label htmlFor="estaActivo">Estado</Label>
+              <input
+                id="estaActivo"
+                type="checkbox"
+                checked={formData.estaActivo ?? true}
+                onChange={(e) =>
+                  setFormData({ ...formData, estaActivo: e.target.checked })
+                }
+                className="h-4 w-4"
+              />
+              <span className="ml-2 text-sm">Activo</span>
             </div>
           </div>
         );
