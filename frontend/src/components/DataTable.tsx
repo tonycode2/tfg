@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 import {
   Pagination,
@@ -46,16 +54,28 @@ export function DataTable<T extends { id?: number | string }>({
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<number | string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const pageSize = 5;
+  const [pageSize, setPageSize] = useState(5);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredData, setFilteredData] = useState<T[]>([]);
 
   const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
-      const response: PaginatedResponse<T> = await service.getAll(page, pageSize);
-      setData(response.content);
-      setTotalPages(response.totalPages);
-      setTotalElements(response.totalElements);
+      
+      // Si hay búsqueda activa, cargar todos los datos
+      if (searchTerm.trim()) {
+        const response: PaginatedResponse<T> = await service.getAll(0, 10000);
+        setData(response.content);
+        setTotalPages(1);
+        setTotalElements(response.totalElements);
+      } else {
+        // Sin búsqueda, usar paginación normal
+        const response: PaginatedResponse<T> = await service.getAll(page, pageSize);
+        setData(response.content);
+        setTotalPages(response.totalPages);
+        setTotalElements(response.totalElements);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al cargar los datos');
     } finally {
@@ -65,7 +85,29 @@ export function DataTable<T extends { id?: number | string }>({
 
   useEffect(() => {
     loadData();
-  }, [page, refreshTrigger]);
+  }, [page, pageSize, refreshTrigger, searchTerm]);
+
+  // Filtrar datos localmente cuando cambia el término de búsqueda
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredData(data);
+      return;
+    }
+
+    const searchLower = searchTerm.toLowerCase();
+    const filtered = data.filter((item) => {
+      return columns.some((column) => {
+        const value = getCellValue(item, column);
+        return String(value || '').toLowerCase().includes(searchLower);
+      });
+    });
+    setFilteredData(filtered);
+  }, [searchTerm, data]);
+
+  const handlePageSizeChange = (newSize: string) => {
+    setPageSize(Number(newSize));
+    setPage(0); // Resetear a la primera página
+  };
 
   const handleDelete = async (id: number | string) => {
     console.log('Intentando eliminar ID:', id);
@@ -144,6 +186,46 @@ export function DataTable<T extends { id?: number | string }>({
         </Button>
       </div>
 
+      {/* Barra de búsqueda y selector de tamaño */}
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1">
+          <svg
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <Input
+            type="text"
+            placeholder="Buscar en la tabla..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground whitespace-nowrap">Mostrar:</span>
+          <Select value={String(pageSize)} onValueChange={handlePageSizeChange}>
+            <SelectTrigger className="w-[100px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="5">5</SelectItem>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
       <Card className="relative overflow-hidden">
         {loading && (
           <div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10 rounded-lg">
@@ -167,17 +249,18 @@ export function DataTable<T extends { id?: number | string }>({
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">{data.length === 0 ? (
+            <tbody className="divide-y divide-border">
+              {filteredData.length === 0 ? (
                 <tr>
                   <td
                     colSpan={columns.length + 1}
                     className="px-4 py-8 text-center text-muted-foreground"
                   >
-                    No hay registros para mostrar
+                    {searchTerm ? 'No se encontraron resultados' : 'No hay registros para mostrar'}
                   </td>
                 </tr>
               ) : (
-                data.map((item, rowIndex) => (
+                filteredData.map((item, rowIndex) => (
                   <tr
                     key={item.id || rowIndex}
                     className="hover:bg-muted/50 transition-colors"
@@ -250,7 +333,7 @@ export function DataTable<T extends { id?: number | string }>({
                 ))
               )}
               {/* Agregar filas vacías para mantener altura constante */}
-              {data.length > 0 && Array.from({ length: Math.max(0, pageSize - data.length) }).map((_, index) => (
+              {filteredData.length > 0 && Array.from({ length: Math.max(0, pageSize - filteredData.length) }).map((_, index) => (
                 <tr key={`empty-${index}`} className="hover:bg-muted/50 transition-colors" style={{ height: '56px' }}>
                   {columns.map((_, colIndex) => (
                     <td key={colIndex} className="px-4 py-3 text-sm">&nbsp;</td>
@@ -263,7 +346,7 @@ export function DataTable<T extends { id?: number | string }>({
         </div>
       </Card>
 
-      {totalPages > 1 && (
+      {!searchTerm.trim() && totalPages > 1 && (
         <Pagination>
           <PaginationContent>
             <PaginationItem>
@@ -311,9 +394,15 @@ export function DataTable<T extends { id?: number | string }>({
         </Pagination>
       )}
 
-      <div className="text-sm text-muted-foreground text-center">
-        Página {page + 1} de {totalPages} • Total: {totalElements} registros
-      </div>
+      {searchTerm.trim() ? (
+        <div className="text-sm text-muted-foreground text-center">
+          Mostrando {filteredData.length} de {totalElements} registros
+        </div>
+      ) : (
+        <div className="text-sm text-muted-foreground text-center">
+          Página {page + 1} de {totalPages} • Total: {totalElements} registros
+        </div>
+      )}
 
       <ConfirmDialog
         isOpen={isConfirmOpen}
