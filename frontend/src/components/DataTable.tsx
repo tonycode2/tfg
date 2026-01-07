@@ -144,7 +144,7 @@ export function DataTable<T extends { id?: number | string }>({
         </Button>
       </div>
 
-      <Card className="relative">
+      <Card className="relative overflow-hidden">
         {loading && (
           <div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10 rounded-lg">
             <div className="text-lg text-muted-foreground">Cargando...</div>
@@ -167,8 +167,7 @@ export function DataTable<T extends { id?: number | string }>({
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
-              {data.length === 0 ? (
+            <tbody className="divide-y divide-border">{data.length === 0 ? (
                 <tr>
                   <td
                     colSpan={columns.length + 1}
