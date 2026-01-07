@@ -2,6 +2,8 @@ package com.anthony.tfg.tfg.Modulos.Asistencia.Servicio;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAsistenciaDTO;
@@ -42,10 +44,10 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         return deEntidadDtoARespuesta(asistencia);
     }
 
-    public List<RespuestaAsistenciaDTO> obtenerTodos() {
-        List<Asistencia> entidades = consulta.obtenerTodos();
-        log.info("Se han obtenido todas las asistencias. La cantidad de registros es: " + entidades.size());
-        return deListaEntidadADto(entidades);
+    public Page<RespuestaAsistenciaDTO> obtenerTodos(Pageable pageable) {
+        Page<Asistencia> entidades = consulta.obtenerTodos(pageable);
+        log.info("Se han obtenido todas las asistencias. La cantidad de registros es: " + entidades.getTotalElements());
+        return entidades.map(this::deEntidadDtoARespuesta);
     }
 
     public RespuestaAsistenciaDTO guardar(SolicitudAsistenciaDTO entidad) {
@@ -74,6 +76,8 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         log.info("Se ha actualizado la asistencia con ID: " + id);
         return deEntidadDtoARespuesta(asistenciaActualizada);
     }
+
+
 
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);

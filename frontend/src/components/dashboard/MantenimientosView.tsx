@@ -328,10 +328,19 @@ export function MantenimientosView() {
         ];
       case 'asistencias':
         return [
-          { key: 'fecha', label: 'Fecha' },
-          { key: 'horaEntrada', label: 'Hora Entrada' },
-          { key: 'horaSalida', label: 'Hora Salida' },
-          { key: 'horasTrabajadas', label: 'Horas Trabajadas' },
+          { key: 'tipoEvento', label: 'Tipo Evento' },
+          { 
+            key: 'fechaHora', 
+            label: 'Fecha y Hora',
+            render: (value) => new Date(value).toLocaleString('es-CR')
+          },
+          { key: 'observaciones', label: 'Observaciones' },
+          { 
+            key: 'nombreEmpleado', 
+            label: 'Empleado',
+            render: (_, row: any) => 
+              `${row.nombreEmpleado || ''} ${row.primerApellidoEmpleado || ''} ${row.segundoApellidoEmpleado || ''}`.trim()
+          },
         ];
       case 'aguinaldos':
         return [
@@ -617,45 +626,37 @@ export function MantenimientosView() {
         return (
           <div className="space-y-4">
             <div>
-              <Label htmlFor="fecha">Fecha</Label>
-              <Input
-                id="fecha"
-                type="date"
-                value={formData.fecha || ''}
-                onChange={(e) => setFormData({ ...formData, fecha: e.target.value })}
-              />
+              <Label htmlFor="tipoEvento">Tipo de Evento</Label>
+              <select
+                id="tipoEvento"
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
+                value={formData.tipoEvento || ''}
+                onChange={(e) => setFormData({ ...formData, tipoEvento: e.target.value })}
+              >
+                <option value="">Seleccionar...</option>
+                <option value="ENTRADA">ENTRADA</option>
+                <option value="SALIDA">SALIDA</option>
+              </select>
             </div>
             <div>
-              <Label htmlFor="horaEntrada">Hora de Entrada</Label>
+              <Label htmlFor="fechaHora">Fecha y Hora</Label>
               <Input
-                id="horaEntrada"
-                type="time"
-                value={formData.horaEntrada || ''}
+                id="fechaHora"
+                type="datetime-local"
+                value={formData.fechaHora ? formData.fechaHora.substring(0, 16) : ''}
                 onChange={(e) =>
-                  setFormData({ ...formData, horaEntrada: e.target.value })
+                  setFormData({ ...formData, fechaHora: e.target.value })
                 }
               />
             </div>
             <div>
-              <Label htmlFor="horaSalida">Hora de Salida</Label>
+              <Label htmlFor="observaciones">Observaciones</Label>
               <Input
-                id="horaSalida"
-                type="time"
-                value={formData.horaSalida || ''}
+                id="observaciones"
+                type="text"
+                value={formData.observaciones || ''}
                 onChange={(e) =>
-                  setFormData({ ...formData, horaSalida: e.target.value })
-                }
-              />
-            </div>
-            <div>
-              <Label htmlFor="horasTrabajadas">Horas Trabajadas</Label>
-              <Input
-                id="horasTrabajadas"
-                type="number"
-                step="0.5"
-                value={formData.horasTrabajadas || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, horasTrabajadas: parseFloat(e.target.value) })
+                  setFormData({ ...formData, observaciones: e.target.value })
                 }
               />
             </div>

@@ -1,8 +1,9 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.Permisos;
@@ -23,8 +24,8 @@ public class ConsultasPermisos implements ConsultaInterface<Permisos>{
         return permiso.orElse(null);
     }
 
-    public List<Permisos> obtenerTodos() {
-        return repo.findAll();
+    public Page<Permisos> obtenerTodos(Pageable pageable) {
+        return repo.findAll(pageable);
     }
     
 }

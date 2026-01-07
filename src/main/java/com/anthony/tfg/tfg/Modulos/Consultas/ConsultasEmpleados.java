@@ -1,8 +1,9 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.Empleados;
@@ -23,8 +24,8 @@ public class ConsultasEmpleados implements ConsultaInterface<Empleados>{
         return empleado.orElse(null);
     }
 
-    public List<Empleados> obtenerTodos() {
-        return repo.findAll();
+    public Page<Empleados> obtenerTodos(Pageable pageable) {
+        return repo.findAll(pageable);
     }
 
 }

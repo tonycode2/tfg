@@ -1,7 +1,6 @@
 package com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,14 +42,7 @@ public class ControladorDepartamento {
 
     @GetMapping
     public ResponseEntity<Page<RespuestaDepartamentoDTO>> obtenerTodos(Pageable pageable) {
-        var todos = servicio.obtenerTodos();
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), todos.size());
-        Page<RespuestaDepartamentoDTO> page = new PageImpl<>(
-            todos.subList(start, end), 
-            pageable, 
-            todos.size()
-        );
+        Page<RespuestaDepartamentoDTO> page = servicio.obtenerTodos(pageable);
         return ResponseEntity.ok(page);
     }
 

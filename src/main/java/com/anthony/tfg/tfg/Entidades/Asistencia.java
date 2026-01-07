@@ -1,8 +1,6 @@
 package com.anthony.tfg.tfg.Entidades;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import com.anthony.tfg.tfg.Entidades.Enums.TipoEvento;
 import com.fasterxml.jackson.annotation.JsonFormat;

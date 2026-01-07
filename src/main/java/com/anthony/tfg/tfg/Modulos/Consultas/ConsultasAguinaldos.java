@@ -1,8 +1,9 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.Aguinaldos;
@@ -23,7 +24,7 @@ public class ConsultasAguinaldos implements  ConsultaInterface<Aguinaldos>{
         return aguinaldo.orElse(null);
     }
 
-    public List<Aguinaldos> obtenerTodos() {
-        return repo.findAll();
+    public Page<Aguinaldos> obtenerTodos(Pageable pageable) {
+        return repo.findAll(pageable);
     }
 }

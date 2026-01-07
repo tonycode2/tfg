@@ -2,6 +2,8 @@ package com.anthony.tfg.tfg.Modulos.Planilla.Servicio;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO;
@@ -39,10 +41,10 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return deEntidadDtoARespuesta(planilla);
     }
 
-    public List<RespuestaPlanillaEncabezadoDTO> obtenerTodos() {
-        List<PlanillaEncabezado> entidades = consulta.obtenerTodos();
-        log.info("Se han obtenido todas las planillas. La cantidad de registros es: " + entidades.size());
-        return deListaEntidadADto(entidades);
+    public Page<RespuestaPlanillaEncabezadoDTO> obtenerTodos(Pageable pageable) {
+        Page<PlanillaEncabezado> entidades = consulta.obtenerTodos(pageable);
+        log.info("Se han obtenido todas las planillas. La cantidad de registros es: " + entidades.getTotalElements());
+        return entidades.map(this::deEntidadDtoARespuesta);
     }
 
     public RespuestaPlanillaEncabezadoDTO guardar(SolicitudPlanillaEncabezadoDTO entidad) {

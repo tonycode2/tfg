@@ -1,8 +1,9 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.Asistencia;
@@ -23,7 +24,7 @@ public class ConsultasAsistencias implements ConsultaInterface<Asistencia>{
         return asistencia.orElse(null);
     }
 
-    public List<Asistencia> obtenerTodos() {
-        return repo.findAll();
+    public Page<Asistencia> obtenerTodos(Pageable pageable) {
+        return repo.findAll(pageable);
     }
 }

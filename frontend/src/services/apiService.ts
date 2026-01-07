@@ -58,11 +58,15 @@ export class ApiService<T> {
   }
 
   async getAllUnpaginated(): Promise<T[]> {
-    const response = await fetch(`${API_URL}/${this.endpoint}`, {
-      method: 'GET',
-      headers: this.getAuthHeaders(),
-    });
-    return this.handleResponse<T[]>(response);
+    const response = await fetch(
+      `${API_URL}/${this.endpoint}?page=0&size=10000`,
+      {
+        method: 'GET',
+        headers: this.getAuthHeaders(),
+      }
+    );
+    const paginatedResponse = await this.handleResponse<PaginatedResponse<T>>(response);
+    return paginatedResponse.content;
   }
 
   async getById(id: number | string): Promise<T> {
@@ -175,11 +179,13 @@ export interface ConfiguracionRenta {
 
 export interface Asistencia {
   id?: number;
-  fecha: string;
-  horaEntrada: string;
-  horaSalida: string;
-  horasTrabajadas: number;
+  tipoEvento: 'ENTRADA' | 'SALIDA';
+  fechaHora: string;
+  observaciones?: string;
   idEmpleado: number;
+  nombreEmpleado?: string;
+  primerApellidoEmpleado?: string;
+  segundoApellidoEmpleado?: string;
 }
 
 export interface Aguinaldo {

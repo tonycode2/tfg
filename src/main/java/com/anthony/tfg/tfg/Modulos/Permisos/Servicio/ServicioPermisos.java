@@ -2,6 +2,8 @@ package com.anthony.tfg.tfg.Modulos.Permisos.Servicio;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO;
@@ -44,10 +46,10 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         return deEntidadDtoARespuesta(permiso);
     }
 
-    public List<RespuestaPermisosDTO> obtenerTodos() {
-        List<Permisos> entidades = consulta.obtenerTodos();
-        log.info("Se han obtenido todos los permisos. La cantidad de registros es: " + entidades.size());
-        return deListaEntidadADto(entidades);
+    public Page<RespuestaPermisosDTO> obtenerTodos(Pageable pageable) {
+        Page<Permisos> entidades = consulta.obtenerTodos(pageable);
+        log.info("Se han obtenido todos los permisos. La cantidad de registros es: " + entidades.getTotalElements());
+        return entidades.map(this::deEntidadDtoARespuesta);
     }
 
     public RespuestaPermisosDTO guardar(SolicitudPermisosDTO entidad) {

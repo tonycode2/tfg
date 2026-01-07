@@ -1,7 +1,6 @@
 package com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,22 +41,8 @@ public class ControladorPuestos {
     }
 
     @GetMapping
-    public ResponseEntity<?> obtenerTodos(Pageable pageable) {
-        // Si no se especifica paginación, devolver todos
-        if (pageable.isUnpaged()) {
-            var todos = servicio.obtenerTodos();
-            return ResponseEntity.ok(todos);
-        }
-        
-        // Con paginación
-        var todos = servicio.obtenerTodos();
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), todos.size());
-        Page<RespuestaPuestosDTO> page = new PageImpl<>(
-            todos.subList(start, end), 
-            pageable, 
-            todos.size()
-        );
+    public ResponseEntity<Page<RespuestaPuestosDTO>> obtenerTodos(Pageable pageable) {
+        Page<RespuestaPuestosDTO> page = servicio.obtenerTodos(pageable);
         return ResponseEntity.ok(page);
     }
 

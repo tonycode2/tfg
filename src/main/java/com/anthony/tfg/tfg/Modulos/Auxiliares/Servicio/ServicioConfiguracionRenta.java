@@ -2,6 +2,8 @@ package com.anthony.tfg.tfg.Modulos.Auxiliares.Servicio;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaConfiguracionRentaDTO;
@@ -38,10 +40,10 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
         return deEntidadDtoARespuesta(configuracionRenta);
     }
 
-    public List<RespuestaConfiguracionRentaDTO> obtenerTodos() {
-        List<ConfiguracionRenta> entidades = consulta.obtenerTodos();
-        log.info("Se han obtenido todas las configuraciones de renta. La cantidad de registros es: " + entidades.size());
-        return deListaEntidadADto(entidades);
+    public Page<RespuestaConfiguracionRentaDTO> obtenerTodos(Pageable pageable) {
+        Page<ConfiguracionRenta> entidades = consulta.obtenerTodos(pageable);
+        log.info("Se han obtenido todas las configuraciones de renta. La cantidad de registros es: " + entidades.getTotalElements());
+        return entidades.map(this::deEntidadDtoARespuesta);
     }
 
     public RespuestaConfiguracionRentaDTO guardar(SolicitudConfiguracionRentaDTO entidad) {

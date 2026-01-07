@@ -2,6 +2,8 @@ package com.anthony.tfg.tfg.Modulos.Auxiliares.Servicio;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO;
@@ -42,10 +44,10 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
         return deEntidadDtoARespuesta(puesto);
     }
 
-    public List<RespuestaPuestosDTO> obtenerTodos() {
-        List<Puestos> entidades = consulta.obtenerTodos();
-        log.info("Se han obtenido todos los puestos. La cantidad de registros es: " + entidades.size());
-        return deListaEntidadADto(entidades);
+    public Page<RespuestaPuestosDTO> obtenerTodos(Pageable pageable) {
+        Page<Puestos> entidades = consulta.obtenerTodos(pageable);
+        log.info("Se han obtenido todos los puestos. La cantidad de registros es: " + entidades.getTotalElements());
+        return entidades.map(this::deEntidadDtoARespuesta);
     }
 
     public RespuestaPuestosDTO guardar(SolicitudPuestosDTO entidad) {

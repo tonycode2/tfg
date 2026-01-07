@@ -2,6 +2,8 @@ package com.anthony.tfg.tfg.Modulos.Empleados.Servicio;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO;
@@ -53,10 +55,10 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         return deEntidadDtoARespuesta(empleado);
     }
 
-    public List<RespuestaEmpleadosDTO> obtenerTodos() {
-        List<Empleados> entidades = consulta.obtenerTodos();
-        log.info("Se han obtenido todos los empleados. La cantidad de registros es: " + entidades.size());
-        return deListaEntidadADto(entidades);
+    public Page<RespuestaEmpleadosDTO> obtenerTodos(Pageable pageable) {
+        Page<Empleados> entidades = consulta.obtenerTodos(pageable);
+        log.info("Se han obtenido todos los empleados. La cantidad de registros es: " + entidades.getTotalElements());
+        return entidades.map(this::deEntidadDtoARespuesta);
     }
 
     public RespuestaEmpleadosDTO guardar(SolicitudEmpleadosDTO entidad) {

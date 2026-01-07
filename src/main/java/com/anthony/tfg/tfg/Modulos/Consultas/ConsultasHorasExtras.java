@@ -1,8 +1,9 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.HorasExtra;
@@ -24,8 +25,8 @@ public class ConsultasHorasExtras implements ConsultaInterface<HorasExtra>{
         return horasExtra.orElse(null);
     }
 
-    public List<HorasExtra> obtenerTodos() {
-        return repo.findAll();
+    public Page<HorasExtra> obtenerTodos(Pageable pageable) {
+        return repo.findAll(pageable);
     }
 
 }

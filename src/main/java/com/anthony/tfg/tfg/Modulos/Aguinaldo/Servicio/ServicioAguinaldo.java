@@ -2,6 +2,8 @@ package com.anthony.tfg.tfg.Modulos.Aguinaldo.Servicio;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAguinaldosDTO;
@@ -42,10 +44,10 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         return deEntidadDtoARespuesta(aguinaldo);
     }
 
-    public List<RespuestaAguinaldosDTO> obtenerTodos() {
-        List<Aguinaldos> entidades = consulta.obtenerTodos();
-        log.info("Se han obtenido todos los aguinaldos. La cantidad de registros es: " + entidades.size());
-        return deListaEntidadADto(entidades);
+    public Page<RespuestaAguinaldosDTO> obtenerTodos(Pageable pageable) {
+        Page<Aguinaldos> entidades = consulta.obtenerTodos(pageable);
+        log.info("Se han obtenido todos los aguinaldos. La cantidad de registros es: " + entidades.getTotalElements());
+        return entidades.map(this::deEntidadDtoARespuesta);
     }
 
     public RespuestaAguinaldosDTO guardar(SolicitudAguinaldosDTO entidad) {

@@ -1,8 +1,9 @@
 package com.anthony.tfg.tfg.Modulos.Interfaces;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ConsultaInterface<T> {
     public T obtenerPorId(Long id);
-    public List<T> obtenerTodos();
+    public Page<T> obtenerTodos(Pageable pageable);
 }
