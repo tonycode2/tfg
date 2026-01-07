@@ -1,9 +1,13 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
-public class RespuestaDireccionDTO {
-    public Long id;
-    public String provincia;
-    public String canton;
-    public String distrito;
-    public String indicaciones;
-}
+/**
+ * DTO inmutable para respuestas de direcciones.
+ * Utiliza Java Record para mayor concisión e inmutabilidad.
+ */
+public record RespuestaDireccionDTO(
+    Long id,
+    String provincia,
+    String canton,
+    String distrito,
+    String indicaciones
+) {}

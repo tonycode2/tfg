@@ -1,6 +1,9 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
-public class RespuestaDepartamentoDTO {
-    public Long id;
-    public String nombre;
-}
+/**
+ * DTO inmutable para respuestas de departamentos.
+ */
+public record RespuestaDepartamentoDTO(
+    Long id,
+    String nombre
+) {}

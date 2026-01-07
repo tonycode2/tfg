@@ -511,7 +511,7 @@ export function MantenimientosView() {
           { 
             key: 'nombreEmpleado', 
             label: 'Empleado',
-            render: (value, row) => 
+            render: (_value, row) => 
               `${row.nombreEmpleado} ${row.primerApellidoEmpleado} ${row.segundoApellidoEmpleado || ''}`.trim()
           },
           { key: 'fechaInicio', label: 'Fecha Inicio' },

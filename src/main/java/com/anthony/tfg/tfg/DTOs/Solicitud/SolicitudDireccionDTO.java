@@ -3,19 +3,22 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class SolicitudDireccionDTO {
-    // ID es opcional - se genera automáticamente al crear
-    public Long id;
+/**
+ * DTO inmutable para solicitudes de creación/actualización de direcciones.
+ * ID es opcional - se genera automáticamente al crear.
+ */
+public record SolicitudDireccionDTO(
+    Long id,
     @NotNull
     @Size(min = 5, max = 100)
-    public String provincia;
+    String provincia,
     @NotNull
     @Size(min = 5, max = 100)
-    public String canton;
+    String canton,
     @NotNull
     @Size(min = 5, max = 100)
-    public String distrito;
+    String distrito,
     @NotNull
     @Size(min = 5, max = 100)
-    public String indicaciones;
-}
+    String indicaciones
+) {}

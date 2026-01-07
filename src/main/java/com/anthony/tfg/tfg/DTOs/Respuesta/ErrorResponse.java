@@ -1,33 +1,20 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * DTO para respuestas de error estandarizadas
+ * DTO inmutable para respuestas de error estandarizadas.
+ * Utiliza Java Record para mayor concisión e inmutabilidad.
  */
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ErrorResponse {
-    
+public record ErrorResponse(
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime timestamp;
-    
-    private int status;
-    
-    private String error;
-    
-    private String message;
-    
-    private String path;
-    
-    private List<ValidationError> errors;
-}
+    LocalDateTime timestamp,
+    int status,
+    String error,
+    String message,
+    String path,
+    List<ValidationError> errors
+) {}

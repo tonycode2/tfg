@@ -20,11 +20,15 @@ export interface ErrorResponse {
 export interface ValidationError {
   field: string;
   message: string;
-  rejectedValue: any;
+  rejectedValue: unknown;
 }
 
+/**
+ * Servicio genérico para operaciones CRUD sobre recursos de la API.
+ * Implementa manejo centralizado de autenticación, errores y logging.
+ */
 export class ApiService<T> {
-  private endpoint: string;
+  private readonly endpoint: string;
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;
@@ -46,8 +50,13 @@ export class ApiService<T> {
         window.location.href = '/login';
         throw new Error('Sesión expirada. Por favor, inicia sesión nuevamente.');
       }
-      const errorData: ErrorResponse = await response.json();
-      throw new Error(errorData.message || 'Error en la solicitud');
+      
+      try {
+        const errorData: ErrorResponse = await response.json();
+        throw new Error(errorData.message || 'Error en la solicitud');
+      } catch {
+        throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+      }
     }
     return response.json();
   }

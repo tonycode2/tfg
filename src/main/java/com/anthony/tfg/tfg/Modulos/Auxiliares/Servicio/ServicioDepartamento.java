@@ -57,7 +57,7 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
             log.warn("No se ha encontrado el departamento con ID: " + id + " para actualizar");
             throw new ResourceNotFoundException("Departamento", "id", id);
         }
-        departamentoExistente.setNombre(entidad.nombre);
+        departamentoExistente.setNombre(entidad.nombre());
         Departamento departamentoActualizado = mantenimiento.actualizar(departamentoExistente);
         log.info("Se ha actualizado el departamento con ID: " + id);
         return deEntidadDtoARespuesta(departamentoActualizado);
@@ -74,8 +74,8 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
             return null;
         }
         Departamento departamento = Departamento.builder().
-                                        id(solicitud.id)
-                                        .nombre(solicitud.nombre)
+                                        id(solicitud.id())
+                                        .nombre(solicitud.nombre())
                                         .build();
         log.info("Se ha convertido el DTO de solicitud a entidad Departamento: {}", departamento);
         return departamento;
@@ -86,11 +86,10 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
             log.warn("La entidad Departamento es nula, no se puede convertir a DTO de respuesta.");
             return null;
         }
-        RespuestaDepartamentoDTO respuesta = new RespuestaDepartamentoDTO();
-        respuesta.id = entidad.getId();
-        respuesta.nombre = entidad.getNombre();
-        log.info("Se ha convertido la entidad Departamento a DTO de respuesta: {}", respuesta);
-        return respuesta;
+        return new RespuestaDepartamentoDTO(
+            entidad.getId(),
+            entidad.getNombre()
+        );
     }
 
     public List<RespuestaDepartamentoDTO> deListaEntidadADto(List<Departamento> entidades) {

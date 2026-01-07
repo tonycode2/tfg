@@ -14,6 +14,10 @@ import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosDirecciones;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Servicio para gestionar operaciones CRUD sobre direcciones.
+ * Utiliza inyección de dependencias por constructor y logging parametrizado.
+ */
 @Service
 @Slf4j
 public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDTO, 
@@ -29,77 +33,74 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
     }
 
     public RespuestaDireccionDTO obtenerPorId(Long id) {
-        Direccion direccion = consulta.obtenerPorId(id);
+        var direccion = consulta.obtenerPorId(id);
         if(direccion == null){
-            log.warn("No se ha encontrado la dirección con ID: " + id);
+            log.warn("No se encontró dirección con ID: {}", id);
             throw new ResourceNotFoundException("Direccion", "id", id);
         }
-        log.info("Se ha encontrado la dirección con ID: " + id);
+        log.debug("Dirección encontrada con ID: {}", id);
         return deEntidadDtoARespuesta(direccion);
     }
 
     public List<RespuestaDireccionDTO> obtenerTodos() {
-        List<Direccion> entidades = consulta.obtenerTodos();
-        log.info("Se han obtenido todas las direcciones. La cantidad de registros es: " + entidades.size());
+        var entidades = consulta.obtenerTodos();
+        log.info("Se obtuvieron {} direcciones", entidades.size());
         return deListaEntidadADto(entidades);
     }
 
     public RespuestaDireccionDTO guardar(SolicitudDireccionDTO entidad) {
-        Direccion nuevaDireccion = deSolicitudDtoAEntidad(entidad);
-        Direccion direccionGuardada = mantenimiento.crear(nuevaDireccion);
-        log.info("Se ha guardado una nueva dirección con ID: " + direccionGuardada.getId());
+        var nuevaDireccion = deSolicitudDtoAEntidad(entidad);
+        var direccionGuardada = mantenimiento.crear(nuevaDireccion);
+        log.info("Dirección guardada con ID: {}", direccionGuardada.getId());
         return deEntidadDtoARespuesta(direccionGuardada);
     }
 
     public RespuestaDireccionDTO actualizar(Long id, SolicitudDireccionDTO entidad) {
-        Direccion direccionExistente = consulta.obtenerPorId(id);
+        var direccionExistente = consulta.obtenerPorId(id);
         if(direccionExistente == null){
-            log.warn("No se ha encontrado la dirección con ID: " + id + " para actualizar");
+            log.warn("No se encontró dirección con ID: {} para actualizar", id);
             throw new ResourceNotFoundException("Direccion", "id", id);
         }
-        direccionExistente.setProvincia(entidad.provincia);
-        direccionExistente.setCanton(entidad.canton);
-        direccionExistente.setDistrito(entidad.distrito);
-        direccionExistente.setIndicaciones(entidad.indicaciones);
-        Direccion direccionActualizada = mantenimiento.actualizar(direccionExistente);
-        log.info("Se ha actualizado la dirección con ID: " + id);
+        direccionExistente.setProvincia(entidad.provincia());
+        direccionExistente.setCanton(entidad.canton());
+        direccionExistente.setDistrito(entidad.distrito());
+        direccionExistente.setIndicaciones(entidad.indicaciones());
+        var direccionActualizada = mantenimiento.actualizar(direccionExistente);
+        log.info("Dirección actualizada con ID: {}", id);
         return deEntidadDtoARespuesta(direccionActualizada);
     }
 
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
-        log.info("Se ha eliminado la dirección con ID: " + id);
+        log.info("Dirección eliminada con ID: {}", id);
     }
 
     public Direccion deSolicitudDtoAEntidad(SolicitudDireccionDTO solicitud) {
         if(solicitud == null){
-            log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad Direccion.");
-            return null;
+            log.warn("DTO de solicitud nulo, no se puede convertir a entidad Direccion");
+            throw new IllegalArgumentException("La solicitud no puede ser nula");
         }
-        Direccion direccion = Direccion.builder()
-                    .id(solicitud.id)
-                    .provincia(solicitud.provincia)
-                    .canton(solicitud.canton)
-                    .distrito(solicitud.distrito)
-                    .indicaciones(solicitud.indicaciones)
+        return Direccion.builder()
+                    .id(solicitud.id())
+                    .provincia(solicitud.provincia())
+                    .canton(solicitud.canton())
+                    .distrito(solicitud.distrito())
+                    .indicaciones(solicitud.indicaciones())
                     .build();
-        log.info("Se ha convertido el DTO de solicitud a entidad Direccion: {}", direccion);
-        return direccion;
     }
 
     public RespuestaDireccionDTO deEntidadDtoARespuesta(Direccion entidad) {
         if(entidad == null){
-            log.warn("La entidad Direccion es nula, no se puede convertir a DTO de respuesta.");
-            return null;
+            log.warn("Entidad Direccion nula, no se puede convertir a DTO de respuesta");
+            throw new IllegalArgumentException("La entidad no puede ser nula");
         }
-        RespuestaDireccionDTO respuesta = new RespuestaDireccionDTO();
-        respuesta.id = entidad.getId();
-        respuesta.provincia = entidad.getProvincia();
-        respuesta.canton = entidad.getCanton();
-        respuesta.distrito = entidad.getDistrito();
-        respuesta.indicaciones = entidad.getIndicaciones();
-        log.info("Se ha convertido la entidad Direccion a DTO de respuesta: {}", respuesta);
-        return respuesta;
+        return new RespuestaDireccionDTO(
+            entidad.getId(),
+            entidad.getProvincia(),
+            entidad.getCanton(),
+            entidad.getDistrito(),
+            entidad.getIndicaciones()
+        );
     }
 
     public List<RespuestaDireccionDTO> deListaEntidadADto(List<Direccion> entidades) {

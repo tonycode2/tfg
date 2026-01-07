@@ -18,7 +18,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
-import type { ApiService, PaginatedResponse } from '@/services/apiService';
+import type { ApiService } from '@/services/apiService';
 
 export interface Column<T> {
   key: keyof T | string;

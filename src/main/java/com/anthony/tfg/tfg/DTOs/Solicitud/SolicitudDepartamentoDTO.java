@@ -3,9 +3,12 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class SolicitudDepartamentoDTO {
-    public Long id;
+/**
+ * DTO inmutable para solicitudes de creación/actualización de departamentos.
+ */
+public record SolicitudDepartamentoDTO(
+    Long id,
     @NotNull
     @Size(min = 3, max = 100)
-    public String nombre;
-}
+    String nombre
+) {}
