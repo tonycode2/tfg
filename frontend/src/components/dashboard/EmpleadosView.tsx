@@ -6,6 +6,7 @@ import { Modal } from '@/components/Modal';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { SearchableSelect } from '@/components/ui/searchable-select';
+import { DatePicker } from '@/components/ui/date-picker';
 import { getProvincias, getCantonesByProvincia, getDistritosByCanton } from '@/data/costaRicaLocations';
 import { empleadosService, puestosService, direccionesService, type Empleado, type Puesto } from '@/services/apiService';
 import { GenerarUsuarioModal } from '@/components/GenerarUsuarioModal';
@@ -499,18 +500,14 @@ export function EmpleadosView() {
           </div>
           <div>
             <Label htmlFor="fechaNacimiento">Fecha de Nacimiento *</Label>
-            <Input
-              id="fechaNacimiento"
-              type="date"
+            <DatePicker
               value={formData.fechaNacimiento}
-              onChange={(e) => {
-                setFormData({ ...formData, fechaNacimiento: e.target.value });
+              onChange={(date) => {
+                setFormData({ ...formData, fechaNacimiento: date });
                 setErrors({ ...errors, fechaNacimiento: '' });
-              }}
-              onBlur={(e) => {
-                const value = e.target.value;
-                if (value) {
-                  const fechaNacimiento = new Date(value);
+                
+                if (date) {
+                  const fechaNacimiento = new Date(date);
                   const hoy = new Date();
                   const edad = Math.floor((hoy.getTime() - fechaNacimiento.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
                   if (edad < 18) {
@@ -518,23 +515,21 @@ export function EmpleadosView() {
                   }
                 }
               }}
+              placeholder="Seleccionar fecha de nacimiento"
               className={errors.fechaNacimiento ? 'border-red-500' : ''}
-              required
             />
             {errors.fechaNacimiento && <p className="text-xs text-red-500 mt-1">{errors.fechaNacimiento}</p>}
           </div>
           <div>
             <Label htmlFor="fechaIngreso">Fecha de Ingreso *</Label>
-            <Input
-              id="fechaIngreso"
-              type="date"
+            <DatePicker
               value={formData.fechaIngreso}
-              onChange={(e) => {
-                setFormData({ ...formData, fechaIngreso: e.target.value });
+              onChange={(date) => {
+                setFormData({ ...formData, fechaIngreso: date });
                 setErrors({ ...errors, fechaIngreso: '' });
               }}
+              placeholder="Seleccionar fecha de ingreso"
               className={errors.fechaIngreso ? 'border-red-500' : ''}
-              required
             />
             {errors.fechaIngreso && <p className="text-xs text-red-500 mt-1">{errors.fechaIngreso}</p>}
           </div>

@@ -1,5 +1,8 @@
+"use client"
+
 import * as React from "react"
-import { Clock } from "lucide-react"
+import { Clock, ChevronDownIcon } from "lucide-react"
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -18,117 +21,168 @@ interface TimePickerProps {
 }
 
 export function TimePicker({
-  value,
+  value = "",
   onChange,
   placeholder = "Seleccionar hora",
   disabled = false,
   className,
 }: TimePickerProps) {
-  const [hours, setHours] = React.useState<string>(value?.split(':')[0] || "08")
-  const [minutes, setMinutes] = React.useState<string>(value?.split(':')[1] || "00")
   const [open, setOpen] = React.useState(false)
+  const [hours, setHours] = React.useState<string>("")
+  const [minutes, setMinutes] = React.useState<string>("")
 
   React.useEffect(() => {
     if (value) {
-      const [h, m] = value.split(':')
-      setHours(h || "08")
-      setMinutes(m || "00")
+      const [h, m] = value.split(":")
+      setHours(h || "")
+      setMinutes(m || "")
+    } else {
+      setHours("")
+      setMinutes("")
     }
   }, [value])
 
-  const handleHoursChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value.replace(/[^0-9]/g, '').slice(0, 2)
-    const numVal = parseInt(val) || 0
-    const clampedVal = Math.min(Math.max(numVal, 0), 23)
-    const formattedVal = clampedVal.toString().padStart(2, '0')
-    setHours(formattedVal)
-    onChange(`${formattedVal}:${minutes}`)
+  const handleApply = () => {
+    const h = hours.padStart(2, "0")
+    const m = minutes.padStart(2, "0")
+    const timeString = `${h}:${m}`
+    onChange(timeString)
+    setOpen(false)
   }
 
-  const handleMinutesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value.replace(/[^0-9]/g, '').slice(0, 2)
-    const numVal = parseInt(val) || 0
-    const clampedVal = Math.min(Math.max(numVal, 0), 59)
-    const formattedVal = clampedVal.toString().padStart(2, '0')
-    setMinutes(formattedVal)
-    onChange(`${hours}:${formattedVal}`)
+  const handlePreset = (hour: string) => {
+    setHours(hour)
+    setMinutes("00")
+    const timeString = `${hour.padStart(2, "0")}:00`
+    onChange(timeString)
+    setOpen(false)
   }
 
-  const displayValue = value ? value : placeholder
+  const displayValue = value || placeholder
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
+          variant="outline"
+          disabled={disabled}
           className={cn(
-            "w-full justify-start text-left font-normal",
+            "w-full justify-between font-normal",
             !value && "text-muted-foreground",
             className
           )}
-          disabled={disabled}
         >
-          <Clock className="mr-2 h-4 w-4" />
-          <span>{displayValue}</span>
+          <div className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            {displayValue}
+          </div>
+          <ChevronDownIcon className="ml-2 h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-4">
-        <div className="flex flex-col gap-4">
-          <div className="text-sm font-medium text-center">Seleccionar Hora</div>
-          <div className="flex items-center gap-2">
-            <div className="flex flex-col items-center gap-2">
-              <label className="text-xs text-muted-foreground">Hora</label>
+      <PopoverContent className="w-auto p-4" align="start">
+        <div className="space-y-4">
+          <div className="text-sm font-medium">Seleccionar hora</div>
+          
+          <div className="flex gap-2 items-center">
+            <div className="flex-1">
               <Input
-                type="text"
+                type="number"
+                min="0"
+                max="23"
                 value={hours}
-                onChange={handleHoursChange}
-                className="w-16 text-center text-lg"
-                maxLength={2}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value)
+                  if (val >= 0 && val <= 23) {
+                    setHours(e.target.value)
+                  } else if (e.target.value === "") {
+                    setHours("")
+                  }
+                }}
+                placeholder="HH"
+                className="text-center"
               />
             </div>
-            <div className="text-2xl font-bold">:</div>
-            <div className="flex flex-col items-center gap-2">
-              <label className="text-xs text-muted-foreground">Minutos</label>
+            <span className="text-xl font-bold">:</span>
+            <div className="flex-1">
               <Input
-                type="text"
+                type="number"
+                min="0"
+                max="59"
                 value={minutes}
-                onChange={handleMinutesChange}
-                className="w-16 text-center text-lg"
-                maxLength={2}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value)
+                  if (val >= 0 && val <= 59) {
+                    setMinutes(e.target.value)
+                  } else if (e.target.value === "") {
+                    setMinutes("")
+                  }
+                }}
+                placeholder="MM"
+                className="text-center"
               />
             </div>
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1"
-              onClick={() => {
-                setHours("08")
-                setMinutes("00")
-                onChange("08:00")
-              }}
-            >
-              08:00
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex-1"
-              onClick={() => {
-                setHours("17")
-                setMinutes("00")
-                onChange("17:00")
-              }}
-            >
-              17:00
-            </Button>
+
+          <div className="space-y-2">
+            <div className="text-xs text-muted-foreground">Presets comunes</div>
+            <div className="grid grid-cols-3 gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePreset("08")}
+                className="text-xs"
+              >
+                08:00
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePreset("09")}
+                className="text-xs"
+              >
+                09:00
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePreset("12")}
+                className="text-xs"
+              >
+                12:00
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePreset("13")}
+                className="text-xs"
+              >
+                13:00
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePreset("17")}
+                className="text-xs"
+              >
+                17:00
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => handlePreset("18")}
+                className="text-xs"
+              >
+                18:00
+              </Button>
+            </div>
           </div>
+
           <Button
-            size="sm"
-            onClick={() => setOpen(false)}
+            onClick={handleApply}
+            className="w-full"
+            disabled={hours === "" || minutes === ""}
           >
-            Confirmar
+            Aplicar
           </Button>
         </div>
       </PopoverContent>

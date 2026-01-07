@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SearchableSelect, type SearchableSelectOption } from '@/components/ui/searchable-select';
+import { DatePicker } from '@/components/ui/date-picker';
+import { TimePicker } from '@/components/ui/time-picker';
 import { getProvincias, getCantonesByProvincia, getDistritosByCanton } from '@/data/costaRicaLocations';
 import {
   empleadosService,
@@ -683,24 +685,22 @@ export function MantenimientosView() {
             </div>
             <div>
               <Label htmlFor="horaEntrada">Hora de Entrada</Label>
-              <Input
-                id="horaEntrada"
-                type="time"
+              <TimePicker
                 value={formData.horaEntrada || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, horaEntrada: e.target.value })
+                onChange={(time) =>
+                  setFormData({ ...formData, horaEntrada: time })
                 }
+                placeholder="Seleccionar hora de entrada"
               />
             </div>
             <div>
               <Label htmlFor="horaSalida">Hora de Salida</Label>
-              <Input
-                id="horaSalida"
-                type="time"
+              <TimePicker
                 value={formData.horaSalida || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, horaSalida: e.target.value })
+                onChange={(time) =>
+                  setFormData({ ...formData, horaSalida: time })
                 }
+                placeholder="Seleccionar hora de salida"
               />
             </div>
             <div>
@@ -783,24 +783,22 @@ export function MantenimientosView() {
             </div>
             <div>
               <Label htmlFor="fechaInicioPeriodo">Fecha Inicio Período</Label>
-              <Input
-                id="fechaInicioPeriodo"
-                type="date"
+              <DatePicker
                 value={formData.fechaInicioPeriodo || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaInicioPeriodo: e.target.value })
+                onChange={(date) =>
+                  setFormData({ ...formData, fechaInicioPeriodo: date })
                 }
+                placeholder="Seleccionar fecha de inicio"
               />
             </div>
             <div>
               <Label htmlFor="fechaFinPeriodo">Fecha Fin Período</Label>
-              <Input
-                id="fechaFinPeriodo"
-                type="date"
+              <DatePicker
                 value={formData.fechaFinPeriodo || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaFinPeriodo: e.target.value })
+                onChange={(date) =>
+                  setFormData({ ...formData, fechaFinPeriodo: date })
                 }
+                placeholder="Seleccionar fecha de fin"
               />
             </div>
             <div>
@@ -817,13 +815,12 @@ export function MantenimientosView() {
             </div>
             <div>
               <Label htmlFor="fechaPago">Fecha de Pago</Label>
-              <Input
-                id="fechaPago"
-                type="date"
+              <DatePicker
                 value={formData.fechaPago || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaPago: e.target.value })
+                onChange={(date) =>
+                  setFormData({ ...formData, fechaPago: date })
                 }
+                placeholder="Seleccionar fecha de pago"
               />
             </div>
             <div>
@@ -844,11 +841,10 @@ export function MantenimientosView() {
           <div className="space-y-4">
             <div>
               <Label htmlFor="fechaSolicitud">Fecha de Solicitud</Label>
-              <Input
-                id="fechaSolicitud"
-                type="date"
+              <DatePicker
                 value={formData.fechaSolicitud || ''}
-                onChange={(e) => setFormData({ ...formData, fechaSolicitud: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaSolicitud: date })}
+                placeholder="Seleccionar fecha de solicitud"
               />
             </div>
             <div>
@@ -918,20 +914,18 @@ export function MantenimientosView() {
           <div className="space-y-4">
             <div>
               <Label htmlFor="fechaInicio">Fecha Inicio</Label>
-              <Input
-                id="fechaInicio"
-                type="date"
+              <DatePicker
                 value={formData.fechaInicio || ''}
-                onChange={(e) => setFormData({ ...formData, fechaInicio: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaInicio: date })}
+                placeholder="Seleccionar fecha de inicio"
               />
             </div>
             <div>
               <Label htmlFor="fechaFin">Fecha Fin</Label>
-              <Input
-                id="fechaFin"
-                type="date"
+              <DatePicker
                 value={formData.fechaFin || ''}
-                onChange={(e) => setFormData({ ...formData, fechaFin: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaFin: date })}
+                placeholder="Seleccionar fecha de fin"
               />
             </div>
             <div>
@@ -1003,11 +997,10 @@ export function MantenimientosView() {
           <div className="space-y-4">
             <div>
               <Label htmlFor="fechaSalida">Fecha de Salida</Label>
-              <Input
-                id="fechaSalida"
-                type="date"
+              <DatePicker
                 value={formData.fechaSalida || ''}
-                onChange={(e) => setFormData({ ...formData, fechaSalida: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaSalida: date })}
+                placeholder="Seleccionar fecha de salida"
               />
             </div>
             <div>
@@ -1107,29 +1100,26 @@ export function MantenimientosView() {
           <div className="space-y-4">
             <div>
               <Label htmlFor="fechaInicioPeriodo">Fecha Inicio Período</Label>
-              <Input
-                id="fechaInicioPeriodo"
-                type="date"
+              <DatePicker
                 value={formData.fechaInicioPeriodo || ''}
-                onChange={(e) => setFormData({ ...formData, fechaInicioPeriodo: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaInicioPeriodo: date })}
+                placeholder="Seleccionar fecha de inicio"
               />
             </div>
             <div>
               <Label htmlFor="fechaFinPeriodo">Fecha Fin Período</Label>
-              <Input
-                id="fechaFinPeriodo"
-                type="date"
+              <DatePicker
                 value={formData.fechaFinPeriodo || ''}
-                onChange={(e) => setFormData({ ...formData, fechaFinPeriodo: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaFinPeriodo: date })}
+                placeholder="Seleccionar fecha de fin"
               />
             </div>
             <div>
               <Label htmlFor="fechaPago">Fecha de Pago</Label>
-              <Input
-                id="fechaPago"
-                type="date"
+              <DatePicker
                 value={formData.fechaPago || ''}
-                onChange={(e) => setFormData({ ...formData, fechaPago: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaPago: date })}
+                placeholder="Seleccionar fecha de pago"
               />
             </div>
             <div>
@@ -1185,11 +1175,10 @@ export function MantenimientosView() {
           <div className="space-y-4">
             <div>
               <Label htmlFor="fechaEvaluacion">Fecha de Evaluación</Label>
-              <Input
-                id="fechaEvaluacion"
-                type="date"
+              <DatePicker
                 value={formData.fechaEvaluacion || ''}
-                onChange={(e) => setFormData({ ...formData, fechaEvaluacion: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaEvaluacion: date })}
+                placeholder="Seleccionar fecha de evaluación"
               />
             </div>
             <div>
@@ -1277,20 +1266,18 @@ export function MantenimientosView() {
             </div>
             <div>
               <Label htmlFor="fechaInicio">Fecha de Inicio</Label>
-              <Input
-                id="fechaInicio"
-                type="date"
+              <DatePicker
                 value={formData.fechaInicio || ''}
-                onChange={(e) => setFormData({ ...formData, fechaInicio: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaInicio: date })}
+                placeholder="Seleccionar fecha de inicio"
               />
             </div>
             <div>
               <Label htmlFor="fechaFin">Fecha de Fin (opcional)</Label>
-              <Input
-                id="fechaFin"
-                type="date"
+              <DatePicker
                 value={formData.fechaFin || ''}
-                onChange={(e) => setFormData({ ...formData, fechaFin: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaFin: date })}
+                placeholder="Seleccionar fecha de fin (opcional)"
               />
             </div>
             <div>
@@ -1356,11 +1343,10 @@ export function MantenimientosView() {
             </div>
             <div>
               <Label htmlFor="fechaNacimiento">Fecha de Nacimiento</Label>
-              <Input
-                id="fechaNacimiento"
-                type="date"
+              <DatePicker
                 value={formData.fechaNacimiento || ''}
-                onChange={(e) => setFormData({ ...formData, fechaNacimiento: e.target.value })}
+                onChange={(date) => setFormData({ ...formData, fechaNacimiento: date })}
+                placeholder="Seleccionar fecha de nacimiento"
               />
             </div>
             <div>

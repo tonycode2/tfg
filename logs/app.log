@@ -4828,3 +4828,235 @@ io.jsonwebtoken.ExpiredJwtException: JWT expired 878065 milliseconds ago at 2026
 2026-01-06T21:52:18.714-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2026-01-06T21:52:18.714-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@40a64688, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
 2026-01-06T21:52:18.715-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T21:55:35.277-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-06T21:55:35.277-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T21:55:35.297-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T21:55:35.297-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-06T21:55:35.298-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-06T21:55:35.298-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T21:55:35.298-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T21:55:35.298-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-06T21:55:35.308-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-06T21:55:35.308-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T21:55:35.309-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-06T21:55:35.310-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T21:55:35.313-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-06T21:55:35.318-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T21:55:35.319-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@70c5a18
+2026-01-06T21:55:35.319-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@5a4dbb09
+2026-01-06T21:55:35.319-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@18e4f302
+2026-01-06T21:55:35.319-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@475e6d3f
+2026-01-06T21:55:35.320-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T21:55:35.321-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@70c5a18, com.anthony.tfg.tfg.DTOs.Respuesta. (truncated)...]
+2026-01-06T21:55:35.323-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T21:55:35.325-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T21:55:35.326-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-06T21:55:35.326-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-06T21:55:35.327-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-06T21:55:35.337-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-06T21:55:35.337-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T21:55:35.337-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-06T21:55:35.337-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T21:55:35.340-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T21:55:35.340-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T21:55:35.340-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T21:55:35.357-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T21:55:35.358-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@e56c20f
+2026-01-06T21:55:35.358-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@49e8a3fe
+2026-01-06T21:55:35.358-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@4329127b
+2026-01-06T21:55:35.358-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@26fc2968
+2026-01-06T21:55:35.359-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T21:55:35.359-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@e56c20f, com.anthony.tfg.tfg.DTOs.Respuesta. (truncated)...]
+2026-01-06T21:55:35.360-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:03:47.180-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-06T22:03:47.180-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T22:03:47.198-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-06T22:03:47.199-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-06T22:03:47.200-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-06T22:03:47.203-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T22:03:47.203-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T22:03:47.204-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T22:03:47.207-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-06T22:03:47.208-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:03:47.209-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-06T22:03:47.211-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:03:47.214-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-06T22:03:47.221-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-06T22:03:47.221-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-06T22:03:47.222-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-06T22:03:47.222-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T22:03:47.222-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2eabc62e
+2026-01-06T22:03:47.222-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@54068be0
+2026-01-06T22:03:47.223-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@4c963574
+2026-01-06T22:03:47.224-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@36c8d9e
+2026-01-06T22:03:47.224-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:03:47.225-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2eabc62e, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-06T22:03:47.227-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:03:47.229-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T22:03:47.230-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-06T22:03:47.231-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:03:47.232-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-06T22:03:47.233-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:03:47.238-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T22:03:47.239-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T22:03:47.240-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T22:03:47.256-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T22:03:47.256-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@7c6597fa
+2026-01-06T22:03:47.256-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2bbc0650
+2026-01-06T22:03:47.256-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2ae28845
+2026-01-06T22:03:47.257-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2fa1b8e
+2026-01-06T22:03:47.257-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:03:47.258-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@7c6597fa, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-06T22:03:47.259-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:09:11.240-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T22:09:11.240-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-06T22:09:11.250-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T22:09:11.250-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-06T22:09:11.250-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T22:09:11.250-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-06T22:09:11.250-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-06T22:09:11.250-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T22:09:11.261-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-06T22:09:11.263-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:09:11.263-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-06T22:09:11.264-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:09:11.267-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-06T22:09:11.274-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T22:09:11.275-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@748e5133
+2026-01-06T22:09:11.275-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2ed87ed5
+2026-01-06T22:09:11.275-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@3c256353
+2026-01-06T22:09:11.275-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@56ef53b6
+2026-01-06T22:09:11.276-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:09:11.276-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@748e5133, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-06T22:09:11.277-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:09:11.278-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-06T22:09:11.278-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T22:09:11.278-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-06T22:09:11.279-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-06T22:09:11.286-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-06T22:09:11.286-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:09:11.287-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-06T22:09:11.288-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T22:09:11.289-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T22:09:11.289-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:09:11.289-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T22:09:11.302-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T22:09:11.302-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@1060c2ef
+2026-01-06T22:09:11.302-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@307ed4f
+2026-01-06T22:09:11.302-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@3967f3fa
+2026-01-06T22:09:11.303-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@4437476c
+2026-01-06T22:09:11.303-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:09:11.304-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@1060c2ef, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-06T22:09:11.305-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:10:53.570-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /auth/login
+2026-01-06T22:10:53.572-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-06T22:10:53.573-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-06T22:10:53.573-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-06T22:10:53.573-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-06T22:10:53.573-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-06T22:10:53.573-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=Admin, password=doremi123)]
+2026-01-06T22:10:53.644-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-06T22:10:53.652-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:10:53.652-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJBRE1JTiIsInN1YiI6IkFkbWluIiwiaWF0 (truncated)...]
+2026-01-06T22:10:53.653-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:11:00.095-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/puestos
+2026-01-06T22:11:00.096-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/puestos
+2026-01-06T22:11:00.099-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T22:11:00.108-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T22:11:00.108-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T22:11:00.109-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T22:11:00.123-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T22:11:00.124-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@25f04ce3
+2026-01-06T22:11:00.124-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@576abe91
+2026-01-06T22:11:00.124-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2eba599a
+2026-01-06T22:11:00.124-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@52d2dc85
+2026-01-06T22:11:00.125-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:11:00.126-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@25f04ce3, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-06T22:11:00.128-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:11:00.130-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T22:11:00.137-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T22:11:00.138-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T22:11:00.139-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T22:11:00.154-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T22:11:00.154-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@4cb0dd09
+2026-01-06T22:11:00.154-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@13d087b
+2026-01-06T22:11:00.154-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@64208431
+2026-01-06T22:11:00.155-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@58ffd2a6
+2026-01-06T22:11:00.155-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:11:00.156-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@4cb0dd09, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-06T22:11:00.157-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:11:02.368-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/departamentos?page=0&size=10
+2026-01-06T22:11:02.382-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/departamentos?page=0&size=10
+2026-01-06T22:11:02.384-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/departamentos?page=0&size=10", parameters={masked}
+2026-01-06T22:11:02.384-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorDepartamento#obtenerTodos()
+2026-01-06T22:11:02.392-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se han obtenido todos los departamentos. La cantidad de registros es: 9
+2026-01-06T22:11:02.392-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@28efc6ab
+2026-01-06T22:11:02.393-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@1d382486
+2026-01-06T22:11:02.393-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@23945dce
+2026-01-06T22:11:02.393-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@2903f9d8
+2026-01-06T22:11:02.394-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@7f8fb8cd
+2026-01-06T22:11:02.394-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@23cfbfae
+2026-01-06T22:11:02.394-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@22b4ec34
+2026-01-06T22:11:02.395-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@144f1c83
+2026-01-06T22:11:02.395-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@16048717
+2026-01-06T22:11:02.395-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:11:02.396-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@28efc6ab, com.anthony.tfg.tfg.DTOs.Resp (truncated)...]
+2026-01-06T22:11:02.397-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:15:36.971-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T22:15:36.983-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T22:15:36.983-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T22:15:36.984-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T22:15:36.999-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T22:15:36.999-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@1e67dc10
+2026-01-06T22:15:36.999-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@3fd0c433
+2026-01-06T22:15:36.999-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@20e2cb00
+2026-01-06T22:15:36.999-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@59e3da33
+2026-01-06T22:15:36.999-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:15:37.000-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@1e67dc10, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-06T22:15:37.000-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:15:37.000-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-06T22:15:37.013-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-06T22:15:37.014-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-06T22:15:37.014-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-06T22:15:37.029-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-06T22:15:37.030-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@6d135d60
+2026-01-06T22:15:37.030-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2489c21c
+2026-01-06T22:15:37.030-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@5657d
+2026-01-06T22:15:37.030-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@78d7ebc0
+2026-01-06T22:15:37.030-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:15:37.031-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@6d135d60, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-06T22:15:37.032-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:15:38.510-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/departamentos?page=0&size=10
+2026-01-06T22:15:38.516-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/departamentos?page=0&size=10
+2026-01-06T22:15:38.516-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/departamentos?page=0&size=10", parameters={masked}
+2026-01-06T22:15:38.516-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorDepartamento#obtenerTodos()
+2026-01-06T22:15:38.528-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se han obtenido todos los departamentos. La cantidad de registros es: 9
+2026-01-06T22:15:38.528-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@67f26f86
+2026-01-06T22:15:38.528-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@7eddb214
+2026-01-06T22:15:38.529-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@6b54cb67
+2026-01-06T22:15:38.529-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@7d7ceb92
+2026-01-06T22:15:38.529-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@98635e4
+2026-01-06T22:15:38.530-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@1a586bd2
+2026-01-06T22:15:38.530-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@571a840d
+2026-01-06T22:15:38.530-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@4da0c507
+2026-01-06T22:15:38.530-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@75b1f042
+2026-01-06T22:15:38.531-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:15:38.532-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@67f26f86, com.anthony.tfg.tfg.DTOs.Resp (truncated)...]
+2026-01-06T22:15:38.533-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-06T22:19:24.461-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/departamentos?page=0&size=10
+2026-01-06T22:19:24.472-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/departamentos?page=0&size=10
+2026-01-06T22:19:24.472-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/departamentos?page=0&size=10", parameters={masked}
+2026-01-06T22:19:24.473-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorDepartamento#obtenerTodos()
+2026-01-06T22:19:24.481-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se han obtenido todos los departamentos. La cantidad de registros es: 9
+2026-01-06T22:19:24.482-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@5f5cf926
+2026-01-06T22:19:24.482-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@21431ca4
+2026-01-06T22:19:24.482-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@2d5449de
+2026-01-06T22:19:24.483-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@1d792b83
+2026-01-06T22:19:24.483-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@25d474c3
+2026-01-06T22:19:24.483-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@1ccbeae1
+2026-01-06T22:19:24.483-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@13de5a1f
+2026-01-06T22:19:24.483-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@472f5ed4
+2026-01-06T22:19:24.483-06:00  INFO 5336 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.S.ServicioDepartamento       : Se ha convertido la entidad Departamento a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@41db489e
+2026-01-06T22:19:24.484-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-06T22:19:24.484-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDepartamentoDTO@5f5cf926, com.anthony.tfg.tfg.DTOs.Resp (truncated)...]
+2026-01-06T22:19:24.485-06:00 DEBUG 5336 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK

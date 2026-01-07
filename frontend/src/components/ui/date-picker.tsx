@@ -1,7 +1,9 @@
+"use client"
+
 import * as React from "react"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
-import { Calendar as CalendarIcon } from "lucide-react"
+import { ChevronDownIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -18,6 +20,8 @@ interface DatePickerProps {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
+  fromYear?: number;
+  toYear?: number;
 }
 
 export function DatePicker({
@@ -26,7 +30,10 @@ export function DatePicker({
   placeholder = "Seleccionar fecha",
   disabled = false,
   className,
+  fromYear = 1940,
+  toYear = new Date().getFullYear(),
 }: DatePickerProps) {
+  const [open, setOpen] = React.useState(false)
   const [date, setDate] = React.useState<Date | undefined>(
     value ? new Date(value) : undefined
   )
@@ -42,40 +49,40 @@ export function DatePicker({
   const handleSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate)
     if (selectedDate) {
-      // Format as YYYY-MM-DD for input compatibility
+      // Format as YYYY-MM-DD for backend compatibility
       const formattedDate = format(selectedDate, "yyyy-MM-dd")
       onChange(formattedDate)
     } else {
       onChange("")
     }
+    setOpen(false)
   }
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
+          variant="outline"
+          disabled={disabled}
           className={cn(
-            "w-full justify-start text-left font-normal",
+            "w-full justify-between font-normal",
             !date && "text-muted-foreground",
             className
           )}
-          disabled={disabled}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP", { locale: es }) : <span>{placeholder}</span>}
+          {date ? format(date, "PPP", { locale: es }) : placeholder}
+          <ChevronDownIcon className="ml-2 h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent className="w-auto overflow-hidden p-0" align="start">
         <Calendar
           mode="single"
           selected={date}
-          onSelect={handleSelect}
-          locale={es}
           captionLayout="dropdown"
-          fromYear={1940}
-          toYear={new Date().getFullYear()}
-          className="[--cell-size:2.5rem]"
+          locale={es}
+          fromYear={fromYear}
+          toYear={toYear}
+          onSelect={handleSelect}
         />
       </PopoverContent>
     </Popover>
