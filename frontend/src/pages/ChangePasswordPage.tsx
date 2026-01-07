@@ -1,80 +1,110 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { authService } from '@/services/authService';
+import { useForm } from '@/hooks/useForm';
+
+interface ChangePasswordFormData {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+// Password validation function extracted for reusability
+const validatePassword = (password: string): string | null => {
+  if (password.length < 8) {
+    return 'La contraseña debe tener al menos 8 caracteres';
+  }
+  if (!/[A-Z]/.test(password)) {
+    return 'La contraseña debe contener al menos una letra mayúscula';
+  }
+  if (!/[a-z]/.test(password)) {
+    return 'La contraseña debe contener al menos una letra minúscula';
+  }
+  if (!/[0-9]/.test(password)) {
+    return 'La contraseña debe contener al menos un número';
+  }
+  if (!/[!@#$%&*]/.test(password)) {
+    return 'La contraseña debe contener al menos un carácter especial (!@#$%&*)';
+  }
+  return null;
+};
 
 export default function ChangePasswordPage() {
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = 'Cambiar Contraseña - Sistema de RH';
   }, []);
 
-  const validatePassword = (password: string): string | null => {
-    if (password.length < 8) {
-      return 'La contraseña debe tener al menos 8 caracteres';
-    }
-    if (!/[A-Z]/.test(password)) {
-      return 'La contraseña debe contener al menos una letra mayúscula';
-    }
-    if (!/[a-z]/.test(password)) {
-      return 'La contraseña debe contener al menos una letra minúscula';
-    }
-    if (!/[0-9]/.test(password)) {
-      return 'La contraseña debe contener al menos un número';
-    }
-    if (!/[!@#$%&*]/.test(password)) {
-      return 'La contraseña debe contener al menos un carácter especial (!@#$%&*)';
-    }
-    return null;
-  };
+  // Memoized validation function
+  const validate = useCallback((values: ChangePasswordFormData): Record<string, string> => {
+    const errors: Record<string, string> = {};
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-
-    // Validaciones
-    if (newPassword !== confirmPassword) {
-      setError('Las contraseñas no coinciden');
-      return;
+    if (values.newPassword !== values.confirmPassword) {
+      errors.confirmPassword = 'Las contraseñas no coinciden';
     }
 
-    const passwordError = validatePassword(newPassword);
+    const passwordError = validatePassword(values.newPassword);
     if (passwordError) {
-      setError(passwordError);
-      return;
+      errors.newPassword = passwordError;
     }
 
-    if (currentPassword === newPassword) {
-      setError('La nueva contraseña debe ser diferente a la actual');
-      return;
+    if (values.currentPassword === values.newPassword) {
+      errors.newPassword = 'La nueva contraseña debe ser diferente a la actual';
     }
 
-    setLoading(true);
+    return errors;
+  }, []);
+
+  const handlePasswordChange = useCallback(async (values: ChangePasswordFormData) => {
+    setError('');
 
     try {
       await authService.changePassword({
-        currentPassword,
-        newPassword
+        currentPassword: values.currentPassword,
+        newPassword: values.newPassword
       });
       
       // Logout and redirect to login
       authService.removeToken();
-      navigate('/login', { state: { message: 'Contraseña actualizada. Por favor inicie sesión nuevamente.' } });
+      navigate('/login', { 
+        state: { message: 'Contraseña actualizada. Por favor inicie sesión nuevamente.' },
+        replace: true
+      });
     } catch (err: any) {
       setError(err.message || 'Error al cambiar la contraseña');
-    } finally {
-      setLoading(false);
+      throw err; // Re-throw to let useForm handle the submission state
     }
-  };
+  }, [navigate]);
+
+  const { values, errors, handleChange, handleSubmit, isSubmitting } = useForm<ChangePasswordFormData>({
+    initialValues: {
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    },
+    validate,
+    onSubmit: handlePasswordChange,
+  });
+
+  // Memoize password requirements UI
+  const passwordRequirements = useMemo(() => (
+    <div className="text-xs text-muted-foreground space-y-1">
+      <p className="font-semibold">La contraseña debe contener:</p>
+      <ul className="list-disc list-inside space-y-1">
+        <li>Mínimo 8 caracteres</li>
+        <li>Al menos una letra mayúscula</li>
+        <li>Al menos una letra minúscula</li>
+        <li>Al menos un número</li>
+        <li>Al menos un carácter especial (!@#$%&*)</li>
+      </ul>
+    </div>
+  ), []);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
@@ -93,51 +123,60 @@ export default function ChangePasswordPage() {
               <Label htmlFor="currentPassword">Contraseña Actual</Label>
               <Input
                 id="currentPassword"
+                name="currentPassword"
                 type="password"
                 placeholder="Ingrese su contraseña actual"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
+                value={values.currentPassword}
+                onChange={handleChange}
+                disabled={isSubmitting}
                 required
+                autoComplete="current-password"
               />
+              {errors.currentPassword && (
+                <p className="text-sm text-red-600">{errors.currentPassword}</p>
+              )}
             </div>
             
             <div className="space-y-2">
               <Label htmlFor="newPassword">Nueva Contraseña</Label>
               <Input
                 id="newPassword"
+                name="newPassword"
                 type="password"
                 placeholder="Ingrese su nueva contraseña"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                value={values.newPassword}
+                onChange={handleChange}
+                disabled={isSubmitting}
                 required
+                autoComplete="new-password"
               />
+              {errors.newPassword && (
+                <p className="text-sm text-red-600">{errors.newPassword}</p>
+              )}
             </div>
             
             <div className="space-y-2">
               <Label htmlFor="confirmPassword">Confirmar Nueva Contraseña</Label>
               <Input
                 id="confirmPassword"
+                name="confirmPassword"
                 type="password"
                 placeholder="Confirme su nueva contraseña"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={values.confirmPassword}
+                onChange={handleChange}
+                disabled={isSubmitting}
                 required
+                autoComplete="new-password"
               />
+              {errors.confirmPassword && (
+                <p className="text-sm text-red-600">{errors.confirmPassword}</p>
+              )}
             </div>
 
-            <div className="text-xs text-muted-foreground space-y-1">
-              <p className="font-semibold">La contraseña debe contener:</p>
-              <ul className="list-disc list-inside space-y-1">
-                <li>Mínimo 8 caracteres</li>
-                <li>Al menos una letra mayúscula</li>
-                <li>Al menos una letra minúscula</li>
-                <li>Al menos un número</li>
-                <li>Al menos un carácter especial (!@#$%&*)</li>
-              </ul>
-            </div>
+            {passwordRequirements}
 
             {error && (
-              <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded p-3">
+              <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded p-3" role="alert">
                 {error}
               </div>
             )}
@@ -145,9 +184,9 @@ export default function ChangePasswordPage() {
             <Button 
               type="submit" 
               className="w-full"
-              disabled={loading}
+              disabled={isSubmitting}
             >
-              {loading ? 'Cambiando contraseña...' : 'Cambiar Contraseña'}
+              {isSubmitting ? 'Cambiando contraseña...' : 'Cambiar Contraseña'}
             </Button>
           </CardContent>
         </form>

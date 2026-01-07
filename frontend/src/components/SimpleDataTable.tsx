@@ -73,24 +73,28 @@ export function SimpleDataTable<T extends { id: number | string }>({
                       : String(getCellValue(item, column) ?? '')}
                   </td>
                 ))}
-                <td className="px-4 py-3 text-right space-x-2">
+                <td className="px-4 py-3 text-right space-x-1">
                   {customActions && customActions(item)}
                   {onEdit && (
                     <Button
-                      variant="outline"
+                      variant="ghost"
                       size="sm"
                       onClick={() => onEdit(item)}
+                      className="h-8 px-2"
+                      title="Editar"
                     >
-                      ✏️ Editar
+                      ✏️
                     </Button>
                   )}
                   {onDelete && (
                     <Button
-                      variant="destructive"
+                      variant="ghost"
                       size="sm"
                       onClick={() => onDelete(item.id)}
+                      className="h-8 px-2 text-destructive hover:text-destructive"
+                      title="Eliminar"
                     >
-                      🗑️ Eliminar
+                      🗑️
                     </Button>
                   )}
                 </td>

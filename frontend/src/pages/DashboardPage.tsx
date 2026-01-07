@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { Sidebar } from '@/components/Sidebar';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { InicioView } from '@/components/dashboard/InicioView';
@@ -8,95 +8,98 @@ import { EmpleadosView } from '@/components/dashboard/EmpleadosView';
 import { authService } from '@/services/authService';
 import type { Role } from '@/services/authService';
 
+// Memoized PlaceholderView to prevent unnecessary re-renders
+const MemoizedPlaceholderView = memo(PlaceholderView);
+const MemoizedInicioView = memo(InicioView);
+const MemoizedEmpleadosView = memo(EmpleadosView);
+const MemoizedMantenimientosView = memo(MantenimientosView);
+
 export default function DashboardPage() {
   const [activeView, setActiveView] = useState('inicio');
-  const [userInfo, setUserInfo] = useState<{ username: string; role: Role }>({
-    username: 'Usuario',
-    role: 'EMPLEADO',
-  });
+  
+  // Memoize user info since it doesn't change after initial load
+  const userInfo = useMemo(() => authService.getUserInfo(), []);
 
   useEffect(() => {
     document.title = 'Dashboard - Sistema de RH';
-    // Obtener información del usuario desde el JWT
-    const info = authService.getUserInfo();
-    setUserInfo(info);
   }, []);
 
-  const renderView = () => {
+  // Memoize the view rendering to avoid recreating components
+  const renderView = useCallback(() => {
     switch (activeView) {
       case 'inicio':
-        return <InicioView userRole={userInfo.role} />;
+        return <MemoizedInicioView userRole={userInfo.role} />;
       case 'mi-planilla':
         return (
-          <PlaceholderView
+          <MemoizedPlaceholderView
             title="Mi Planilla"
             description="Consulta tu información de planilla y pagos"
           />
         );
       case 'mis-solicitudes':
         return (
-          <PlaceholderView
+          <MemoizedPlaceholderView
             title="Mis Solicitudes"
             description="Gestiona tus solicitudes de vacaciones, permisos y más"
           />
         );
       case 'asistencia':
         return (
-          <PlaceholderView
+          <MemoizedPlaceholderView
             title="Asistencia"
             description="Control de asistencia de empleados"
           />
         );
       case 'horas-extra':
         return (
-          <PlaceholderView
+          <MemoizedPlaceholderView
             title="Horas Extra"
             description="Gestión de horas extra y solicitudes"
           />
         );
       case 'solicitudes-pendientes':
         return (
-          <PlaceholderView
+          <MemoizedPlaceholderView
             title="Solicitudes Pendientes"
             description="Aprueba o rechaza solicitudes de tus empleados"
           />
         );
       case 'planilla-general':
         return (
-          <PlaceholderView
+          <MemoizedPlaceholderView
             title="Planilla General"
             description="Administra la planilla de todos los empleados"
           />
         );
       case 'liquidaciones':
         return (
-          <PlaceholderView
+          <MemoizedPlaceholderView
             title="Liquidaciones"
             description="Procesa liquidaciones de empleados"
           />
         );
       case 'aguinaldo':
         return (
-          <PlaceholderView
+          <MemoizedPlaceholderView
             title="Aguinaldo"
             description="Gestión de aguinaldos y bonificaciones"
           />
         );
       case 'reportes':
         return (
-          <PlaceholderView
+          <MemoizedPlaceholderView
             title="Reportes"
             description="Genera reportes y análisis del sistema"
           />
         );
       case 'empleados':
-        return <EmpleadosView />;
+        return <MemoizedEmpleadosView />;
       case 'mantenimientos':
-        return <MantenimientosView />;
+        return <MemoizedMantenimientosView />;
       default:
-        return <InicioView userRole={userInfo.role} />;
+        return <MemoizedInicioView userRole={userInfo.role} />;
     }
-  };
+  }, [activeView, userInfo.role]);
 
   return (
     <div className="flex min-h-screen bg-background">

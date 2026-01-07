@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react';
 import { cn } from '../lib/utils';
 import type { Role } from '../services/authService';
 import type { ReactElement } from 'react';
@@ -138,22 +139,37 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-export function Sidebar({ userRole, activeItem, onItemClick }: SidebarProps) {
-  const filteredItems = menuItems.filter((item) => item.roles.includes(userRole));
+export const Sidebar = memo(function Sidebar({ userRole, activeItem, onItemClick }: SidebarProps) {
+  // Memoize filtered menu items based on user role
+  const filteredItems = useMemo(
+    () => menuItems.filter((item) => item.roles.includes(userRole)),
+    [userRole]
+  );
+
+  // Memoize role display text
+  const roleText = useMemo(() => {
+    switch (userRole) {
+      case 'ADMIN':
+        return 'Administrador';
+      case 'HR':
+        return 'Recursos Humanos';
+      case 'JEFE':
+        return 'Jefe de Departamento';
+      case 'EMPLEADO':
+        return 'Empleado';
+      default:
+        return 'Usuario';
+    }
+  }, [userRole]);
 
   return (
     <aside className="w-64 bg-card border-r border-border min-h-screen">
       <div className="p-6 border-b border-border">
         <h1 className="text-xl font-bold text-foreground">Sistema RH</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          {userRole === 'ADMIN' && 'Administrador'}
-          {userRole === 'HR' && 'Recursos Humanos'}
-          {userRole === 'JEFE' && 'Jefe de Departamento'}
-          {userRole === 'EMPLEADO' && 'Empleado'}
-        </p>
+        <p className="text-sm text-muted-foreground mt-1">{roleText}</p>
       </div>
       
-      <nav className="p-4">
+      <nav className="p-4" aria-label="Menú principal">
         <ul className="space-y-2">
           {filteredItems.map((item) => (
             <li key={item.id}>
@@ -165,6 +181,7 @@ export function Sidebar({ userRole, activeItem, onItemClick }: SidebarProps) {
                     ? 'bg-primary text-primary-foreground'
                     : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
                 )}
+                aria-current={activeItem === item.id ? 'page' : undefined}
               >
                 {item.icon}
                 <span>{item.label}</span>
@@ -175,4 +192,4 @@ export function Sidebar({ userRole, activeItem, onItemClick }: SidebarProps) {
       </nav>
     </aside>
   );
-}
+});

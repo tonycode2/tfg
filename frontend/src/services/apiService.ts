@@ -26,6 +26,7 @@ export interface ValidationError {
 /**
  * Servicio genérico para operaciones CRUD sobre recursos de la API.
  * Implementa manejo centralizado de autenticación, errores y logging.
+ * Incluye soporte para cancelación de peticiones mediante AbortController.
  */
 export class ApiService<T> {
   private readonly endpoint: string;
@@ -54,65 +55,74 @@ export class ApiService<T> {
       try {
         const errorData: ErrorResponse = await response.json();
         throw new Error(errorData.message || 'Error en la solicitud');
-      } catch {
+      } catch (error) {
+        if (error instanceof Error && error.message !== 'Error en la solicitud') {
+          throw error;
+        }
         throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
       }
     }
     return response.json();
   }
 
-  async getAll(page: number = 0, size: number = 10): Promise<PaginatedResponse<T>> {
+  async getAll(page: number = 0, size: number = 10, signal?: AbortSignal): Promise<PaginatedResponse<T>> {
     const response = await fetch(
       `${API_URL}/${this.endpoint}?page=${page}&size=${size}`,
       {
         method: 'GET',
         headers: this.getAuthHeaders(),
+        signal,
       }
     );
     return this.handleResponse<PaginatedResponse<T>>(response);
   }
 
-  async getAllUnpaginated(): Promise<T[]> {
+  async getAllUnpaginated(signal?: AbortSignal): Promise<T[]> {
     const response = await fetch(
       `${API_URL}/${this.endpoint}`,
       {
         method: 'GET',
         headers: this.getAuthHeaders(),
+        signal,
       }
     );
     return this.handleResponse<T[]>(response);
   }
 
-  async getById(id: number | string): Promise<T> {
+  async getById(id: number | string, signal?: AbortSignal): Promise<T> {
     const response = await fetch(`${API_URL}/${this.endpoint}/${id}`, {
       method: 'GET',
       headers: this.getAuthHeaders(),
+      signal,
     });
     return this.handleResponse<T>(response);
   }
 
-  async create(data: Partial<T>): Promise<T> {
+  async create(data: Partial<T>, signal?: AbortSignal): Promise<T> {
     const response = await fetch(`${API_URL}/${this.endpoint}`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(data),
+      signal,
     });
     return this.handleResponse<T>(response);
   }
 
-  async update(id: number | string, data: Partial<T>): Promise<T> {
+  async update(id: number | string, data: Partial<T>, signal?: AbortSignal): Promise<T> {
     const response = await fetch(`${API_URL}/${this.endpoint}/${id}`, {
       method: 'PUT',
       headers: this.getAuthHeaders(),
       body: JSON.stringify(data),
+      signal,
     });
     return this.handleResponse<T>(response);
   }
 
-  async delete(id: number | string): Promise<void> {
+  async delete(id: number | string, signal?: AbortSignal): Promise<void> {
     const response = await fetch(`${API_URL}/${this.endpoint}/${id}`, {
       method: 'DELETE',
       headers: this.getAuthHeaders(),
+      signal,
     });
     
     if (!response.ok) {

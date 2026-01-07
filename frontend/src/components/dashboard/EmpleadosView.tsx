@@ -379,12 +379,13 @@ export function EmpleadosView() {
               customActions={(empleado) => (
                 !empleado.nombreUsuario && (
                   <Button
-                    variant="outline"
+                    variant="ghost"
                     size="sm"
                     onClick={() => handleGenerarUsuario(empleado.id)}
-                    className="mr-2"
+                    className="h-8 px-2 mr-1"
+                    title="Generar Usuario"
                   >
-                    👤 Generar Usuario
+                    👤
                   </Button>
                 )
               )}

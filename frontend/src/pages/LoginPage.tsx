@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,13 +6,16 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { authService } from '@/services/authService';
 import { useTheme } from '@/hooks/useTheme';
+import { useForm } from '@/hooks/useForm';
+
+interface LoginFormData {
+  username: string;
+  password: string;
+}
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
@@ -27,14 +30,12 @@ export default function LoginPage() {
     }
   }, [location]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleLogin = useCallback(async (values: LoginFormData) => {
     setError('');
     setSuccessMessage('');
-    setLoading(true);
 
     try {
-      const response = await authService.login({ username, password });
+      const response = await authService.login(values);
       authService.saveToken(response.token);
       
       // Check if password change is required
@@ -45,10 +46,17 @@ export default function LoginPage() {
       }
     } catch (err) {
       setError('Usuario o contraseña incorrectos');
-    } finally {
-      setLoading(false);
+      throw err; // Re-throw to let useForm handle the submission state
     }
-  };
+  }, [navigate]);
+
+  const { values, handleChange, handleSubmit, isSubmitting } = useForm<LoginFormData>({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    onSubmit: handleLogin,
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 relative">
@@ -58,13 +66,14 @@ export default function LoginPage() {
         onClick={toggleTheme}
         className="absolute top-4 right-4 h-9 w-9"
         title="Cambiar tema"
+        aria-label="Cambiar tema"
       >
         {theme === 'light' ? (
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </svg>
         ) : (
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="4" strokeWidth={2} />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M17.66 6.34l1.41-1.41" />
           </svg>
@@ -92,33 +101,42 @@ export default function LoginPage() {
               <Label htmlFor="username">Usuario</Label>
               <Input
                 id="username"
+                name="username"
                 type="text"
                 placeholder="Ingrese su usuario"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={values.username}
+                onChange={handleChange}
+                disabled={isSubmitting}
                 required
+                autoComplete="username"
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Contraseña</Label>
               <Input
                 id="password"
+                name="password"
                 type="password"
                 placeholder="Ingrese su contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={values.password}
+                onChange={handleChange}
+                disabled={isSubmitting}
                 required
+                autoComplete="current-password"
               />
             </div>
             
             {successMessage && (
-              <div className="text-sm text-green-600 bg-green-50 border border-green-200 rounded p-3 text-center">
+              <div 
+                className="text-sm text-green-600 bg-green-50 border border-green-200 rounded p-3 text-center"
+                role="alert"
+              >
                 {successMessage}
               </div>
             )}
             
             {error && (
-              <div className="text-sm text-red-600 text-center">
+              <div className="text-sm text-red-600 text-center" role="alert">
                 {error}
               </div>
             )}
@@ -127,9 +145,9 @@ export default function LoginPage() {
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={loading}
+              disabled={isSubmitting}
             >
-              {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+              {isSubmitting ? 'Iniciando sesión...' : 'Iniciar Sesión'}
             </Button>
           </CardFooter>
         </form>
