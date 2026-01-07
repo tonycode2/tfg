@@ -61,10 +61,9 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
             log.warn("No se ha encontrado la asistencia con ID: " + id + " para actualizar");
             throw new ResourceNotFoundException("Asistencia", "id", id);
         }
-        asistenciaExistente.setFecha(entidad.fecha);
-        asistenciaExistente.setHoraEntrada(entidad.horaEntrada);
-        asistenciaExistente.setHoraSalida(entidad.horaSalida);
-        asistenciaExistente.setHorasTrabajadas(entidad.horasTrabajadas);
+        asistenciaExistente.setTipoEvento(entidad.tipoEvento);
+        asistenciaExistente.setFechaHora(entidad.fechaHora);
+        asistenciaExistente.setObservaciones(entidad.observaciones);
         
         Empleados empleado = consultasEmpleados.obtenerPorId(entidad.idEmpleado);
         if(empleado != null){
@@ -95,10 +94,9 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         
         Asistencia asistencia = Asistencia.builder()
                     .id(solicitud.id)
-                    .fecha(solicitud.fecha)
-                    .horaEntrada(solicitud.horaEntrada)
-                    .horaSalida(solicitud.horaSalida)
-                    .horasTrabajadas(solicitud.horasTrabajadas)
+                    .tipoEvento(solicitud.tipoEvento)
+                    .fechaHora(solicitud.fechaHora)
+                    .observaciones(solicitud.observaciones)
                     .empleado(empleado)
                     .build();
         log.info("Se ha convertido el DTO de solicitud a entidad Asistencia: {}", asistencia);
@@ -112,10 +110,9 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         }
         RespuestaAsistenciaDTO respuesta = new RespuestaAsistenciaDTO();
         respuesta.id = entidad.getId();
-        respuesta.fecha = entidad.getFecha();
-        respuesta.horaEntrada = entidad.getHoraEntrada();
-        respuesta.horaSalida = entidad.getHoraSalida();
-        respuesta.horasTrabajadas = entidad.getHorasTrabajadas();
+        respuesta.tipoEvento = entidad.getTipoEvento();
+        respuesta.fechaHora = entidad.getFechaHora();
+        respuesta.observaciones = entidad.getObservaciones();
         
         if(entidad.getEmpleado() != null){
             respuesta.nombreEmpleado = entidad.getEmpleado().getNombre();

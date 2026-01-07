@@ -1,12 +1,16 @@
 package com.anthony.tfg.tfg.Entidades;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
+import com.anthony.tfg.tfg.Entidades.Enums.TipoEvento;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,17 +34,14 @@ public class Asistencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fecha;
-    @Column(name = "hora_entrada")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    Time horaEntrada;
-    @Column(name = "hora_salida")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    Time horaSalida;
-    @Column(name = "horas_trabajadas")
-    Double horasTrabajadas;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_evento")
+    TipoEvento tipoEvento;
+    @Column(name = "fecha_hora")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime fechaHora;
     
+    String observaciones;
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     Empleados empleado;
