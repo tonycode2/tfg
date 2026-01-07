@@ -57,25 +57,16 @@ export function DataTable<T extends { id?: number | string }>({
   const [pageSize, setPageSize] = useState(5);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState<T[]>([]);
+  const [paginatedData, setPaginatedData] = useState<T[]>([]);
 
   const loadData = async () => {
     try {
       setLoading(true);
       setError(null);
-      
-      // Si hay búsqueda activa, cargar todos los datos
-      if (searchTerm.trim()) {
-        const response: PaginatedResponse<T> = await service.getAll(0, 10000);
-        setData(response.content);
-        setTotalPages(1);
-        setTotalElements(response.totalElements);
-      } else {
-        // Sin búsqueda, usar paginación normal
-        const response: PaginatedResponse<T> = await service.getAll(page, pageSize);
-        setData(response.content);
-        setTotalPages(response.totalPages);
-        setTotalElements(response.totalElements);
-      }
+      // Cargar TODOS los datos una sola vez
+      const allData = await service.getAllUnpaginated();
+      setData(allData);
+      setTotalElements(allData.length);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error al cargar los datos');
     } finally {
@@ -85,9 +76,9 @@ export function DataTable<T extends { id?: number | string }>({
 
   useEffect(() => {
     loadData();
-  }, [page, pageSize, refreshTrigger, searchTerm]);
+  }, [refreshTrigger]);
 
-  // Filtrar datos localmente cuando cambia el término de búsqueda
+  // Filtrar datos cuando cambia el término de búsqueda
   useEffect(() => {
     if (!searchTerm.trim()) {
       setFilteredData(data);
@@ -102,7 +93,24 @@ export function DataTable<T extends { id?: number | string }>({
       });
     });
     setFilteredData(filtered);
+    setPage(0); // Resetear a primera página cuando se busca
   }, [searchTerm, data]);
+
+  // Calcular paginación local y actualizar totalPages
+  useEffect(() => {
+    const totalPagesCalc = Math.ceil(filteredData.length / pageSize);
+    setTotalPages(totalPagesCalc);
+    
+    // Calcular qué items mostrar en la página actual
+    const startIndex = page * pageSize;
+    const endIndex = startIndex + pageSize;
+    setPaginatedData(filteredData.slice(startIndex, endIndex));
+    
+    // Si la página actual ya no existe después de filtrar, volver a la primera
+    if (page >= totalPagesCalc && totalPagesCalc > 0) {
+      setPage(0);
+    }
+  }, [filteredData, page, pageSize]);
 
   const handlePageSizeChange = (newSize: string) => {
     setPageSize(Number(newSize));
@@ -260,7 +268,7 @@ export function DataTable<T extends { id?: number | string }>({
                   </td>
                 </tr>
               ) : (
-                filteredData.map((item, rowIndex) => (
+                paginatedData.map((item, rowIndex) => (
                   <tr
                     key={item.id || rowIndex}
                     className="hover:bg-muted/50 transition-colors"
@@ -333,7 +341,7 @@ export function DataTable<T extends { id?: number | string }>({
                 ))
               )}
               {/* Agregar filas vacías para mantener altura constante */}
-              {filteredData.length > 0 && Array.from({ length: Math.max(0, pageSize - filteredData.length) }).map((_, index) => (
+              {paginatedData.length > 0 && Array.from({ length: Math.max(0, pageSize - paginatedData.length) }).map((_, index) => (
                 <tr key={`empty-${index}`} className="hover:bg-muted/50 transition-colors" style={{ height: '56px' }}>
                   {columns.map((_, colIndex) => (
                     <td key={colIndex} className="px-4 py-3 text-sm">&nbsp;</td>
@@ -346,7 +354,7 @@ export function DataTable<T extends { id?: number | string }>({
         </div>
       </Card>
 
-      {!searchTerm.trim() && totalPages > 1 && (
+      {totalPages > 1 && (
         <Pagination>
           <PaginationContent>
             <PaginationItem>
@@ -394,15 +402,12 @@ export function DataTable<T extends { id?: number | string }>({
         </Pagination>
       )}
 
-      {searchTerm.trim() ? (
-        <div className="text-sm text-muted-foreground text-center">
-          Mostrando {filteredData.length} de {totalElements} registros
-        </div>
-      ) : (
-        <div className="text-sm text-muted-foreground text-center">
-          Página {page + 1} de {totalPages} • Total: {totalElements} registros
-        </div>
-      )}
+      <div className="text-sm text-muted-foreground text-center">
+        {searchTerm.trim() 
+          ? `Mostrando ${filteredData.length} resultado${filteredData.length !== 1 ? 's' : ''} de ${totalElements} registros`
+          : `Página ${page + 1} de ${totalPages} • Total: ${totalElements} registros`
+        }
+      </div>
 
       <ConfirmDialog
         isOpen={isConfirmOpen}

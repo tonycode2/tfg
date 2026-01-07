@@ -55,7 +55,7 @@ const entities: Record<EntityType, EntityConfig> = {
   permisos: { name: 'Permisos', icon: '📋' },
   liquidaciones: { name: 'Liquidaciones', icon: '💵' },
   planillas: { name: 'Planillas', icon: '📊' },
-  evaluaciones: { name: 'Evaluaciones de Desempeño', icon: '⭐' },
+  evaluaciones: { name: 'Evaluaciones', icon: '⭐' },
   'jefes-departamento': { name: 'Jefes de Departamento', icon: '👔' },
 };
 

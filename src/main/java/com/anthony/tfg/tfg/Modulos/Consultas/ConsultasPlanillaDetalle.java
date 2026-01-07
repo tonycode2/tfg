@@ -1,9 +1,8 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.PlanillaDetalle;
@@ -24,8 +23,8 @@ public class ConsultasPlanillaDetalle implements ConsultaInterface<PlanillaDetal
         return resultado.orElse(null);
     }
 
-    public Page<PlanillaDetalle> obtenerTodos(Pageable pageable) {
-        return repo.findAll(pageable);
+    public List<PlanillaDetalle> obtenerTodos() {
+        return repo.findAll();
     }
 
     

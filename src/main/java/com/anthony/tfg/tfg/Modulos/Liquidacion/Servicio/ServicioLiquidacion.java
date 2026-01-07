@@ -2,8 +2,6 @@ package com.anthony.tfg.tfg.Modulos.Liquidacion.Servicio;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaLiquidacionesDTO;
@@ -45,10 +43,10 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
         return deEntidadDtoARespuesta(liquidacion);
     }
 
-    public Page<RespuestaLiquidacionesDTO> obtenerTodos(Pageable pageable) {
-        Page<Liquidaciones> entidades = consulta.obtenerTodos(pageable);
-        log.info("Se han obtenido todas las liquidaciones. La cantidad de registros es: " + entidades.getTotalElements());
-        return entidades.map(this::deEntidadDtoARespuesta);
+    public List<RespuestaLiquidacionesDTO> obtenerTodos() {
+        List<Liquidaciones> entidades = consulta.obtenerTodos();
+        log.info("Se han obtenido todas las liquidaciones. La cantidad de registros es: " + entidades.size());
+        return deListaEntidadADto(entidades);
     }
 
     public RespuestaLiquidacionesDTO guardar(SolicitudLiquidacionesDTO entidad) {

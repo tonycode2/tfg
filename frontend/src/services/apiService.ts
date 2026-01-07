@@ -40,6 +40,12 @@ export class ApiService<T> {
 
   private async handleResponse<R>(response: Response): Promise<R> {
     if (!response.ok) {
+      // Si el token expiró (401 Unauthorized), cerrar sesión automáticamente
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+        throw new Error('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      }
       const errorData: ErrorResponse = await response.json();
       throw new Error(errorData.message || 'Error en la solicitud');
     }
@@ -65,8 +71,7 @@ export class ApiService<T> {
         headers: this.getAuthHeaders(),
       }
     );
-    const paginatedResponse = await this.handleResponse<PaginatedResponse<T>>(response);
-    return paginatedResponse.content;
+    return this.handleResponse<T[]>(response);
   }
 
   async getById(id: number | string): Promise<T> {

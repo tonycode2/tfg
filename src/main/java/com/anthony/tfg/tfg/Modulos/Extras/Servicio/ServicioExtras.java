@@ -2,8 +2,6 @@ package com.anthony.tfg.tfg.Modulos.Extras.Servicio;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaHorasExtraDTO;
@@ -46,10 +44,10 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return deEntidadDtoARespuesta(horaExtra);
     }
 
-    public Page<RespuestaHorasExtraDTO> obtenerTodos(Pageable pageable) {
-        Page<HorasExtra> entidades = consulta.obtenerTodos(pageable);
-        log.info("Se han obtenido todas las horas extra. La cantidad de registros es: " + entidades.getTotalElements());
-        return entidades.map(this::deEntidadDtoARespuesta);
+    public List<RespuestaHorasExtraDTO> obtenerTodos() {
+        List<HorasExtra> entidades = consulta.obtenerTodos();
+        log.info("Se han obtenido todas las horas extra. La cantidad de registros es: " + entidades.size());
+        return deListaEntidadADto(entidades);
     }
 
     public RespuestaHorasExtraDTO guardar(SolicitudHorasExtraDTO entidad) {

@@ -1,9 +1,8 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.Direccion;
@@ -23,8 +22,8 @@ public class ConsultasDirecciones implements ConsultaInterface<Direccion>{
         return direccion.orElse(null);
     }
 
-    public Page<Direccion> obtenerTodos(Pageable pageable) {
-        return repo.findAll(pageable);
+    public List<Direccion> obtenerTodos() {
+        return repo.findAll();
     }
     
 }

@@ -1,7 +1,7 @@
 package com.anthony.tfg.tfg.Modulos.Permisos.Controlador;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -41,9 +41,9 @@ public class ControladorPermisos {
     }
 
     @GetMapping
-    public ResponseEntity<Page<RespuestaPermisosDTO>> obtenerTodos(Pageable pageable) {
-        Page<RespuestaPermisosDTO> page = servicio.obtenerTodos(pageable);
-        return ResponseEntity.ok(page);
+    public ResponseEntity<List<RespuestaPermisosDTO>> obtenerTodos() {
+        List<RespuestaPermisosDTO> lista = servicio.obtenerTodos();
+        return ResponseEntity.ok(lista);
     }
 
     @PostMapping

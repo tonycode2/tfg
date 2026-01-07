@@ -2,8 +2,6 @@ package com.anthony.tfg.tfg.Modulos.JefesDepartamento.Servicio;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaJefesDepartamentoDTO;
@@ -51,10 +49,10 @@ public class ServicioJefesDepartamento implements ServicioInterface<RespuestaJef
         return deEntidadDtoARespuesta(jefe);
     }
 
-    public Page<RespuestaJefesDepartamentoDTO> obtenerTodos(Pageable pageable) {
-        Page<JefesDepartamento> entidades = consulta.obtenerTodos(pageable);
-        log.info("Se han obtenido todos los jefes de departamento. La cantidad de registros es: " + entidades.getTotalElements());
-        return entidades.map(this::deEntidadDtoARespuesta);
+    public List<RespuestaJefesDepartamentoDTO> obtenerTodos() {
+        List<JefesDepartamento> entidades = consulta.obtenerTodos();
+        log.info("Se han obtenido todos los jefes de departamento. La cantidad de registros es: " + entidades.size());
+        return deListaEntidadADto(entidades);
     }
 
     public RespuestaJefesDepartamentoDTO guardar(SolicitudJefesDepartamentoDTO entidad) {

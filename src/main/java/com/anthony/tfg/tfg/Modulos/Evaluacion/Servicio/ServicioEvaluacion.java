@@ -2,8 +2,6 @@ package com.anthony.tfg.tfg.Modulos.Evaluacion.Servicio;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEvaluacionDeDesempenoDTO;
@@ -44,10 +42,10 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         return deEntidadDtoARespuesta(evaluacion);
     }
 
-    public Page<RespuestaEvaluacionDeDesempenoDTO> obtenerTodos(Pageable pageable) {
-        Page<EvaluacionDeDesempeno> entidades = consulta.obtenerTodos(pageable);
-        log.info("Se han obtenido todas las evaluaciones de desempeño. La cantidad de registros es: " + entidades.getTotalElements());
-        return entidades.map(this::deEntidadDtoARespuesta);
+    public List<RespuestaEvaluacionDeDesempenoDTO> obtenerTodos() {
+        List<EvaluacionDeDesempeno> entidades = consulta.obtenerTodos();
+        log.info("Se han obtenido todas las evaluaciones. La cantidad de registros es: " + entidades.size());
+        return deListaEntidadADto(entidades);
     }
 
     public RespuestaEvaluacionDeDesempenoDTO guardar(SolicitudEvaluacionDeDesempenoDTO entidad) {

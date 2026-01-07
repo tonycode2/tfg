@@ -1,9 +1,8 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.Liquidaciones;
@@ -24,8 +23,8 @@ public class ConsultasLiquidaciones implements ConsultaInterface<Liquidaciones>{
         return liquidacion.orElse(null);
     }
 
-    public Page<Liquidaciones> obtenerTodos(Pageable pageable) {
-        return repo.findAll(pageable);
+    public List<Liquidaciones> obtenerTodos() {
+        return repo.findAll();
     }
 
 }

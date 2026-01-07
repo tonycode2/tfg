@@ -1,7 +1,7 @@
 package com.anthony.tfg.tfg.Modulos.Empleados.Controlador;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -46,9 +46,9 @@ public class ControladorEmpleados {
     }
 
     @GetMapping
-    public ResponseEntity<Page<RespuestaEmpleadosDTO>> obtenerTodos(Pageable pageable) {
-        Page<RespuestaEmpleadosDTO> page = servicio.obtenerTodos(pageable);
-        return ResponseEntity.ok(page);
+    public ResponseEntity<List<RespuestaEmpleadosDTO>> obtenerTodos() {
+        List<RespuestaEmpleadosDTO> lista = servicio.obtenerTodos();
+        return ResponseEntity.ok(lista);
     }
 
     @PostMapping

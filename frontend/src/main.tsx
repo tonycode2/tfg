@@ -11,3 +11,12 @@ createRoot(document.getElementById('root')!).render(
     </ThemeProvider>
   </StrictMode>,
 )
+
+// Ocultar el loader después de que React monte
+setTimeout(() => {
+  const loader = document.getElementById('app-loader');
+  if (loader) {
+    loader.classList.add('hide');
+    setTimeout(() => loader.remove(), 300);
+  }
+}, 100);

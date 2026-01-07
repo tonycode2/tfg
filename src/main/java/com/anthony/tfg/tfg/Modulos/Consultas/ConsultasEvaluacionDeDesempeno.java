@@ -1,9 +1,8 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
+import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.EvaluacionDeDesempeno;
@@ -24,8 +23,8 @@ public class ConsultasEvaluacionDeDesempeno implements ConsultaInterface<Evaluac
         return evaluacion.orElse(null);
     }
 
-    public Page<EvaluacionDeDesempeno> obtenerTodos(Pageable pageable) {
-        return repo.findAll(pageable);
+    public List<EvaluacionDeDesempeno> obtenerTodos() {
+        return repo.findAll();
     }
 
 }

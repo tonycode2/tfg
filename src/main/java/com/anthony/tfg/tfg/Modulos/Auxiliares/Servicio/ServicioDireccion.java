@@ -2,8 +2,6 @@ package com.anthony.tfg.tfg.Modulos.Auxiliares.Servicio;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaDireccionDTO;
@@ -40,10 +38,10 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
         return deEntidadDtoARespuesta(direccion);
     }
 
-    public Page<RespuestaDireccionDTO> obtenerTodos(Pageable pageable) {
-        Page<Direccion> entidades = consulta.obtenerTodos(pageable);
-        log.info("Se han obtenido todas las direcciones. La cantidad de registros es: " + entidades.getTotalElements());
-        return entidades.map(this::deEntidadDtoARespuesta);
+    public List<RespuestaDireccionDTO> obtenerTodos() {
+        List<Direccion> entidades = consulta.obtenerTodos();
+        log.info("Se han obtenido todas las direcciones. La cantidad de registros es: " + entidades.size());
+        return deListaEntidadADto(entidades);
     }
 
     public RespuestaDireccionDTO guardar(SolicitudDireccionDTO entidad) {
