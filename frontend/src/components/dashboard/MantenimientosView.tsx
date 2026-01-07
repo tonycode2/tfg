@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SearchableSelect, type SearchableSelectOption } from '@/components/ui/searchable-select';
+import { getProvincias, getCantonesByProvincia, getDistritosByCanton } from '@/data/costaRicaLocations';
 import {
   empleadosService,
   departamentosService,
@@ -154,7 +155,7 @@ export function MantenimientosView() {
     setIsModalOpen(true);
   };
 
-  const handleEdit = (item: any) => {
+  const handleEdit = async (item: any) => {
     console.log('handleEdit llamado con item:', item);
     console.log('Item ID:', item?.id);
     setEditingItem(item);
@@ -168,6 +169,16 @@ export function MantenimientosView() {
     }
     if (editData.horaSalida && typeof editData.horaSalida === 'string') {
       editData.horaSalida = editData.horaSalida.substring(0, 5);
+    }
+    
+    // Si es un empleado con dirección, cargar los datos de la dirección en los campos separados
+    if (selectedEntity === 'empleados' && item.direccion) {
+      editData.direccion_provincia = item.direccion.provincia;
+      editData.direccion_canton = item.direccion.canton;
+      editData.direccion_distrito = item.direccion.distrito;
+      editData.direccion_exacta = item.direccion.direccionExacta;
+      // Mantener también el idDireccion por si se necesita actualizar
+      editData.idDireccion = item.direccion.id;
     }
     
     setFormData(editData);
@@ -220,6 +231,32 @@ export function MantenimientosView() {
       }
       if (preparedData.horaSalida) {
         preparedData.horaSalida = formatTimeForBackend(preparedData.horaSalida);
+      }
+
+      // Manejo especial para empleados con dirección en cascada
+      if (selectedEntity === 'empleados' && preparedData.direccion_provincia) {
+        // Crear o actualizar la dirección
+        const direccionData = {
+          provincia: preparedData.direccion_provincia,
+          canton: preparedData.direccion_canton,
+          distrito: preparedData.direccion_distrito,
+          direccionExacta: preparedData.direccion_exacta || ''
+        };
+
+        if (editingItem?.id && preparedData.idDireccion) {
+          // Si estamos editando y ya existe una dirección, actualizarla
+          await direccionesService.update(preparedData.idDireccion, direccionData);
+        } else {
+          // Si es nuevo, crear la dirección
+          const nuevaDireccion = await direccionesService.create(direccionData);
+          preparedData.idDireccion = nuevaDireccion.id;
+        }
+        
+        // Limpiar los campos temporales de dirección
+        delete preparedData.direccion_provincia;
+        delete preparedData.direccion_canton;
+        delete preparedData.direccion_distrito;
+        delete preparedData.direccion_exacta;
       }
 
       if (editingItem?.id) {
@@ -552,30 +589,60 @@ export function MantenimientosView() {
           <div className="space-y-4">
             <div>
               <Label htmlFor="provincia">Provincia</Label>
-              <Input
-                id="provincia"
+              <SearchableSelect
+                options={getProvincias().map(p => ({ value: p, label: p }))}
                 value={formData.provincia || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, provincia: e.target.value })
-                }
+                onChange={(value) => {
+                  setFormData({ 
+                    ...formData, 
+                    provincia: value as string,
+                    canton: '', // Reset cantón when provincia changes
+                    distrito: '' // Reset distrito when provincia changes
+                  });
+                }}
+                placeholder="Seleccionar provincia..."
+                searchPlaceholder="Buscar provincia..."
               />
             </div>
+            
             <div>
               <Label htmlFor="canton">Cantón</Label>
-              <Input
-                id="canton"
+              <SearchableSelect
+                options={formData.provincia ? getCantonesByProvincia(formData.provincia as string).map(c => ({ value: c, label: c })) : []}
                 value={formData.canton || ''}
-                onChange={(e) => setFormData({ ...formData, canton: e.target.value })}
+                onChange={(value) => {
+                  setFormData({ 
+                    ...formData, 
+                    canton: value as string,
+                    distrito: '' // Reset distrito when cantón changes
+                  });
+                }}
+                placeholder="Seleccionar cantón..."
+                searchPlaceholder="Buscar cantón..."
+                disabled={!formData.provincia}
               />
             </div>
+            
             <div>
               <Label htmlFor="distrito">Distrito</Label>
-              <Input
-                id="distrito"
+              <SearchableSelect
+                options={formData.provincia && formData.canton ? getDistritosByCanton(
+                  formData.provincia as string, 
+                  formData.canton as string
+                ).map(d => ({ value: d, label: d })) : []}
                 value={formData.distrito || ''}
-                onChange={(e) => setFormData({ ...formData, distrito: e.target.value })}
+                onChange={(value) => {
+                  setFormData({ 
+                    ...formData, 
+                    distrito: value as string
+                  });
+                }}
+                placeholder="Seleccionar distrito..."
+                searchPlaceholder="Buscar distrito..."
+                disabled={!formData.provincia || !formData.canton}
               />
             </div>
+            
             <div>
               <Label htmlFor="direccionExacta">Dirección Exacta</Label>
               <Input
@@ -584,6 +651,7 @@ export function MantenimientosView() {
                 onChange={(e) =>
                   setFormData({ ...formData, direccionExacta: e.target.value })
                 }
+                placeholder="Ej: De la iglesia 100m norte, casa azul"
               />
             </div>
           </div>
@@ -780,9 +848,7 @@ export function MantenimientosView() {
                 id="fechaSolicitud"
                 type="date"
                 value={formData.fechaSolicitud || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaSolicitud: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaSolicitud: e.target.value })}
               />
             </div>
             <div>
@@ -856,9 +922,7 @@ export function MantenimientosView() {
                 id="fechaInicio"
                 type="date"
                 value={formData.fechaInicio || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaInicio: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaInicio: e.target.value })}
               />
             </div>
             <div>
@@ -867,9 +931,7 @@ export function MantenimientosView() {
                 id="fechaFin"
                 type="date"
                 value={formData.fechaFin || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaFin: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaFin: e.target.value })}
               />
             </div>
             <div>
@@ -945,9 +1007,7 @@ export function MantenimientosView() {
                 id="fechaSalida"
                 type="date"
                 value={formData.fechaSalida || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaSalida: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaSalida: e.target.value })}
               />
             </div>
             <div>
@@ -1051,9 +1111,7 @@ export function MantenimientosView() {
                 id="fechaInicioPeriodo"
                 type="date"
                 value={formData.fechaInicioPeriodo || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaInicioPeriodo: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaInicioPeriodo: e.target.value })}
               />
             </div>
             <div>
@@ -1062,9 +1120,7 @@ export function MantenimientosView() {
                 id="fechaFinPeriodo"
                 type="date"
                 value={formData.fechaFinPeriodo || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaFinPeriodo: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaFinPeriodo: e.target.value })}
               />
             </div>
             <div>
@@ -1073,9 +1129,7 @@ export function MantenimientosView() {
                 id="fechaPago"
                 type="date"
                 value={formData.fechaPago || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaPago: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaPago: e.target.value })}
               />
             </div>
             <div>
@@ -1135,9 +1189,7 @@ export function MantenimientosView() {
                 id="fechaEvaluacion"
                 type="date"
                 value={formData.fechaEvaluacion || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaEvaluacion: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaEvaluacion: e.target.value })}
               />
             </div>
             <div>
@@ -1229,9 +1281,7 @@ export function MantenimientosView() {
                 id="fechaInicio"
                 type="date"
                 value={formData.fechaInicio || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaInicio: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaInicio: e.target.value })}
               />
             </div>
             <div>
@@ -1240,9 +1290,7 @@ export function MantenimientosView() {
                 id="fechaFin"
                 type="date"
                 value={formData.fechaFin || ''}
-                onChange={(e) =>
-                  setFormData({ ...formData, fechaFin: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, fechaFin: e.target.value })}
               />
             </div>
             <div>
@@ -1335,15 +1383,79 @@ export function MantenimientosView() {
                 searchPlaceholder="Buscar puesto..."
               />
             </div>
-            <div>
-              <Label htmlFor="idDireccion">Dirección</Label>
-              <SearchableSelect
-                options={relationOptions['idDireccion'] || []}
-                value={formData.idDireccion}
-                onChange={(value) => setFormData({ ...formData, idDireccion: value })}
-                placeholder="Seleccionar dirección..."
-                searchPlaceholder="Buscar dirección..."
-              />
+            
+            {/* Dirección en cascada */}
+            <div className="border-t pt-4 mt-4">
+              <h3 className="text-lg font-semibold mb-4">Dirección</h3>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="provincia">Provincia</Label>
+                  <SearchableSelect
+                    options={getProvincias().map(p => ({ value: p, label: p }))}
+                    value={formData.direccion_provincia || ''}
+                    onChange={(value) => {
+                      setFormData({ 
+                        ...formData, 
+                        direccion_provincia: value as string,
+                        direccion_canton: '', // Reset cantón when provincia changes
+                        direccion_distrito: '' // Reset distrito when provincia changes
+                      });
+                    }}
+                    placeholder="Seleccionar provincia..."
+                    searchPlaceholder="Buscar provincia..."
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="canton">Cantón</Label>
+                  <SearchableSelect
+                    options={formData.direccion_provincia ? getCantonesByProvincia(formData.direccion_provincia as string).map(c => ({ value: c, label: c })) : []}
+                    value={formData.direccion_canton || ''}
+                    onChange={(value) => {
+                      setFormData({ 
+                        ...formData, 
+                        direccion_canton: value as string,
+                        direccion_distrito: '' // Reset distrito when cantón changes
+                      });
+                    }}
+                    placeholder="Seleccionar cantón..."
+                    searchPlaceholder="Buscar cantón..."
+                    disabled={!formData.direccion_provincia}
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="distrito">Distrito</Label>
+                  <SearchableSelect
+                    options={formData.direccion_provincia && formData.direccion_canton ? getDistritosByCanton(
+                      formData.direccion_provincia as string, 
+                      formData.direccion_canton as string
+                    ).map(d => ({ value: d, label: d })) : []}
+                    value={formData.direccion_distrito || ''}
+                    onChange={(value) => {
+                      setFormData({ 
+                        ...formData, 
+                        direccion_distrito: value as string
+                      });
+                    }}
+                    placeholder="Seleccionar distrito..."
+                    searchPlaceholder="Buscar distrito..."
+                    disabled={!formData.direccion_provincia || !formData.direccion_canton}
+                  />
+                </div>
+                
+                <div>
+                  <Label htmlFor="direccionExacta">Dirección Exacta</Label>
+                  <Input
+                    id="direccionExacta"
+                    value={formData.direccion_exacta || ''}
+                    onChange={(e) =>
+                      setFormData({ ...formData, direccion_exacta: e.target.value })
+                    }
+                    placeholder="Ej: De la iglesia 100m norte, casa azul"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         );

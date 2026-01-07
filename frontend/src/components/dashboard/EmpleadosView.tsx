@@ -5,6 +5,8 @@ import { SimpleDataTable } from '@/components/SimpleDataTable';
 import { Modal } from '@/components/Modal';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { SearchableSelect } from '@/components/ui/searchable-select';
+import { getProvincias, getCantonesByProvincia, getDistritosByCanton } from '@/data/costaRicaLocations';
 import { empleadosService, puestosService, direccionesService, type Empleado, type Puesto } from '@/services/apiService';
 import { GenerarUsuarioModal } from '@/components/GenerarUsuarioModal';
 
@@ -398,21 +400,30 @@ export function EmpleadosView() {
       >
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label htmlFor="cedula">Cédula * (9-12 caracteres)</Label>
+            <Label htmlFor="cedula">Cédula *</Label>
             <Input
               id="cedula"
               value={formData.cedula}
+              maxLength={12}
               onChange={(e) => {
-                setFormData({ ...formData, cedula: e.target.value });
+                const value = e.target.value.replace(/[^0-9]/g, '');
+                setFormData({ ...formData, cedula: value });
                 setErrors({ ...errors, cedula: '' });
               }}
+              onBlur={(e) => {
+                const value = e.target.value;
+                if (value && (value.length < 9 || value.length > 12)) {
+                  setErrors({ ...errors, cedula: 'La cédula debe tener entre 9 y 12 dígitos' });
+                }
+              }}
               className={errors.cedula ? 'border-red-500' : ''}
+              placeholder="123456789"
               required
             />
             {errors.cedula && <p className="text-xs text-red-500 mt-1">{errors.cedula}</p>}
           </div>
           <div>
-            <Label htmlFor="nombre">Nombre Completo * (2-100 caracteres)</Label>
+            <Label htmlFor="nombre">Nombre Completo *</Label>
             <Input
               id="nombre"
               value={formData.nombre}
@@ -420,13 +431,19 @@ export function EmpleadosView() {
                 setFormData({ ...formData, nombre: e.target.value });
                 setErrors({ ...errors, nombre: '' });
               }}
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (value && (value.length < 2 || value.length > 100)) {
+                  setErrors({ ...errors, nombre: 'El nombre debe tener entre 2 y 100 caracteres' });
+                }
+              }}
               className={errors.nombre ? 'border-red-500' : ''}
               required
             />
             {errors.nombre && <p className="text-xs text-red-500 mt-1">{errors.nombre}</p>}
           </div>
           <div>
-            <Label htmlFor="primerApellido">Primer Apellido * (2-100 caracteres)</Label>
+            <Label htmlFor="primerApellido">Primer Apellido *</Label>
             <Input
               id="primerApellido"
               value={formData.primerApellido}
@@ -434,19 +451,31 @@ export function EmpleadosView() {
                 setFormData({ ...formData, primerApellido: e.target.value });
                 setErrors({ ...errors, primerApellido: '' });
               }}
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (value && (value.length < 2 || value.length > 100)) {
+                  setErrors({ ...errors, primerApellido: 'El primer apellido debe tener entre 2 y 100 caracteres' });
+                }
+              }}
               className={errors.primerApellido ? 'border-red-500' : ''}
               required
             />
             {errors.primerApellido && <p className="text-xs text-red-500 mt-1">{errors.primerApellido}</p>}
           </div>
           <div>
-            <Label htmlFor="segundoApellido">Segundo Apellido * (2-100 caracteres)</Label>
+            <Label htmlFor="segundoApellido">Segundo Apellido *</Label>
             <Input
               id="segundoApellido"
               value={formData.segundoApellido}
               onChange={(e) => {
                 setFormData({ ...formData, segundoApellido: e.target.value });
                 setErrors({ ...errors, segundoApellido: '' });
+              }}
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (value && (value.length < 2 || value.length > 100)) {
+                  setErrors({ ...errors, segundoApellido: 'El segundo apellido debe tener entre 2 y 100 caracteres' });
+                }
               }}
               className={errors.segundoApellido ? 'border-red-500' : ''}
               required
@@ -477,6 +506,17 @@ export function EmpleadosView() {
               onChange={(e) => {
                 setFormData({ ...formData, fechaNacimiento: e.target.value });
                 setErrors({ ...errors, fechaNacimiento: '' });
+              }}
+              onBlur={(e) => {
+                const value = e.target.value;
+                if (value) {
+                  const fechaNacimiento = new Date(value);
+                  const hoy = new Date();
+                  const edad = Math.floor((hoy.getTime() - fechaNacimiento.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+                  if (edad < 18) {
+                    setErrors({ ...errors, fechaNacimiento: 'El empleado debe tener al menos 18 años de edad' });
+                  }
+                }
               }}
               className={errors.fechaNacimiento ? 'border-red-500' : ''}
               required
@@ -532,22 +572,17 @@ export function EmpleadosView() {
             {errors.cantidadDeHijos && <p className="text-xs text-red-500 mt-1">{errors.cantidadDeHijos}</p>}
           </div>
           <div>
-            <Label htmlFor="saldoVacaciones">Saldo de Vacaciones (días) *</Label>
+            <Label htmlFor="saldoVacaciones">Saldo de Vacaciones (días)</Label>
             <Input
               id="saldoVacaciones"
               type="number"
               value={formData.saldoVacaciones}
-              onChange={(e) => {
-                setFormData({ ...formData, saldoVacaciones: parseInt(e.target.value) || 0 });
-                setErrors({ ...errors, saldoVacaciones: '' });
-              }}
-              className={errors.saldoVacaciones ? 'border-red-500' : ''}
-              required
+              className="bg-muted"
+              disabled
             />
-            {errors.saldoVacaciones && <p className="text-xs text-red-500 mt-1">{errors.saldoVacaciones}</p>}
           </div>
           <div>
-            <Label htmlFor="cuentaIban">Cuenta IBAN (22 caracteres)</Label>
+            <Label htmlFor="cuentaIban">Cuenta IBAN</Label>
             <Input
               id="cuentaIban"
               value={formData.cuentaIban}
@@ -556,8 +591,14 @@ export function EmpleadosView() {
                 setFormData({ ...formData, cuentaIban: e.target.value });
                 setErrors({ ...errors, cuentaIban: '' });
               }}
+              onBlur={(e) => {
+                const value = e.target.value.trim();
+                if (value && value.length !== 22) {
+                  setErrors({ ...errors, cuentaIban: 'La cuenta IBAN debe tener exactamente 22 caracteres' });
+                }
+              }}
               className={errors.cuentaIban ? 'border-red-500' : ''}
-              placeholder="Opcional - CRxxxxxxxxxxxxxxxxxx"
+              placeholder="CRxxxxxxxxxxxxxxxxxx"
             />
             {errors.cuentaIban && <p className="text-xs text-red-500 mt-1">{errors.cuentaIban}</p>}
           </div>
@@ -579,27 +620,15 @@ export function EmpleadosView() {
             </select>
             {errors.tipoDeJornada && <p className="text-xs text-red-500 mt-1">{errors.tipoDeJornada}</p>}
           </div>
-          <div className="flex items-center gap-4">
-            <div>
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={formData.estaActivo}
-                  onChange={(e) => setFormData({ ...formData, estaActivo: e.target.checked })}
-                />
-                <span>Activo</span>
-              </label>
-            </div>
-            <div>
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={formData.estaCasado}
-                  onChange={(e) => setFormData({ ...formData, estaCasado: e.target.checked })}
-                />
-                <span>Casado</span>
-              </label>
-            </div>
+          <div>
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={formData.estaCasado}
+                onChange={(e) => setFormData({ ...formData, estaCasado: e.target.checked })}
+              />
+              <span>Casado</span>
+            </label>
           </div>
           <div>
             <Label htmlFor="idPuesto">Puesto *</Label>
@@ -639,55 +668,60 @@ export function EmpleadosView() {
           </div>
 
           <div>
-            <Label htmlFor="provincia">Provincia * (5-100 caracteres)</Label>
-            <select
-              id="provincia"
-              className={`flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ${errors.provincia ? 'border-red-500' : ''}`}
+            <Label htmlFor="provincia">Provincia *</Label>
+            <SearchableSelect
+              options={getProvincias().map(p => ({ value: p, label: p }))}
               value={formData.provincia}
-              onChange={(e) => {
-                setFormData({ ...formData, provincia: e.target.value });
+              onChange={(value) => {
+                setFormData({ 
+                  ...formData, 
+                  provincia: value as string,
+                  canton: '', // Reset cantón when provincia changes
+                  distrito: '' // Reset distrito when provincia changes
+                });
                 setErrors({ ...errors, provincia: '' });
               }}
-              required
-            >
-              <option value="">Seleccione una provincia</option>
-              <option value="San José">San José</option>
-              <option value="Alajuela">Alajuela</option>
-              <option value="Cartago">Cartago</option>
-              <option value="Heredia">Heredia</option>
-              <option value="Guanacaste">Guanacaste</option>
-              <option value="Puntarenas">Puntarenas</option>
-              <option value="Limón">Limón</option>
-            </select>
+              placeholder="Seleccionar provincia..."
+              searchPlaceholder="Buscar provincia..."
+            />
             {errors.provincia && <p className="text-xs text-red-500 mt-1">{errors.provincia}</p>}
           </div>
 
           <div>
-            <Label htmlFor="canton">Cantón * (5-100 caracteres)</Label>
-            <Input
-              id="canton"
+            <Label htmlFor="canton">Cantón *</Label>
+            <SearchableSelect
+              options={formData.provincia ? getCantonesByProvincia(formData.provincia).map(c => ({ value: c, label: c })) : []}
               value={formData.canton}
-              onChange={(e) => {
-                setFormData({ ...formData, canton: e.target.value });
+              onChange={(value) => {
+                setFormData({ 
+                  ...formData, 
+                  canton: value as string,
+                  distrito: '' // Reset distrito when cantón changes
+                });
                 setErrors({ ...errors, canton: '' });
               }}
-              className={errors.canton ? 'border-red-500' : ''}
-              required
+              placeholder="Seleccionar cantón..."
+              searchPlaceholder="Buscar cantón..."
+              disabled={!formData.provincia}
             />
             {errors.canton && <p className="text-xs text-red-500 mt-1">{errors.canton}</p>}
           </div>
 
           <div>
-            <Label htmlFor="distrito">Distrito * (5-100 caracteres)</Label>
-            <Input
-              id="distrito"
+            <Label htmlFor="distrito">Distrito *</Label>
+            <SearchableSelect
+              options={formData.provincia && formData.canton ? getDistritosByCanton(formData.provincia, formData.canton).map(d => ({ value: d, label: d })) : []}
               value={formData.distrito}
-              onChange={(e) => {
-                setFormData({ ...formData, distrito: e.target.value });
+              onChange={(value) => {
+                setFormData({ 
+                  ...formData, 
+                  distrito: value as string
+                });
                 setErrors({ ...errors, distrito: '' });
               }}
-              className={errors.distrito ? 'border-red-500' : ''}
-              required
+              placeholder="Seleccionar distrito..."
+              searchPlaceholder="Buscar distrito..."
+              disabled={!formData.provincia || !formData.canton}
             />
             {errors.distrito && <p className="text-xs text-red-500 mt-1">{errors.distrito}</p>}
           </div>

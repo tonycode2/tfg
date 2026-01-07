@@ -2,6 +2,7 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 
 import java.sql.Date;
 
+import com.anthony.tfg.tfg.Utils.EdadMinima;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.Email;
@@ -37,6 +38,7 @@ public class SolicitudEmpleadosDTO {
 
     @NotNull
     @Past
+    @EdadMinima(18)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date fechaNacimiento;
     
