@@ -75,8 +75,6 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         return deEntidadDtoARespuesta(asistenciaActualizada);
     }
 
-
-
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado la asistencia con ID: " + id);

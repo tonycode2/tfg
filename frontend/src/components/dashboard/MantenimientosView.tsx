@@ -24,6 +24,7 @@ import {
   planillasService,
   evaluacionesService,
   jefesDepartamentoService,
+  incapacidadesService,
 } from '@/services/apiService';
 
 type EntityType =
@@ -36,6 +37,7 @@ type EntityType =
   | 'aguinaldos'
   | 'horas-extra'
   | 'permisos'
+  | 'incapacidades'
   | 'liquidaciones'
   | 'planillas'
   | 'evaluaciones'
@@ -56,6 +58,7 @@ const entities: Record<EntityType, EntityConfig> = {
   aguinaldos: { name: 'Aguinaldos', icon: '🎁' },
   'horas-extra': { name: 'Horas Extra', icon: '⏱️' },
   permisos: { name: 'Permisos', icon: '📋' },
+  incapacidades: { name: 'Incapacidades', icon: '🏥' },
   liquidaciones: { name: 'Liquidaciones', icon: '💵' },
   planillas: { name: 'Planillas', icon: '📊' },
   evaluaciones: { name: 'Evaluaciones', icon: '⭐' },
@@ -88,6 +91,9 @@ const entityRelations: Record<EntityType, FieldRelation[]> = {
     { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
   ],
   permisos: [
+    { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
+  ],
+  incapacidades: [
     { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
   ],
   liquidaciones: [
@@ -301,6 +307,8 @@ export function MantenimientosView() {
         return horasExtraService;
       case 'permisos':
         return permisosService;
+      case 'incapacidades':
+        return incapacidadesService;
       case 'liquidaciones':
         return liquidacionesService;
       case 'planillas':
@@ -433,6 +441,31 @@ export function MantenimientosView() {
           { key: 'diasTotales', label: 'Días' },
           { key: 'tipoPermiso', label: 'Tipo' },
           { key: 'motivo', label: 'Motivo' },
+          {
+            key: 'estadoSolicitud',
+            label: 'Estado',
+            render: (value) => {
+              const estados: Record<string, string> = {
+                PENDIENTE: '🟡 Pendiente',
+                APROBADA: '✅ Aprobada',
+                RECHAZADA: '❌ Rechazada',
+              };
+              return estados[value] || value;
+            },
+          },
+        ];
+      case 'incapacidades':
+        return [
+          { key: 'fechaInicio', label: 'Fecha Inicio' },
+          { key: 'fechaFin', label: 'Fecha Fin' },
+          { key: 'diasTotales', label: 'Días' },
+          { key: 'tipoIncapacidad', label: 'Tipo' },
+          { key: 'entidadEmisora', label: 'Entidad' },
+          {
+            key: 'porcentajePago',
+            label: '% Pago',
+            render: (value) => `${value}%`,
+          },
           {
             key: 'estadoSolicitud',
             label: 'Estado',
@@ -962,6 +995,130 @@ export function MantenimientosView() {
                 id="motivo"
                 value={formData.motivo || ''}
                 onChange={(e) => setFormData({ ...formData, motivo: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="estadoSolicitud">Estado</Label>
+              <select
+                id="estadoSolicitud"
+                value={formData.estadoSolicitud || 'PENDIENTE'}
+                onChange={(e) =>
+                  setFormData({ ...formData, estadoSolicitud: e.target.value })
+                }
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              >
+                <option value="PENDIENTE">Pendiente</option>
+                <option value="APROBADA">Aprobada</option>
+                <option value="RECHAZADA">Rechazada</option>
+              </select>
+            </div>
+            <div>
+              <Label htmlFor="idEmpleado">Empleado</Label>
+              <SearchableSelect
+                options={relationOptions['idEmpleado'] || []}
+                value={formData.idEmpleado}
+                onChange={(value) => setFormData({ ...formData, idEmpleado: value })}
+                placeholder="Seleccionar empleado..."
+                searchPlaceholder="Buscar empleado..."
+              />
+            </div>
+          </div>
+        );
+
+      case 'incapacidades':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="fechaInicio">Fecha Inicio</Label>
+              <DatePicker
+                value={formData.fechaInicio || ''}
+                onChange={(date) => setFormData({ ...formData, fechaInicio: date })}
+                placeholder="Seleccionar fecha de inicio"
+              />
+            </div>
+            <div>
+              <Label htmlFor="fechaFin">Fecha Fin</Label>
+              <DatePicker
+                value={formData.fechaFin || ''}
+                onChange={(date) => setFormData({ ...formData, fechaFin: date })}
+                placeholder="Seleccionar fecha de fin"
+              />
+            </div>
+            <div>
+              <Label htmlFor="diasTotales">Días Totales</Label>
+              <Input
+                id="diasTotales"
+                type="number"
+                value={formData.diasTotales || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, diasTotales: parseInt(e.target.value) })
+                }
+              />
+            </div>
+            <div>
+              <Label htmlFor="tipoIncapacidad">Tipo de Incapacidad</Label>
+              <select
+                id="tipoIncapacidad"
+                value={formData.tipoIncapacidad || 'ENFERMEDAD_COMUN'}
+                onChange={(e) =>
+                  setFormData({ ...formData, tipoIncapacidad: e.target.value })
+                }
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              >
+                <option value="ENFERMEDAD_COMUN">Enfermedad Común</option>
+                <option value="ACCIDENTE_LABORAL">Accidente Laboral</option>
+                <option value="ACCIDENTE_TRANSITO">Accidente de Tránsito</option>
+                <option value="MATERNIDAD">Maternidad</option>
+                <option value="RIESGO_EMBARAZO">Riesgo en el Embarazo</option>
+                <option value="ENFERMEDAD_PROFESIONAL">Enfermedad Profesional</option>
+              </select>
+            </div>
+            <div>
+              <Label htmlFor="entidadEmisora">Entidad Emisora</Label>
+              <select
+                id="entidadEmisora"
+                value={formData.entidadEmisora || 'CCSS'}
+                onChange={(e) =>
+                  setFormData({ ...formData, entidadEmisora: e.target.value })
+                }
+                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+              >
+                <option value="CCSS">CCSS</option>
+                <option value="INS">INS</option>
+                <option value="CLINICA_PRIVADA">Clínica Privada</option>
+                <option value="OTRO">Otro</option>
+              </select>
+            </div>
+            <div>
+              <Label htmlFor="porcentajePago">Porcentaje de Pago (%)</Label>
+              <Input
+                id="porcentajePago"
+                type="number"
+                step="0.01"
+                value={formData.porcentajePago || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, porcentajePago: parseFloat(e.target.value) })
+                }
+              />
+            </div>
+            <div>
+              <Label htmlFor="numeroDocumento">Número de Documento</Label>
+              <Input
+                id="numeroDocumento"
+                value={formData.numeroDocumento || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, numeroDocumento: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <Label htmlFor="observaciones">Observaciones</Label>
+              <Input
+                id="observaciones"
+                value={formData.observaciones || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, observaciones: e.target.value })
+                }
               />
             </div>
             <div>

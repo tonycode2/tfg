@@ -248,6 +248,24 @@ export interface Permiso {
   idEmpleado: number;
 }
 
+export interface Incapacidad {
+  id?: number;
+  fechaInicio: string;
+  fechaFin: string;
+  diasTotales: number;
+  tipoIncapacidad: string;
+  estadoSolicitud: string;
+  porcentajePago: number;
+  entidadEmisora: string;
+  numeroDocumento?: string;
+  observaciones?: string;
+  urlDocumentoAdjunto?: string;
+  idEmpleado: number;
+  nombreEmpleado?: string;
+  primerApellidoEmpleado?: string;
+  segundoApellidoEmpleado?: string;
+}
+
 export interface Liquidacion {
   id?: number;
   fechaSalida: string;
@@ -345,3 +363,4 @@ export const liquidacionesService = new ApiService<Liquidacion>('liquidaciones')
 export const planillasService = new ApiService<PlanillaEncabezado>('planillas');
 export const evaluacionesService = new ApiService<EvaluacionDesempeno>('evaluaciones');
 export const jefesDepartamentoService = new ApiService<JefeDepartamento>('jefes-departamento');
+export const incapacidadesService = new ApiService<Incapacidad>('incapacidades');
