@@ -1655,3 +1655,285 @@ io.jsonwebtoken.ExpiredJwtException: JWT expired 3621387 milliseconds ago at 202
 2026-01-07T21:16:41.712-06:00 DEBUG 1784 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2026-01-07T21:16:41.712-06:00 DEBUG 1784 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsInJvbGUiOiJBRE1JTiIsInN1YiI6IkFkbWluIiwiaWF0 (truncated)...]
 2026-01-07T21:16:41.715-06:00 DEBUG 1784 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:39:58.831-06:00  INFO 14252 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 14252 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-07T21:39:58.835-06:00  INFO 14252 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T21:39:58.929-06:00  INFO 14252 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-07T21:39:58.929-06:00  INFO 14252 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-07T21:39:58.966-06:00  INFO 14252 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-07T21:40:00.526-06:00  INFO 14252 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-07T21:40:02.069-06:00  INFO 14252 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T21:40:02.355-06:00  INFO 14252 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 265 ms. Found 16 JPA repository interfaces.
+2026-01-07T21:40:03.655-06:00  INFO 14252 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-07T21:40:03.684-06:00  INFO 14252 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T21:40:03.685-06:00  INFO 14252 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-07T21:40:03.843-06:00  INFO 14252 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T21:40:03.844-06:00  INFO 14252 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3301 ms
+2026-01-07T21:40:04.259-06:00  INFO 14252 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T21:40:04.350-06:00  INFO 14252 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-07T21:40:04.405-06:00  INFO 14252 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T21:40:04.882-06:00  INFO 14252 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T21:40:04.913-06:00  INFO 14252 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-07T21:40:05.122-06:00  INFO 14252 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@503beb2d
+2026-01-07T21:40:05.124-06:00  INFO 14252 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-07T21:40:05.165-06:00  WARN 14252 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T21:40:05.195-06:00  INFO 14252 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T21:40:07.104-06:00  INFO 14252 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T21:40:07.433-06:00  INFO 14252 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T21:40:08.168-06:00  INFO 14252 --- [tfg] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-07T21:40:08.716-06:00  INFO 14252 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-07T21:40:08.718-06:00  WARN 14252 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-07T21:40:08.800-06:00  WARN 14252 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T21:40:09.005-06:00 DEBUG 14252 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 76 mappings in 'requestMappingHandlerMapping'
+2026-01-07T21:40:09.160-06:00 DEBUG 14252 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-07T21:40:09.338-06:00 DEBUG 14252 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-07T21:40:09.453-06:00 DEBUG 14252 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-07T21:40:09.528-06:00 DEBUG 14252 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-07T21:40:09.733-06:00  INFO 14252 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-07T21:40:09.754-06:00  INFO 14252 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-07T21:40:09.755-06:00  INFO 14252 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-07T21:40:09.756-06:00  INFO 14252 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-07T21:40:09.758-06:00  INFO 14252 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-07T21:40:09.760-06:00  INFO 14252 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-07T21:40:09.761-06:00  INFO 14252 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-07T21:40:09.762-06:00  INFO 14252 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@3e95743b
+2026-01-07T21:40:09.878-06:00  INFO 14252 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T21:40:09.954-06:00  INFO 14252 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-07T21:40:09.957-06:00  INFO 14252 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-07T21:40:09.958-06:00  INFO 14252 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-07T21:40:09.970-06:00  INFO 14252 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 11.992 seconds (process running for 13.381)
+2026-01-07T21:41:39.900-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-07T21:41:39.903-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-07T21:41:39.903-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-07T21:41:39.903-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-07T21:41:39.903-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-07T21:41:39.908-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@86d1929
+2026-01-07T21:41:39.910-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@24d494f2
+2026-01-07T21:41:39.910-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-07T21:41:39.910-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2026-01-07T21:41:39.960-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-07T21:41:40.022-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-07T21:41:40.031-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-07T21:41:40.037-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-07T21:41:40.041-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-07T21:41:40.106-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=HHRR, password=doremi123)]
+2026-01-07T21:41:40.574-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-07T21:41:40.797-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:41:40.798-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJIUiIsInN1YiI6IkhIUlIiLCJpYXQiOjE3 (truncated)...]
+2026-01-07T21:41:40.814-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:43:45.443-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/puestos
+2026-01-07T21:43:45.443-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/puestos
+2026-01-07T21:43:45.443-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/empleados
+2026-01-07T21:43:45.443-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/empleados
+2026-01-07T21:43:45.462-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-07T21:43:45.462-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-07T21:43:45.648-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-07T21:43:45.648-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-07T21:43:45.650-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-07T21:43:45.652-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-07T21:43:45.655-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-07T21:43:45.658-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-07T21:43:45.748-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-07T21:43:45.777-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:43:45.779-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-07T21:43:45.783-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:43:45.787-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-07T21:43:45.795-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-07T21:43:45.798-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@7573c0dd
+2026-01-07T21:43:45.799-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@166569cf
+2026-01-07T21:43:45.800-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2f49e6c9
+2026-01-07T21:43:45.801-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@21f34afe
+2026-01-07T21:43:45.804-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:43:45.805-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@7573c0dd, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-07T21:43:45.815-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-07T21:43:45.816-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-07T21:43:45.818-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-07T21:43:45.828-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:43:45.829-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-07T21:43:45.832-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-07T21:43:45.834-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:43:45.835-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-07T21:43:45.839-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:43:45.852-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-07T21:43:45.853-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-07T21:43:45.854-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-07T21:43:45.883-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-07T21:43:45.883-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@4d46f539
+2026-01-07T21:43:45.884-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@a47c0a4
+2026-01-07T21:43:45.884-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@60adb652
+2026-01-07T21:43:45.885-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@565ee437
+2026-01-07T21:43:45.886-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:43:45.887-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@4d46f539, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-07T21:43:45.890-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:50:28.237-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-07T21:50:28.239-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-07T21:50:28.278-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-07T21:50:28.278-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-07T21:50:28.279-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-07T21:50:28.279-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-07T21:50:28.281-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-07T21:50:28.282-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-07T21:50:28.296-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-07T21:50:28.298-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:50:28.300-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-07T21:50:28.303-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:50:28.310-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-07T21:50:28.328-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-07T21:50:28.329-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@1534d761
+2026-01-07T21:50:28.332-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@f9bca59
+2026-01-07T21:50:28.335-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@68e1a9c1
+2026-01-07T21:50:28.339-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@3524d9c
+2026-01-07T21:50:28.348-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:50:28.352-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@1534d761, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-07T21:50:28.355-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-07T21:50:28.358-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-07T21:50:28.360-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:50:28.361-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-07T21:50:28.366-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-07T21:50:28.385-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-07T21:50:28.390-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:50:28.391-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-07T21:50:28.396-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:50:28.399-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-07T21:50:28.402-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-07T21:50:28.403-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-07T21:50:28.434-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-07T21:50:28.435-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@16286619
+2026-01-07T21:50:28.436-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@78c4c917
+2026-01-07T21:50:28.436-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@1df3b9e6
+2026-01-07T21:50:28.437-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@27e90d74
+2026-01-07T21:50:28.438-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:50:28.439-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@16286619, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-07T21:50:28.441-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:51:13.352-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-07T21:51:13.353-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-07T21:51:13.400-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-07T21:51:13.400-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-07T21:51:13.402-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-07T21:51:13.402-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-07T21:51:13.402-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-07T21:51:13.402-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-07T21:51:13.424-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-07T21:51:13.428-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:51:13.429-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-07T21:51:13.439-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:51:13.442-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-01-07T21:51:13.450-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-07T21:51:13.453-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@5697f9aa
+2026-01-07T21:51:13.454-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@1e4f2454
+2026-01-07T21:51:13.456-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@1368657e
+2026-01-07T21:51:13.456-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@48cd6e03
+2026-01-07T21:51:13.462-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:51:13.467-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@5697f9aa, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-07T21:51:13.473-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:51:13.477-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-01-07T21:51:13.477-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-01-07T21:51:13.478-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-01-07T21:51:13.481-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-01-07T21:51:13.502-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 0
+2026-01-07T21:51:13.504-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:51:13.505-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-07T21:51:13.506-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-01-07T21:51:13.506-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-01-07T21:51:13.507-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-01-07T21:51:13.507-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:51:13.541-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 4
+2026-01-07T21:51:13.542-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@32e02b08
+2026-01-07T21:51:13.543-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@7f45f683
+2026-01-07T21:51:13.543-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@3eb14109
+2026-01-07T21:51:13.543-06:00  INFO 14252 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@76d200b7
+2026-01-07T21:51:13.545-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:51:13.546-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@32e02b08, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-01-07T21:51:13.550-06:00 DEBUG 14252 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-07T21:57:38.454-06:00  INFO 11648 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 11648 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-07T21:57:38.461-06:00  INFO 11648 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-07T21:57:38.550-06:00  INFO 11648 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-07T21:57:38.554-06:00  INFO 11648 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-07T21:57:38.594-06:00  INFO 11648 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-07T21:57:40.186-06:00  INFO 11648 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-07T21:57:41.775-06:00  INFO 11648 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-07T21:57:42.075-06:00  INFO 11648 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 271 ms. Found 16 JPA repository interfaces.
+2026-01-07T21:57:43.317-06:00  INFO 11648 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-07T21:57:43.349-06:00  INFO 11648 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-07T21:57:43.351-06:00  INFO 11648 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-07T21:57:43.518-06:00  INFO 11648 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-07T21:57:43.518-06:00  INFO 11648 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3310 ms
+2026-01-07T21:57:43.828-06:00  INFO 11648 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-07T21:57:43.952-06:00  INFO 11648 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-07T21:57:44.028-06:00  INFO 11648 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-07T21:57:44.581-06:00  INFO 11648 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-07T21:57:44.636-06:00  INFO 11648 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-07T21:57:44.862-06:00  INFO 11648 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@955806f
+2026-01-07T21:57:44.864-06:00  INFO 11648 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-07T21:57:44.895-06:00  WARN 11648 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-07T21:57:44.929-06:00  INFO 11648 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-07T21:57:46.633-06:00  INFO 11648 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-07T21:57:46.926-06:00  INFO 11648 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-07T21:57:47.560-06:00  INFO 11648 --- [tfg] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-07T21:57:48.086-06:00  INFO 11648 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-07T21:57:48.086-06:00  WARN 11648 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-07T21:57:48.154-06:00  WARN 11648 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-07T21:57:48.312-06:00 DEBUG 11648 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 76 mappings in 'requestMappingHandlerMapping'
+2026-01-07T21:57:48.452-06:00 DEBUG 11648 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-07T21:57:48.640-06:00 DEBUG 11648 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-07T21:57:48.751-06:00 DEBUG 11648 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-07T21:57:48.824-06:00 DEBUG 11648 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-07T21:57:48.988-06:00  INFO 11648 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-07T21:57:49.004-06:00  INFO 11648 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-07T21:57:49.006-06:00  INFO 11648 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-07T21:57:49.009-06:00  INFO 11648 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-07T21:57:49.009-06:00  INFO 11648 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-07T21:57:49.009-06:00  INFO 11648 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-07T21:57:49.009-06:00  INFO 11648 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-07T21:57:49.012-06:00  INFO 11648 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@2344bd
+2026-01-07T21:57:49.105-06:00  INFO 11648 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-07T21:57:49.175-06:00  INFO 11648 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-07T21:57:49.176-06:00  INFO 11648 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-07T21:57:49.176-06:00  INFO 11648 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-07T21:57:49.189-06:00  INFO 11648 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 11.565 seconds (process running for 12.943)
+2026-01-07T21:57:50.944-06:00  INFO 11648 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-07T21:57:50.944-06:00  INFO 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-07T21:57:50.944-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-07T21:57:50.944-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-07T21:57:50.944-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-07T21:57:50.944-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@10d49513
+2026-01-07T21:57:50.944-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@2eac8e9f
+2026-01-07T21:57:50.951-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-07T21:57:50.951-06:00  INFO 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2026-01-07T21:57:51.004-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-07T21:57:51.064-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-07T21:57:51.068-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-07T21:57:51.079-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-07T21:57:51.082-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-07T21:57:51.154-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=Jefe, password=doremi123)]
+2026-01-07T21:57:51.646-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-07T21:57:51.811-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-07T21:57:51.811-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjMsInJvbGUiOiJKRUZFIiwic3ViIjoiSmVmZSIsImlhdCI6 (truncated)...]
+2026-01-07T21:57:51.827-06:00 DEBUG 11648 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK

@@ -1,4 +1,5 @@
-import { useState, useCallback, ChangeEvent } from 'react';
+import { useState, useCallback } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
 
 export interface UseFormOptions<T> {
   initialValues: T;
@@ -62,7 +63,7 @@ export function useForm<T extends Record<string, any>>({
   }, []);
 
   const handleSubmit = useCallback(
-    async (e: React.FormEvent) => {
+    async (e: FormEvent) => {
       e.preventDefault();
       
       if (validate) {

@@ -1,121 +1,82 @@
-import { useState, useEffect, useMemo, useCallback, memo } from 'react';
-import { Sidebar } from '@/components/Sidebar';
-import { DashboardHeader } from '@/components/DashboardHeader';
-import { InicioView } from '@/components/dashboard/InicioView';
-import { PlaceholderView } from '@/components/dashboard/PlaceholderView';
-import { MantenimientosView } from '@/components/dashboard/MantenimientosView';
-import { EmpleadosView } from '@/components/dashboard/EmpleadosView';
-import { authService } from '@/services/authService';
-import type { Role } from '@/services/authService';
+import { useState, useCallback, useMemo, memo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { TopNavbar } from '../components/TopNavbar';
+import { EmpleadosView } from '../components/dashboard/EmpleadosView';
+import { MantenimientosView } from '../components/dashboard/MantenimientosView';
+import { InicioView } from '../components/dashboard/InicioView';
+import { PlaceholderView } from '../components/dashboard/PlaceholderView';
+import { authService } from '../services/authService';
 
-// Memoized PlaceholderView to prevent unnecessary re-renders
-const MemoizedPlaceholderView = memo(PlaceholderView);
-const MemoizedInicioView = memo(InicioView);
+// Memoized view components to prevent unnecessary re-renders
 const MemoizedEmpleadosView = memo(EmpleadosView);
 const MemoizedMantenimientosView = memo(MantenimientosView);
+const MemoizedInicioView = memo(InicioView);
+const MemoizedPlaceholderView = memo(PlaceholderView);
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
   const [activeView, setActiveView] = useState('inicio');
   
-  // Memoize user info since it doesn't change after initial load
+  // Memoize user info to prevent unnecessary re-computation
   const userInfo = useMemo(() => authService.getUserInfo(), []);
 
-  useEffect(() => {
-    document.title = 'Dashboard - Sistema de RH';
-  }, []);
+  const handleLogout = useCallback(() => {
+    authService.logout();
+    navigate('/login');
+  }, [navigate]);
 
-  // Memoize the view rendering to avoid recreating components
+  // Render the appropriate view based on active menu item
   const renderView = useCallback(() => {
+    // Admin only sees maintenance view
+    if (userInfo.role === 'ADMIN') {
+      return <MemoizedMantenimientosView />;
+    }
+
     switch (activeView) {
       case 'inicio':
         return <MemoizedInicioView userRole={userInfo.role} />;
-      case 'mi-planilla':
-        return (
-          <MemoizedPlaceholderView
-            title="Mi Planilla"
-            description="Consulta tu información de planilla y pagos"
-          />
-        );
-      case 'mis-solicitudes':
-        return (
-          <MemoizedPlaceholderView
-            title="Mis Solicitudes"
-            description="Gestiona tus solicitudes de vacaciones, permisos y más"
-          />
-        );
-      case 'asistencia':
-        return (
-          <MemoizedPlaceholderView
-            title="Asistencia"
-            description="Control de asistencia de empleados"
-          />
-        );
-      case 'horas-extra':
-        return (
-          <MemoizedPlaceholderView
-            title="Horas Extra"
-            description="Gestión de horas extra y solicitudes"
-          />
-        );
-      case 'solicitudes-pendientes':
-        return (
-          <MemoizedPlaceholderView
-            title="Solicitudes Pendientes"
-            description="Aprueba o rechaza solicitudes de tus empleados"
-          />
-        );
-      case 'planilla-general':
-        return (
-          <MemoizedPlaceholderView
-            title="Planilla General"
-            description="Administra la planilla de todos los empleados"
-          />
-        );
-      case 'liquidaciones':
-        return (
-          <MemoizedPlaceholderView
-            title="Liquidaciones"
-            description="Procesa liquidaciones de empleados"
-          />
-        );
-      case 'aguinaldo':
-        return (
-          <MemoizedPlaceholderView
-            title="Aguinaldo"
-            description="Gestión de aguinaldos y bonificaciones"
-          />
-        );
-      case 'reportes':
-        return (
-          <MemoizedPlaceholderView
-            title="Reportes"
-            description="Genera reportes y análisis del sistema"
-          />
-        );
       case 'empleados':
         return <MemoizedEmpleadosView />;
       case 'mantenimientos':
         return <MemoizedMantenimientosView />;
+      case 'mi-planilla':
+        return <MemoizedPlaceholderView title="Mi Planilla" description="Consulta tu información de planilla personal" />;
+      case 'mis-solicitudes':
+        return <MemoizedPlaceholderView title="Mis Solicitudes" description="Gestiona tus solicitudes de permisos y vacaciones" />;
+      case 'asistencia':
+        return <MemoizedPlaceholderView title="Asistencia" description="Registro y consulta de asistencia" />;
+      case 'horas-extra':
+        return <MemoizedPlaceholderView title="Horas Extra" description="Gestión de horas extra del departamento" />;
+      case 'solicitudes-pendientes':
+        return <MemoizedPlaceholderView title="Solicitudes Pendientes" description="Revisa y aprueba solicitudes pendientes" />;
+      case 'planilla-general':
+        return <MemoizedPlaceholderView title="Planilla General" description="Gestión de planilla de todos los empleados" />;
+      case 'liquidaciones':
+        return <MemoizedPlaceholderView title="Liquidaciones" description="Cálculo y gestión de liquidaciones" />;
+      case 'aguinaldo':
+        return <MemoizedPlaceholderView title="Aguinaldo" description="Cálculo y gestión del aguinaldo" />;
+      case 'reportes':
+        return <MemoizedPlaceholderView title="Reportes" description="Generación de reportes del sistema" />;
       default:
         return <MemoizedInicioView userRole={userInfo.role} />;
     }
   }, [activeView, userInfo.role]);
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar
+    <div className="flex flex-col min-h-screen bg-background">
+      {/* Top Navigation Bar */}
+      <TopNavbar
         userRole={userInfo.role}
+        username={userInfo.username}
         activeItem={activeView}
         onItemClick={setActiveView}
+        onLogout={handleLogout}
       />
       
-      <div className="flex-1 flex flex-col">
-        <DashboardHeader username={userInfo.username} />
-        
-        <main className="flex-1 p-6">
-          {renderView()}
-        </main>
-      </div>
+      {/* Main Content Area */}
+      <main className="flex-1 p-4 md:p-6">
+        {renderView()}
+      </main>
     </div>
   );
 }
