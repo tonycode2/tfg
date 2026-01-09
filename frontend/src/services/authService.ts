@@ -25,6 +25,7 @@ export interface ChangePasswordRequest {
 export interface UserInfo {
   username: string;
   role: Role;
+  nombreCompleto?: string;
 }
 
 export const authService = {
@@ -88,10 +89,20 @@ export const authService = {
 
     try {
       // Decodificar el JWT (el payload es la parte central del token)
-      const payload = JSON.parse(atob(token.split('.')[1]));
+      // Usar decodeURIComponent + escape para manejar UTF-8 correctamente
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      const payload = JSON.parse(jsonPayload);
       return {
         username: payload.sub || 'Usuario',
         role: payload.role || 'EMPLEADO',
+        nombreCompleto: payload.nombreCompleto,
       };
     } catch (error) {
       console.error('Error al decodificar el token:', error);

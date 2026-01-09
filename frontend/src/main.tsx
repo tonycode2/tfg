@@ -4,6 +4,12 @@ import './index.css'
 import App from './App.tsx'
 import { ThemeProvider } from './hooks/useTheme'
 
+// Register Spanish locale for react-datepicker
+import { registerLocale, setDefaultLocale } from 'react-datepicker'
+import { es } from 'date-fns/locale'
+registerLocale('es', es)
+setDefaultLocale('es')
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>

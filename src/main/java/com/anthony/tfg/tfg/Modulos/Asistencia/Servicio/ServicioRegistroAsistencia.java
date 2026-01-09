@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,6 +75,13 @@ public class ServicioRegistroAsistencia {
         Empleados empleado = obtenerEmpleadoAutenticado();
         LocalDateTime fechaHoraRegistro = fechaHora != null ? fechaHora : LocalDateTime.now();
         
+        // Determine the registration date and prevent entry if there's already a SALIDA that day
+        LocalDate fechaRegistro = fechaHoraRegistro.toLocalDate();
+        if (tieneSalidaEnDia(empleado.getId(), fechaRegistro)) {
+            log.warn("Intento de marcar entrada después de salida en el mismo día. Empleado: {}, Fecha: {}", empleado.getId(), fechaRegistro);
+            throw new BadRequestException("Ya tiene una salida registrada para este día. No puede marcar entrada nuevamente.");
+        }
+
         // Validate: Check if there's an open ENTRADA (not followed by SALIDA)
         if (tieneEntradaAbierta(empleado.getId())) {
             log.warn("Empleado {} intentó marcar entrada sin haber salido", empleado.getId());
@@ -110,6 +116,13 @@ public class ServicioRegistroAsistencia {
         Empleados empleado = obtenerEmpleadoAutenticado();
         LocalDateTime fechaHoraRegistro = fechaHora != null ? fechaHora : LocalDateTime.now();
         
+        // Determine date and prevent duplicate SALIDA in the same day
+        LocalDate fechaRegistro = fechaHoraRegistro.toLocalDate();
+        if (tieneSalidaEnDia(empleado.getId(), fechaRegistro)) {
+            log.warn("Intento de marcar salida duplicada en el mismo día. Empleado: {}, Fecha: {}", empleado.getId(), fechaRegistro);
+            throw new BadRequestException("Ya tiene una salida registrada para este día.");
+        }
+
         // Validate: Check if there's an open ENTRADA
         if (!tieneEntradaAbierta(empleado.getId())) {
             log.warn("Empleado {} intentó marcar salida sin entrada previa", empleado.getId());
@@ -148,7 +161,7 @@ public class ServicioRegistroAsistencia {
      * @param idDepartamento Department ID
      * @return Department summary with all employees' status
      */
-    public ResumenDepartamentoDTO obtenerResumenDepartamento(Long idDepartamento) {
+    public ResumenDepartamentoDTO obtenerResumenDepartamento(Long idDepartamento, LocalDate fecha) {
         User currentUser = obtenerUsuarioAutenticado();
         Empleados empleadoActual = obtenerEmpleadoDesdeUsuario(currentUser);
         
@@ -161,11 +174,11 @@ public class ServicioRegistroAsistencia {
         
         // Get all active employees in the department
         List<Empleados> empleados = empleadosRepositorio.findByDepartamentoIdAndEstaActivoTrue(idDepartamento);
-        
-        // Build status for each employee
+
+        // Build status for each employee using the requested date
         List<EstadoAsistenciaDTO> estadosEmpleados = empleados.stream()
-                .map(this::construirEstadoAsistencia)
-                .toList();
+            .map(emp -> construirEstadoAsistencia(emp, fecha))
+            .toList();
         
         // Count statuses
         long laborando = estadosEmpleados.stream()
@@ -181,7 +194,7 @@ public class ServicioRegistroAsistencia {
         resumen.empleadosFuera = empleados.size() - (int) laborando;
         resumen.empleados = estadosEmpleados;
         
-        log.info("Usuario {} consultó resumen del departamento {}", currentUser.getUsername(), idDepartamento);
+        log.info("Usuario {} consultó resumen del departamento {} para fecha {}", currentUser.getUsername(), idDepartamento, fecha);
         return resumen;
     }
 
@@ -264,6 +277,27 @@ public class ServicioRegistroAsistencia {
     }
 
     /**
+     * Verifica si el empleado ya tiene una marca de SALIDA registrada en el día especificado.
+     * Esto previene que se marque entrada después de haber marcado salida en el mismo día.
+     */
+    private boolean tieneSalidaEnDia(Long idEmpleado, LocalDate fecha) {
+        LocalDateTime inicioDia = fecha.atStartOfDay();
+        LocalDateTime finDia = fecha.atTime(23, 59, 59);
+        
+        List<Asistencia> registrosDia = asistenciaRepositorio.findByEmpleadoIdAndFechaHoraBetween(
+                idEmpleado, inicioDia, finDia);
+        
+        boolean tieneSalida = registrosDia.stream()
+                .anyMatch(reg -> reg.getTipoEvento() == TipoEvento.SALIDA);
+        
+        if (tieneSalida) {
+            log.debug("Empleado {} tiene SALIDA registrada en fecha {}", idEmpleado, fecha);
+        }
+        
+        return tieneSalida;
+    }
+
+    /**
      * Calculate observations for a clock-in event
      * Detects late arrival based on position schedule
      */
@@ -316,9 +350,9 @@ public class ServicioRegistroAsistencia {
     }
 
     /**
-     * Build EstadoAsistenciaDTO for an employee
+     * Build EstadoAsistenciaDTO for an employee on a specific date
      */
-    private EstadoAsistenciaDTO construirEstadoAsistencia(Empleados empleado) {
+    private EstadoAsistenciaDTO construirEstadoAsistencia(Empleados empleado, LocalDate fecha) {
         EstadoAsistenciaDTO estado = new EstadoAsistenciaDTO();
         estado.empleadoId = empleado.getId();
         estado.nombreCompleto = String.format("%s %s %s",
@@ -332,38 +366,65 @@ public class ServicioRegistroAsistencia {
                 estado.departamentoNombre = empleado.getPuesto().getDepartamento().getNombre();
             }
         }
-        
-        // Get last attendance record
-        Optional<Asistencia> ultimoRegistro = asistenciaRepositorio.findUltimoRegistroByEmpleadoId(empleado.getId());
-        
-        if (ultimoRegistro.isPresent()) {
-            Asistencia registro = ultimoRegistro.get();
-            estado.ultimoEvento = registro.getTipoEvento();
-            estado.fechaHoraUltimoEvento = registro.getFechaHora();
-            estado.observaciones = registro.getObservaciones();
-            
-            // Determine current status
-            estado.estadoActual = registro.getTipoEvento() == TipoEvento.ENTRADA
-                    ? EstadoActual.LABORANDO
-                    : EstadoActual.FUERA;
-        } else {
-            estado.estadoActual = EstadoActual.FUERA;
-        }
-        
-        // Get today's records for entry/exit times
-        LocalDateTime today = LocalDate.now().atStartOfDay();
-        List<Asistencia> registrosHoy = asistenciaRepositorio.findByEmpleadoIdAndFecha(
-                empleado.getId(), today);
-        
-        for (Asistencia reg : registrosHoy) {
-            if (reg.getTipoEvento() == TipoEvento.ENTRADA && estado.horaEntradaHoy == null) {
-                estado.horaEntradaHoy = reg.getFechaHora();
+
+        // Obtain records for the requested day
+        LocalDateTime inicioDia = fecha.atStartOfDay();
+        LocalDateTime finDia = fecha.atTime(23, 59, 59);
+        List<Asistencia> registrosDia = asistenciaRepositorio.findByEmpleadoIdAndFechaHoraBetween(
+                empleado.getId(), inicioDia, finDia);
+
+        // Find first ENTRADA and any SALIDA in that day
+        Asistencia entradaDia = null;
+        Asistencia salidaDia = null;
+
+        for (Asistencia reg : registrosDia) {
+            if (reg.getTipoEvento() == TipoEvento.ENTRADA && entradaDia == null) {
+                entradaDia = reg;
             } else if (reg.getTipoEvento() == TipoEvento.SALIDA) {
-                estado.horaSalidaHoy = reg.getFechaHora();
+                salidaDia = reg;
             }
         }
-        
+
+        // Set entry/exit times for the day
+        if (entradaDia != null) {
+            estado.horaEntradaHoy = entradaDia.getFechaHora();
+        }
+        if (salidaDia != null) {
+            estado.horaSalidaHoy = salidaDia.getFechaHora();
+        }
+
+        // Determine status for the queried day
+        if (entradaDia != null && salidaDia == null) {
+            estado.estadoActual = EstadoActual.LABORANDO;
+            estado.ultimoEvento = TipoEvento.ENTRADA;
+            estado.fechaHoraUltimoEvento = entradaDia.getFechaHora();
+            estado.observaciones = entradaDia.getObservaciones();
+        } else if (salidaDia != null) {
+            estado.estadoActual = EstadoActual.FUERA;
+            estado.ultimoEvento = TipoEvento.SALIDA;
+            estado.fechaHoraUltimoEvento = salidaDia.getFechaHora();
+            estado.observaciones = salidaDia.getObservaciones();
+        } else {
+            // No records on that day
+            // Fallback to last known record for last event information
+            Optional<Asistencia> ultimoRegistro = asistenciaRepositorio.findUltimoRegistroByEmpleadoId(empleado.getId());
+            if (ultimoRegistro.isPresent()) {
+                Asistencia registro = ultimoRegistro.get();
+                estado.ultimoEvento = registro.getTipoEvento();
+                estado.fechaHoraUltimoEvento = registro.getFechaHora();
+                estado.observaciones = registro.getObservaciones();
+            }
+            estado.estadoActual = EstadoActual.FUERA;
+        }
+
         return estado;
+    }
+
+    /**
+     * Preserve existing behavior for callers that don't pass a date
+     */
+    private EstadoAsistenciaDTO construirEstadoAsistencia(Empleados empleado) {
+        return construirEstadoAsistencia(empleado, LocalDate.now());
     }
 
     /**
