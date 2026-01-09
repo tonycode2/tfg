@@ -55,7 +55,7 @@ const menuItems: MenuItem[] = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
-    roles: ['HR', 'JEFE', 'EMPLEADO'],
+    roles: ['HR', 'JEFE', 'EMPLEADO', 'ADMIN'],
   },
   {
     id: 'horas-extra',

@@ -5,6 +5,7 @@ import { EmpleadosView } from '../components/dashboard/EmpleadosView';
 import { MantenimientosView } from '../components/dashboard/MantenimientosView';
 import { InicioView } from '../components/dashboard/InicioView';
 import { PlaceholderView } from '../components/dashboard/PlaceholderView';
+import { AsistenciaView } from '../components/dashboard/AsistenciaView';
 import { authService } from '../services/authService';
 
 // Memoized view components to prevent unnecessary re-renders
@@ -12,6 +13,7 @@ const MemoizedEmpleadosView = memo(EmpleadosView);
 const MemoizedMantenimientosView = memo(MantenimientosView);
 const MemoizedInicioView = memo(InicioView);
 const MemoizedPlaceholderView = memo(PlaceholderView);
+const MemoizedAsistenciaView = memo(AsistenciaView);
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ export default function DashboardPage() {
       case 'mis-solicitudes':
         return <MemoizedPlaceholderView title="Mis Solicitudes" description="Gestiona tus solicitudes de permisos y vacaciones" />;
       case 'asistencia':
-        return <MemoizedPlaceholderView title="Asistencia" description="Registro y consulta de asistencia" />;
+        return <MemoizedAsistenciaView />;
       case 'horas-extra':
         return <MemoizedPlaceholderView title="Horas Extra" description="Gestión de horas extra del departamento" />;
       case 'solicitudes-pendientes':

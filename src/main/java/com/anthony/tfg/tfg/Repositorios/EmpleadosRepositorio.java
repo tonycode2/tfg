@@ -1,5 +1,8 @@
 package com.anthony.tfg.tfg.Repositorios;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -54,5 +57,22 @@ public interface EmpleadosRepositorio extends JpaRepository<Empleados, Long> {
     @Modifying
     @Query(value = "DELETE FROM direccion WHERE id = :id", nativeQuery = true)
     void deleteDireccionById(@Param("id") Long id);
-
+    
+        /**
+         * Find all active employees in a specific department
+         */
+        @Query("SELECT e FROM Empleados e WHERE e.puesto.departamento.id = :idDepartamento " +
+            "AND e.estaActivo = true")
+        List<Empleados> findByDepartamentoIdAndEstaActivoTrue(@Param("idDepartamento") Long idDepartamento);
+    
+        /**
+         * Find employee by user ID
+         */
+        @Query("SELECT e FROM Empleados e WHERE e.usuario.id = :idUsuario")
+        Optional<Empleados> findByUsuarioId(@Param("idUsuario") Long idUsuario);
+    
+        /**
+         * Find all active employees
+         */
+        List<Empleados> findByEstaActivoTrue();
 }
