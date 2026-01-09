@@ -200,7 +200,7 @@ export function EmpleadosView() {
     // Fecha de nacimiento: debe ser una fecha pasada
     if (!formData.fechaNacimiento) {
       newErrors.fechaNacimiento = 'La fecha de nacimiento es requerida';
-    } else if (new Date(formData.fechaNacimiento) >= new Date()) {
+    } else if (formData.fechaNacimiento >= new Date().toISOString().split('T')[0]) {
       newErrors.fechaNacimiento = 'La fecha de nacimiento debe ser anterior a hoy';
     }
 
@@ -508,7 +508,8 @@ export function EmpleadosView() {
                 setErrors({ ...errors, fechaNacimiento: '' });
                 
                 if (date) {
-                  const fechaNacimiento = new Date(date);
+                  const [year, month, day] = date.split('-').map(Number);
+                  const fechaNacimiento = new Date(Date.UTC(year, month - 1, day));
                   const hoy = new Date();
                   const edad = Math.floor((hoy.getTime() - fechaNacimiento.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
                   if (edad < 18) {
