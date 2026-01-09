@@ -68,7 +68,7 @@ export function AsistenciaView() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const [miEstado, setMiEstado] = useState<EstadoAsistencia | null>(null);
+  const [, setMiEstado] = useState<EstadoAsistencia | null>(null);
 
   const [testDate, setTestDate] = useState<string>(getCurrentDateString());
   const [testTime, setTestTime] = useState<string>(getCurrentTimeString());
@@ -79,6 +79,7 @@ export function AsistenciaView() {
   const [resumenDepartamento, setResumenDepartamento] = useState<ResumenDepartamento | null>(null);
   const [isLoadingDepartamento, setIsLoadingDepartamento] = useState(false);
   const [searchFilter, setSearchFilter] = useState('');
+  const [fechaDepartamento, setFechaDepartamento] = useState<string>(getCurrentDateString());
 
   const [historial, setHistorial] = useState<Asistencia[]>([]);
   const [historialFechaInicio, setHistorialFechaInicio] = useState<string>('');
@@ -120,7 +121,7 @@ export function AsistenciaView() {
 
     setIsLoadingDepartamento(true);
     try {
-      const resumen = await obtenerResumenDepartamento(selectedDepartamento);
+      const resumen = await obtenerResumenDepartamento(selectedDepartamento, fechaDepartamento);
       setResumenDepartamento(resumen);
     } catch (error) {
       console.error('Error loading department summary:', error);
@@ -128,7 +129,7 @@ export function AsistenciaView() {
     } finally {
       setIsLoadingDepartamento(false);
     }
-  }, [selectedDepartamento]);
+  }, [selectedDepartamento, fechaDepartamento]);
 
   const loadHistorial = useCallback(async () => {
     setIsLoadingHistorial(true);
@@ -366,12 +367,21 @@ export function AsistenciaView() {
             <CardDescription>Resumen por departamento (solo JEFE/HR/ADMIN)</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center gap-4 mb-4">
+            <div className="flex flex-wrap items-end gap-4 mb-4">
               <div className="w-72">
+                <Label>Departamento</Label>
                 <SearchableSelect
                   options={departamentoOptions}
                   value={selectedDepartamento ?? undefined}
-                  onChange={(val: number) => setSelectedDepartamento(val)}
+                  onChange={(val) => setSelectedDepartamento(typeof val === 'number' ? val : Number(val))}
+                />
+              </div>
+              <div>
+                <Label>Fecha</Label>
+                <DatePicker 
+                  value={fechaDepartamento} 
+                  onChange={(v: string) => setFechaDepartamento(v)}
+                  toYear={new Date().getFullYear()}
                 />
               </div>
               <div className="ml-auto flex items-center gap-2">
