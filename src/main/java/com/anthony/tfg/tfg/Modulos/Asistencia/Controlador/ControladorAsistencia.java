@@ -1,6 +1,7 @@
 package com.anthony.tfg.tfg.Modulos.Asistencia.Controlador;
 
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -113,8 +114,10 @@ public class ControladorAsistencia {
      */
     @GetMapping("/departamento/{idDepartamento}")
     public ResponseEntity<ResumenDepartamentoDTO> obtenerResumenDepartamento(
-            @PathVariable Long idDepartamento) {
-        ResumenDepartamentoDTO resumen = servicioRegistro.obtenerResumenDepartamento(idDepartamento);
+            @PathVariable Long idDepartamento,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fecha) {
+        LocalDate fechaConsulta = fecha != null ? fecha : LocalDate.now();
+        ResumenDepartamentoDTO resumen = servicioRegistro.obtenerResumenDepartamento(idDepartamento, fechaConsulta);
         return ResponseEntity.ok(resumen);
     }
 

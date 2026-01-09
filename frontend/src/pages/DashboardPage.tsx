@@ -69,7 +69,7 @@ export default function DashboardPage() {
       {/* Top Navigation Bar */}
       <TopNavbar
         userRole={userInfo.role}
-        username={userInfo.username}
+        username={userInfo.nombreCompleto || userInfo.username}
         activeItem={activeView}
         onItemClick={setActiveView}
         onLogout={handleLogout}

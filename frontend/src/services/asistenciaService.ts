@@ -154,9 +154,19 @@ export async function obtenerDepartamentosAccesibles(): Promise<number[]> {
 /**
  * Get attendance summary for a department
  * @param idDepartamento Department ID
+ * @param fecha Optional date to get summary for (format: "yyyy-MM-dd"), defaults to today
  */
-export async function obtenerResumenDepartamento(idDepartamento: number): Promise<ResumenDepartamento> {
-  const response = await fetch(`${API_URL}/asistencias/departamento/${idDepartamento}`, {
+export async function obtenerResumenDepartamento(idDepartamento: number, fecha?: string): Promise<ResumenDepartamento> {
+  const params = new URLSearchParams();
+  
+  if (fecha) {
+    params.append('fecha', fecha);
+  }
+  
+  const queryString = params.toString();
+  const url = `${API_URL}/asistencias/departamento/${idDepartamento}${queryString ? `?${queryString}` : ''}`;
+  
+  const response = await fetch(url, {
     method: 'GET',
     headers: getAuthHeaders(),
   });
