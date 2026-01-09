@@ -34,27 +34,43 @@ export function DatePicker({
   toYear = new Date().getFullYear(),
 }: DatePickerProps) {
   const [open, setOpen] = React.useState(false)
-  const [date, setDate] = React.useState<Date | undefined>(
-    value ? new Date(value) : undefined
-  )
+  const [date, setDate] = React.useState<Date | undefined>(() => {
+    if (!value) return undefined;
+    const [year, month, day] = value.split('-').map(Number);
+    return new Date(Date.UTC(year, month - 1, day));
+  })
 
   React.useEffect(() => {
     if (value) {
-      setDate(new Date(value))
+      // Parse date in UTC to avoid timezone offset issues
+      const [year, month, day] = value.split('-').map(Number)
+      const utcDate = new Date(Date.UTC(year, month - 1, day))
+      setDate(utcDate)
     } else {
       setDate(undefined)
     }
   }, [value])
 
   const handleSelect = (selectedDate: Date | undefined) => {
-    setDate(selectedDate)
-    if (selectedDate) {
-      // Format as YYYY-MM-DD for backend compatibility
-      const formattedDate = format(selectedDate, "yyyy-MM-dd")
-      onChange(formattedDate)
-    } else {
-      onChange("")
-    }
+    if (!selectedDate) return
+    
+    // Create a new Date in UTC to avoid timezone offset issues
+    const utcDate = new Date(Date.UTC(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      selectedDate.getDate()
+    ))
+    
+    setDate(utcDate)
+    
+    // Extract date components from UTC
+    const year = utcDate.getUTCFullYear()
+    const month = String(utcDate.getUTCMonth() + 1).padStart(2, '0')
+    const day = String(utcDate.getUTCDate()).padStart(2, '0')
+    const formattedDate = `${year}-${month}-${day}`
+    onChange(formattedDate)
+    
+    // Close popover after selection
     setOpen(false)
   }
 
@@ -83,6 +99,7 @@ export function DatePicker({
           fromYear={fromYear}
           toYear={toYear}
           onSelect={handleSelect}
+          autoFocus
         />
       </PopoverContent>
     </Popover>
