@@ -1,30 +1,23 @@
 "use client"
 
 import * as React from "react"
-import { format } from "date-fns"
+import DatePicker from "react-datepicker"
 import { es } from "date-fns/locale"
-import { ChevronDownIcon } from "lucide-react"
+import { CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
 
 interface DatePickerProps {
-  value?: string;
-  onChange: (date: string) => void;
-  placeholder?: string;
-  disabled?: boolean;
-  className?: string;
-  fromYear?: number;
-  toYear?: number;
+  value?: string
+  onChange: (date: string) => void
+  placeholder?: string
+  disabled?: boolean
+  className?: string
+  fromYear?: number
+  toYear?: number
 }
 
-export function DatePicker({
+function DatePickerComponent({
   value,
   onChange,
   placeholder = "Seleccionar fecha",
@@ -33,75 +26,85 @@ export function DatePicker({
   fromYear = 1940,
   toYear = new Date().getFullYear(),
 }: DatePickerProps) {
-  const [open, setOpen] = React.useState(false)
-  const [date, setDate] = React.useState<Date | undefined>(() => {
-    if (!value) return undefined;
-    const [year, month, day] = value.split('-').map(Number);
-    return new Date(Date.UTC(year, month - 1, day));
-  })
+  const parseValueToDate = React.useCallback((dateString: string | undefined): Date | null => {
+    if (!dateString) return null
+    const [year, month, day] = dateString.split('-').map(Number)
+    if (isNaN(year) || isNaN(month) || isNaN(day)) return null
+    return new Date(Date.UTC(year, month - 1, day, 12, 0, 0))
+  }, [])
 
-  React.useEffect(() => {
-    if (value) {
-      // Parse date in UTC to avoid timezone offset issues
-      const [year, month, day] = value.split('-').map(Number)
-      const utcDate = new Date(Date.UTC(year, month - 1, day))
-      setDate(utcDate)
-    } else {
-      setDate(undefined)
-    }
-  }, [value])
+  const formatDateToString = React.useCallback((date: Date | null): string => {
+    if (!date) return ''
+    const year = date.getUTCFullYear()
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0')
+    const day = String(date.getUTCDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }, [])
 
-  const handleSelect = (selectedDate: Date | undefined) => {
-    if (!selectedDate) return
-    
-    // Create a new Date in UTC to avoid timezone offset issues
+  const selectedDate = parseValueToDate(value)
+
+  const handleChange = (date: Date | null) => {
+    if (!date) return
     const utcDate = new Date(Date.UTC(
-      selectedDate.getFullYear(),
-      selectedDate.getMonth(),
-      selectedDate.getDate()
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      12, 0, 0
     ))
-    
-    setDate(utcDate)
-    
-    // Extract date components from UTC
-    const year = utcDate.getUTCFullYear()
-    const month = String(utcDate.getUTCMonth() + 1).padStart(2, '0')
-    const day = String(utcDate.getUTCDate()).padStart(2, '0')
-    const formattedDate = `${year}-${month}-${day}`
+    const formattedDate = formatDateToString(utcDate)
     onChange(formattedDate)
-    
-    // Close popover after selection
-    setOpen(false)
   }
 
+  const minDate = React.useMemo(() => new Date(fromYear, 0, 1), [fromYear])
+  const maxDate = React.useMemo(() => new Date(toYear, 11, 31), [toYear])
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          disabled={disabled}
-          className={cn(
-            "w-full justify-between font-normal",
-            !date && "text-muted-foreground",
-            className
-          )}
-        >
-          {date ? format(date, "PPP", { locale: es }) : placeholder}
-          <ChevronDownIcon className="ml-2 h-4 w-4 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto overflow-hidden p-0" align="start">
-        <Calendar
-          mode="single"
-          selected={date}
-          captionLayout="dropdown"
-          locale={es}
-          fromYear={fromYear}
-          toYear={toYear}
-          onSelect={handleSelect}
-          autoFocus
-        />
-      </PopoverContent>
-    </Popover>
+    <div className={cn("relative w-full", className)}>
+      <DatePicker
+        selected={selectedDate}
+        onChange={(d: Date | null) => handleChange(d)}
+        locale={es}
+        dateFormat="PPP"
+        placeholderText={placeholder}
+        disabled={disabled}
+        showYearDropdown
+        showMonthDropdown
+        dropdownMode="select"
+        yearDropdownItemNumber={toYear - fromYear + 1}
+        minDate={minDate}
+        maxDate={maxDate}
+        scrollableYearDropdown
+        className={cn(
+          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm",
+          "ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium",
+          "placeholder:text-muted-foreground",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "disabled:cursor-not-allowed disabled:opacity-50"
+        )}
+        wrapperClassName="w-full"
+        popperClassName="react-datepicker-popper"
+        popperPlacement="bottom-start"
+        popperModifiers={( [
+          {
+            name: "offset",
+            options: {
+              offset: [0, 4],
+            },
+          },
+          {
+            name: "preventOverflow",
+            options: {
+              rootBoundary: "viewport",
+              padding: 8,
+            },
+          },
+        ] ) as any}
+      />
+      <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+        <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+      </div>
+    </div>
   )
 }
+
+export { DatePickerComponent as DatePicker }
