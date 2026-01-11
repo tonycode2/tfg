@@ -9,6 +9,7 @@ import { AsistenciaView } from '../components/dashboard/AsistenciaView';
 import PermisosView from '../components/dashboard/PermisosView';
 import PermisosSolicitudesPendientesView from '../components/dashboard/PermisosSolicitudesPendientesView';
 import PermisosRHView from '../components/dashboard/PermisosRHView';
+import { DiasFeriadosView } from '../components/dashboard/DiasFeriadosView';
 import { authService } from '../services/authService';
 
 // Memoized view components to prevent unnecessary re-renders
@@ -20,6 +21,7 @@ const MemoizedAsistenciaView = memo(AsistenciaView);
 const MemoizedPermisosView = memo(PermisosView);
 const MemoizedPermisosSolicitudesPendientesView = memo(PermisosSolicitudesPendientesView);
 const MemoizedPermisosRHView = memo(PermisosRHView);
+const MemoizedDiasFeriadosView = memo(DiasFeriadosView);
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -57,6 +59,8 @@ export default function DashboardPage() {
         return <MemoizedPermisosSolicitudesPendientesView />;
       case 'gestion-permisos':
         return <MemoizedPermisosRHView />;
+      case 'dias-feriados':
+        return <MemoizedDiasFeriadosView />;
       case 'asistencia':
         return <MemoizedAsistenciaView />;
       case 'horas-extra':

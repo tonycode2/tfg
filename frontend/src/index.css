@@ -377,10 +377,31 @@
   ring: 2px solid hsl(var(--ring));
 }
 
-/* Dark mode specific dropdown arrow */
+/* Dark mode specific dropdown styles */
 .dark .react-datepicker__month-select,
 .dark .react-datepicker__year-select {
+  background-color: rgb(30 41 59);
+  color: rgb(226 232 240);
+  border-color: rgb(51 65 85);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+}
+
+.dark .react-datepicker__month-select:hover,
+.dark .react-datepicker__year-select:hover {
+  background-color: rgb(51 65 85);
+}
+
+/* Dropdown option styles */
+.react-datepicker__month-select option,
+.react-datepicker__year-select option {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.dark .react-datepicker__month-select option,
+.dark .react-datepicker__year-select option {
+  background-color: rgb(15 23 42);
+  color: rgb(226 232 240);
 }
 
 /* Input field styling */

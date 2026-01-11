@@ -1,6 +1,6 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -12,9 +12,9 @@ public class RespuestaEmpleadosDTO {
     public String segundoApellido;
     public String correoPersonal;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaNacimiento;
+    public LocalDate fechaNacimiento;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaIngreso;
+    public LocalDate fechaIngreso;
     public Double salarioBase;
     public Integer cantidadDeHijos;
     public Integer saldoVacaciones;

@@ -13,13 +13,15 @@ import {
   cancelarSolicitud,
   obtenerTodasLasSolicitudes
 } from '@/services/permisosService';
+import { obtenerSaldoEmpleado, ejecutarAcumulacionManual } from '@/services/vacacionesService';
 import {
   getEstadoPermisoColor,
   getEstadoPermisoLabel,
   getTipoPermisoLabel,
-  formatearFecha
+  formatearFecha,
+  formatearHoras
 } from '../../lib/utils';
-import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock, Filter, Ban } from 'lucide-react';
+import { FileText, User, Eye, CheckCircle, XCircle, Clock, Filter, Ban, Palmtree } from 'lucide-react';
 
 export default function PermisosRHView() {
   const [solicitudesPendientes, setSolicitudesPendientes] = useState<RespuestaPermiso[]>([]);
@@ -32,6 +34,8 @@ export default function PermisosRHView() {
   const [comentarios, setComentarios] = useState('');
   const [procesando, setProcesando] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [saldoEmpleado, setSaldoEmpleado] = useState<number | null>(null);
+  const [ejecutandoAcumulacion, setEjecutandoAcumulacion] = useState(false);
   
   // Filtros
   const [filtroEstado, setFiltroEstado] = useState<string>('');
@@ -75,15 +79,54 @@ export default function PermisosRHView() {
     });
   };
 
-  const handleRevisar = (solicitud: RespuestaPermiso) => {
-    setSolicitudSeleccionada(solicitud);
-    setComentarios('');
-    setShowRevisarModal(true);
+  const handleEjecutarAcumulacion = async () => {
+    if (!confirm('¿Está seguro de ejecutar la acumulación de vacaciones? Esto agregará 1 día de vacaciones a todos los empleados activos.')) {
+      return;
+    }
+
+    try {
+      setEjecutandoAcumulacion(true);
+      await ejecutarAcumulacionManual();
+      alert('Acumulación de vacaciones ejecutada exitosamente. Se ha agregado 1 día a todos los empleados activos.');
+    } catch (err: any) {
+      console.error('Error al ejecutar acumulación:', err);
+      alert(err.response?.data?.message || err.message || 'Error al ejecutar la acumulación de vacaciones');
+    } finally {
+      setEjecutandoAcumulacion(false);
+    }
   };
 
-  const handleVerDetalle = (solicitud: RespuestaPermiso) => {
+  const handleRevisar = async (solicitud: RespuestaPermiso) => {
     setSolicitudSeleccionada(solicitud);
+    setComentarios('');
+    setSaldoEmpleado(null);
+    setShowRevisarModal(true);
+    
+    // Si es una solicitud de vacaciones, cargar el saldo del empleado
+    if (solicitud.tipoPermiso === 'VACACIONES') {
+      try {
+        const saldo = await obtenerSaldoEmpleado(solicitud.idEmpleado);
+        setSaldoEmpleado(saldo.diasDisponibles);
+      } catch (err) {
+        console.error('Error al cargar saldo de vacaciones:', err);
+      }
+    }
+  };
+
+  const handleVerDetalle = async (solicitud: RespuestaPermiso) => {
+    setSolicitudSeleccionada(solicitud);
+    setSaldoEmpleado(null);
     setShowDetalleModal(true);
+    
+    // Si es una solicitud de vacaciones, cargar el saldo del empleado
+    if (solicitud.tipoPermiso === 'VACACIONES') {
+      try {
+        const saldo = await obtenerSaldoEmpleado(solicitud.idEmpleado);
+        setSaldoEmpleado(saldo.diasDisponibles);
+      } catch (err) {
+        console.error('Error al cargar saldo de vacaciones:', err);
+      }
+    }
   };
 
   const handleAprobarRH = async () => {
@@ -174,22 +217,33 @@ export default function PermisosRHView() {
       )}
 
       {/* Selector de Vista */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 justify-between items-center">
+        <div className="flex gap-2">
+          <Button
+            variant={vistaActual === 'pendientes' ? 'default' : 'outline'}
+            onClick={() => setVistaActual('pendientes')}
+            className="gap-2"
+          >
+            <Clock className="h-4 w-4" />
+            Pendientes ({solicitudesPendientes.length})
+          </Button>
+          <Button
+            variant={vistaActual === 'todas' ? 'default' : 'outline'}
+            onClick={() => setVistaActual('todas')}
+            className="gap-2"
+          >
+            <FileText className="h-4 w-4" />
+            Todas ({todasLasSolicitudes.length})
+          </Button>
+        </div>
         <Button
-          variant={vistaActual === 'pendientes' ? 'default' : 'outline'}
-          onClick={() => setVistaActual('pendientes')}
-          className="gap-2"
+          variant="outline"
+          onClick={handleEjecutarAcumulacion}
+          disabled={ejecutandoAcumulacion}
+          className="gap-2 bg-green-50 hover:bg-green-100 dark:bg-green-950 dark:hover:bg-green-900 border-green-200 dark:border-green-800"
         >
-          <Clock className="h-4 w-4" />
-          Pendientes ({solicitudesPendientes.length})
-        </Button>
-        <Button
-          variant={vistaActual === 'todas' ? 'default' : 'outline'}
-          onClick={() => setVistaActual('todas')}
-          className="gap-2"
-        >
-          <FileText className="h-4 w-4" />
-          Todas ({todasLasSolicitudes.length})
+          <Palmtree className="h-4 w-4" />
+          {ejecutandoAcumulacion ? 'Procesando...' : 'Acumular Vacaciones'}
         </Button>
       </div>
 
@@ -308,12 +362,24 @@ export default function PermisosRHView() {
                       <td className="p-3">
                         <div className="text-sm">
                           <div>{formatearFecha(solicitud.fechaInicio)}</div>
-                          <div className="text-muted-foreground text-xs">hasta</div>
-                          <div>{formatearFecha(solicitud.fechaFin)}</div>
+                          {solicitud.unidadTiempo === 'HORAS' ? (
+                            <div className="text-muted-foreground text-xs">
+                              {solicitud.horaInicio} - {solicitud.horaFin}
+                            </div>
+                          ) : (
+                            <>
+                              <div className="text-muted-foreground text-xs">hasta</div>
+                              <div>{formatearFecha(solicitud.fechaFin)}</div>
+                            </>
+                          )}
                         </div>
                       </td>
                       <td className="p-3 text-center">
-                        <span className="font-semibold">{solicitud.diasTotales}</span>
+                        {solicitud.unidadTiempo === 'HORAS' ? (
+                          <span className="font-semibold">{formatearHoras(solicitud.totalHoras || 0)}</span>
+                        ) : (
+                          <span className="font-semibold">{solicitud.diasTotales}</span>
+                        )}
                       </td>
                       <td className="p-3">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoPermisoColor(solicitud.estadoSolicitud)}`}>
@@ -417,21 +483,58 @@ export default function PermisosRHView() {
                 <p className="font-medium">{getTipoPermisoLabel(solicitudSeleccionada.tipoPermiso)}</p>
               </div>
               <div>
-                <Label className="text-muted-foreground">Días Solicitados</Label>
-                <p className="font-medium text-lg text-primary">{solicitudSeleccionada.diasTotales} días hábiles</p>
+                <Label className="text-muted-foreground">
+                  {solicitudSeleccionada.unidadTiempo === 'HORAS' ? 'Tiempo Solicitado' : 'Días Solicitados'}
+                </Label>
+                <p className="font-medium text-lg text-primary">
+                  {solicitudSeleccionada.unidadTiempo === 'HORAS' 
+                    ? formatearHoras(solicitudSeleccionada.totalHoras || 0)
+                    : `${solicitudSeleccionada.diasTotales} días hábiles`
+                  }
+                </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label className="text-muted-foreground">Fecha Inicio</Label>
-                <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaInicio)}</p>
+            {/* Mostrar saldo de vacaciones si es una solicitud de vacaciones */}
+            {solicitudSeleccionada.tipoPermiso === 'VACACIONES' && saldoEmpleado !== null && (
+              <div className="p-3 rounded-lg bg-blue-50 border border-blue-200 dark:bg-blue-950 dark:border-blue-800">
+                <div className="flex items-center gap-2">
+                  <Palmtree className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  <div>
+                    <p className="text-sm text-blue-800 dark:text-blue-200">
+                      Saldo actual del empleado: <span className="font-bold">{saldoEmpleado} día{saldoEmpleado !== 1 ? 's' : ''}</span>
+                    </p>
+                    <p className="text-xs text-blue-600 dark:text-blue-400">
+                      Después de aprobar quedará con {saldoEmpleado - solicitudSeleccionada.diasTotales} día{(saldoEmpleado - solicitudSeleccionada.diasTotales) !== 1 ? 's' : ''}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Label className="text-muted-foreground">Fecha Fin</Label>
-                <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaFin)}</p>
+            )}
+
+            {solicitudSeleccionada.unidadTiempo === 'HORAS' ? (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-muted-foreground">Fecha</Label>
+                  <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaInicio)}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Horario</Label>
+                  <p className="font-medium">{solicitudSeleccionada.horaInicio} - {solicitudSeleccionada.horaFin}</p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-muted-foreground">Fecha Inicio</Label>
+                  <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaInicio)}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Fecha Fin</Label>
+                  <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaFin)}</p>
+                </div>
+              </div>
+            )}
 
             <div>
               <Label className="text-muted-foreground">Motivo</Label>
@@ -540,16 +643,40 @@ export default function PermisosRHView() {
                 <p className="font-medium">{getTipoPermisoLabel(solicitudSeleccionada.tipoPermiso)}</p>
               </div>
               <div>
-                <Label className="text-muted-foreground">Días</Label>
-                <p className="font-medium">{solicitudSeleccionada.diasTotales} días hábiles</p>
+                <Label className="text-muted-foreground">
+                  {solicitudSeleccionada.unidadTiempo === 'HORAS' ? 'Tiempo' : 'Días'}
+                </Label>
+                <p className="font-medium">
+                  {solicitudSeleccionada.unidadTiempo === 'HORAS' 
+                    ? formatearHoras(solicitudSeleccionada.totalHoras || 0)
+                    : `${solicitudSeleccionada.diasTotales} días hábiles`
+                  }
+                </p>
               </div>
               <div>
-                <Label className="text-muted-foreground">Fechas</Label>
+                <Label className="text-muted-foreground">
+                  {solicitudSeleccionada.unidadTiempo === 'HORAS' ? 'Fecha y Horario' : 'Fechas'}
+                </Label>
                 <p className="font-medium">
-                  {formatearFecha(solicitudSeleccionada.fechaInicio)} - {formatearFecha(solicitudSeleccionada.fechaFin)}
+                  {solicitudSeleccionada.unidadTiempo === 'HORAS' 
+                    ? `${formatearFecha(solicitudSeleccionada.fechaInicio)} (${solicitudSeleccionada.horaInicio} - ${solicitudSeleccionada.horaFin})`
+                    : `${formatearFecha(solicitudSeleccionada.fechaInicio)} - ${formatearFecha(solicitudSeleccionada.fechaFin)}`
+                  }
                 </p>
               </div>
             </div>
+
+            {/* Mostrar saldo de vacaciones si es una solicitud de vacaciones */}
+            {solicitudSeleccionada.tipoPermiso === 'VACACIONES' && saldoEmpleado !== null && (
+              <div className="p-3 rounded-lg bg-blue-50 border border-blue-200 dark:bg-blue-950 dark:border-blue-800">
+                <div className="flex items-center gap-2">
+                  <Palmtree className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  <p className="text-sm text-blue-800 dark:text-blue-200">
+                    Saldo actual del empleado: <span className="font-bold">{saldoEmpleado} día{saldoEmpleado !== 1 ? 's' : ''}</span>
+                  </p>
+                </div>
+              </div>
+            )}
 
             <div className="border-t pt-4">
               <h4 className="font-semibold mb-3">Historial</h4>

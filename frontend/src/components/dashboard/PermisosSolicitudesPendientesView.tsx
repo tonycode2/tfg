@@ -10,13 +10,13 @@ import {
   aprobarPorJefe,
   rechazarPorJefe
 } from '@/services/permisosService';
+import { obtenerSaldoEmpleado } from '@/services/vacacionesService';
 import {
-  getEstadoPermisoColor,
-  getEstadoPermisoLabel,
   getTipoPermisoLabel,
-  formatearFecha
+  formatearFecha,
+  formatearHoras
 } from '../../lib/utils';
-import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock } from 'lucide-react';
+import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock, Palmtree } from 'lucide-react';
 
 export default function PermisosSolicitudesPendientesView() {
   const [solicitudes, setSolicitudes] = useState<RespuestaPermiso[]>([]);
@@ -26,6 +26,7 @@ export default function PermisosSolicitudesPendientesView() {
   const [comentarios, setComentarios] = useState('');
   const [procesando, setProcesando] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [saldoEmpleado, setSaldoEmpleado] = useState<number | null>(null);
 
   useEffect(() => {
     cargarSolicitudes();
@@ -45,10 +46,21 @@ export default function PermisosSolicitudesPendientesView() {
     }
   };
 
-  const handleRevisar = (solicitud: RespuestaPermiso) => {
+  const handleRevisar = async (solicitud: RespuestaPermiso) => {
     setSolicitudSeleccionada(solicitud);
     setComentarios('');
+    setSaldoEmpleado(null);
     setShowRevisarModal(true);
+    
+    // Si es una solicitud de vacaciones, cargar el saldo del empleado
+    if (solicitud.tipoPermiso === 'VACACIONES') {
+      try {
+        const saldo = await obtenerSaldoEmpleado(solicitud.idEmpleado);
+        setSaldoEmpleado(saldo.diasDisponibles);
+      } catch (err) {
+        console.error('Error al cargar saldo de vacaciones:', err);
+      }
+    }
   };
 
   const handleAprobar = async () => {
@@ -176,13 +188,25 @@ export default function PermisosSolicitudesPendientesView() {
                           <Calendar className="h-4 w-4 text-muted-foreground" />
                           <div>
                             <div>{formatearFecha(solicitud.fechaInicio)}</div>
-                            <div className="text-muted-foreground">hasta</div>
-                            <div>{formatearFecha(solicitud.fechaFin)}</div>
+                            {solicitud.unidadTiempo === 'HORAS' ? (
+                              <div className="text-muted-foreground text-xs">
+                                {solicitud.horaInicio} - {solicitud.horaFin}
+                              </div>
+                            ) : (
+                              <>
+                                <div className="text-muted-foreground">hasta</div>
+                                <div>{formatearFecha(solicitud.fechaFin)}</div>
+                              </>
+                            )}
                           </div>
                         </div>
                       </td>
                       <td className="p-3 text-center">
-                        <span className="font-semibold text-lg">{solicitud.diasTotales}</span>
+                        {solicitud.unidadTiempo === 'HORAS' ? (
+                          <span className="font-semibold text-lg">{formatearHoras(solicitud.totalHoras || 0)}</span>
+                        ) : (
+                          <span className="font-semibold text-lg">{solicitud.diasTotales}</span>
+                        )}
                       </td>
                       <td className="p-3">
                         <div className="max-w-xs truncate text-sm">
@@ -265,21 +289,58 @@ export default function PermisosSolicitudesPendientesView() {
                 <p className="font-medium">{getTipoPermisoLabel(solicitudSeleccionada.tipoPermiso)}</p>
               </div>
               <div>
-                <Label className="text-muted-foreground">Días Solicitados</Label>
-                <p className="font-medium text-lg text-primary">{solicitudSeleccionada.diasTotales} días hábiles</p>
+                <Label className="text-muted-foreground">
+                  {solicitudSeleccionada.unidadTiempo === 'HORAS' ? 'Tiempo Solicitado' : 'Días Solicitados'}
+                </Label>
+                <p className="font-medium text-lg text-primary">
+                  {solicitudSeleccionada.unidadTiempo === 'HORAS' 
+                    ? formatearHoras(solicitudSeleccionada.totalHoras || 0)
+                    : `${solicitudSeleccionada.diasTotales} días hábiles`
+                  }
+                </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label className="text-muted-foreground">Fecha Inicio</Label>
-                <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaInicio)}</p>
+            {/* Mostrar saldo de vacaciones si es una solicitud de vacaciones */}
+            {solicitudSeleccionada.tipoPermiso === 'VACACIONES' && saldoEmpleado !== null && (
+              <div className="p-3 rounded-lg bg-blue-50 border border-blue-200 dark:bg-blue-950 dark:border-blue-800">
+                <div className="flex items-center gap-2">
+                  <Palmtree className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  <div>
+                    <p className="text-sm text-blue-800 dark:text-blue-200">
+                      Saldo actual del empleado: <span className="font-bold">{saldoEmpleado} día{saldoEmpleado !== 1 ? 's' : ''}</span>
+                    </p>
+                    <p className="text-xs text-blue-600 dark:text-blue-400">
+                      Después de aprobar quedará con {saldoEmpleado - solicitudSeleccionada.diasTotales} día{(saldoEmpleado - solicitudSeleccionada.diasTotales) !== 1 ? 's' : ''}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div>
-                <Label className="text-muted-foreground">Fecha Fin</Label>
-                <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaFin)}</p>
+            )}
+
+            {solicitudSeleccionada.unidadTiempo === 'HORAS' ? (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-muted-foreground">Fecha</Label>
+                  <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaInicio)}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Horario</Label>
+                  <p className="font-medium">{solicitudSeleccionada.horaInicio} - {solicitudSeleccionada.horaFin}</p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-muted-foreground">Fecha Inicio</Label>
+                  <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaInicio)}</p>
+                </div>
+                <div>
+                  <Label className="text-muted-foreground">Fecha Fin</Label>
+                  <p className="font-medium">{formatearFecha(solicitudSeleccionada.fechaFin)}</p>
+                </div>
+              </div>
+            )}
 
             <div>
               <Label className="text-muted-foreground">Motivo</Label>

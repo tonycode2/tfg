@@ -6,6 +6,10 @@ export interface SolicitudPermiso {
   fechaInicio: string; // yyyy-MM-dd
   fechaFin: string; // yyyy-MM-dd
   diasTotales: number;
+  unidadTiempo?: string; // DIAS o HORAS
+  horaInicio?: string; // HH:mm (solo para permisos por horas)
+  horaFin?: string; // HH:mm (solo para permisos por horas)
+  totalHoras?: number; // Total de horas (solo para permisos por horas)
   motivo: string;
   observacionesEmpleado?: string; // Opcional (usado por jefes al denegar)
   urlDocumentoAdjunto?: string; // Opcional
@@ -18,6 +22,10 @@ export interface RespuestaPermiso {
   fechaInicio: string;
   fechaFin: string;
   diasTotales: number;
+  unidadTiempo?: string;
+  horaInicio?: string;
+  horaFin?: string;
+  totalHoras?: number;
   motivo: string;
   observacionesEmpleado: string;
   urlDocumentoAdjunto?: string;
@@ -34,6 +42,7 @@ export interface RespuestaPermiso {
   comentariosRH?: string;
   
   // Empleado solicitante
+  idEmpleado: number;
   nombreEmpleado: string;
   primerApellidoEmpleado: string;
   segundApellidoEmpleado: string;

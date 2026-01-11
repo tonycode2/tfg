@@ -4,12 +4,14 @@ import { Modal } from '@/components/Modal';
 import { GenerarUsuarioModal } from '@/components/GenerarUsuarioModal';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { SearchableSelect, type SearchableSelectOption } from '@/components/ui/searchable-select';
 import { DatePicker } from '@/components/ui/date-picker';
 import { TimePicker } from '@/components/ui/time-picker';
 import { getProvincias, getCantonesByProvincia, getDistritosByCanton } from '@/data/costaRicaLocations';
+import { getEstadoPermisoLabel } from '@/lib/utils';
 import {
   empleadosService,
   departamentosService,
@@ -25,6 +27,7 @@ import {
   evaluacionesService,
   jefesDepartamentoService,
   incapacidadesService,
+  diasFeriadosService,
 } from '@/services/apiService';
 
 type EntityType =
@@ -41,7 +44,8 @@ type EntityType =
   | 'liquidaciones'
   | 'planillas'
   | 'evaluaciones'
-  | 'jefes-departamento';
+  | 'jefes-departamento'
+  | 'dias-feriados';
 
 interface EntityConfig {
   name: string;
@@ -63,6 +67,7 @@ const entities: Record<EntityType, EntityConfig> = {
   planillas: { name: 'Planillas', icon: '📊' },
   evaluaciones: { name: 'Evaluaciones', icon: '⭐' },
   'jefes-departamento': { name: 'Jefes de Departamento', icon: '👔' },
+  'dias-feriados': { name: 'Días Feriados', icon: '📅' },
 };
 
 // Configuración de relaciones entre entidades
@@ -110,6 +115,7 @@ const entityRelations: Record<EntityType, FieldRelation[]> = {
   direcciones: [],
   'configuracion-renta': [],
   planillas: [],
+  'dias-feriados': [],
 };
 
 export function MantenimientosView() {
@@ -317,6 +323,8 @@ export function MantenimientosView() {
         return evaluacionesService;
       case 'jefes-departamento':
         return jefesDepartamentoService;
+      case 'dias-feriados':
+        return diasFeriadosService;
       default:
         throw new Error('Entidad no soportada');
     }
@@ -419,14 +427,7 @@ export function MantenimientosView() {
           {
             key: 'estadoSolicitud',
             label: 'Estado',
-            render: (value) => {
-              const estados: Record<string, string> = {
-                PENDIENTE: '🟡 Pendiente',
-                APROBADA: '✅ Aprobada',
-                RECHAZADA: '❌ Rechazada',
-              };
-              return estados[value] || value;
-            },
+            render: (value) => getEstadoPermisoLabel(value),
           },
           {
             key: 'procesado',
@@ -444,14 +445,7 @@ export function MantenimientosView() {
           {
             key: 'estadoSolicitud',
             label: 'Estado',
-            render: (value) => {
-              const estados: Record<string, string> = {
-                PENDIENTE: '🟡 Pendiente',
-                APROBADA: '✅ Aprobada',
-                RECHAZADA: '❌ Rechazada',
-              };
-              return estados[value] || value;
-            },
+            render: (value) => getEstadoPermisoLabel(value),
           },
         ];
       case 'incapacidades':
@@ -469,14 +463,7 @@ export function MantenimientosView() {
           {
             key: 'estadoSolicitud',
             label: 'Estado',
-            render: (value) => {
-              const estados: Record<string, string> = {
-                PENDIENTE: '🟡 Pendiente',
-                APROBADA: '✅ Aprobada',
-                RECHAZADA: '❌ Rechazada',
-              };
-              return estados[value] || value;
-            },
+            render: (value) => getEstadoPermisoLabel(value),
           },
         ];
       case 'liquidaciones':
@@ -554,6 +541,20 @@ export function MantenimientosView() {
             label: 'Estado',
             render: (value) => (value ? '✅ Activo' : '❌ Inactivo'),
           },
+        ];
+      case 'dias-feriados':
+        return [
+          { key: 'nombre', label: 'Nombre del Feriado' },
+          { 
+            key: 'fecha', 
+            label: 'Fecha',
+            render: (value) => {
+              if (!value) return '';
+              const [year, month, day] = value.split('-');
+              return `${day}/${month}/${year}`;
+            }
+          },
+          { key: 'descripcion', label: 'Descripción' },
         ];
       default:
         return [];
@@ -925,8 +926,11 @@ export function MantenimientosView() {
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               >
                 <option value="PENDIENTE">Pendiente</option>
+                <option value="PENDIENTE_RH">Pendiente RH</option>
+                <option value="APROBADA_POR_JEFE">Aprobada por Jefe</option>
                 <option value="APROBADA">Aprobada</option>
-                <option value="RECHAZADA">Rechazada</option>
+                <option value="RECHAZADA_POR_JEFE">Rechazada por Jefe</option>
+                <option value="RECHAZADA_POR_RH">Rechazada por RH</option>
               </select>
             </div>
             <div>
@@ -1008,8 +1012,11 @@ export function MantenimientosView() {
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               >
                 <option value="PENDIENTE">Pendiente</option>
+                <option value="PENDIENTE_RH">Pendiente RH</option>
+                <option value="APROBADA_POR_JEFE">Aprobada por Jefe</option>
                 <option value="APROBADA">Aprobada</option>
-                <option value="RECHAZADA">Rechazada</option>
+                <option value="RECHAZADA_POR_JEFE">Rechazada por Jefe</option>
+                <option value="RECHAZADA_POR_RH">Rechazada por RH</option>
               </select>
             </div>
             <div>
@@ -1132,8 +1139,11 @@ export function MantenimientosView() {
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               >
                 <option value="PENDIENTE">Pendiente</option>
+                <option value="PENDIENTE_RH">Pendiente RH</option>
+                <option value="APROBADA_POR_JEFE">Aprobada por Jefe</option>
                 <option value="APROBADA">Aprobada</option>
-                <option value="RECHAZADA">Rechazada</option>
+                <option value="RECHAZADA_POR_JEFE">Rechazada por Jefe</option>
+                <option value="RECHAZADA_POR_RH">Rechazada por RH</option>
               </select>
             </div>
             <div>
@@ -1599,6 +1609,43 @@ export function MantenimientosView() {
                   />
                 </div>
               </div>
+            </div>
+          </div>
+        );
+
+      case 'dias-feriados':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="nombre">Nombre del Feriado *</Label>
+              <Input
+                id="nombre"
+                value={formData.nombre || ''}
+                onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
+                placeholder="Ej: Día de la Independencia"
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="fecha">Fecha *</Label>
+              <DatePicker
+                value={formData.fecha || ''}
+                onChange={(date) => setFormData({ ...formData, fecha: date })}
+                placeholder="Seleccionar fecha del feriado"
+              />
+              <p className="text-sm text-muted-foreground mt-1">
+                Solo se pueden registrar feriados con fechas futuras
+              </p>
+            </div>
+            <div>
+              <Label htmlFor="descripcion">Descripción (Opcional)</Label>
+              <Textarea
+                id="descripcion"
+                value={formData.descripcion || ''}
+                onChange={(e) => setFormData({ ...formData, descripcion: e.target.value })}
+                placeholder="Descripción adicional del feriado..."
+                rows={3}
+              />
             </div>
           </div>
         );

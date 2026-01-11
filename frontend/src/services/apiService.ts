@@ -349,6 +349,13 @@ export class EmpleadosService extends ApiService<Empleado> {
   }
 }
 
+export interface DiaFeriado {
+  id: number;
+  nombre: string;
+  fecha: string;
+  descripcion?: string;
+}
+
 // Servicios específicos para cada entidad
 export const empleadosService = new EmpleadosService('empleados');
 export const departamentosService = new ApiService<Departamento>('departamentos');
@@ -364,3 +371,4 @@ export const planillasService = new ApiService<PlanillaEncabezado>('planillas');
 export const evaluacionesService = new ApiService<EvaluacionDesempeno>('evaluaciones');
 export const jefesDepartamentoService = new ApiService<JefeDepartamento>('jefes-departamento');
 export const incapacidadesService = new ApiService<Incapacidad>('incapacidades');
+export const diasFeriadosService = new ApiService<DiaFeriado>('dias-feriados');

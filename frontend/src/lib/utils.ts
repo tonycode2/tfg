@@ -58,6 +58,7 @@ export function getTipoPermisoLabel(tipo: string): string {
     'PATERNIDAD': 'Paternidad',
     'ESTUDIO': 'Estudio',
     'SIN_GOCE_SALARIO': 'Sin Goce de Salario',
+    'VACACIONES': 'Vacaciones',
   };
   return labels[tipo] || tipo;
 }
@@ -107,3 +108,38 @@ export function formatearFecha(fecha: string | Date | null | undefined): string 
   return `${dia}/${mes}/${año}`;
 }
 
+/**
+ * Calcula el total de horas entre dos horas en formato HH:mm
+ * @param horaInicio - Hora en formato HH:mm (ejemplo: "08:00")
+ * @param horaFin - Hora en formato HH:mm (ejemplo: "17:30")
+ * @returns Total de horas (ejemplo: 9.5)
+ */
+export function calcularHoras(horaInicio: string, horaFin: string): number {
+  try {
+    const [horaIni, minIni] = horaInicio.split(':').map(Number);
+    const [horaFi, minFi] = horaFin.split(':').map(Number);
+    
+    const minutosInicio = horaIni * 60 + minIni;
+    const minutosFin = horaFi * 60 + minFi;
+    
+    const diferenciaMinutos = minutosFin - minutosInicio;
+    return Math.max(0, diferenciaMinutos / 60);
+  } catch (e) {
+    return 0;
+  }
+}
+
+/**
+ * Formatea horas en formato legible
+ * @param horas - Total de horas (ejemplo: 9.5)
+ * @returns String formateado (ejemplo: "9h 30min" o "8h")
+ */
+export function formatearHoras(horas: number): string {
+  const horasEnteras = Math.floor(horas);
+  const minutos = Math.round((horas - horasEnteras) * 60);
+  
+  if (minutos === 0) {
+    return `${horasEnteras}h`;
+  }
+  return `${horasEnteras}h ${minutos}min`;
+}

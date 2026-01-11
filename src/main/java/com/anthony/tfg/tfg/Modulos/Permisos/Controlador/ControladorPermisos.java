@@ -64,8 +64,11 @@ public class ControladorPermisos {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        servicio.eliminar(id);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> eliminar(
+            @PathVariable Long id,
+            Authentication authentication) {
+        servicio.eliminar(id, authentication);
         return ResponseEntity.noContent().build();
     }
 

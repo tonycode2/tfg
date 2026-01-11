@@ -1,16 +1,20 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class RespuestaPermisosDTO {
     public Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaInicio;
+    public LocalDate fechaInicio;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaFin;
+    public LocalDate fechaFin;
     public Integer diasTotales;
+    public String unidadTiempo;
+    public String horaInicio;
+    public String horaFin;
+    public Double totalHoras;
     public String motivo;
     public String observacionesEmpleado;
     public String urlDocumentoAdjunto;
@@ -19,17 +23,18 @@ public class RespuestaPermisosDTO {
     
     // Fechas de auditoría
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaSolicitud;
+    public LocalDate fechaSolicitud;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaAprobacionJefe;
+    public LocalDate fechaAprobacionJefe;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaAprobacionRH;
+    public LocalDate fechaAprobacionRH;
     
     // Comentarios
     public String comentariosJefe;
     public String comentariosRH;
     
     // Empleado solicitante
+    public Long idEmpleado;
     public String nombreEmpleado;
     public String primerApellidoEmpleado;
     public String segundApellidoEmpleado;

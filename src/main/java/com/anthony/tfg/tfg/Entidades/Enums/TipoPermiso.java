@@ -7,5 +7,6 @@ public enum TipoPermiso {
     MATERNIDAD,
     PATERNIDAD,
     ESTUDIO,
-    SIN_GOCE_SALARIO
+    SIN_GOCE_SALARIO,
+    VACACIONES
 }

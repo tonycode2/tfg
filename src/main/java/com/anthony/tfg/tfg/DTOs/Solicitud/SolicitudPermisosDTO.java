@@ -1,12 +1,12 @@
 package com.anthony.tfg.tfg.DTOs.Solicitud;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 public class SolicitudPermisosDTO {
@@ -14,14 +14,18 @@ public class SolicitudPermisosDTO {
     @NotNull
     @Future(message = "La fecha de inicio debe ser futura")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaInicio;
+    public LocalDate fechaInicio;
     @NotNull
     @Future(message = "La fecha de fin debe ser futura")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaFin;
+    public LocalDate fechaFin;
     @NotNull
-    @Positive
+    @PositiveOrZero(message = "Los días deben ser 0 o un valor positivo")
     public Integer diasTotales;
+    public String unidadTiempo; // DIAS o HORAS
+    public String horaInicio; // Formato HH:mm (opcional, solo para permisos por horas)
+    public String horaFin; // Formato HH:mm (opcional, solo para permisos por horas)
+    public Double totalHoras; // Total de horas (opcional, calculado para permisos por horas)
     @NotBlank
     @Size(min = 10, max = 500, message = "El motivo debe tener entre 10 y 500 caracteres")
     public String motivo;

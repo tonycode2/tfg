@@ -30,28 +30,20 @@ function DatePickerComponent({
     if (!dateString) return null
     const [year, month, day] = dateString.split('-').map(Number)
     if (isNaN(year) || isNaN(month) || isNaN(day)) return null
-    return new Date(Date.UTC(year, month - 1, day, 12, 0, 0))
-  }, [])
-
-  const formatDateToString = React.useCallback((date: Date | null): string => {
-    if (!date) return ''
-    const year = date.getUTCFullYear()
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0')
-    const day = String(date.getUTCDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
+    // Crear fecha en zona horaria local (medianoche local) en lugar de UTC
+    return new Date(year, month - 1, day, 0, 0, 0, 0)
   }, [])
 
   const selectedDate = parseValueToDate(value)
 
   const handleChange = (date: Date | null) => {
     if (!date) return
-    const utcDate = new Date(Date.UTC(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      12, 0, 0
-    ))
-    const formattedDate = formatDateToString(utcDate)
+    // Extraer año, mes y día de la fecha seleccionada (zona horaria local)
+    // y formatear directamente sin conversiones de zona horaria
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const formattedDate = `${year}-${month}-${day}`
     onChange(formattedDate)
   }
 

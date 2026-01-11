@@ -1,9 +1,10 @@
 package com.anthony.tfg.tfg.Entidades;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
+import com.anthony.tfg.tfg.Entidades.Enums.UnidadTiempo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
@@ -36,14 +37,28 @@ public class Permisos {
     
     @Column(name = "fecha_inicio")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaInicio;
+    LocalDate fechaInicio;
     
     @Column(name = "fecha_fin")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaFin;
+    LocalDate fechaFin;
     
     @Column(name = "dias_totales")
     Integer diasTotales;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "unidad_tiempo")
+    @Builder.Default
+    UnidadTiempo unidadTiempo = UnidadTiempo.DIAS;
+    
+    @Column(name = "hora_inicio")
+    String horaInicio;  // Formato HH:mm para permisos por horas
+    
+    @Column(name = "hora_fin")
+    String horaFin;  // Formato HH:mm para permisos por horas
+    
+    @Column(name = "total_horas")
+    Double totalHoras;  // Total de horas cuando unidadTiempo = HORAS
     
     @Column(columnDefinition = "TEXT")
     String motivo;
@@ -62,15 +77,15 @@ public class Permisos {
     
     @Column(name = "fecha_solicitud")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaSolicitud;
+    LocalDate fechaSolicitud;
     
     @Column(name = "fecha_aprobacion_jefe")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaAprobacionJefe;
+    LocalDate fechaAprobacionJefe;
     
     @Column(name = "fecha_aprobacion_rh")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaAprobacionRH;
+    LocalDate fechaAprobacionRH;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado_solicitud")

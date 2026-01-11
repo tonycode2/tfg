@@ -1,6 +1,5 @@
 package com.anthony.tfg.tfg.Config;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -357,8 +356,8 @@ public class DataSeeder implements CommandLineRunner {
             String nombre = (String) data[0];
             String primerApellido = (String) data[1];
             String segundoApellido = (String) data[2];
-            Date fechaNacimiento = Date.valueOf((String) data[3]);
-            Date fechaIngreso = Date.valueOf((String) data[4]);
+            LocalDate fechaNacimiento = LocalDate.parse((String) data[3]);
+            LocalDate fechaIngreso = LocalDate.parse((String) data[4]);
             int puestoIndex = (Integer) data[5];
             int userIndex = (Integer) data[6];
             Double salario = (Double) data[7];
@@ -366,34 +365,27 @@ public class DataSeeder implements CommandLineRunner {
             
             // Calculate vacation balance based on years worked (14 days per year, max 30)
             long yearsWorked = java.time.temporal.ChronoUnit.YEARS.between(
-                fechaIngreso.toLocalDate(), LocalDate.now());
-            int saldoVacaciones = Math.min((int) (yearsWorked * 14), 30);
-            if (saldoVacaciones < 14) saldoVacaciones = 14; // Minimum 14 days
-
-            // Generate IBAN for ~50% of employees
-            String cuentaIban = (i % 2 == 0) ? generateCostaRicanIban() : null;
-
+                fechaIngreso,  // Remove .toLocalDate() - already LocalDate
+                LocalDate.now()
+            );
+            int vacationDays = Math.min((int) (yearsWorked * 14), 30);
+            
+            // Create employee entity
             Empleados empleado = Empleados.builder()
-                .cedula(cedula)
                 .nombre(nombre)
                 .primerApellido(primerApellido)
                 .segundoApellido(segundoApellido)
-                .correoPersonal(nombre.toLowerCase() + "." + primerApellido.toLowerCase() + "@gmail.com")
-                .fechaNacimiento(fechaNacimiento)
-                .fechaIngreso(fechaIngreso)
-                .salarioBase(salario)
-                .cantidadDeHijos(random.nextInt(4)) // 0-3 children
-                .saldoVacaciones(saldoVacaciones)
-                .cuentaIban(cuentaIban)
-                .estaActivo(true)
-                .estaCasado(random.nextBoolean())
-                .tipoDeJornada(TipoDeJornada.COMPLETA)
+                .cedula(cedula)
+                .fechaNacimiento(fechaNacimiento)  // Remove .toLocalDate()
+                .fechaIngreso(fechaIngreso)  // Remove .toLocalDate()
+                .salarioBase(Double.valueOf(salario))
                 .puesto(puestos.get(puestoIndex))
-                .direccion(direcciones.get(i))
                 .usuario(users.get(userIndex))
+                .saldoVacaciones(vacationDays)
+                .estaActivo(true)
                 .build();
-
-            empleados.add(empleadosRepositorio.save(empleado));
+            
+            empleadosRepositorio.save(empleado);
         }
 
         return empleados;
@@ -416,7 +408,7 @@ public class DataSeeder implements CommandLineRunner {
                 JefesDepartamento jefe = JefesDepartamento.builder()
                     .departamento(empleado.getPuesto().getDepartamento())
                     .empleado(empleado)
-                    .fechaInicio(empleado.getFechaIngreso().toLocalDate())
+                    .fechaInicio(empleado.getFechaIngreso())
                     .fechaFin(null)
                     .estaActivo(true)
                     .build();
@@ -520,5 +512,90 @@ public class DataSeeder implements CommandLineRunner {
             iban.append(random.nextInt(10));
         }
         return iban.toString();
+    }
+
+    private List<Empleados> seedEmpleados() {
+        List<Empleados> empleados = empleadosRepositorio.findAll();
+        if (!empleados.isEmpty()) {
+            return empleados;
+        }
+
+        // Retrieve required entities
+        List<Puestos> puestos = puestosRepositorio.findAll();
+        List<User> users = userRepository.findAll();
+        
+        if (puestos.isEmpty()) {
+            throw new IllegalStateException("Puestos must be seeded before Empleados");
+        }
+        
+        if (users.isEmpty()) {
+            throw new IllegalStateException("Users must be seeded before Empleados");
+        }
+
+        // Employee data array
+        Object[][] employeeData = {
+            // {nombre, primerApellido, segundoApellido, fechaNacimiento, fechaIngreso, puestoIndex, userIndex, salario, cedula}
+            {"María", "González", "Ramírez", "1985-03-15", "2020-01-10", 0, 0, 450000.0, "1-0234-0567"},
+            {"Carlos", "Rodríguez", "Sánchez", "1990-07-22", "2021-06-15", 1, 1, 380000.0, "2-0345-0678"},
+            {"José", "Fernández", "Castro", "1988-11-08", "2021-03-20", 2, 2, 400000.0, "103450678"},     // Vendedor - Jefe user
+            {"Ana", "López", "Mora", "1992-05-12", "2023-02-01", 1, 3, 995000.0, "104560789"},            // Gerente RH - HHRR user
+            {"Pedro", "Álvarez", "Jiménez", "1987-09-30", "2019-08-05", 3, 4, 1300000.0, "105670890"},    // Ing Software - aalvarez user
+            
+            // New users - new employees
+            {"Juan", "García", "Pérez", "1995-02-18", "2024-01-15", 4, 5, 380000.0, "201230456"},         // Sastre Junior - jgarcia
+            {"Mónica", "Rodríguez", "Vega", "1991-08-25", "2023-05-10", 5, 6, 420000.0, "202340567"},     // Cortador - mrodriguez
+            {"Alejandro", "López", "Soto", "1989-12-03", "2022-09-01", 6, 7, 400000.0, "203450678"},      // Asist Admin - alopez
+            {"Carmen", "Fernández", "Rojas", "1993-04-17", "2024-03-01", 7, 8, 340000.0, "204560789"},    // Recepcionista - cfernandez
+            {"Roberto", "Morales", "Arias", "1986-06-28", "2021-11-15", 8, 9, 450000.0, "205670890"},     // Asist RH - rmorales
+            {"Laura", "Hernández", "Quesada", "1994-10-09", "2023-07-20", 9, 10, 700000.0, "206780901"},  // Contador - lhernandez
+            {"Jorge", "Sánchez", "Villalobos", "1990-01-14", "2022-04-05", 10, 11, 420000.0, "207890012"},// Asist Contable - jsanchez
+            {"Melissa", "Vargas", "Solís", "1988-03-21", "2020-02-10", 11, 12, 1600000.0, "208901123"},   // Gerente General - mvargas
+            {"Pablo", "Castro", "Montero", "1996-07-05", "2024-06-01", 12, 13, 480000.0, "209012234"},    // Asesor Imagen - pcastro
+            {"Daniel", "Jiménez", "Cordero", "1992-11-30", "2023-01-10", 0, 14, 480000.0, "210123345"},   // Sastre - djimenez (Jefe Taller)
+            {"Sandra", "Quirós", "Brenes", "1987-05-08", "2019-10-01", 9, 15, 750000.0, "211234456"},     // Contador - squiros (Jefe Finanzas)
+            {"Carlos", "Chaves", "Ramírez", "1993-09-12", "2024-02-15", 4, 16, 370000.0, "212345567"},    // Sastre Junior - cchaves
+            {"Ricardo", "Mora", "Valverde", "1991-02-28", "2022-08-20", 2, 17, 380000.0, "213456678"},    // Vendedor - rmora
+            {"Andrea", "Araya", "Calderón", "1989-06-15", "2021-05-12", 13, 18, 520000.0, "214567789"},   // Soporte Técnico - aaraya
+            {"Nelson", "Gómez", "Vindas", "1994-12-22", "2023-09-05", 3, 19, 1250000.0, "215678890"}      // Ing Software - ngomez
+        };
+
+        for (int i = 0; i < employeeData.length; i++) {
+            Object[] data = employeeData[i];
+            
+            String nombre = (String) data[0];
+            String primerApellido = (String) data[1];
+            String segundoApellido = (String) data[2];
+            LocalDate fechaNacimiento = LocalDate.parse((String) data[3]);
+            LocalDate fechaIngreso = LocalDate.parse((String) data[4]);
+            int puestoIndex = (Integer) data[5];
+            int userIndex = (Integer) data[6];
+            Double salario = (Double) data[7];
+            String cedula = (String) data[8];
+            
+            // Calculate vacation balance based on years worked (14 days per year, max 30)
+            long yearsWorked = java.time.temporal.ChronoUnit.YEARS.between(
+                fechaIngreso,  // Remove .toLocalDate() - already LocalDate
+                LocalDate.now()
+            );
+            int vacationDays = Math.min((int) (yearsWorked * 14), 30);
+            
+            // Create employee entity
+            Empleados empleado = Empleados.builder()
+                .nombre(nombre)
+                .primerApellido(primerApellido)
+                .segundoApellido(segundoApellido)
+                .cedula(cedula)
+                .fechaNacimiento(fechaNacimiento)  // Remove .toLocalDate()
+                .fechaIngreso(fechaIngreso)  // Remove .toLocalDate()
+                .salarioBase(Double.valueOf(salario))
+                .puesto(puestos.get(puestoIndex))
+                .usuario(users.get(userIndex))
+                .estaActivo(true)
+                .build();
+            
+            empleadosRepositorio.save(empleado);
+        }
+
+        return empleados;
     }
 }

@@ -1,6 +1,5 @@
 package com.anthony.tfg.tfg.Modulos.Permisos.Servicio;
 
-import java.sql.Date;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
@@ -23,9 +22,11 @@ import com.anthony.tfg.tfg.Exceptions.ForbiddenException;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPermisos;
+import com.anthony.tfg.tfg.Modulos.DiasFeriados.Servicio.ServicioDiasFeriados;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPermisos;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
+import com.anthony.tfg.tfg.Modulos.Vacaciones.Servicio.ServicioVacaciones;
 import com.anthony.tfg.tfg.Repositorios.JefesDepartamentoRepositorio;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,18 +42,24 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
     private final ConsultasEmpleados consultasEmpleados;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepo;
     private final JavaMailSender emailSender;
+    private final ServicioVacaciones servicioVacaciones;
+    private final ServicioDiasFeriados servicioDiasFeriados;
 
     public ServicioPermisos(
             ConsultasPermisos consulta, 
             MantenimientosPermisos mantenimiento, 
             ConsultasEmpleados consultasEmpleados,
             JefesDepartamentoRepositorio jefesDepartamentoRepo,
-            JavaMailSender emailSender) {
+            JavaMailSender emailSender,
+            ServicioVacaciones servicioVacaciones,
+            ServicioDiasFeriados servicioDiasFeriados) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
         this.jefesDepartamentoRepo = jefesDepartamentoRepo;
         this.emailSender = emailSender;
+        this.servicioVacaciones = servicioVacaciones;
+        this.servicioDiasFeriados = servicioDiasFeriados;
     }
 
     public RespuestaPermisosDTO obtenerPorId(Long id) {
@@ -69,6 +76,14 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         List<Permisos> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todos los permisos. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
+    }
+
+    /**
+     * Implementación de la interfaz - usa el idEmpleado del DTO directamente
+     */
+    @Override
+    public RespuestaPermisosDTO guardar(SolicitudPermisosDTO entidad) {
+        return guardarInterno(entidad);
     }
 
     /**
@@ -98,25 +113,64 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
     private RespuestaPermisosDTO guardarInterno(SolicitudPermisosDTO entidad) {
         // Validar fechas no retroactivas
         LocalDate hoy = LocalDate.now();
-        LocalDate fechaInicio = entidad.fechaInicio.toLocalDate();
-        LocalDate fechaFin = entidad.fechaFin.toLocalDate();
         
-        if (fechaInicio.isBefore(hoy)) {
+        if (entidad.fechaInicio.isBefore(hoy)) {
             throw new BadRequestException("No se permiten solicitudes de permisos con fechas pasadas");
         }
         
         // Validar que fechaFin >= fechaInicio
-        if (entidad.fechaFin.before(entidad.fechaInicio)) {
+        if (entidad.fechaFin.isBefore(entidad.fechaInicio)) {
             throw new BadRequestException("La fecha de fin debe ser igual o posterior a la fecha de inicio");
         }
         
-        // Calcular días hábiles automáticamente (el backend es la fuente de verdad)
-        int diasHabiles = calcularDiasHabiles(fechaInicio, fechaFin);
+        // Validar que no haya días feriados en el rango de fechas
+        servicioDiasFeriados.validarNoFeriadosEnRango(entidad.fechaInicio, entidad.fechaFin);
+        log.info("Validación de días feriados exitosa para rango {} - {}", entidad.fechaInicio, entidad.fechaFin);
+        
+        String unidadTiempo = entidad.unidadTiempo != null ? entidad.unidadTiempo : "DIAS";
         
         Permisos nuevoPermiso = deSolicitudDtoAEntidad(entidad);
         
-        // Sobrescribir con el cálculo del backend
-        nuevoPermiso.setDiasTotales(diasHabiles);
+        // Calcular según unidad de tiempo
+        if ("HORAS".equals(unidadTiempo)) {
+            // Las vacaciones no pueden solicitarse por horas
+            TipoPermiso tipoPermiso = obtenerTipoPermiso(entidad.tipoPermiso);
+            if (tipoPermiso == TipoPermiso.VACACIONES) {
+                throw new BadRequestException("Las vacaciones solo pueden solicitarse por días completos, no por horas");
+            }
+            
+            // Validar que las fechas sean el mismo día
+            if (!entidad.fechaInicio.equals(entidad.fechaFin)) {
+                throw new BadRequestException("Los permisos por horas deben ser en el mismo día");
+            }
+            
+            // Validar que horaInicio y horaFin estén presentes
+            if (entidad.horaInicio == null || entidad.horaFin == null) {
+                throw new BadRequestException("Debe especificar hora de inicio y fin para permisos por horas");
+            }
+            
+            // Calcular total de horas
+            double totalHoras = calcularHoras(entidad.horaInicio, entidad.horaFin);
+            if (totalHoras <= 0) {
+                throw new BadRequestException("La hora de fin debe ser posterior a la hora de inicio");
+            }
+            
+            nuevoPermiso.setTotalHoras(totalHoras);
+            nuevoPermiso.setDiasTotales(0); // No aplica para permisos por horas
+            log.info("Permiso por horas: {} horas desde {} hasta {}", totalHoras, entidad.horaInicio, entidad.horaFin);
+        } else {
+            // Calcular días hábiles automáticamente (el backend es la fuente de verdad)
+            int diasHabiles = calcularDiasHabiles(entidad.fechaInicio, entidad.fechaFin);
+            nuevoPermiso.setDiasTotales(diasHabiles);
+            nuevoPermiso.setTotalHoras(null); // No aplica para permisos por días
+            log.info("Permiso por días: {} días hábiles", diasHabiles);
+            
+            // Validar saldo de vacaciones si el tipo de permiso es VACACIONES
+            if (nuevoPermiso.getTipoPermiso() == TipoPermiso.VACACIONES) {
+                servicioVacaciones.validarSaldoDisponible(entidad.idEmpleado, diasHabiles);
+                log.info("Saldo de vacaciones validado para empleado {}", entidad.idEmpleado);
+            }
+        }
         
         // Determinar estado inicial automáticamente
         Empleados solicitante = nuevoPermiso.getEmpleado();
@@ -124,11 +178,11 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         nuevoPermiso.setEstadoSolicitud(estadoInicial);
         
         // Asignar fecha de solicitud
-        nuevoPermiso.setFechaSolicitud(new Date(System.currentTimeMillis()));
+        nuevoPermiso.setFechaSolicitud(LocalDate.now());
         
         Permisos permisoGuardado = mantenimiento.crear(nuevoPermiso);
-        log.info("Se ha guardado un nuevo permiso con ID: {} y estado: {} con {} días hábiles", 
-                permisoGuardado.getId(), permisoGuardado.getEstadoSolicitud(), diasHabiles);
+        log.info("Se ha guardado un nuevo permiso con ID: {} y estado: {}", 
+                permisoGuardado.getId(), permisoGuardado.getEstadoSolicitud());
         return deEntidadDtoARespuesta(permisoGuardado);
     }
 
@@ -229,7 +283,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         // Actualizar permiso
         permiso.setEstadoSolicitud(EstadoSolicitud.APROBADA_POR_JEFE);
         permiso.setComentariosJefe(comentarios);
-        permiso.setFechaAprobacionJefe(new Date(System.currentTimeMillis()));
+        permiso.setFechaAprobacionJefe(LocalDate.now());
         permiso.setAprobadorJefe(jefe);
         
         Permisos permisoActualizado = mantenimiento.actualizar(permiso);
@@ -262,7 +316,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         // Actualizar permiso
         permiso.setEstadoSolicitud(EstadoSolicitud.RECHAZADA_POR_JEFE);
         permiso.setComentariosJefe(comentarios);
-        permiso.setFechaAprobacionJefe(new Date(System.currentTimeMillis()));
+        permiso.setFechaAprobacionJefe(LocalDate.now());
         
         Permisos permisoActualizado = mantenimiento.actualizar(permiso);
         log.info("Permiso {} rechazado por jefe {}", idPermiso, jefe.getId());
@@ -289,11 +343,20 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         // Actualizar permiso
         permiso.setEstadoSolicitud(EstadoSolicitud.APROBADA);
         permiso.setComentariosRH(comentarios);
-        permiso.setFechaAprobacionRH(new Date(System.currentTimeMillis()));
+        permiso.setFechaAprobacionRH(LocalDate.now());
         permiso.setAprobadorRH(rh);
         
         Permisos permisoActualizado = mantenimiento.actualizar(permiso);
         log.info("Permiso {} aprobado por RH {}", idPermiso, rh.getId());
+        
+        // Si es solicitud de VACACIONES, descontar días del saldo
+        if (permisoActualizado.getTipoPermiso() == TipoPermiso.VACACIONES) {
+            Long idEmpleado = permisoActualizado.getEmpleado().getId();
+            Integer diasAprobados = permisoActualizado.getDiasTotales();
+            servicioVacaciones.descontarDias(idEmpleado, diasAprobados);
+            log.info("Se descontaron {} días de vacaciones al empleado {} por aprobación del permiso {}",
+                    diasAprobados, idEmpleado, idPermiso);
+        }
         
         // Enviar notificación por email
         enviarEmailAprobacion(permisoActualizado);
@@ -321,7 +384,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         // Actualizar permiso
         permiso.setEstadoSolicitud(EstadoSolicitud.RECHAZADA_POR_RH);
         permiso.setComentariosRH(comentarios);
-        permiso.setFechaAprobacionRH(new Date(System.currentTimeMillis()));
+        permiso.setFechaAprobacionRH(LocalDate.now());
         
         Permisos permisoActualizado = mantenimiento.actualizar(permiso);
         log.info("Permiso {} rechazado por RH {}", idPermiso, rh.getId());
@@ -366,6 +429,29 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         }
         
         return diasHabiles;
+    }
+
+    /**
+     * Calcula el total de horas entre dos horas en formato HH:mm
+     */
+    private double calcularHoras(String horaInicio, String horaFin) {
+        try {
+            String[] inicioPartes = horaInicio.split(":");
+            String[] finPartes = horaFin.split(":");
+            
+            int horaIni = Integer.parseInt(inicioPartes[0]);
+            int minIni = Integer.parseInt(inicioPartes[1]);
+            int horaFi = Integer.parseInt(finPartes[0]);
+            int minFi = Integer.parseInt(finPartes[1]);
+            
+            int minutosInicio = horaIni * 60 + minIni;
+            int minutosFin = horaFi * 60 + minFi;
+            
+            int diferenciaMinutos = minutosFin - minutosInicio;
+            return diferenciaMinutos / 60.0;
+        } catch (Exception e) {
+            throw new BadRequestException("Formato de hora inválido. Use HH:mm (ejemplo: 08:00)");
+        }
     }
 
     /**
@@ -436,8 +522,30 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         return deEntidadDtoARespuesta(permisoActualizado);
     }
 
+    @Override
     public void eliminar(Long id) {
-        throw new BadRequestException("No se permite eliminar solicitudes de permisos");
+        throw new BadRequestException("No se permite eliminar solicitudes de permisos. Use el endpoint autenticado.");
+    }
+
+    /**
+     * Elimina una solicitud de permiso (solo ADMIN)
+     */
+    public void eliminar(Long id, Authentication auth) {
+        // Verificar que el usuario sea ADMIN
+        User usuario = obtenerUsuarioAutenticado(auth);
+        if (!usuario.getRole().name().equals("ADMIN")) {
+            throw new com.anthony.tfg.tfg.Exceptions.ForbiddenException(
+                "Solo los administradores pueden eliminar solicitudes de permisos");
+        }
+
+        Permisos permiso = consulta.obtenerPorId(id);
+        if (permiso == null) {
+            throw new ResourceNotFoundException("Permisos", "id", id);
+        }
+
+        mantenimiento.eliminar(id);
+        log.info("El administrador {} eliminó la solicitud de permiso con ID: {}", 
+                usuario.getUsername(), id);
     }
 
     public Permisos deSolicitudDtoAEntidad(SolicitudPermisosDTO solicitud) {
@@ -463,6 +571,12 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
                     .fechaInicio(solicitud.fechaInicio)
                     .fechaFin(solicitud.fechaFin)
                     .diasTotales(solicitud.diasTotales)
+                    .unidadTiempo(solicitud.unidadTiempo != null ? 
+                        com.anthony.tfg.tfg.Entidades.Enums.UnidadTiempo.valueOf(solicitud.unidadTiempo) : 
+                        com.anthony.tfg.tfg.Entidades.Enums.UnidadTiempo.DIAS)
+                    .horaInicio(solicitud.horaInicio)
+                    .horaFin(solicitud.horaFin)
+                    .totalHoras(solicitud.totalHoras)
                     .motivo(solicitud.motivo)
                     .observacionesEmpleado(solicitud.observacionesEmpleado)
                     .urlDocumentoAdjunto(solicitud.urlDocumentoAdjunto)
@@ -483,6 +597,10 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         respuesta.fechaInicio = entidad.getFechaInicio();
         respuesta.fechaFin = entidad.getFechaFin();
         respuesta.diasTotales = entidad.getDiasTotales();
+        respuesta.unidadTiempo = entidad.getUnidadTiempo() != null ? entidad.getUnidadTiempo().name() : "DIAS";
+        respuesta.horaInicio = entidad.getHoraInicio();
+        respuesta.horaFin = entidad.getHoraFin();
+        respuesta.totalHoras = entidad.getTotalHoras();
         respuesta.motivo = entidad.getMotivo();
         respuesta.observacionesEmpleado = entidad.getObservacionesEmpleado();
         respuesta.urlDocumentoAdjunto = entidad.getUrlDocumentoAdjunto();
@@ -501,6 +619,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         }
         
         if(entidad.getEmpleado() != null){
+            respuesta.idEmpleado = entidad.getEmpleado().getId();
             respuesta.nombreEmpleado = entidad.getEmpleado().getNombre();
             respuesta.primerApellidoEmpleado = entidad.getEmpleado().getPrimerApellido();
             respuesta.segundApellidoEmpleado = entidad.getEmpleado().getSegundoApellido();

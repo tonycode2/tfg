@@ -1,6 +1,6 @@
 package com.anthony.tfg.tfg.Entidades;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.anthony.tfg.tfg.Entidades.Enums.TipoDeJornada;
@@ -45,9 +45,9 @@ public class Empleados {
     @Column(name = "correo_personal")
     String correoPersonal;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaNacimiento;
+    LocalDate fechaNacimiento;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaIngreso;
+    LocalDate fechaIngreso;
     @Column(name = "salario_base")
     Double salarioBase;
     @Column(name = "cantidad_de_hijos")
