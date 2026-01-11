@@ -1,20 +1,32 @@
 package com.anthony.tfg.tfg.Modulos.Permisos.Servicio;
 
+import java.sql.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPermisosDTO;
 import com.anthony.tfg.tfg.Entidades.Empleados;
+import com.anthony.tfg.tfg.Entidades.JefesDepartamento;
 import com.anthony.tfg.tfg.Entidades.Permisos;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
+import com.anthony.tfg.tfg.Exceptions.BadRequestException;
+import com.anthony.tfg.tfg.Exceptions.ForbiddenException;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPermisos;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPermisos;
+import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
+import com.anthony.tfg.tfg.Repositorios.JefesDepartamentoRepositorio;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,11 +39,20 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
     private final ConsultasPermisos consulta;
     private final MantenimientosPermisos mantenimiento;
     private final ConsultasEmpleados consultasEmpleados;
+    private final JefesDepartamentoRepositorio jefesDepartamentoRepo;
+    private final JavaMailSender emailSender;
 
-    public ServicioPermisos(ConsultasPermisos consulta, MantenimientosPermisos mantenimiento, ConsultasEmpleados consultasEmpleados) {
+    public ServicioPermisos(
+            ConsultasPermisos consulta, 
+            MantenimientosPermisos mantenimiento, 
+            ConsultasEmpleados consultasEmpleados,
+            JefesDepartamentoRepositorio jefesDepartamentoRepo,
+            JavaMailSender emailSender) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
+        this.jefesDepartamentoRepo = jefesDepartamentoRepo;
+        this.emailSender = emailSender;
     }
 
     public RespuestaPermisosDTO obtenerPorId(Long id) {
@@ -50,29 +71,355 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         return deListaEntidadADto(entidades);
     }
 
-    public RespuestaPermisosDTO guardar(SolicitudPermisosDTO entidad) {
+    /**
+     * Crea una nueva solicitud de permiso desde el endpoint público (autenticado).
+     * Obtiene automáticamente el empleado del usuario autenticado para mayor seguridad.
+     * Determina automáticamente el estado inicial:
+     * - PENDIENTE si hay jefe en el departamento
+     * - PENDIENTE_RH si no hay jefe o el solicitante es jefe
+     */
+    public RespuestaPermisosDTO guardar(SolicitudPermisosDTO entidad, Authentication auth) {
+        // Obtener el empleado autenticado automáticamente
+        Empleados empleadoAutenticado = obtenerEmpleadoAutenticado(auth);
+        
+        // Sobrescribir el idEmpleado del DTO con el empleado autenticado
+        // Esto previene que un usuario pueda crear permisos para otro empleado
+        entidad.idEmpleado = empleadoAutenticado.getId();
+        
+        return guardarInterno(entidad);
+    }
+
+    /**
+     * Crea una nueva solicitud de permiso (método interno).
+     * Determina automáticamente el estado inicial:
+     * - PENDIENTE si hay jefe en el departamento
+     * - PENDIENTE_RH si no hay jefe o el solicitante es jefe
+     */
+    private RespuestaPermisosDTO guardarInterno(SolicitudPermisosDTO entidad) {
+        // Validar fechas no retroactivas
+        LocalDate hoy = LocalDate.now();
+        LocalDate fechaInicio = entidad.fechaInicio.toLocalDate();
+        LocalDate fechaFin = entidad.fechaFin.toLocalDate();
+        
+        if (fechaInicio.isBefore(hoy)) {
+            throw new BadRequestException("No se permiten solicitudes de permisos con fechas pasadas");
+        }
+        
+        // Validar que fechaFin >= fechaInicio
+        if (entidad.fechaFin.before(entidad.fechaInicio)) {
+            throw new BadRequestException("La fecha de fin debe ser igual o posterior a la fecha de inicio");
+        }
+        
+        // Calcular días hábiles automáticamente (el backend es la fuente de verdad)
+        int diasHabiles = calcularDiasHabiles(fechaInicio, fechaFin);
+        
         Permisos nuevoPermiso = deSolicitudDtoAEntidad(entidad);
+        
+        // Sobrescribir con el cálculo del backend
+        nuevoPermiso.setDiasTotales(diasHabiles);
+        
+        // Determinar estado inicial automáticamente
+        Empleados solicitante = nuevoPermiso.getEmpleado();
+        EstadoSolicitud estadoInicial = determinarEstadoInicial(solicitante);
+        nuevoPermiso.setEstadoSolicitud(estadoInicial);
+        
+        // Asignar fecha de solicitud
+        nuevoPermiso.setFechaSolicitud(new Date(System.currentTimeMillis()));
+        
         Permisos permisoGuardado = mantenimiento.crear(nuevoPermiso);
-        log.info("Se ha guardado un nuevo permiso con ID: " + permisoGuardado.getId());
+        log.info("Se ha guardado un nuevo permiso con ID: {} y estado: {} con {} días hábiles", 
+                permisoGuardado.getId(), permisoGuardado.getEstadoSolicitud(), diasHabiles);
         return deEntidadDtoARespuesta(permisoGuardado);
+    }
+
+    /**
+     * Determina el estado inicial de una solicitud de permiso
+     */
+    private EstadoSolicitud determinarEstadoInicial(Empleados empleado) {
+        // Verificar si el empleado es jefe
+        List<JefesDepartamento> esJefe = jefesDepartamentoRepo.findByEmpleadoIdAndEstaActivoTrue(empleado.getId());
+        if (!esJefe.isEmpty()) {
+            log.info("El empleado {} es jefe, solicitud va directo a RH", empleado.getId());
+            return EstadoSolicitud.PENDIENTE_RH;
+        }
+        
+        // Verificar si hay jefe en el departamento del empleado
+        if (empleado.getPuesto() == null || empleado.getPuesto().getDepartamento() == null) {
+            log.warn("El empleado {} no tiene departamento asignado, solicitud va directo a RH", empleado.getId());
+            return EstadoSolicitud.PENDIENTE_RH;
+        }
+        
+        Long idDepartamento = empleado.getPuesto().getDepartamento().getId();
+        // Aquí asumimos que si no hay jefe activo, devuelve lista vacía
+        List<JefesDepartamento> jefes = jefesDepartamentoRepo.findAll().stream()
+                .filter(jd -> jd.getDepartamento().getId().equals(idDepartamento) && jd.getEstaActivo())
+                .toList();
+        
+        if (jefes.isEmpty()) {
+            log.info("No hay jefe en el departamento {}, solicitud va directo a RH", idDepartamento);
+            return EstadoSolicitud.PENDIENTE_RH;
+        }
+        
+        log.info("Hay jefe en el departamento {}, solicitud queda PENDIENTE", idDepartamento);
+        return EstadoSolicitud.PENDIENTE;
+    }
+
+    /**
+     * Obtiene las solicitudes del empleado autenticado
+     */
+    public List<RespuestaPermisosDTO> obtenerMisSolicitudes(Authentication auth) {
+        Empleados empleado = obtenerEmpleadoAutenticado(auth);
+        List<Permisos> solicitudes = consulta.obtenerPorEmpleadoId(empleado.getId());
+        log.info("Se obtuvieron {} solicitudes para el empleado {}", solicitudes.size(), empleado.getId());
+        return deListaEntidadADto(solicitudes);
+    }
+
+    /**
+     * Obtiene las solicitudes pendientes del departamento que maneja el jefe autenticado
+     */
+    public List<RespuestaPermisosDTO> obtenerSolicitudesPendientesDepartamento(Authentication auth) {
+        Empleados jefe = obtenerEmpleadoAutenticado(auth);
+        
+        // Verificar que el usuario sea jefe
+        List<Long> departamentosQueManeja = jefesDepartamentoRepo.findDepartamentoIdsByEmpleadoId(jefe.getId());
+        if (departamentosQueManeja.isEmpty()) {
+            throw new ForbiddenException("El usuario no es jefe de ningún departamento");
+        }
+        
+        // Obtener solicitudes pendientes de todos los departamentos que maneja
+        List<Permisos> solicitudes = departamentosQueManeja.stream()
+                .flatMap(idDep -> consulta.obtenerPermisosPendientesByDepartamento(idDep).stream())
+                .toList();
+        
+        log.info("Se obtuvieron {} solicitudes pendientes para el jefe {}", solicitudes.size(), jefe.getId());
+        return deListaEntidadADto(solicitudes);
+    }
+
+    /**
+     * Obtiene las solicitudes que necesitan aprobación de RH
+     */
+    public List<RespuestaPermisosDTO> obtenerSolicitudesParaRH() {
+        List<Permisos> solicitudes = consulta.obtenerPermisosParaRH();
+        log.info("Se obtuvieron {} solicitudes pendientes para RH", solicitudes.size());
+        return deListaEntidadADto(solicitudes);
+    }
+
+    /**
+     * Aprueba una solicitud como jefe
+     */
+    public RespuestaPermisosDTO aprobarPorJefe(Long idPermiso, String comentarios, Authentication auth) {
+        Empleados jefe = obtenerEmpleadoAutenticado(auth);
+        Permisos permiso = consulta.obtenerPorId(idPermiso);
+        
+        if (permiso == null) {
+            throw new ResourceNotFoundException("Permisos", "id", idPermiso);
+        }
+        
+        // Validar que el permiso esté en estado PENDIENTE
+        if (permiso.getEstadoSolicitud() != EstadoSolicitud.PENDIENTE) {
+            throw new BadRequestException("La solicitud no está en estado PENDIENTE");
+        }
+        
+        // Validar que el jefe sea del departamento del empleado
+        Long idDepartamento = permiso.getEmpleado().getPuesto().getDepartamento().getId();
+        if (!jefesDepartamentoRepo.findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(jefe.getId(), idDepartamento).isPresent()) {
+            throw new ForbiddenException("No tiene permisos para aprobar esta solicitud");
+        }
+        
+        // Actualizar permiso
+        permiso.setEstadoSolicitud(EstadoSolicitud.APROBADA_POR_JEFE);
+        permiso.setComentariosJefe(comentarios);
+        permiso.setFechaAprobacionJefe(new Date(System.currentTimeMillis()));
+        permiso.setAprobadorJefe(jefe);
+        
+        Permisos permisoActualizado = mantenimiento.actualizar(permiso);
+        log.info("Permiso {} aprobado por jefe {}", idPermiso, jefe.getId());
+        return deEntidadDtoARespuesta(permisoActualizado);
+    }
+
+    /**
+     * Rechaza una solicitud como jefe
+     */
+    public RespuestaPermisosDTO rechazarPorJefe(Long idPermiso, String comentarios, Authentication auth) {
+        Empleados jefe = obtenerEmpleadoAutenticado(auth);
+        Permisos permiso = consulta.obtenerPorId(idPermiso);
+        
+        if (permiso == null) {
+            throw new ResourceNotFoundException("Permisos", "id", idPermiso);
+        }
+        
+        // Validar que el permiso esté en estado PENDIENTE
+        if (permiso.getEstadoSolicitud() != EstadoSolicitud.PENDIENTE) {
+            throw new BadRequestException("La solicitud no está en estado PENDIENTE");
+        }
+        
+        // Validar que el jefe sea del departamento del empleado
+        Long idDepartamento = permiso.getEmpleado().getPuesto().getDepartamento().getId();
+        if (!jefesDepartamentoRepo.findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(jefe.getId(), idDepartamento).isPresent()) {
+            throw new ForbiddenException("No tiene permisos para rechazar esta solicitud");
+        }
+        
+        // Actualizar permiso
+        permiso.setEstadoSolicitud(EstadoSolicitud.RECHAZADA_POR_JEFE);
+        permiso.setComentariosJefe(comentarios);
+        permiso.setFechaAprobacionJefe(new Date(System.currentTimeMillis()));
+        
+        Permisos permisoActualizado = mantenimiento.actualizar(permiso);
+        log.info("Permiso {} rechazado por jefe {}", idPermiso, jefe.getId());
+        return deEntidadDtoARespuesta(permisoActualizado);
+    }
+
+    /**
+     * Aprueba una solicitud como RH (aprobación final)
+     */
+    public RespuestaPermisosDTO aprobarPorRH(Long idPermiso, String comentarios, Authentication auth) {
+        Empleados rh = obtenerEmpleadoAutenticado(auth);
+        Permisos permiso = consulta.obtenerPorId(idPermiso);
+        
+        if (permiso == null) {
+            throw new ResourceNotFoundException("Permisos", "id", idPermiso);
+        }
+        
+        // Validar que el permiso esté en estado APROBADA_POR_JEFE o PENDIENTE_RH
+        if (permiso.getEstadoSolicitud() != EstadoSolicitud.APROBADA_POR_JEFE && 
+            permiso.getEstadoSolicitud() != EstadoSolicitud.PENDIENTE_RH) {
+            throw new BadRequestException("La solicitud no está pendiente de aprobación de RH");
+        }
+        
+        // Actualizar permiso
+        permiso.setEstadoSolicitud(EstadoSolicitud.APROBADA);
+        permiso.setComentariosRH(comentarios);
+        permiso.setFechaAprobacionRH(new Date(System.currentTimeMillis()));
+        permiso.setAprobadorRH(rh);
+        
+        Permisos permisoActualizado = mantenimiento.actualizar(permiso);
+        log.info("Permiso {} aprobado por RH {}", idPermiso, rh.getId());
+        
+        // Enviar notificación por email
+        enviarEmailAprobacion(permisoActualizado);
+        
+        return deEntidadDtoARespuesta(permisoActualizado);
+    }
+
+    /**
+     * Rechaza una solicitud como RH
+     */
+    public RespuestaPermisosDTO rechazarPorRH(Long idPermiso, String comentarios, Authentication auth) {
+        Empleados rh = obtenerEmpleadoAutenticado(auth);
+        Permisos permiso = consulta.obtenerPorId(idPermiso);
+        
+        if (permiso == null) {
+            throw new ResourceNotFoundException("Permisos", "id", idPermiso);
+        }
+        
+        // Validar que el permiso esté en estado APROBADA_POR_JEFE o PENDIENTE_RH
+        if (permiso.getEstadoSolicitud() != EstadoSolicitud.APROBADA_POR_JEFE && 
+            permiso.getEstadoSolicitud() != EstadoSolicitud.PENDIENTE_RH) {
+            throw new BadRequestException("La solicitud no está pendiente de aprobación de RH");
+        }
+        
+        // Actualizar permiso
+        permiso.setEstadoSolicitud(EstadoSolicitud.RECHAZADA_POR_RH);
+        permiso.setComentariosRH(comentarios);
+        permiso.setFechaAprobacionRH(new Date(System.currentTimeMillis()));
+        
+        Permisos permisoActualizado = mantenimiento.actualizar(permiso);
+        log.info("Permiso {} rechazado por RH {}", idPermiso, rh.getId());
+        return deEntidadDtoARespuesta(permisoActualizado);
+    }
+
+    /**
+     * Cancela una solicitud (solo RH puede cancelar aprobadas)
+     */
+    public RespuestaPermisosDTO cancelarSolicitud(Long idPermiso, Authentication auth) {
+        Empleados rh = obtenerEmpleadoAutenticado(auth);
+        Permisos permiso = consulta.obtenerPorId(idPermiso);
+        
+        if (permiso == null) {
+            throw new ResourceNotFoundException("Permisos", "id", idPermiso);
+        }
+        
+        // Solo RH puede cancelar solicitudes aprobadas
+        if (permiso.getEstadoSolicitud() != EstadoSolicitud.APROBADA) {
+            throw new BadRequestException("Solo se pueden cancelar solicitudes aprobadas");
+        }
+        
+        permiso.setEstadoSolicitud(EstadoSolicitud.CANCELADA);
+        Permisos permisoActualizado = mantenimiento.actualizar(permiso);
+        log.info("Permiso {} cancelado por RH {}", idPermiso, rh.getId());
+        return deEntidadDtoARespuesta(permisoActualizado);
+    }
+
+    /**
+     * Calcula días hábiles entre dos fechas (excluye fines de semana)
+     */
+    private int calcularDiasHabiles(LocalDate fechaInicio, LocalDate fechaFin) {
+        int diasHabiles = 0;
+        LocalDate fecha = fechaInicio;
+        
+        while (!fecha.isAfter(fechaFin)) {
+            DayOfWeek diaSemana = fecha.getDayOfWeek();
+            if (diaSemana != DayOfWeek.SATURDAY && diaSemana != DayOfWeek.SUNDAY) {
+                diasHabiles++;
+            }
+            fecha = fecha.plusDays(1);
+        }
+        
+        return diasHabiles;
+    }
+
+    /**
+     * Envía email de notificación cuando RH aprueba un permiso
+     */
+    private void enviarEmailAprobacion(Permisos permiso) {
+        try {
+            Empleados empleado = permiso.getEmpleado();
+            if (empleado.getCorreoPersonal() == null || empleado.getCorreoPersonal().isEmpty()) {
+                log.warn("El empleado {} no tiene correo registrado", empleado.getId());
+                return;
+            }
+            
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(empleado.getCorreoPersonal());
+            message.setSubject("Solicitud de Permiso Aprobada");
+            message.setText(String.format(
+                "Estimado(a) %s %s,\n\n" +
+                "Su solicitud de permiso ha sido aprobada.\n\n" +
+                "Detalles:\n" +
+                "- Tipo: %s\n" +
+                "- Fechas: %s al %s\n" +
+                "- Días: %d\n\n" +
+                "Comentarios de RH: %s\n\n" +
+                "Saludos,\n" +
+                "Departamento de Recursos Humanos",
+                empleado.getNombre(),
+                empleado.getPrimerApellido(),
+                permiso.getTipoPermiso(),
+                permiso.getFechaInicio(),
+                permiso.getFechaFin(),
+                permiso.getDiasTotales(),
+                permiso.getComentariosRH() != null ? permiso.getComentariosRH() : "N/A"
+            ));
+            
+            emailSender.send(message);
+            log.info("Email de aprobación enviado a {}", empleado.getCorreoPersonal());
+        } catch (Exception e) {
+            log.error("Error al enviar email de aprobación: {}", e.getMessage());
+        }
     }
 
     public RespuestaPermisosDTO actualizar(Long id, SolicitudPermisosDTO entidad) {
         Permisos permisoExistente = consulta.obtenerPorId(id);
         if(permisoExistente == null){
             log.warn("No se ha encontrado el permiso con ID: " + id + " para actualizar");
-            return null;
+            throw new ResourceNotFoundException("Permisos", "id", id);
         }
         permisoExistente.setFechaInicio(entidad.fechaInicio);
         permisoExistente.setFechaFin(entidad.fechaFin);
         permisoExistente.setDiasTotales(entidad.diasTotales);
         permisoExistente.setMotivo(entidad.motivo);
+        permisoExistente.setObservacionesEmpleado(entidad.observacionesEmpleado);
         permisoExistente.setUrlDocumentoAdjunto(entidad.urlDocumentoAdjunto);
-        
-        EstadoSolicitud estadoSolicitud = obtenerEstadoSolicitud(entidad.estadoSolicitud);
-        if(estadoSolicitud != null){
-            permisoExistente.setEstadoSolicitud(estadoSolicitud);
-        }
         
         TipoPermiso tipoPermiso = obtenerTipoPermiso(entidad.tipoPermiso);
         if(tipoPermiso != null){
@@ -90,32 +437,25 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
     }
 
     public void eliminar(Long id) {
-        mantenimiento.eliminar(id);
-        log.info("Se ha eliminado el permiso con ID: " + id);
+        throw new BadRequestException("No se permite eliminar solicitudes de permisos");
     }
 
     public Permisos deSolicitudDtoAEntidad(SolicitudPermisosDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad Permisos.");
-            return null;
+            throw new BadRequestException("La solicitud de permiso no puede ser nula");
         }
         
         Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.idEmpleado);
         if(empleado == null){
             log.warn("No se ha encontrado el empleado con ID: " + solicitud.idEmpleado);
-            return null;
-        }
-        
-        EstadoSolicitud estadoSolicitud = obtenerEstadoSolicitud(solicitud.estadoSolicitud);
-        if(estadoSolicitud == null){
-            log.warn("No se ha encontrado el estado de solicitud: " + solicitud.estadoSolicitud);
-            return null;
+            throw new ResourceNotFoundException("Empleados", "id", solicitud.idEmpleado);
         }
         
         TipoPermiso tipoPermiso = obtenerTipoPermiso(solicitud.tipoPermiso);
         if(tipoPermiso == null){
             log.warn("No se ha encontrado el tipo de permiso: " + solicitud.tipoPermiso);
-            return null;
+            throw new BadRequestException("Tipo de permiso inválido: " + solicitud.tipoPermiso);
         }
         
         Permisos permiso = Permisos.builder()
@@ -124,8 +464,8 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
                     .fechaFin(solicitud.fechaFin)
                     .diasTotales(solicitud.diasTotales)
                     .motivo(solicitud.motivo)
+                    .observacionesEmpleado(solicitud.observacionesEmpleado)
                     .urlDocumentoAdjunto(solicitud.urlDocumentoAdjunto)
-                    .estadoSolicitud(estadoSolicitud)
                     .tipoPermiso(tipoPermiso)
                     .empleado(empleado)
                     .build();
@@ -144,7 +484,13 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         respuesta.fechaFin = entidad.getFechaFin();
         respuesta.diasTotales = entidad.getDiasTotales();
         respuesta.motivo = entidad.getMotivo();
+        respuesta.observacionesEmpleado = entidad.getObservacionesEmpleado();
         respuesta.urlDocumentoAdjunto = entidad.getUrlDocumentoAdjunto();
+        respuesta.fechaSolicitud = entidad.getFechaSolicitud();
+        respuesta.fechaAprobacionJefe = entidad.getFechaAprobacionJefe();
+        respuesta.fechaAprobacionRH = entidad.getFechaAprobacionRH();
+        respuesta.comentariosJefe = entidad.getComentariosJefe();
+        respuesta.comentariosRH = entidad.getComentariosRH();
         
         if(entidad.getEstadoSolicitud() != null){
             respuesta.estadoSolicitud = entidad.getEstadoSolicitud().name();
@@ -160,6 +506,18 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
             respuesta.segundApellidoEmpleado = entidad.getEmpleado().getSegundoApellido();
         }
         
+        if(entidad.getAprobadorJefe() != null){
+            respuesta.nombreAprobadorJefe = entidad.getAprobadorJefe().getNombre();
+            respuesta.primerApellidoAprobadorJefe = entidad.getAprobadorJefe().getPrimerApellido();
+            respuesta.segundoApellidoAprobadorJefe = entidad.getAprobadorJefe().getSegundoApellido();
+        }
+        
+        if(entidad.getAprobadorRH() != null){
+            respuesta.nombreAprobadorRH = entidad.getAprobadorRH().getNombre();
+            respuesta.primerApellidoAprobadorRH = entidad.getAprobadorRH().getPrimerApellido();
+            respuesta.segundoApellidoAprobadorRH = entidad.getAprobadorRH().getSegundoApellido();
+        }
+        
         log.info("Se ha convertido la entidad Permisos a DTO de respuesta: {}", respuesta);
         return respuesta;
     }
@@ -170,14 +528,6 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
                 .toList();
     }
     
-    private EstadoSolicitud obtenerEstadoSolicitud(String estado) {
-        try {
-            return EstadoSolicitud.valueOf(estado.toUpperCase());
-        } catch (Exception e) {
-            return null;
-        }
-    }
-    
     private TipoPermiso obtenerTipoPermiso(String tipo) {
         try {
             return TipoPermiso.valueOf(tipo.toUpperCase());
@@ -186,4 +536,39 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         }
     }
 
+    // ==================== AUTHENTICATION & AUTHORIZATION ====================
+
+    /**
+     * Obtiene el usuario autenticado del SecurityContext
+     */
+    private User obtenerUsuarioAutenticado(Authentication auth) {
+        if (auth == null) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                throw new ForbiddenException("Usuario no autenticado");
+            }
+            auth = authentication;
+        }
+        
+        Object principal = auth.getPrincipal();
+        if (!(principal instanceof User)) {
+            throw new ForbiddenException("Tipo de usuario no válido");
+        }
+        
+        return (User) principal;
+    }
+
+    /**
+     * Obtiene el empleado asociado al usuario autenticado
+     */
+    private Empleados obtenerEmpleadoAutenticado(Authentication auth) {
+        User user = obtenerUsuarioAutenticado(auth);
+        Empleados empleado = user.getEmpleado();
+        
+        if (empleado == null) {
+            throw new ForbiddenException("El usuario no tiene un empleado asociado");
+        }
+        
+        return empleado;
+    }
 }

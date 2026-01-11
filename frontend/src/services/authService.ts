@@ -26,6 +26,7 @@ export interface UserInfo {
   username: string;
   role: Role;
   nombreCompleto?: string;
+  idEmpleado?: number;
 }
 
 export const authService = {
@@ -103,6 +104,7 @@ export const authService = {
         username: payload.sub || 'Usuario',
         role: payload.role || 'EMPLEADO',
         nombreCompleto: payload.nombreCompleto,
+        idEmpleado: payload.idEmpleado,
       };
     } catch (error) {
       console.error('Error al decodificar el token:', error);

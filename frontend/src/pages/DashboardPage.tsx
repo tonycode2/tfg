@@ -6,6 +6,9 @@ import { MantenimientosView } from '../components/dashboard/MantenimientosView';
 import { InicioView } from '../components/dashboard/InicioView';
 import { PlaceholderView } from '../components/dashboard/PlaceholderView';
 import { AsistenciaView } from '../components/dashboard/AsistenciaView';
+import PermisosView from '../components/dashboard/PermisosView';
+import PermisosSolicitudesPendientesView from '../components/dashboard/PermisosSolicitudesPendientesView';
+import PermisosRHView from '../components/dashboard/PermisosRHView';
 import { authService } from '../services/authService';
 
 // Memoized view components to prevent unnecessary re-renders
@@ -14,6 +17,9 @@ const MemoizedMantenimientosView = memo(MantenimientosView);
 const MemoizedInicioView = memo(InicioView);
 const MemoizedPlaceholderView = memo(PlaceholderView);
 const MemoizedAsistenciaView = memo(AsistenciaView);
+const MemoizedPermisosView = memo(PermisosView);
+const MemoizedPermisosSolicitudesPendientesView = memo(PermisosSolicitudesPendientesView);
+const MemoizedPermisosRHView = memo(PermisosRHView);
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -45,6 +51,12 @@ export default function DashboardPage() {
         return <MemoizedPlaceholderView title="Mi Planilla" description="Consulta tu información de planilla personal" />;
       case 'mis-solicitudes':
         return <MemoizedPlaceholderView title="Mis Solicitudes" description="Gestiona tus solicitudes de permisos y vacaciones" />;
+      case 'mis-permisos':
+        return <MemoizedPermisosView />;
+      case 'solicitudes-pendientes-permisos':
+        return <MemoizedPermisosSolicitudesPendientesView />;
+      case 'gestion-permisos':
+        return <MemoizedPermisosRHView />;
       case 'asistencia':
         return <MemoizedAsistenciaView />;
       case 'horas-extra':

@@ -28,17 +28,20 @@ public class JwtService {
 
     private String getToken(HashMap<String, Object> extraClaims, User user) {
         String nombreCompleto = null;
+        Long idEmpleado = null;
         if (user.getEmpleado() != null) {
             String nombre = user.getEmpleado().getNombre();
             String primerApellido = user.getEmpleado().getPrimerApellido();
             String segundoApellido = user.getEmpleado().getSegundoApellido();
             nombreCompleto = nombre + " " + primerApellido + 
                            (segundoApellido != null ? " " + segundoApellido : "");
+            idEmpleado = user.getEmpleado().getId();
         }
         
         return Jwts.builder()
                 .claims(extraClaims)
                 .claim("userId", user.getId())
+                .claim("idEmpleado", idEmpleado)
                 .claim("role", user.getRole())
                 .claim("nombreCompleto", nombreCompleto)
                 .subject(user.getUsername())

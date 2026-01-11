@@ -27,4 +27,32 @@ public class ConsultasPermisos implements ConsultaInterface<Permisos>{
         return repo.findAll();
     }
     
+    /**
+     * Obtiene permisos por empleado ordenados por fecha de solicitud DESC
+     */
+    public List<Permisos> obtenerPorEmpleadoId(Long idEmpleado) {
+        return repo.findByEmpleadoIdOrderByFechaSolicitudDesc(idEmpleado);
+    }
+    
+    /**
+     * Obtiene permisos pendientes de un departamento
+     */
+    public List<Permisos> obtenerPermisosPendientesByDepartamento(Long idDepartamento) {
+        return repo.findPermisosPendientesByDepartamento(idDepartamento);
+    }
+    
+    /**
+     * Obtiene permisos que necesitan aprobación de RH
+     */
+    public List<Permisos> obtenerPermisosParaRH() {
+        return repo.findPermisosParaRH();
+    }
+    
+    /**
+     * Obtiene todas las solicitudes ordenadas por fecha (para auditoría)
+     */
+    public List<Permisos> obtenerTodosOrdenados() {
+        return repo.findAllByOrderByFechaSolicitudDesc();
+    }
+    
 }

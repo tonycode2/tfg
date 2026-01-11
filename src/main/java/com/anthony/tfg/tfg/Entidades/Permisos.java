@@ -33,17 +33,44 @@ public class Permisos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    
     @Column(name = "fecha_inicio")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaInicio;
+    
     @Column(name = "fecha_fin")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaFin;
+    
     @Column(name = "dias_totales")
     Integer diasTotales;
+    
+    @Column(columnDefinition = "TEXT")
     String motivo;
+    
     @Column(name = "url_documento_adjunto")
     String urlDocumentoAdjunto;
+    
+    @Column(name = "observaciones_empleado", columnDefinition = "TEXT")
+    String observacionesEmpleado;
+    
+    @Column(name = "comentarios_jefe", columnDefinition = "TEXT")
+    String comentariosJefe;
+    
+    @Column(name = "comentarios_rh", columnDefinition = "TEXT")
+    String comentariosRH;
+    
+    @Column(name = "fecha_solicitud")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    Date fechaSolicitud;
+    
+    @Column(name = "fecha_aprobacion_jefe")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    Date fechaAprobacionJefe;
+    
+    @Column(name = "fecha_aprobacion_rh")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    Date fechaAprobacionRH;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado_solicitud")
@@ -56,4 +83,12 @@ public class Permisos {
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     Empleados empleado;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_aprobador_jefe")
+    Empleados aprobadorJefe;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_aprobador_rh")
+    Empleados aprobadorRH;
 }
