@@ -9,6 +9,9 @@ import { AsistenciaView } from '../components/dashboard/AsistenciaView';
 import PermisosView from '../components/dashboard/PermisosView';
 import PermisosSolicitudesPendientesView from '../components/dashboard/PermisosSolicitudesPendientesView';
 import PermisosRHView from '../components/dashboard/PermisosRHView';
+import IncapacidadesView from '../components/dashboard/IncapacidadesView';
+import IncapacidadesPendientesView from '../components/dashboard/IncapacidadesPendientesView';
+import GestionIncapacidadesView from '../components/dashboard/GestionIncapacidadesView';
 import { DiasFeriadosView } from '../components/dashboard/DiasFeriadosView';
 import { authService } from '../services/authService';
 
@@ -21,6 +24,9 @@ const MemoizedAsistenciaView = memo(AsistenciaView);
 const MemoizedPermisosView = memo(PermisosView);
 const MemoizedPermisosSolicitudesPendientesView = memo(PermisosSolicitudesPendientesView);
 const MemoizedPermisosRHView = memo(PermisosRHView);
+const MemoizedIncapacidadesView = memo(IncapacidadesView);
+const MemoizedIncapacidadesPendientesView = memo(IncapacidadesPendientesView);
+const MemoizedGestionIncapacidadesView = memo(GestionIncapacidadesView);
 const MemoizedDiasFeriadosView = memo(DiasFeriadosView);
 
 export default function DashboardPage() {
@@ -59,6 +65,12 @@ export default function DashboardPage() {
         return <MemoizedPermisosSolicitudesPendientesView />;
       case 'gestion-permisos':
         return <MemoizedPermisosRHView />;
+      case 'mis-incapacidades':
+        return <MemoizedIncapacidadesView />;
+      case 'solicitudes-pendientes-incapacidades':
+        return <MemoizedIncapacidadesPendientesView />;
+      case 'gestion-incapacidades':
+        return <MemoizedGestionIncapacidadesView />;
       case 'dias-feriados':
         return <MemoizedDiasFeriadosView />;
       case 'asistencia':

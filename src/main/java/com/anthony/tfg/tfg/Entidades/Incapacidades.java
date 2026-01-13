@@ -1,6 +1,6 @@
 package com.anthony.tfg.tfg.Entidades;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoEntidadEmisora;
@@ -37,11 +37,11 @@ public class Incapacidades {
 
     @Column(name = "fecha_inicio")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaInicio;
+    LocalDate fechaInicio;
 
     @Column(name = "fecha_fin")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaFin;
+    LocalDate fechaFin;
 
     @Column(name = "dias_totales")
     Integer diasTotales;
@@ -64,12 +64,42 @@ public class Incapacidades {
     @Column(name = "numero_documento")
     String numeroDocumento;
 
+    @Column(columnDefinition = "TEXT")
     String observaciones;
 
     @Column(name = "url_documento_adjunto")
     String urlDocumentoAdjunto;
 
+    // Fechas de auditoría
+    @Column(name = "fecha_solicitud")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    LocalDate fechaSolicitud;
+
+    @Column(name = "fecha_aprobacion_jefe")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    LocalDate fechaAprobacionJefe;
+
+    @Column(name = "fecha_aprobacion_rh")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    LocalDate fechaAprobacionRH;
+
+    // Comentarios de aprobadores
+    @Column(name = "comentarios_jefe", columnDefinition = "TEXT")
+    String comentariosJefe;
+
+    @Column(name = "comentarios_rh", columnDefinition = "TEXT")
+    String comentariosRH;
+
+    // Relaciones
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     Empleados empleado;
+
+    @ManyToOne
+    @JoinColumn(name = "id_aprobador_jefe")
+    Empleados aprobadorJefe;
+
+    @ManyToOne
+    @JoinColumn(name = "id_aprobador_rh")
+    Empleados aprobadorRH;
 }

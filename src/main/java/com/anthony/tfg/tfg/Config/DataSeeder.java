@@ -20,7 +20,6 @@ import com.anthony.tfg.tfg.Entidades.Asistencia;
 import com.anthony.tfg.tfg.Entidades.Departamento;
 import com.anthony.tfg.tfg.Entidades.Direccion;
 import com.anthony.tfg.tfg.Entidades.Empleados;
-import com.anthony.tfg.tfg.Entidades.Enums.TipoDeJornada;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoEvento;
 import com.anthony.tfg.tfg.Entidades.JefesDepartamento;
 import com.anthony.tfg.tfg.Entidades.Puestos;
@@ -500,6 +499,7 @@ public class DataSeeder implements CommandLineRunner {
      * Generates a valid Costa Rican IBAN (22 characters).
      * Format: CR + 2 check digits + 3 bank code + 14 account number
      */
+    @SuppressWarnings("unused")
     private String generateCostaRicanIban() {
         StringBuilder iban = new StringBuilder("CR");
         // Check digits (2)
@@ -513,7 +513,8 @@ public class DataSeeder implements CommandLineRunner {
         }
         return iban.toString();
     }
-
+    
+    @SuppressWarnings("unused")
     private List<Empleados> seedEmpleados() {
         List<Empleados> empleados = empleadosRepositorio.findAll();
         if (!empleados.isEmpty()) {
@@ -577,6 +578,7 @@ public class DataSeeder implements CommandLineRunner {
                 fechaIngreso,  // Remove .toLocalDate() - already LocalDate
                 LocalDate.now()
             );
+            @SuppressWarnings("unused")
             int vacationDays = Math.min((int) (yearsWorked * 14), 30);
             
             // Create employee entity
