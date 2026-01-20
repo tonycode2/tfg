@@ -96,7 +96,7 @@ export default function IncapacidadesView() {
     fechaFin: '',
     diasTotales: 0,
     tipoIncapacidad: 'ENFERMEDAD_COMUN',
-    porcentajePago: 60,
+    porcentajePago: 50, // default for CCSS
     entidadEmisora: 'CCSS',
     numeroDocumento: '',
     observaciones: '',
@@ -153,10 +153,7 @@ export default function IncapacidadesView() {
       return;
     }
     
-    if (formData.porcentajePago < 0 || formData.porcentajePago > 100) {
-      alert('El porcentaje de pago debe estar entre 0 y 100');
-      return;
-    }
+
     
     try {
       const userInfo = authService.getUserInfo();
@@ -199,13 +196,13 @@ export default function IncapacidadesView() {
       fechaFin: '',
       diasTotales: 0,
       tipoIncapacidad: 'ENFERMEDAD_COMUN',
-      porcentajePago: 60,
+      porcentajePago: 50,
       entidadEmisora: 'CCSS',
       numeroDocumento: '',
       observaciones: '',
       urlDocumentoAdjunto: '',
     });
-  };
+  }; 
 
   const handleVerDetalle = (solicitud: RespuestaIncapacidad) => {
     setSolicitudSeleccionada(solicitud);
@@ -258,7 +255,6 @@ export default function IncapacidadesView() {
                   <th className="text-left p-3">Fechas</th>
                   <th className="text-center p-3">Días</th>
                   <th className="text-left p-3">Entidad</th>
-                  <th className="text-center p-3">% Pago</th>
                   <th className="text-left p-3">Estado</th>
                   <th className="text-center p-3">Acciones</th>
                 </tr>
@@ -266,7 +262,7 @@ export default function IncapacidadesView() {
               <tbody>
                 {solicitudes.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="text-center p-8 text-muted-foreground">
+                    <td colSpan={6} className="text-center p-8 text-muted-foreground">
                       No hay incapacidades registradas
                     </td>
                   </tr>
@@ -290,9 +286,6 @@ export default function IncapacidadesView() {
                       </td>
                       <td className="p-3 text-sm">
                         {getEntidadEmisoraLabel(solicitud.entidadEmisora)}
-                      </td>
-                      <td className="p-3 text-center">
-                        <span className="font-semibold">{solicitud.porcentajePago}%</span>
                       </td>
                       <td className="p-3">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoIncapacidadColor(solicitud.estadoSolicitud)}`}>
@@ -382,13 +375,16 @@ export default function IncapacidadesView() {
             </div>
           )}
 
-          {/* Entidad Emisora y Porcentaje */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Entidad Emisora */}
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <Label htmlFor="entidadEmisora">Entidad Emisora *</Label>
               <Select
                 value={formData.entidadEmisora}
-                onValueChange={(value) => setFormData({ ...formData, entidadEmisora: value })}
+                onValueChange={(value) => {
+                  const porcentaje = value === 'INS' ? 100 : value === 'CCSS' ? 50 : 0;
+                  setFormData({ ...formData, entidadEmisora: value, porcentajePago: porcentaje });
+                }}
                 required
               >
                 <SelectTrigger>
@@ -402,21 +398,6 @@ export default function IncapacidadesView() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div>
-              <Label htmlFor="porcentajePago">Porcentaje de Pago *</Label>
-              <Input
-                id="porcentajePago"
-                type="number"
-                min="0"
-                max="100"
-                value={formData.porcentajePago}
-                onChange={(e) => setFormData({ ...formData, porcentajePago: Number(e.target.value) })}
-                required
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                Porcentaje del salario que cubre la incapacidad (0-100%)
-              </p>
             </div>
           </div>
 
@@ -523,14 +504,10 @@ export default function IncapacidadesView() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4">
               <div>
                 <Label className="text-muted-foreground">Entidad Emisora</Label>
                 <p className="font-medium">{getEntidadEmisoraLabel(solicitudSeleccionada.entidadEmisora)}</p>
-              </div>
-              <div>
-                <Label className="text-muted-foreground">% de Pago</Label>
-                <p className="font-medium">{solicitudSeleccionada.porcentajePago}%</p>
               </div>
             </div>
 
