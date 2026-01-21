@@ -64,4 +64,11 @@ public class ConsultasIncapacidades implements ConsultaInterface<Incapacidades> 
     public List<Incapacidades> obtenerIncapacidadesActivas(LocalDate fecha) {
         return repo.findIncapacidadesActivas(fecha);
     }
+    
+    /**
+     * Obtiene incapacidades activas de un departamento específico
+     */
+    public List<Incapacidades> obtenerIncapacidadesActivasByDepartamento(Long idDepartamento, LocalDate fecha) {
+        return repo.findIncapacidadesActivasByDepartamento(idDepartamento, fecha);
+    }
 }

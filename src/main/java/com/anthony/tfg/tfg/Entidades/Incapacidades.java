@@ -90,6 +90,21 @@ public class Incapacidades {
     @Column(name = "comentarios_rh", columnDefinition = "TEXT")
     String comentariosRH;
 
+    // Campos para manejo de extensiones
+    @Column(name = "es_extension")
+    Boolean esExtension;
+
+    @ManyToOne
+    @JoinColumn(name = "id_incapacidad_original")
+    Incapacidades incapacidadOriginal;
+
+    @Column(name = "fecha_fin_original")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    LocalDate fechaFinOriginal;
+
+    @Column(name = "comentarios_extension", columnDefinition = "TEXT")
+    String comentariosExtension;
+
     // Relaciones
     @ManyToOne
     @JoinColumn(name = "id_empleado")

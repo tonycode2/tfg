@@ -45,6 +45,16 @@ public class RespuestaIncapacidadesDTO {
     
     public String comentariosRH;
     
+    // Campos de extensión
+    public Boolean esExtension;
+    
+    public Long idIncapacidadOriginal;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    public LocalDate fechaFinOriginal;
+    
+    public String comentariosExtension;
+    
     // Empleado solicitante
     public Long idEmpleado;
     

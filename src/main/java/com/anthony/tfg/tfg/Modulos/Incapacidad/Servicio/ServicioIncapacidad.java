@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO;
+import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudExtensionIncapacidadDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudIncapacidadesDTO;
 import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.Incapacidades;
@@ -190,6 +191,81 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         
         log.info("Se obtuvieron {} solicitudes de incapacidad pendientes para el jefe {}", solicitudes.size(), jefe.getId());
         return deListaEntidadADto(solicitudes);
+    }
+
+    /**
+     * Obtiene los empleados actualmente incapacitados del departamento que maneja el jefe autenticado
+     */
+    public List<RespuestaIncapacidadesDTO> obtenerEmpleadosIncapacitadosDepartamento(Authentication auth) {
+        Empleados jefe = obtenerEmpleadoAutenticado(auth);
+        
+        List<Long> departamentosQueManeja = jefesDepartamentoRepo.findDepartamentoIdsByEmpleadoId(jefe.getId());
+        if (departamentosQueManeja.isEmpty()) {
+            throw new ForbiddenException("El usuario no es jefe de ningún departamento");
+        }
+        
+        LocalDate hoy = LocalDate.now();
+        List<Incapacidades> incapacitados = departamentosQueManeja.stream()
+                .flatMap(idDep -> consulta.obtenerIncapacidadesActivasByDepartamento(idDep, hoy).stream())
+                .toList();
+        
+        log.info("Se obtuvieron {} empleados incapacitados en departamentos del jefe {}", incapacitados.size(), jefe.getId());
+        return deListaEntidadADto(incapacitados);
+    }
+
+    /**
+     * Solicita una extensión de una incapacidad existente
+     */
+    public RespuestaIncapacidadesDTO solicitarExtension(Long idIncapacidad, 
+                                                        SolicitudExtensionIncapacidadDTO solicitudExtension, 
+                                                        Authentication auth) {
+        Empleados jefe = obtenerEmpleadoAutenticado(auth);
+        Incapacidades incapacidadOriginal = consulta.obtenerPorId(idIncapacidad);
+        
+        if (incapacidadOriginal == null) {
+            throw new ResourceNotFoundException("Incapacidades", "id", idIncapacidad);
+        }
+        
+        // Validar que la incapacidad esté aprobada y activa
+        if (incapacidadOriginal.getEstadoSolicitud() != EstadoSolicitud.APROBADA) {
+            throw new BadRequestException("Solo se pueden extender incapacidades aprobadas");
+        }
+        
+        // Validar que el jefe tenga permiso sobre el departamento del empleado
+        Long idDepartamento = incapacidadOriginal.getEmpleado().getPuesto().getDepartamento().getId();
+        if (!jefesDepartamentoRepo.findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(jefe.getId(), idDepartamento).isPresent()) {
+            throw new ForbiddenException("No tiene permisos para extender esta incapacidad");
+        }
+        
+        // Validar que la nueva fecha de fin sea posterior a la fecha fin actual
+        if (!solicitudExtension.getNuevaFechaFin().isAfter(incapacidadOriginal.getFechaFin())) {
+            throw new BadRequestException("La nueva fecha de fin debe ser posterior a la fecha fin actual");
+        }
+        
+        // Crear nueva solicitud de incapacidad como extensión
+        Incapacidades extension = Incapacidades.builder()
+                .fechaInicio(incapacidadOriginal.getFechaFin().plusDays(1)) // Empieza el día siguiente al fin de la original
+                .fechaFin(solicitudExtension.getNuevaFechaFin())
+                .diasTotales(solicitudExtension.getDiasAdicionales())
+                .tipoIncapacidad(incapacidadOriginal.getTipoIncapacidad())
+                .porcentajePago(incapacidadOriginal.getPorcentajePago())
+                .entidadEmisora(incapacidadOriginal.getEntidadEmisora())
+                .numeroDocumento(solicitudExtension.getNumeroDocumento())
+                .observaciones(solicitudExtension.getObservaciones())
+                .urlDocumentoAdjunto(solicitudExtension.getUrlDocumentoAdjunto())
+                .empleado(incapacidadOriginal.getEmpleado())
+                .estadoSolicitud(EstadoSolicitud.PENDIENTE_RH) // Las extensiones van directo a RH
+                .fechaSolicitud(LocalDate.now())
+                .esExtension(true)
+                .incapacidadOriginal(incapacidadOriginal)
+                .fechaFinOriginal(incapacidadOriginal.getFechaFin())
+                .comentariosExtension("Extensión solicitada por jefe: " + jefe.getNombre() + " " + jefe.getPrimerApellido())
+                .build();
+        
+        Incapacidades extensionGuardada = mantenimiento.crear(extension);
+        log.info("Se creó una extensión de incapacidad con ID: {} para la incapacidad original ID: {}", 
+                extensionGuardada.getId(), idIncapacidad);
+        return deEntidadDtoARespuesta(extensionGuardada);
     }
 
     /**
@@ -469,6 +545,14 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         // Comentarios
         respuesta.comentariosJefe = entidad.getComentariosJefe();
         respuesta.comentariosRH = entidad.getComentariosRH();
+        
+        // Campos de extensión
+        respuesta.esExtension = entidad.getEsExtension();
+        if (entidad.getIncapacidadOriginal() != null) {
+            respuesta.idIncapacidadOriginal = entidad.getIncapacidadOriginal().getId();
+        }
+        respuesta.fechaFinOriginal = entidad.getFechaFinOriginal();
+        respuesta.comentariosExtension = entidad.getComentariosExtension();
         
         if (entidad.getTipoIncapacidad() != null) {
             respuesta.tipoIncapacidad = entidad.getTipoIncapacidad().name();

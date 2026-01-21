@@ -37,6 +37,12 @@ export interface RespuestaIncapacidad {
   comentariosJefe?: string;
   comentariosRH?: string;
   
+  // Campos de extensión
+  esExtension?: boolean;
+  idIncapacidadOriginal?: number;
+  fechaFinOriginal?: string;
+  comentariosExtension?: string;
+  
   // Empleado solicitante
   idEmpleado: number;
   nombreEmpleado: string;
@@ -57,6 +63,14 @@ export interface RespuestaIncapacidad {
 
 export interface AccionIncapacidad {
   comentarios?: string;
+}
+
+export interface SolicitudExtensionIncapacidad {
+  nuevaFechaFin: string; // yyyy-MM-dd
+  diasAdicionales: number;
+  numeroDocumento?: string;
+  observaciones?: string;
+  urlDocumentoAdjunto?: string;
 }
 
 // ==================== HELPER FUNCTIONS ====================
@@ -136,6 +150,23 @@ export const crearSolicitud = async (solicitud: SolicitudIncapacidad): Promise<R
  */
 export const obtenerSolicitudesPendientesDepartamento = async (): Promise<RespuestaIncapacidad[]> => {
   return fetchWithAuth<RespuestaIncapacidad[]>(`${API_URL}/pendientes-departamento`);
+};
+
+/**
+ * JEFES: Obtiene los empleados actualmente incapacitados del departamento del jefe autenticado
+ */
+export const obtenerEmpleadosIncapacitadosDepartamento = async (): Promise<RespuestaIncapacidad[]> => {
+  return fetchWithAuth<RespuestaIncapacidad[]>(`${API_URL}/empleados-incapacitados-departamento`);
+};
+
+/**
+ * JEFES: Solicita una extensión de incapacidad
+ */
+export const solicitarExtension = async (id: number, solicitud: SolicitudExtensionIncapacidad): Promise<RespuestaIncapacidad> => {
+  return fetchWithAuth<RespuestaIncapacidad>(`${API_URL}/${id}/solicitar-extension`, {
+    method: 'POST',
+    body: JSON.stringify(solicitud),
+  });
 };
 
 /**

@@ -36,4 +36,12 @@ public interface IncapacidadesRepositorio extends JpaRepository<Incapacidades, L
            "AND i.fechaInicio <= :fecha AND i.fechaFin >= :fecha " +
            "ORDER BY i.empleado.puesto.departamento.nombre, i.empleado.primerApellido")
     List<Incapacidades> findIncapacidadesActivas(@Param("fecha") LocalDate fecha);
+    
+    // Obtener incapacidades activas de un departamento específico
+    @Query("SELECT i FROM Incapacidades i WHERE i.estadoSolicitud = 'APROBADA' " +
+           "AND i.empleado.puesto.departamento.id = :idDepartamento " +
+           "AND i.fechaInicio <= :fecha AND i.fechaFin >= :fecha " +
+           "ORDER BY i.empleado.primerApellido")
+    List<Incapacidades> findIncapacidadesActivasByDepartamento(@Param("idDepartamento") Long idDepartamento, 
+                                                                @Param("fecha") LocalDate fecha);
 }

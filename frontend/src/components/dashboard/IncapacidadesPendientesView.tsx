@@ -3,15 +3,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { Modal } from '@/components/Modal';
-import type { RespuestaIncapacidad } from '@/services/incapacidadesService';
+import type { RespuestaIncapacidad, SolicitudExtensionIncapacidad } from '@/services/incapacidadesService';
 import { 
   obtenerSolicitudesPendientesDepartamento,
+  obtenerEmpleadosIncapacitadosDepartamento,
   aprobarPorJefe,
-  rechazarPorJefe
+  rechazarPorJefe,
+  solicitarExtension
 } from '@/services/incapacidadesService';
 import { formatearFecha } from '../../lib/utils';
-import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock, Activity, AlertCircle } from 'lucide-react';
+import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock, Activity, AlertCircle, ArrowRightCircle } from 'lucide-react';
 
 const TIPOS_INCAPACIDAD: Record<string, string> = {
   'ENFERMEDAD_COMUN': 'Enfermedad Común',
@@ -34,26 +37,39 @@ const getEntidadEmisoraLabel = (entidad: string) => ENTIDADES_EMISORAS[entidad] 
 
 export default function IncapacidadesPendientesView() {
   const [solicitudes, setSolicitudes] = useState<RespuestaIncapacidad[]>([]);
+  const [empleadosIncapacitados, setEmpleadosIncapacitados] = useState<RespuestaIncapacidad[]>([]);
   const [loading, setLoading] = useState(true);
   const [showRevisarModal, setShowRevisarModal] = useState(false);
+  const [showExtenderModal, setShowExtenderModal] = useState(false);
   const [solicitudSeleccionada, setSolicitudSeleccionada] = useState<RespuestaIncapacidad | null>(null);
+  const [incapacidadAExtender, setIncapacidadAExtender] = useState<RespuestaIncapacidad | null>(null);
   const [comentarios, setComentarios] = useState('');
   const [procesando, setProcesando] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Estados para el formulario de extensión
+  const [nuevaFechaFin, setNuevaFechaFin] = useState('');
+  const [diasAdicionales, setDiasAdicionales] = useState('');
+  const [numeroDocumento, setNumeroDocumento] = useState('');
+  const [observacionesExtension, setObservacionesExtension] = useState('');
+
   useEffect(() => {
-    cargarSolicitudes();
+    cargarDatos();
   }, []);
 
-  const cargarSolicitudes = async () => {
+  const cargarDatos = async () => {
     try {
       setLoading(true);
-      const data = await obtenerSolicitudesPendientesDepartamento();
-      setSolicitudes(data);
+      const [solicitudesData, incapacitadosData] = await Promise.all([
+        obtenerSolicitudesPendientesDepartamento(),
+        obtenerEmpleadosIncapacitadosDepartamento()
+      ]);
+      setSolicitudes(solicitudesData);
+      setEmpleadosIncapacitados(incapacitadosData);
       setError(null);
     } catch (err: unknown) {
-      console.error('Error al cargar solicitudes:', err);
-      setError('Error al cargar las solicitudes pendientes');
+      console.error('Error al cargar datos:', err);
+      setError('Error al cargar los datos');
     } finally {
       setLoading(false);
     }
@@ -75,7 +91,7 @@ export default function IncapacidadesPendientesView() {
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
-      cargarSolicitudes();
+      cargarDatos();
     } catch (err: unknown) {
       console.error('Error al aprobar solicitud:', err);
       const errorMessage = err instanceof Error ? err.message : 'Error al aprobar la solicitud';
@@ -104,10 +120,55 @@ export default function IncapacidadesPendientesView() {
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
-      cargarSolicitudes();
+      cargarDatos();
     } catch (err: unknown) {
       console.error('Error al rechazar solicitud:', err);
       const errorMessage = err instanceof Error ? err.message : 'Error al rechazar la solicitud';
+      alert(errorMessage);
+    } finally {
+      setProcesando(false);
+    }
+  };
+
+  const handleExtender = (incapacidad: RespuestaIncapacidad) => {
+    setIncapacidadAExtender(incapacidad);
+    setNuevaFechaFin('');
+    setDiasAdicionales('');
+    setNumeroDocumento('');
+    setObservacionesExtension('');
+    setShowExtenderModal(true);
+  };
+
+  const handleSolicitarExtension = async () => {
+    if (!incapacidadAExtender) return;
+
+    if (!nuevaFechaFin || !diasAdicionales) {
+      alert('Por favor, complete todos los campos requeridos');
+      return;
+    }
+
+    const diasNum = parseInt(diasAdicionales);
+    if (isNaN(diasNum) || diasNum <= 0) {
+      alert('Los días adicionales deben ser un número positivo');
+      return;
+    }
+
+    try {
+      setProcesando(true);
+      const solicitud: SolicitudExtensionIncapacidad = {
+        nuevaFechaFin,
+        diasAdicionales: diasNum,
+        numeroDocumento: numeroDocumento || undefined,
+        observaciones: observacionesExtension || undefined,
+      };
+      await solicitarExtension(incapacidadAExtender.id, solicitud);
+      alert('Solicitud de extensión creada exitosamente. Debe ser aprobada por RH.');
+      setShowExtenderModal(false);
+      setIncapacidadAExtender(null);
+      cargarDatos();
+    } catch (err: unknown) {
+      console.error('Error al solicitar extensión:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Error al solicitar la extensión';
       alert(errorMessage);
     } finally {
       setProcesando(false);
@@ -230,6 +291,95 @@ export default function IncapacidadesPendientesView() {
                         >
                           <Eye className="h-4 w-4" />
                           Revisar
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Empleados Actualmente Incapacitados */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Activity className="h-5 w-5" />
+            Empleados Actualmente Incapacitados
+          </CardTitle>
+          <CardDescription>
+            {empleadosIncapacitados.length} empleado(s) de su departamento con incapacidad activa
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left p-3">Empleado</th>
+                  <th className="text-left p-3">Tipo</th>
+                  <th className="text-left p-3">Fecha Inicio</th>
+                  <th className="text-left p-3">Fecha Fin</th>
+                  <th className="text-center p-3">Días</th>
+                  <th className="text-left p-3">Entidad</th>
+                  <th className="text-center p-3">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {empleadosIncapacitados.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="text-center p-8 text-muted-foreground">
+                      No hay empleados actualmente incapacitados en su departamento
+                    </td>
+                  </tr>
+                ) : (
+                  empleadosIncapacitados.map((incapacidad) => (
+                    <tr key={incapacidad.id} className="border-b hover:bg-muted/50">
+                      <td className="p-3">
+                        <div className="flex items-center gap-2">
+                          <User className="h-4 w-4 text-muted-foreground" />
+                          <div>
+                            <div className="font-medium">
+                              {incapacidad.nombreEmpleado} {incapacidad.primerApellidoEmpleado}
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                              {incapacidad.segundoApellidoEmpleado}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="p-3">
+                        <div className="flex items-center gap-2">
+                          <Activity className="h-4 w-4 text-muted-foreground" />
+                          {getTipoIncapacidadLabel(incapacidad.tipoIncapacidad)}
+                        </div>
+                      </td>
+                      <td className="p-3">
+                        <div className="flex items-center gap-2 text-sm">
+                          <Calendar className="h-4 w-4 text-muted-foreground" />
+                          {formatearFecha(incapacidad.fechaInicio)}
+                        </div>
+                      </td>
+                      <td className="p-3 text-sm">
+                        {formatearFecha(incapacidad.fechaFin)}
+                      </td>
+                      <td className="p-3 text-center">
+                        <span className="font-semibold">{incapacidad.diasTotales}</span>
+                      </td>
+                      <td className="p-3 text-sm">
+                        {getEntidadEmisoraLabel(incapacidad.entidadEmisora)}
+                      </td>
+                      <td className="p-3 text-center">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleExtender(incapacidad)}
+                          className="gap-2"
+                        >
+                          <ArrowRightCircle className="h-4 w-4" />
+                          Extender
                         </Button>
                       </td>
                     </tr>
@@ -381,6 +531,140 @@ export default function IncapacidadesPendientesView() {
               >
                 <CheckCircle className="h-4 w-4" />
                 Aprobar
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
+
+      {/* Modal Extender Incapacidad */}
+      <Modal
+        isOpen={showExtenderModal}
+        onClose={() => {
+          setShowExtenderModal(false);
+          setIncapacidadAExtender(null);
+          setNuevaFechaFin('');
+          setDiasAdicionales('');
+          setNumeroDocumento('');
+          setObservacionesExtension('');
+        }}
+        title="Solicitar Extensión de Incapacidad"
+      >
+        {incapacidadAExtender && (
+          <div className="space-y-4">
+            <div className="p-3 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
+              <p className="text-sm font-medium text-blue-900 dark:text-blue-100">
+                <AlertCircle className="h-4 w-4 inline mr-1" />
+                Esta extensión debe ser aprobada por Recursos Humanos
+              </p>
+            </div>
+
+            {/* Información de la incapacidad actual */}
+            <div className="p-3 bg-muted rounded-lg">
+              <Label className="text-muted-foreground text-xs">Empleado</Label>
+              <p className="font-medium">
+                {incapacidadAExtender.nombreEmpleado} {incapacidadAExtender.primerApellidoEmpleado} {incapacidadAExtender.segundoApellidoEmpleado}
+              </p>
+              <div className="mt-2 grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <span className="text-muted-foreground">Tipo:</span>{' '}
+                  <span className="font-medium">{getTipoIncapacidadLabel(incapacidadAExtender.tipoIncapacidad)}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">Días actuales:</span>{' '}
+                  <span className="font-medium">{incapacidadAExtender.diasTotales}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-muted-foreground">Fecha Inicio Actual</Label>
+                <p className="font-medium">{formatearFecha(incapacidadAExtender.fechaInicio)}</p>
+              </div>
+              <div>
+                <Label className="text-muted-foreground">Fecha Fin Actual</Label>
+                <p className="font-medium text-orange-600 dark:text-orange-400">
+                  {formatearFecha(incapacidadAExtender.fechaFin)}
+                </p>
+              </div>
+            </div>
+
+            {/* Formulario de extensión */}
+            <div className="border-t pt-4 space-y-4">
+              <h4 className="font-semibold">Datos de la Extensión</h4>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="nuevaFechaFin">Nueva Fecha de Fin *</Label>
+                  <Input
+                    id="nuevaFechaFin"
+                    type="date"
+                    value={nuevaFechaFin}
+                    onChange={(e) => setNuevaFechaFin(e.target.value)}
+                    min={incapacidadAExtender.fechaFin}
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="diasAdicionales">Días Adicionales *</Label>
+                  <Input
+                    id="diasAdicionales"
+                    type="number"
+                    value={diasAdicionales}
+                    onChange={(e) => setDiasAdicionales(e.target.value)}
+                    min="1"
+                    placeholder="Ej: 5"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="numeroDocumento">Número de Documento (opcional)</Label>
+                <Input
+                  id="numeroDocumento"
+                  value={numeroDocumento}
+                  onChange={(e) => setNumeroDocumento(e.target.value)}
+                  placeholder="Ej: EXT-2026-001"
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="observacionesExtension">Observaciones (opcional)</Label>
+                <Textarea
+                  id="observacionesExtension"
+                  value={observacionesExtension}
+                  onChange={(e) => setObservacionesExtension(e.target.value)}
+                  placeholder="Motivo de la extensión..."
+                  rows={3}
+                />
+              </div>
+            </div>
+
+            {/* Botones de acción */}
+            <div className="flex gap-2 justify-end pt-4 border-t">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowExtenderModal(false);
+                  setIncapacidadAExtender(null);
+                  setNuevaFechaFin('');
+                  setDiasAdicionales('');
+                  setNumeroDocumento('');
+                  setObservacionesExtension('');
+                }}
+                disabled={procesando}
+              >
+                Cancelar
+              </Button>
+              <Button
+                onClick={handleSolicitarExtension}
+                disabled={procesando}
+                className="gap-2"
+              >
+                <ArrowRightCircle className="h-4 w-4" />
+                Solicitar Extensión
               </Button>
             </div>
           </div>

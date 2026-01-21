@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.AccionIncapacidadDTO;
+import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudExtensionIncapacidadDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudIncapacidadesDTO;
 import com.anthony.tfg.tfg.Modulos.Incapacidad.Servicio.ServicioIncapacidad;
 
@@ -94,6 +95,30 @@ public class ControladorIncapacidad {
             Authentication authentication) {
         List<RespuestaIncapacidadesDTO> solicitudes = servicio.obtenerSolicitudesPendientesDepartamento(authentication);
         return ResponseEntity.ok(solicitudes);
+    }
+
+    /**
+     * Obtiene los empleados actualmente incapacitados del departamento del jefe autenticado
+     */
+    @GetMapping("/empleados-incapacitados-departamento")
+    @PreAuthorize("hasAnyRole('JEFE', 'HR', 'ADMIN')")
+    public ResponseEntity<List<RespuestaIncapacidadesDTO>> obtenerEmpleadosIncapacitadosDepartamento(
+            Authentication authentication) {
+        List<RespuestaIncapacidadesDTO> incapacitados = servicio.obtenerEmpleadosIncapacitadosDepartamento(authentication);
+        return ResponseEntity.ok(incapacitados);
+    }
+
+    /**
+     * Solicita una extensión de incapacidad
+     */
+    @PostMapping("/{id}/solicitar-extension")
+    @PreAuthorize("hasAnyRole('JEFE', 'HR', 'ADMIN')")
+    public ResponseEntity<RespuestaIncapacidadesDTO> solicitarExtension(
+            @PathVariable Long id,
+            @Valid @RequestBody SolicitudExtensionIncapacidadDTO solicitudExtension,
+            Authentication authentication) {
+        RespuestaIncapacidadesDTO respuesta = servicio.solicitarExtension(id, solicitudExtension, authentication);
+        return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
     /**
