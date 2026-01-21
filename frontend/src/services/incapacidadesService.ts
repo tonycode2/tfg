@@ -136,7 +136,26 @@ export const obtenerMisSolicitudes = async (): Promise<RespuestaIncapacidad[]> =
 /**
  * EMPLEADOS: Crea una nueva solicitud de incapacidad
  */
-export const crearSolicitud = async (solicitud: SolicitudIncapacidad): Promise<RespuestaIncapacidad> => {
+export const crearSolicitud = async (solicitud: SolicitudIncapacidad | FormData): Promise<RespuestaIncapacidad> => {
+  // Si se pasa FormData (subida de archivo), no establecer Content-Type (browser lo hace automáticamente)
+  if (solicitud instanceof FormData) {
+    const token = localStorage.getItem('token');
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      body: solicitud,
+    });
+
+    if (!response.ok) {
+      const error = { status: response.status, message: await response.text() };
+      handleApiError(error);
+    }
+
+    return await response.json();
+  }
+
   return fetchWithAuth<RespuestaIncapacidad>(API_URL, {
     method: 'POST',
     body: JSON.stringify(solicitud),

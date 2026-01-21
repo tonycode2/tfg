@@ -61,11 +61,11 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
             log.warn("No se ha encontrado la asistencia con ID: " + id + " para actualizar");
             throw new ResourceNotFoundException("Asistencia", "id", id);
         }
-        asistenciaExistente.setTipoEvento(entidad.tipoEvento);
-        asistenciaExistente.setFechaHora(entidad.fechaHora);
-        asistenciaExistente.setObservaciones(entidad.observaciones);
+        asistenciaExistente.setTipoEvento(entidad.getTipoEvento());
+        asistenciaExistente.setFechaHora(entidad.getFechaHora());
+        asistenciaExistente.setObservaciones(entidad.getObservaciones());
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
         if(empleado != null){
             asistenciaExistente.setEmpleado(empleado);
         }
@@ -86,9 +86,9 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
             return null;
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.getIdEmpleado());
         if(empleado == null){
-            log.warn("No se ha encontrado el empleado con ID: " + solicitud.idEmpleado);
+            log.warn("No se ha encontrado el empleado con ID: " + solicitud.getIdEmpleado());
             return null;
         }
         

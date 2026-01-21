@@ -1,5 +1,6 @@
 package com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -30,9 +31,11 @@ import jakarta.validation.Valid;
 public class ControladorIncapacidad {
 
     private final ServicioIncapacidad servicio;
+    private final com.anthony.tfg.tfg.Util.FileStorageService fileStorageService;
 
-    public ControladorIncapacidad(ServicioIncapacidad servicio) {
+    public ControladorIncapacidad(ServicioIncapacidad servicio, com.anthony.tfg.tfg.Util.FileStorageService fileStorageService) {
         this.servicio = servicio;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping("/{id}")
@@ -48,10 +51,42 @@ public class ControladorIncapacidad {
         return ResponseEntity.ok(lista);
     }
 
-    @PostMapping
+    @PostMapping(consumes = {org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<RespuestaIncapacidadesDTO> crear(
-            @Valid @RequestBody SolicitudIncapacidadesDTO solicitud,
-            Authentication authentication) {
+            @Valid @org.springframework.web.bind.annotation.ModelAttribute SolicitudIncapacidadesDTO solicitud,
+            org.springframework.validation.BindingResult bindingResult,
+            @org.springframework.web.bind.annotation.RequestPart(value = "archivo", required = false) org.springframework.web.multipart.MultipartFile archivo,
+            Authentication authentication,
+            jakarta.servlet.http.HttpServletRequest request) {
+
+        // If binding errors exist, log detailed info and return a BadRequestException so we can see what failed
+        if (bindingResult != null && bindingResult.hasErrors()) {
+            String errors = bindingResult.getFieldErrors().stream()
+                    .map(e -> e.getField() + ": " + e.getDefaultMessage() + " (rejected=" + e.getRejectedValue() + ")")
+                    .collect(java.util.stream.Collectors.joining(", "));
+            org.slf4j.LoggerFactory.getLogger(ControladorIncapacidad.class).error("[DEBUG-INC] Binding errors: {}", errors);
+            throw new com.anthony.tfg.tfg.Exceptions.BadRequestException("Error de binding: " + errors);
+        }
+        // DEBUG: log incoming parameter map
+        try {
+            var paramMap = request.getParameterMap();
+            String params = java.util.Arrays.stream(paramMap.entrySet().toArray())
+                .map(o -> {
+                    java.util.Map.Entry e = (java.util.Map.Entry) o;
+                    return e.getKey() + "=" + java.util.Arrays.toString((Object[]) e.getValue());
+                })
+                .collect(java.util.stream.Collectors.joining(", "));
+            org.slf4j.LoggerFactory.getLogger(ControladorIncapacidad.class).info("[DEBUG-INC-CONTROLLER] Request parameters: {}", params);
+        } catch (Exception e) {
+            org.slf4j.LoggerFactory.getLogger(ControladorIncapacidad.class).warn("[DEBUG-INC-CONTROLLER] Error reading request params: {}", e.getMessage());
+        }
+
+        // Si se envía un archivo, guardarlo y colocar el nombre en el DTO para almacenarlo en la entidad
+        if (archivo != null && !archivo.isEmpty()) {
+            String fileName = fileStorageService.storeFile(archivo);
+            // Use setter (fields are private now)
+            solicitud.setUrlDocumentoAdjunto(fileName);
+        }
         RespuestaIncapacidadesDTO respuesta = servicio.guardar(solicitud, authentication);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
@@ -190,6 +225,17 @@ public class ControladorIncapacidad {
             Authentication authentication) {
         RespuestaIncapacidadesDTO respuesta = servicio.aprobarPorRH(id, accion.comentarios, authentication);
         return ResponseEntity.ok(respuesta);
+    }
+
+    /**
+     * Descarga el archivo adjunto de una incapacidad (acceso validado en servicio)
+     * @throws UnsupportedEncodingException 
+     */
+    @GetMapping("/{id}/archivo")
+    public ResponseEntity<org.springframework.core.io.Resource> descargarArchivo(
+            @PathVariable Long id,
+            Authentication authentication) throws UnsupportedEncodingException {
+        return servicio.descargarArchivo(id, authentication);
     }
 
     /**

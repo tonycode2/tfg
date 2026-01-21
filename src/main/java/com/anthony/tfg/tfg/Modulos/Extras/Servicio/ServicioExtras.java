@@ -63,23 +63,23 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
             log.warn("No se ha encontrado la hora extra con ID: " + id + " para actualizar");
             return null;
         }
-        horaExtraExistente.setFechaSolicitud(entidad.fechaSolicitud);
-        horaExtraExistente.setCantidadDeHoras(entidad.cantidadDeHoras);
-        horaExtraExistente.setMotivo(entidad.motivo);
-        horaExtraExistente.setAprobado(entidad.aprobado);
-        horaExtraExistente.setProcesado(entidad.procesado);
+        horaExtraExistente.setFechaSolicitud(entidad.getFechaSolicitud());
+        horaExtraExistente.setCantidadDeHoras(entidad.getCantidadDeHoras());
+        horaExtraExistente.setMotivo(entidad.getMotivo());
+        horaExtraExistente.setAprobado(entidad.getAprobado());
+        horaExtraExistente.setProcesado(entidad.getProcesado());
         
-        EstadoSolicitud estadoSolicitud = obtenerEstadoSolicitud(entidad.estadoSolicitud);
+        EstadoSolicitud estadoSolicitud = obtenerEstadoSolicitud(entidad.getEstadoSolicitud());
         if(estadoSolicitud != null){
             horaExtraExistente.setEstadoSolicitud(estadoSolicitud);
         }
         
-        TipoTarifa tipoTarifa = obtenerTipoTarifa(entidad.tipoTarifa);
+        TipoTarifa tipoTarifa = obtenerTipoTarifa(entidad.getTipoTarifa());
         if(tipoTarifa != null){
             horaExtraExistente.setTipoTarifa(tipoTarifa);
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
         if(empleado != null){
             horaExtraExistente.setEmpleado(empleado);
         }
@@ -100,9 +100,9 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
             return null;
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.getIdEmpleado());
         if(empleado == null){
-            log.warn("No se ha encontrado el empleado con ID: " + solicitud.idEmpleado);
+            log.warn("No se ha encontrado el empleado con ID: " + solicitud.getIdEmpleado());
             return null;
         }
         

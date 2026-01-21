@@ -1,5 +1,6 @@
 package com.anthony.tfg.tfg.Modulos.Incapacidad.Servicio;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -37,15 +38,18 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
     private final MantenimientosIncapacidades mantenimiento;
     private final ConsultasEmpleados consultasEmpleados;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepo;
+    private final com.anthony.tfg.tfg.Util.FileStorageService fileStorageService;
 
     public ServicioIncapacidad(ConsultasIncapacidades consulta, 
                                MantenimientosIncapacidades mantenimiento, 
                                ConsultasEmpleados consultasEmpleados,
-                               JefesDepartamentoRepositorio jefesDepartamentoRepo) {
+                               JefesDepartamentoRepositorio jefesDepartamentoRepo,
+                               com.anthony.tfg.tfg.Util.FileStorageService fileStorageService) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
         this.jefesDepartamentoRepo = jefesDepartamentoRepo;
+        this.fileStorageService = fileStorageService;
     }
 
     // ==================== MÉTODOS BÁSICOS (CRUD) ====================
@@ -80,7 +84,7 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
      */
     public RespuestaIncapacidadesDTO guardar(SolicitudIncapacidadesDTO entidad, Authentication auth) {
         Empleados empleadoAutenticado = obtenerEmpleadoAutenticado(auth);
-        entidad.idEmpleado = empleadoAutenticado.getId();
+        entidad.setIdEmpleado(empleadoAutenticado.getId());
         return guardarInterno(entidad);
     }
 
@@ -89,7 +93,7 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
      */
     private RespuestaIncapacidadesDTO guardarInterno(SolicitudIncapacidadesDTO entidad) {
         // Validar fechas
-        if (entidad.fechaFin.isBefore(entidad.fechaInicio)) {
+        if (entidad.getFechaFin().isBefore(entidad.getFechaInicio())) {
             throw new BadRequestException("La fecha de fin debe ser igual o posterior a la fecha de inicio");
         }
         
@@ -119,25 +123,25 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
             throw new ResourceNotFoundException("Incapacidades", "id", id);
         }
         
-        incapacidadExistente.setFechaInicio(entidad.fechaInicio);
-        incapacidadExistente.setFechaFin(entidad.fechaFin);
-        incapacidadExistente.setDiasTotales(entidad.diasTotales);
-        incapacidadExistente.setPorcentajePago(entidad.porcentajePago);
-        incapacidadExistente.setNumeroDocumento(entidad.numeroDocumento);
-        incapacidadExistente.setObservaciones(entidad.observaciones);
-        incapacidadExistente.setUrlDocumentoAdjunto(entidad.urlDocumentoAdjunto);
+        incapacidadExistente.setFechaInicio(entidad.getFechaInicio());
+        incapacidadExistente.setFechaFin(entidad.getFechaFin());
+        incapacidadExistente.setDiasTotales(entidad.getDiasTotales());
+        incapacidadExistente.setPorcentajePago(entidad.getPorcentajePago());
+        incapacidadExistente.setNumeroDocumento(entidad.getNumeroDocumento());
+        incapacidadExistente.setObservaciones(entidad.getObservaciones());
+        incapacidadExistente.setUrlDocumentoAdjunto(entidad.getUrlDocumentoAdjunto());
         
-        TipoIncapacidad tipoIncapacidad = obtenerTipoIncapacidad(entidad.tipoIncapacidad);
+        TipoIncapacidad tipoIncapacidad = obtenerTipoIncapacidad(entidad.getTipoIncapacidad());
         if (tipoIncapacidad != null) {
             incapacidadExistente.setTipoIncapacidad(tipoIncapacidad);
         }
         
-        TipoEntidadEmisora entidadEmisora = obtenerTipoEntidadEmisora(entidad.entidadEmisora);
+        TipoEntidadEmisora entidadEmisora = obtenerTipoEntidadEmisora(entidad.getEntidadEmisora());
         if (entidadEmisora != null) {
             incapacidadExistente.setEntidadEmisora(entidadEmisora);
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
         if (empleado != null) {
             incapacidadExistente.setEmpleado(empleado);
         }
@@ -151,6 +155,14 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         Incapacidades incapacidad = consulta.obtenerPorId(id);
         if (incapacidad == null) {
             throw new ResourceNotFoundException("Incapacidades", "id", id);
+        }
+        // Eliminar archivo asociado si existe
+        if (incapacidad.getUrlDocumentoAdjunto() != null) {
+            try {
+                fileStorageService.deleteFile(incapacidad.getUrlDocumentoAdjunto());
+            } catch (Exception e) {
+                log.warn("No se pudo eliminar el archivo adjunto de la incapacidad {}: {}", id, e.getMessage());
+            }
         }
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado la incapacidad con ID: " + id);
@@ -466,6 +478,77 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         return deEntidadDtoARespuesta(incapacidadActualizada);
     }
 
+    /**
+     * Descarga el archivo adjunto de la incapacidad si el usuario tiene permisos
+     * @throws UnsupportedEncodingException 
+     */
+    public org.springframework.http.ResponseEntity<org.springframework.core.io.Resource> descargarArchivo(Long idIncapacidad, Authentication auth) throws UnsupportedEncodingException {
+        Incapacidades incapacidad = consulta.obtenerPorId(idIncapacidad);
+        if (incapacidad == null) {
+            throw new ResourceNotFoundException("Incapacidades", "id", idIncapacidad);
+        }
+
+        // Validar que exista archivo
+        if (incapacidad.getUrlDocumentoAdjunto() == null) {
+            throw new BadRequestException("No existe un archivo adjunto para esta incapacidad");
+        }
+
+        // Verificar permisos: ADMIN y RH siempre pueden; JEFE si es jefe del departamento; el propio empleado puede ver su archivo
+        Object principal = auth.getPrincipal();
+        com.anthony.tfg.tfg.Modulos.Seguridad.user.User user = (com.anthony.tfg.tfg.Modulos.Seguridad.user.User) principal;
+        String role = user.getRole().name();
+        boolean permitido = false;
+
+        if ("ADMIN".equals(role) || "HR".equals(role)) {
+            permitido = true;
+        } else if ("JEFE".equals(role)) {
+            Empleados jefe = obtenerEmpleadoAutenticado(auth);
+            Long idDepartamento = incapacidad.getEmpleado().getPuesto().getDepartamento().getId();
+            if (jefesDepartamentoRepo.findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(jefe.getId(), idDepartamento).isPresent()) {
+                permitido = true;
+            }
+        } else {
+            // Permitir al propio empleado
+            Empleados empleado = user.getEmpleado();
+            if (empleado != null && empleado.getId().equals(incapacidad.getEmpleado().getId())) {
+                permitido = true;
+            }
+        }
+
+        if (!permitido) {
+            throw new ForbiddenException("No tiene permisos para descargar el archivo de esta solicitud");
+        }
+
+        org.springframework.core.io.Resource recurso = fileStorageService.loadFileAsResource(incapacidad.getUrlDocumentoAdjunto());
+        String contentType = java.net.URLConnection.guessContentTypeFromName(recurso.getFilename());
+        if (contentType == null) {
+            contentType = org.springframework.http.MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        }
+
+        // Construir un nombre de archivo sugerido: "Incapacidad id {id} {Nombre} {PrimerApellido}.{ext}"
+        String originalFilename = recurso.getFilename();
+        String extension = "";
+        if (originalFilename != null) {
+            int dot = originalFilename.lastIndexOf('.');
+            if (dot > -1) {
+                extension = originalFilename.substring(dot);
+            }
+        }
+        String empleadoNombre = (incapacidad.getEmpleado() != null && incapacidad.getEmpleado().getNombre() != null) ? incapacidad.getEmpleado().getNombre() : "";
+        String empleadoApellido = (incapacidad.getEmpleado() != null && incapacidad.getEmpleado().getPrimerApellido() != null) ? incapacidad.getEmpleado().getPrimerApellido() : "";
+        String suggested = "Incapacidad id " + incapacidad.getId() + " " + empleadoNombre + " " + empleadoApellido;
+        // Mantener solo caracteres legibles y espacios, normalizar espacios múltiples
+        String safe = suggested.replaceAll("[^\\p{L}\\p{N} _.-]", "").replaceAll("\\s+", " ").trim();
+        String filename = (safe.isEmpty() ? "Incapacidad_" + incapacidad.getId() : safe) + extension;
+        String encodedFilename = java.net.URLEncoder.encode(filename, java.nio.charset.StandardCharsets.UTF_8.toString()).replaceAll("\\+", "%20");
+        String contentDisposition = "attachment; filename=\"" + filename + "\"; filename*=UTF-8''" + encodedFilename;
+
+        return org.springframework.http.ResponseEntity.ok()
+                .contentType(org.springframework.http.MediaType.parseMediaType(contentType))
+                .header(org.springframework.http.HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .body(recurso);
+    }
+
     // ==================== MÉTODOS AUXILIARES ====================
 
     /**
@@ -519,35 +602,35 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
             return null;
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.getIdEmpleado());
         if (empleado == null) {
-            log.warn("No se ha encontrado el empleado con ID: " + solicitud.idEmpleado);
-            throw new ResourceNotFoundException("Empleados", "id", solicitud.idEmpleado);
+            log.warn("No se ha encontrado el empleado con ID: " + solicitud.getIdEmpleado());
+            throw new ResourceNotFoundException("Empleados", "id", solicitud.getIdEmpleado());
         }
         
-        TipoIncapacidad tipoIncapacidad = obtenerTipoIncapacidad(solicitud.tipoIncapacidad);
+        TipoIncapacidad tipoIncapacidad = obtenerTipoIncapacidad(solicitud.getTipoIncapacidad());
         if (tipoIncapacidad == null) {
-            log.warn("No se ha encontrado el tipo de incapacidad: " + solicitud.tipoIncapacidad);
-            throw new BadRequestException("Tipo de incapacidad inválido: " + solicitud.tipoIncapacidad);
+            log.warn("No se ha encontrado el tipo de incapacidad: " + solicitud.getTipoIncapacidad());
+            throw new BadRequestException("Tipo de incapacidad inválido: " + solicitud.getTipoIncapacidad());
         }
         
-        TipoEntidadEmisora entidadEmisora = obtenerTipoEntidadEmisora(solicitud.entidadEmisora);
+        TipoEntidadEmisora entidadEmisora = obtenerTipoEntidadEmisora(solicitud.getEntidadEmisora());
         if (entidadEmisora == null) {
-            log.warn("No se ha encontrado la entidad emisora: " + solicitud.entidadEmisora);
-            throw new BadRequestException("Entidad emisora inválida: " + solicitud.entidadEmisora);
+            log.warn("No se ha encontrado la entidad emisora: " + solicitud.getEntidadEmisora());
+            throw new BadRequestException("Entidad emisora inválida: " + solicitud.getEntidadEmisora());
         }
         
         Incapacidades incapacidad = Incapacidades.builder()
-                .id(solicitud.id)
-                .fechaInicio(solicitud.fechaInicio)
-                .fechaFin(solicitud.fechaFin)
-                .diasTotales(solicitud.diasTotales)
+                .id(solicitud.getId())
+                .fechaInicio(solicitud.getFechaInicio())
+                .fechaFin(solicitud.getFechaFin())
+                .diasTotales(solicitud.getDiasTotales())
                 .tipoIncapacidad(tipoIncapacidad)
-                .porcentajePago(solicitud.porcentajePago)
+                .porcentajePago(solicitud.getPorcentajePago())
                 .entidadEmisora(entidadEmisora)
-                .numeroDocumento(solicitud.numeroDocumento)
-                .observaciones(solicitud.observaciones)
-                .urlDocumentoAdjunto(solicitud.urlDocumentoAdjunto)
+                .numeroDocumento(solicitud.getNumeroDocumento())
+                .observaciones(solicitud.getObservaciones())
+                .urlDocumentoAdjunto(solicitud.getUrlDocumentoAdjunto())
                 .empleado(empleado)
                 .build();
         
@@ -569,7 +652,12 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         respuesta.porcentajePago = entidad.getPorcentajePago();
         respuesta.numeroDocumento = entidad.getNumeroDocumento();
         respuesta.observaciones = entidad.getObservaciones();
-        respuesta.urlDocumentoAdjunto = entidad.getUrlDocumentoAdjunto();
+        // Si hay un archivo almacenado, exponer una URL de descarga segura
+        if (entidad.getUrlDocumentoAdjunto() != null) {
+            respuesta.urlDocumentoAdjunto = "/api/incapacidades/" + entidad.getId() + "/archivo";
+        } else {
+            respuesta.urlDocumentoAdjunto = null;
+        }
         
         // Fechas de auditoría
         respuesta.fechaSolicitud = entidad.getFechaSolicitud();

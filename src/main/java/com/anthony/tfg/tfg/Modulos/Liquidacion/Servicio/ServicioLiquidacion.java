@@ -62,19 +62,19 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
             log.warn("No se ha encontrado la liquidación con ID: " + id + " para actualizar");
             return null;
         }
-        liquidacionExistente.setFechaSalida(entidad.fechaSalida);
-        liquidacionExistente.setMontoPreaviso(entidad.montoPreaviso);
-        liquidacionExistente.setMontoCesantia(entidad.montoCesantia);
-        liquidacionExistente.setMontoVacacionesPendientes(entidad.montoVacacionesPendientes);
-        liquidacionExistente.setMontoAguinaldoPendiente(entidad.montoAguinaldoPendiente);
-        liquidacionExistente.setTotalLiquidacion(entidad.totalLiquidacion);
+        liquidacionExistente.setFechaSalida(entidad.getFechaSalida());
+        liquidacionExistente.setMontoPreaviso(entidad.getMontoPreaviso());
+        liquidacionExistente.setMontoCesantia(entidad.getMontoCesantia());
+        liquidacionExistente.setMontoVacacionesPendientes(entidad.getMontoVacacionesPendientes());
+        liquidacionExistente.setMontoAguinaldoPendiente(entidad.getMontoAguinaldoPendiente());
+        liquidacionExistente.setTotalLiquidacion(entidad.getTotalLiquidacion());
         
-        MotivoSalida motivoSalida = obtenerMotivoSalida(entidad.motivoSalida);
+        MotivoSalida motivoSalida = obtenerMotivoSalida(entidad.getMotivoSalida());
         if(motivoSalida != null){
             liquidacionExistente.setMotivoSalida(motivoSalida);
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
         if(empleado != null){
             liquidacionExistente.setEmpleado(empleado);
         }
@@ -95,9 +95,9 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
             return null;
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.getIdEmpleado());
         if(empleado == null){
-            log.warn("No se ha encontrado el empleado con ID: " + solicitud.idEmpleado);
+            log.warn("No se ha encontrado el empleado con ID: " + solicitud.getIdEmpleado());
             return null;
         }
         

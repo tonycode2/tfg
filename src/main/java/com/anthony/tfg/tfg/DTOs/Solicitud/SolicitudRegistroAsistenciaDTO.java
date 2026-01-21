@@ -2,6 +2,10 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 
 import java.time.LocalDateTime;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 
@@ -9,6 +13,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * DTO for clock-in/clock-out requests
  * Note: idEmpleado is NOT included because it's extracted from JWT token
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class SolicitudRegistroAsistenciaDTO {
     
     /**

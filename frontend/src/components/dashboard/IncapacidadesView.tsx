@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,12 +8,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DatePicker } from '@/components/ui/date-picker';
 import { Modal } from '@/components/Modal';
 import type { RespuestaIncapacidad } from '../../services/incapacidadesService';
-import { 
+import {
   crearSolicitud, 
   obtenerMisSolicitudes 
 } from '../../services/incapacidadesService';
 import { authService } from '../../services/authService';
-import { formatearFecha, calcularDiasHabiles } from '../../lib/utils';
+import { formatearFecha, calcularDiasHabiles, parseContentDispositionFilename, buildIncapacidadFilename } from '../../lib/utils';
 import { Calendar, Plus, Eye, FileText, Activity, AlertCircle } from 'lucide-react';
 
 const TIPOS_INCAPACIDAD = [
@@ -100,8 +100,9 @@ export default function IncapacidadesView() {
     entidadEmisora: 'CCSS',
     numeroDocumento: '',
     observaciones: '',
-    urlDocumentoAdjunto: '',
   });
+  const [archivoAdjunto, setArchivoAdjunto] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     cargarSolicitudes();
@@ -153,39 +154,85 @@ export default function IncapacidadesView() {
       return;
     }
     
-
-    
     try {
       const userInfo = authService.getUserInfo();
       const idEmpleado = userInfo.idEmpleado;
+      console.debug('userInfo:', userInfo, 'idEmpleado:', idEmpleado);
       
       if (!idEmpleado) {
         alert('Error: No se pudo obtener la información del empleado');
         return;
       }
-      
-      const solicitud = {
-        fechaInicio: formData.fechaInicio,
-        fechaFin: formData.fechaFin,
-        diasTotales: formData.diasTotales > 0 ? formData.diasTotales : 1,
-        tipoIncapacidad: formData.tipoIncapacidad,
-        porcentajePago: formData.porcentajePago,
-        entidadEmisora: formData.entidadEmisora,
-        numeroDocumento: formData.numeroDocumento || undefined,
-        observaciones: formData.observaciones || undefined,
-        urlDocumentoAdjunto: formData.urlDocumentoAdjunto || undefined,
-        idEmpleado,
-      };
-      
-      await crearSolicitud(solicitud);
-      
-      alert('Solicitud de incapacidad creada exitosamente');
+
+      // Construir FormData siempre (el endpoint del backend espera multipart/form-data)
+      const form = new FormData();
+      form.append('fechaInicio', formData.fechaInicio);
+      form.append('fechaFin', formData.fechaFin);
+      form.append('diasTotales', String(formData.diasTotales > 0 ? formData.diasTotales : 1));
+      form.append('tipoIncapacidad', formData.tipoIncapacidad);
+      form.append('porcentajePago', String(formData.porcentajePago));
+      form.append('entidadEmisora', formData.entidadEmisora);
+      if (formData.numeroDocumento) form.append('numeroDocumento', formData.numeroDocumento);
+      if (formData.observaciones) form.append('observaciones', formData.observaciones);
+      form.append('idEmpleado', String(idEmpleado));
+
+      // Si hay archivo, validarlo y anexarlo
+      if (archivoAdjunto) {
+        const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+        if (archivoAdjunto.size > MAX_SIZE) {
+          alert('El archivo excede el tamaño máximo permitido de 5 MB');
+          return;
+        }
+        const tipo = archivoAdjunto.type || '';
+        if (!(tipo === 'application/pdf' || tipo.startsWith('image/'))) {
+          alert('Tipo de archivo no permitido. Solo PDF o imágenes.');
+          return;
+        }
+
+        form.append('archivo', archivoAdjunto);
+      }
+
+      // DEBUG: imprimir contenido del estado y del FormData antes de enviar
+      console.debug('Form data state:', formData);
+      const entries = Array.from(form.entries()).map(([k, v]) => [k, v instanceof File ? `(File) ${v.name}` : v]);
+      console.debug('FormData entries:', entries);
+
+      await crearSolicitud(form);
+
+      // Éxito: cerrar modal, resetear formulario y recargar lista
       setShowNuevaSolicitudModal(false);
       resetForm();
-      cargarSolicitudes();
+      await cargarSolicitudes();
+      alert('Solicitud creada correctamente');
     } catch (err: unknown) {
       console.error('Error al crear solicitud:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Error al crear la solicitud';
+      let errorMessage = 'Error al crear la solicitud';
+
+      // Si es Error nativo
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (err && typeof err === 'object') {
+        // El backend puede lanzar un objeto con {status, message}
+        const anyErr: any = err;
+        if (anyErr.message) {
+          // Intentar parsear JSON si el backend devolvió un body JSON serializado
+          try {
+            const parsed = JSON.parse(anyErr.message);
+            errorMessage = parsed.message || anyErr.message;
+            // Si hay detalles de validación, añadirlos
+            if (parsed.errors && Array.isArray(parsed.errors)) {
+              errorMessage += '\n' + parsed.errors.map((e: any) => (e.defaultMessage || e.message || JSON.stringify(e))).join('\n');
+            }
+          } catch (_parseErr) {
+            errorMessage = anyErr.message;
+          }
+        } else {
+          errorMessage = JSON.stringify(anyErr);
+        }
+      } else if (typeof err === 'string') {
+        errorMessage = err;
+      }
+
       alert(errorMessage);
     }
   };
@@ -200,8 +247,9 @@ export default function IncapacidadesView() {
       entidadEmisora: 'CCSS',
       numeroDocumento: '',
       observaciones: '',
-      urlDocumentoAdjunto: '',
     });
+    setArchivoAdjunto(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   }; 
 
   const handleVerDetalle = (solicitud: RespuestaIncapacidad) => {
@@ -413,19 +461,42 @@ export default function IncapacidadesView() {
             />
           </div>
 
-          {/* URL Documento Adjunto */}
+          {/* Documento Adjunto (solo carga de archivo) */}
           <div>
-            <Label htmlFor="urlDocumentoAdjunto">Enlace a Documento (Opcional)</Label>
-            <Input
-              id="urlDocumentoAdjunto"
-              value={formData.urlDocumentoAdjunto}
-              onChange={(e) => setFormData({ ...formData, urlDocumentoAdjunto: e.target.value })}
-              placeholder="https://drive.google.com/..."
-              maxLength={500}
-            />
-            <p className="text-xs text-muted-foreground mt-1">
-              Puede pegar un enlace a Google Drive, Dropbox u otro servicio
-            </p>
+            <Label>Documento Adjunto (Opcional)</Label>
+            <div className="mt-2">
+              <input
+                id="archivoAdjunto"
+                ref={fileInputRef}
+                type="file"
+                accept="application/pdf,image/*"
+                className="hidden"
+                onChange={(e) => setArchivoAdjunto(e.target.files && e.target.files[0] ? e.target.files[0] : null)}
+              />
+
+              <div className="border border-dashed rounded-md p-3 flex items-center justify-between gap-4">
+                <div className="text-sm text-muted-foreground">
+                  {archivoAdjunto ? (
+                    <span className="font-medium">{archivoAdjunto.name}</span>
+                  ) : (
+                    <span>No se ha seleccionado archivo</span>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Button type="button" variant="outline" onClick={() => fileInputRef.current && fileInputRef.current.click()}>
+                    Adjuntar archivo
+                  </Button>
+                  {archivoAdjunto && (
+                    <Button type="button" variant="ghost" onClick={() => setArchivoAdjunto(null)}>
+                      Quitar
+                    </Button>
+                  )}
+                </div>
+              </div>
+
+              <p className="text-xs text-muted-foreground mt-1">Adjunte un PDF o imagen; el archivo se guardará internamente.</p>
+            </div>
           </div>
 
           {/* Observaciones */}
@@ -534,9 +605,43 @@ export default function IncapacidadesView() {
               <div>
                 <Label className="text-muted-foreground">Documento Adjunto</Label>
                 <a
-                  href={solicitudSeleccionada.urlDocumentoAdjunto}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    try {
+                      const token = localStorage.getItem('token');
+                      const apiUrl = solicitudSeleccionada.urlDocumentoAdjunto?.startsWith('http') ? solicitudSeleccionada.urlDocumentoAdjunto : `http://localhost:8080${solicitudSeleccionada.urlDocumentoAdjunto}`;
+                      const res = await fetch(apiUrl as string, { headers: { 'Authorization': `Bearer ${token}` } });
+                      if (!res.ok) {
+                        const msg = await res.text();
+                        throw new Error(msg || 'Error al descargar el archivo');
+                      }
+                      const blob = await res.blob();
+                      const disp = res.headers.get('content-disposition') || '';
+                      let filename = parseContentDispositionFilename(disp);
+                      if (!filename) {
+                        let ext = '';
+                        try {
+                          const path = new URL(apiUrl as string).pathname;
+                          const dot = path.lastIndexOf('.');
+                          if (dot > -1) ext = path.substring(dot);
+                        } catch (e) {}
+                        filename = buildIncapacidadFilename(solicitudSeleccionada?.id, solicitudSeleccionada?.nombreEmpleado, solicitudSeleccionada?.primerApellidoEmpleado, ext);
+                      }
+                      const href = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = href;
+                      a.download = filename;
+                      document.body.appendChild(a);
+                      a.click();
+                      a.remove();
+                      URL.revokeObjectURL(href);
+                    } catch (err) {
+                      console.error(err);
+                      alert('No se pudo descargar el archivo');
+                    }
+                  }
+                  }
                   className="text-primary hover:underline flex items-center gap-1"
                 >
                   <FileText className="h-4 w-4" />

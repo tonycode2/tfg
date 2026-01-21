@@ -69,19 +69,19 @@ public class ServicioJefesDepartamento implements ServicioInterface<RespuestaJef
             throw new ResourceNotFoundException("JefesDepartamento", "id", id);
         }
         
-        Departamento departamento = consultasDepartamentos.obtenerPorId(entidad.idDepartamento);
+        Departamento departamento = consultasDepartamentos.obtenerPorId(entidad.getIdDepartamento());
         if(departamento != null){
             jefeExistente.setDepartamento(departamento);
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
         if(empleado != null){
             jefeExistente.setEmpleado(empleado);
         }
         
-        jefeExistente.setFechaInicio(entidad.fechaInicio);
-        jefeExistente.setFechaFin(entidad.fechaFin);
-        jefeExistente.setEstaActivo(entidad.estaActivo);
+        jefeExistente.setFechaInicio(entidad.getFechaInicio());
+        jefeExistente.setFechaFin(entidad.getFechaFin());
+        jefeExistente.setEstaActivo(entidad.getEstaActivo());
         
         JefesDepartamento jefeActualizado = mantenimiento.actualizar(jefeExistente);
         log.info("Se ha actualizado el jefe de departamento con ID: " + id);
@@ -99,25 +99,25 @@ public class ServicioJefesDepartamento implements ServicioInterface<RespuestaJef
             return null;
         }
         
-        Departamento departamento = consultasDepartamentos.obtenerPorId(solicitud.idDepartamento);
+        Departamento departamento = consultasDepartamentos.obtenerPorId(solicitud.getIdDepartamento());
         if(departamento == null){
-            log.warn("No se ha encontrado el departamento con ID: " + solicitud.idDepartamento);
+            log.warn("No se ha encontrado el departamento con ID: " + solicitud.getIdDepartamento());
             return null;
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.getIdEmpleado());
         if(empleado == null){
-            log.warn("No se ha encontrado el empleado con ID: " + solicitud.idEmpleado);
+            log.warn("No se ha encontrado el empleado con ID: " + solicitud.getIdEmpleado());
             return null;
         }
         
         JefesDepartamento jefe = JefesDepartamento.builder()
-                    .id(solicitud.id)
+                    .id(solicitud.getId())
                     .departamento(departamento)
                     .empleado(empleado)
-                    .fechaInicio(solicitud.fechaInicio)
-                    .fechaFin(solicitud.fechaFin)
-                    .estaActivo(solicitud.estaActivo)
+                    .fechaInicio(solicitud.getFechaInicio())
+                    .fechaFin(solicitud.getFechaFin())
+                    .estaActivo(solicitud.getEstaActivo())
                     .build();
         log.info("Se ha convertido el DTO de solicitud a entidad JefesDepartamento: {}", jefe);
         return jefe;

@@ -78,10 +78,10 @@ public class ControladorEmpleados {
     public ResponseEntity<RespuestaCredencialesDTO> generarUsuario(
             @PathVariable Long id,
             @Valid @RequestBody SolicitudGenerarUsuarioDTO solicitud) {
-        solicitud.idEmpleado = id;
+        solicitud.setIdEmpleado(id);
         RespuestaCredencialesDTO respuesta = servicioGeneracionUsuario.generarUsuarioParaEmpleado(
-            solicitud.idEmpleado, 
-            solicitud.role
+            solicitud.getIdEmpleado(), 
+            solicitud.getRole()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }

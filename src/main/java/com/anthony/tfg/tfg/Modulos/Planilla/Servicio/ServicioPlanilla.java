@@ -58,13 +58,13 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             log.warn("No se ha encontrado la planilla con ID: " + id + " para actualizar");
             return null;
         }
-        planillaExistente.setFechaInicioPeriodo(entidad.fechaInicioPeriodo);
-        planillaExistente.setFechaFinPeriodo(entidad.fechaFinPeriodo);
-        planillaExistente.setFechaPago(entidad.fechaPago);
-        planillaExistente.setTotalPlanillaBruto(entidad.totalPlanillaBruto);
-        planillaExistente.setTotalPlanillaNeto(entidad.totalPlanillaNeto);
+        planillaExistente.setFechaInicioPeriodo(entidad.getFechaInicioPeriodo());
+        planillaExistente.setFechaFinPeriodo(entidad.getFechaFinPeriodo());
+        planillaExistente.setFechaPago(entidad.getFechaPago());
+        planillaExistente.setTotalPlanillaBruto(entidad.getTotalPlanillaBruto());
+        planillaExistente.setTotalPlanillaNeto(entidad.getTotalPlanillaNeto());
         
-        EstadoPlanilla estadoPlanilla = obtenerEstadoPlanilla(entidad.estadoPlanilla);
+        EstadoPlanilla estadoPlanilla = obtenerEstadoPlanilla(entidad.getEstadoPlanilla());
         if(estadoPlanilla != null){
             planillaExistente.setEstadoPlanilla(estadoPlanilla);
         }
@@ -92,12 +92,12 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         }
         
         PlanillaEncabezado planilla = PlanillaEncabezado.builder()
-                    .id(solicitud.id)
-                    .fechaInicioPeriodo(solicitud.fechaInicioPeriodo)
-                    .fechaFinPeriodo(solicitud.fechaFinPeriodo)
-                    .fechaPago(solicitud.fechaPago)
-                    .totalPlanillaBruto(solicitud.totalPlanillaBruto)
-                    .totalPlanillaNeto(solicitud.totalPlanillaNeto)
+                    .id(solicitud.getId())
+                    .fechaInicioPeriodo(solicitud.getFechaInicioPeriodo())
+                    .fechaFinPeriodo(solicitud.getFechaFinPeriodo())
+                    .fechaPago(solicitud.getFechaPago())
+                    .totalPlanillaBruto(solicitud.getTotalPlanillaBruto())
+                    .totalPlanillaNeto(solicitud.getTotalPlanillaNeto())
                     .estadoPlanilla(estadoPlanilla)
                     .build();
         log.info("Se ha convertido el DTO de solicitud a entidad PlanillaEncabezado: {}", planilla);

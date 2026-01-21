@@ -61,13 +61,13 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
             log.warn("No se ha encontrado la evaluación de desempeño con ID: " + id + " para actualizar");
             return null;
         }
-        evaluacionExistente.setFechaEvaluacion(entidad.fechaEvaluacion);
-        evaluacionExistente.setPeriodoEvaluado(entidad.periodoEvaluado);
-        evaluacionExistente.setPuntuacionFinal(entidad.puntuacionFinal);
-        evaluacionExistente.setObservaciones(entidad.observaciones);
-        evaluacionExistente.setPlanDeMejora(entidad.planDeMejora);
+        evaluacionExistente.setFechaEvaluacion(entidad.getFechaEvaluacion());
+        evaluacionExistente.setPeriodoEvaluado(entidad.getPeriodoEvaluado());
+        evaluacionExistente.setPuntuacionFinal(entidad.getPuntuacionFinal());
+        evaluacionExistente.setObservaciones(entidad.getObservaciones());
+        evaluacionExistente.setPlanDeMejora(entidad.getPlanDeMejora());
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
         if(empleado != null){
             evaluacionExistente.setEmpleado(empleado);
         }
@@ -88,9 +88,9 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
             return null;
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.getIdEmpleado());
         if(empleado == null){
-            log.warn("No se ha encontrado el empleado con ID: " + solicitud.idEmpleado);
+            log.warn("No se ha encontrado el empleado con ID: " + solicitud.getIdEmpleado());
             return null;
         }
         

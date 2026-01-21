@@ -3,8 +3,15 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotNull;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import jakarta.validation.constraints.Positive;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class SolicitudJefesDepartamentoDTO {
     public Long id;
     

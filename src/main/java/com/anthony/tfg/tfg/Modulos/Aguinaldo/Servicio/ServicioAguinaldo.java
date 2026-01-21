@@ -61,15 +61,15 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
             log.warn("No se ha encontrado el aguinaldo con ID: " + id + " para actualizar");
             throw new ResourceNotFoundException("Aguinaldos", "id", id);
         }
-        aguinaldoExistente.setAnio(entidad.anio);
-        aguinaldoExistente.setFechaInicioPeriodo(entidad.fechaInicioPeriodo);
-        aguinaldoExistente.setFechaFinPeriodo(entidad.fechaFinPeriodo);
-        aguinaldoExistente.setTotalSalariosDevengados(entidad.totalSalariosDevengados);
-        aguinaldoExistente.setMontoAguinaldo(entidad.montoAguinaldo);
-        aguinaldoExistente.setFechaCalculo(entidad.fechaCalculo);
-        aguinaldoExistente.setFechaPago(entidad.fechaPago);
+        aguinaldoExistente.setAnio(entidad.getAnio());
+        aguinaldoExistente.setFechaInicioPeriodo(entidad.getFechaInicioPeriodo());
+        aguinaldoExistente.setFechaFinPeriodo(entidad.getFechaFinPeriodo());
+        aguinaldoExistente.setTotalSalariosDevengados(entidad.getTotalSalariosDevengados());
+        aguinaldoExistente.setMontoAguinaldo(entidad.getMontoAguinaldo());
+        aguinaldoExistente.setFechaCalculo(entidad.getFechaCalculo());
+        aguinaldoExistente.setFechaPago(entidad.getFechaPago());
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
         if(empleado != null){
             aguinaldoExistente.setEmpleado(empleado);
         }
@@ -90,9 +90,9 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
             return null;
         }
         
-        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.idEmpleado);
+        Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.getIdEmpleado());
         if(empleado == null){
-            log.warn("No se ha encontrado el empleado con ID: " + solicitud.idEmpleado);
+            log.warn("No se ha encontrado el empleado con ID: " + solicitud.getIdEmpleado());
             return null;
         }
         

@@ -13,7 +13,7 @@ import {
   rechazarPorJefe,
   solicitarExtension
 } from '@/services/incapacidadesService';
-import { formatearFecha } from '../../lib/utils';
+import { formatearFecha, parseContentDispositionFilename, buildIncapacidadFilename } from '../../lib/utils';
 import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock, Activity, AlertCircle, ArrowRightCircle } from 'lucide-react';
 
 const TIPOS_INCAPACIDAD: Record<string, string> = {
@@ -294,9 +294,45 @@ export default function IncapacidadesPendientesView() {
                       <td className="p-3 text-center">
                         {solicitud.urlDocumentoAdjunto ? (
                           <a
-                            href={solicitud.urlDocumentoAdjunto}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            href="#"
+                            onClick={async (e) => {
+                              e.preventDefault();
+                              try {
+                                const token = localStorage.getItem('token');
+                                const apiUrl = solicitud.urlDocumentoAdjunto?.startsWith('http') ? solicitud.urlDocumentoAdjunto : `http://localhost:8080${solicitud.urlDocumentoAdjunto}`;
+                                const res = await fetch(apiUrl as string, { headers: { 'Authorization': `Bearer ${token}` } });
+                                if (!res.ok) {
+                                  const msg = await res.text();
+                                  throw new Error(msg || 'Error al descargar el archivo');
+                                }
+                                const blob = await res.blob();
+                                const disp = res.headers.get('content-disposition') || '';
+                                let filename = parseContentDispositionFilename(disp);
+                                if (!filename) {
+                                  // Intentar derivar extensión desde la URL
+                                  let ext = '';
+                                  try {
+                                    const path = new URL(apiUrl as string).pathname;
+                                    const dot = path.lastIndexOf('.');
+                                    if (dot > -1) ext = path.substring(dot);
+                                  } catch (e) {
+                                    // ignore
+                                  }
+                                  filename = buildIncapacidadFilename(solicitud.id, solicitud.nombreEmpleado, solicitud.primerApellidoEmpleado, ext);
+                                }
+                                const href = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = href;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                                URL.revokeObjectURL(href);
+                              } catch (err) {
+                                console.error(err);
+                                alert('No se pudo descargar el archivo');
+                              }
+                            }}
                             className="text-primary hover:underline"
                           >
                             <FileText className="h-4 w-4 inline" />
@@ -498,9 +534,42 @@ export default function IncapacidadesPendientesView() {
               <div>
                 <Label className="text-muted-foreground">Documento Adjunto</Label>
                 <a
-                  href={solicitudSeleccionada.urlDocumentoAdjunto}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#"
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    try {
+                      const token = localStorage.getItem('token');
+                      const apiUrl = solicitudSeleccionada.urlDocumentoAdjunto?.startsWith('http') ? solicitudSeleccionada.urlDocumentoAdjunto : `http://localhost:8080${solicitudSeleccionada.urlDocumentoAdjunto}`;
+                      const res = await fetch(apiUrl as string, { headers: { 'Authorization': `Bearer ${token}` } });
+                      if (!res.ok) {
+                        const msg = await res.text();
+                        throw new Error(msg || 'Error al descargar el archivo');
+                      }
+                      const blob = await res.blob();
+                      const disp = res.headers.get('content-disposition') || '';
+                      let filename = parseContentDispositionFilename(disp);
+                      if (!filename) {
+                        let ext = '';
+                        try {
+                          const path = new URL(apiUrl as string).pathname;
+                          const dot = path.lastIndexOf('.');
+                          if (dot > -1) ext = path.substring(dot);
+                        } catch (e) {}
+                        filename = buildIncapacidadFilename(solicitudSeleccionada?.id, solicitudSeleccionada?.nombreEmpleado, solicitudSeleccionada?.primerApellidoEmpleado, ext);
+                      }
+                      const href = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = href;
+                      a.download = filename;
+                      document.body.appendChild(a);
+                      a.click();
+                      a.remove();
+                      URL.revokeObjectURL(href);
+                    } catch (err) {
+                      console.error(err);
+                      alert('No se pudo descargar el archivo');
+                    }
+                  }}
                   className="text-primary hover:underline flex items-center gap-1 mt-1"
                 >
                   <FileText className="h-4 w-4" />

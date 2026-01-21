@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/Modal';
 import { Label } from '@/components/ui/label';
@@ -22,7 +22,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { diasFeriadosService, type DiaFeriado } from '@/services/apiService';
-import { Plus, Calendar, Pencil, Trash2 } from 'lucide-react';
+import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
 
 interface DiaFeriadoFormData {

@@ -143,3 +143,39 @@ export function formatearHoras(horas: number): string {
   }
   return `${horasEnteras}h ${minutos}min`;
 }
+
+/**
+ * Extrae el nombre de archivo del header Content-Disposition.
+ * Soporta tanto `filename="..."` como `filename*=UTF-8''...` (RFC 5987).
+ */
+export function parseContentDispositionFilename(disp: string | null | undefined): string | null {
+  if (!disp) return null;
+  // filename*=UTF-8''encoded
+  const star = /filename\*=UTF-8''([^;\n\r]+)/i.exec(disp);
+  if (star && star[1]) {
+    try {
+      return decodeURIComponent(star[1].trim().replace(/^"|"$/g, ''));
+    } catch (e) {
+      return star[1].trim().replace(/^"|"$/g, '');
+    }
+  }
+  // filename="..." or filename=...
+  const match = /filename=\"?([^\";]+)\"?/i.exec(disp);
+  if (match && match[1]) return match[1].trim();
+  return null;
+}
+
+/**
+ * Construye un nombre de archivo seguro para una incapacidad.
+ * Ejemplo: "Incapacidad id 123 Juan Perez.pdf"
+ */
+export function buildIncapacidadFilename(id?: number | string | null, nombre?: string | null, primerApellido?: string | null, extension?: string | null): string {
+  const idPart = id ? `id ${id}` : '';
+  const namePart = [nombre || '', primerApellido || ''].join(' ').trim();
+  let base = ['Incapacidad', idPart, namePart].filter(Boolean).join(' ').trim();
+  // Mantener letras, números, espacios, guiones, guion bajo, punto
+  base = base.replace(/[^\p{L}\p{N} _.-]+/gu, '').replace(/\s+/g, ' ').trim();
+  if (!base) base = `Incapacidad_${id ?? ''}`;
+  const ext = extension && extension.startsWith('.') ? extension : (extension ? `.${extension}` : '');
+  return `${base}${ext}`;
+}

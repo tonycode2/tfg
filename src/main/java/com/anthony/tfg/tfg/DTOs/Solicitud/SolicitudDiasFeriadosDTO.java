@@ -2,6 +2,10 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 
 import java.time.LocalDate;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.Future;
@@ -11,6 +15,9 @@ import jakarta.validation.constraints.Size;
 /**
  * DTO para solicitudes de creación/actualización de días feriados.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class SolicitudDiasFeriadosDTO {
     
     public Long id;
