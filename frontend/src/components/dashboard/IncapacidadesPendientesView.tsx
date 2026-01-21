@@ -75,6 +75,29 @@ export default function IncapacidadesPendientesView() {
     }
   };
 
+  // Helpers para calcular fecha mínima y días adicionales de extensión
+  const formatDatePlusOne = (dateStr?: string) => {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    d.setDate(d.getDate() + 1);
+    return d.toISOString().slice(0, 10);
+  };
+
+  const calcularDiasAdicionales = (fechaFinActual: string, nuevaFecha: string) => {
+    const fin = new Date(fechaFinActual);
+    const nuevaF = new Date(nuevaFecha);
+    const diff = Math.round((nuevaF.getTime() - fin.getTime()) / (1000 * 60 * 60 * 24));
+    return diff;
+  };
+
+  useEffect(() => {
+    // Cuando cambia la incapacidad a extender, limpiar los campos relacionados
+    if (!incapacidadAExtender) {
+      setNuevaFechaFin('');
+      setDiasAdicionales('');
+    }
+  }, [incapacidadAExtender]);
+
   const handleRevisar = (solicitud: RespuestaIncapacidad) => {
     setSolicitudSeleccionada(solicitud);
     setComentarios('');
@@ -601,8 +624,21 @@ export default function IncapacidadesPendientesView() {
                     id="nuevaFechaFin"
                     type="date"
                     value={nuevaFechaFin}
-                    onChange={(e) => setNuevaFechaFin(e.target.value)}
-                    min={incapacidadAExtender.fechaFin}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setNuevaFechaFin(value);
+                      if (value && incapacidadAExtender) {
+                        const dias = calcularDiasAdicionales(incapacidadAExtender.fechaFin, value);
+                        if (dias > 0) {
+                          setDiasAdicionales(String(dias));
+                        } else {
+                          setDiasAdicionales('');
+                        }
+                      } else {
+                        setDiasAdicionales('');
+                      }
+                    }}
+                    min={formatDatePlusOne(incapacidadAExtender.fechaFin)}
                     required
                   />
                 </div>
@@ -616,7 +652,9 @@ export default function IncapacidadesPendientesView() {
                     min="1"
                     placeholder="Ej: 5"
                     required
+                    readOnly
                   />
+                  <p className="text-sm text-muted-foreground mt-1">Se calcula automáticamente al seleccionar la nueva fecha</p>
                 </div>
               </div>
 

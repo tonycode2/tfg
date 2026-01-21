@@ -2222,3 +2222,220 @@ Caused by: java.lang.Error: Unresolved compilation problems:
 2026-01-20T19:07:54.141-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2026-01-20T19:07:54.141-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@38c549]]
 2026-01-20T19:07:54.143-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:10:46.269-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:10:46.269-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:10:46.272-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:10:46.281-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:10:46.281-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:10:46.282-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:10:46.284-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:10:46.284-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:10:46.285-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:10:46.296-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:10:46.297-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:10:46.298-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:10:46.300-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:10:46.309-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:10:46.310-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:10:46.310-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@5adee792]]
+2026-01-20T19:10:46.312-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:11:34.629-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/3/solicitar-extension
+2026-01-20T19:11:34.632-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /api/incapacidades/3/solicitar-extension
+2026-01-20T19:11:34.644-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /api/incapacidades/3/solicitar-extension
+2026-01-20T19:11:34.646-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/incapacidades/3/solicitar-extension", parameters={}
+2026-01-20T19:11:34.647-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#solicitarExtension(Long, SolicitudExtensionIncapacidadDTO, Authentication)
+2026-01-20T19:11:34.658-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudExtensionIncapacidadDTO@b8723d3]
+2026-01-20T19:11:34.783-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.I.S.ServicioIncapacidad        : Se creó una extensión de incapacidad con ID: 4 para la incapacidad original ID: 3
+2026-01-20T19:11:34.788-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:11:34.788-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@2c838f40]
+2026-01-20T19:11:34.790-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-01-20T19:11:36.618-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:11:36.618-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:11:36.650-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:11:36.650-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:11:36.650-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:11:36.651-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:11:36.651-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:11:36.652-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:11:36.664-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:11:36.665-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:11:36.666-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:11:36.667-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:11:36.670-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:11:36.671-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:11:36.672-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@7ed87450]]
+2026-01-20T19:11:36.673-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:11:47.918-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:11:47.919-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:11:47.920-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:11:47.920-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:11:47.921-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:11:47.923-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=HHRR, password=doremi123)]
+2026-01-20T19:11:47.993-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:11:48.002-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:11:48.003-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsImlkRW1wbGVhZG8iOjEzLCJyb2xlIjoiSFIiLCJub21i (truncated)...]
+2026-01-20T19:11:48.004-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:11:50.096-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/pendientes-rh
+2026-01-20T19:11:50.096-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/pendientes-rh
+2026-01-20T19:11:50.100-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-rh
+2026-01-20T19:11:50.111-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-rh
+2026-01-20T19:11:50.111-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-rh", parameters={}
+2026-01-20T19:11:50.111-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesParaRH()
+2026-01-20T19:11:50.136-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad pendientes para RH
+2026-01-20T19:11:50.138-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:11:50.138-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@34477c0c]]
+2026-01-20T19:11:50.140-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:11:50.142-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-rh
+2026-01-20T19:11:50.153-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-rh
+2026-01-20T19:11:50.153-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-rh", parameters={}
+2026-01-20T19:11:50.154-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesParaRH()
+2026-01-20T19:11:50.175-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad pendientes para RH
+2026-01-20T19:11:50.176-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:11:50.177-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@504a1f0f]]
+2026-01-20T19:11:50.179-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:12:01.083-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/4/aprobar-rh
+2026-01-20T19:12:01.087-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing POST /api/incapacidades/4/aprobar-rh
+2026-01-20T19:12:01.098-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured POST /api/incapacidades/4/aprobar-rh
+2026-01-20T19:12:01.098-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : POST "/api/incapacidades/4/aprobar-rh", parameters={}
+2026-01-20T19:12:01.098-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#aprobarPorRH(Long, AccionIncapacidadDTO, Authentication)
+2026-01-20T19:12:01.108-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.AccionIncapacidadDTO@4d329fb1]
+2026-01-20T19:12:01.156-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.I.S.ServicioIncapacidad        : Incapacidad 4 aprobada por RH 13
+2026-01-20T19:12:01.157-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:12:01.158-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@6e7e20e5]
+2026-01-20T19:12:01.159-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:12:02.563-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-rh
+2026-01-20T19:12:02.577-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-rh
+2026-01-20T19:12:02.577-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-rh", parameters={}
+2026-01-20T19:12:02.578-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesParaRH()
+2026-01-20T19:12:02.581-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para RH
+2026-01-20T19:12:02.582-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:12:02.583-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:12:02.584-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:12:07.822-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:12:07.824-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:12:07.824-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:12:07.825-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:12:07.825-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:12:07.827-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=Admin, password=doremi123)]
+2026-01-20T19:12:07.900-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:12:07.906-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:12:07.906-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImlkRW1wbGVhZG8iOjExLCJyb2xlIjoiQURNSU4iLCJu (truncated)...]
+2026-01-20T19:12:07.908-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:12:09.242-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades
+2026-01-20T19:12:09.242-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades
+2026-01-20T19:12:09.245-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:12:09.256-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades
+2026-01-20T19:12:09.257-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades", parameters={}
+2026-01-20T19:12:09.258-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerTodos()
+2026-01-20T19:12:09.274-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.I.S.ServicioIncapacidad        : Se han obtenido todas las incapacidades. La cantidad de registros es: 2
+2026-01-20T19:12:09.275-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:12:09.276-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@5414e972, com.anthony.tfg.tfg.DTOs.Res (truncated)...]
+2026-01-20T19:12:09.277-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:12:09.279-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:12:09.290-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades
+2026-01-20T19:12:09.291-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades", parameters={}
+2026-01-20T19:12:09.291-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerTodos()
+2026-01-20T19:12:09.305-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.I.S.ServicioIncapacidad        : Se han obtenido todas las incapacidades. La cantidad de registros es: 2
+2026-01-20T19:12:09.306-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:12:09.306-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@7f13b372, com.anthony.tfg.tfg.DTOs.Res (truncated)...]
+2026-01-20T19:12:09.308-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:13:32.890-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:13:32.890-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:13:32.890-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:13:32.890-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:13:32.890-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:13:32.890-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=mrodriguez, password=TestPass123!)]
+2026-01-20T19:13:32.961-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:13:32.968-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:13:32.969-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE1LCJpZEVtcGxlYWRvIjoxNiwicm9sZSI6IkVNUExFQURP (truncated)...]
+2026-01-20T19:13:32.970-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:13:35.029-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:13:35.039-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:13:35.039-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T19:13:35.039-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T19:13:35.057-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 2 solicitudes de incapacidad para el empleado 16
+2026-01-20T19:13:35.058-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:13:35.059-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@3ebd86d1, com.anthony.tfg.tfg.DTOs.Res (truncated)...]
+2026-01-20T19:13:35.060-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:13:35.063-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:13:35.075-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:13:35.076-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T19:13:35.077-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T19:13:35.095-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 2 solicitudes de incapacidad para el empleado 16
+2026-01-20T19:13:35.096-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:13:35.097-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@5baa8d86, com.anthony.tfg.tfg.DTOs.Res (truncated)...]
+2026-01-20T19:13:35.098-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:14:09.495-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:14:09.495-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:14:09.497-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:14:09.497-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:14:09.497-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:14:09.497-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=Admin, password=doremi123)]
+2026-01-20T19:14:09.571-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:14:09.576-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:14:09.576-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImlkRW1wbGVhZG8iOjExLCJyb2xlIjoiQURNSU4iLCJu (truncated)...]
+2026-01-20T19:14:09.577-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:14:11.626-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:14:11.640-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades
+2026-01-20T19:14:11.641-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades", parameters={}
+2026-01-20T19:14:11.644-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerTodos()
+2026-01-20T19:14:11.671-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.I.S.ServicioIncapacidad        : Se han obtenido todas las incapacidades. La cantidad de registros es: 2
+2026-01-20T19:14:11.672-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:14:11.673-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@222da5e6, com.anthony.tfg.tfg.DTOs.Res (truncated)...]
+2026-01-20T19:14:11.675-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:14:11.676-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:14:11.692-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades
+2026-01-20T19:14:11.693-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades", parameters={}
+2026-01-20T19:14:11.695-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerTodos()
+2026-01-20T19:14:11.711-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.I.S.ServicioIncapacidad        : Se han obtenido todas las incapacidades. La cantidad de registros es: 2
+2026-01-20T19:14:11.712-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:14:11.713-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@e70bfaf, com.anthony.tfg.tfg.DTOs.Resp (truncated)...]
+2026-01-20T19:14:11.715-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:14:13.755-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/3
+2026-01-20T19:14:13.758-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing DELETE /api/incapacidades/3
+2026-01-20T19:14:13.771-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured DELETE /api/incapacidades/3
+2026-01-20T19:14:13.772-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : DELETE "/api/incapacidades/3", parameters={}
+2026-01-20T19:14:13.772-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#eliminar(Long, Authentication)
+2026-01-20T19:14:13.813-06:00  WARN 1744 --- [tfg] [http-nio-8080-exec-6] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23503
+2026-01-20T19:14:13.814-06:00 ERROR 1744 --- [tfg] [http-nio-8080-exec-6] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: update or delete on table "incapacidades" violates foreign key constraint "fkksho1l1vwbkwj07qg0javi9wy" on table "incapacidades"
+  Detail: Key (id)=(3) is still referenced from table "incapacidades".
+2026-01-20T19:14:13.831-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.anthony.tfg.tfg.Exceptions.Handler.GlobalExceptionHandler#handleDataIntegrityViolationException(DataIntegrityViolationException, HttpServletRequest)
+2026-01-20T19:14:13.831-06:00 ERROR 1744 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.E.H.GlobalExceptionHandler       : Violación de integridad de datos: could not execute statement [ERROR: update or delete on table "incapacidades" violates foreign key constraint "fkksho1l1vwbkwj07qg0javi9wy" on table "incapacidades"
+  Detail: Key (id)=(3) is still referenced from table "incapacidades".] [delete from incapacidades where id=?]; SQL [delete from incapacidades where id=?]; constraint [fkksho1l1vwbkwj07qg0javi9wy]
+2026-01-20T19:14:13.837-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:14:13.841-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ErrorResponse[timestamp=2026-01-20T19:14:13.833333300, status=409, error=Conflict, message=Error de  (truncated)...]
+2026-01-20T19:14:13.841-06:00  WARN 1744 --- [tfg] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.DataIntegrityViolationException: could not execute statement [ERROR: update or delete on table "incapacidades" violates foreign key constraint "fkksho1l1vwbkwj07qg0javi9wy" on table "incapacidades"<EOL>  Detail: Key (id)=(3) is still referenced from table "incapacidades".] [delete from incapacidades where id=?]; SQL [delete from incapacidades where id=?]; constraint [fkksho1l1vwbkwj07qg0javi9wy]]
+2026-01-20T19:14:13.841-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 409 CONFLICT
+2026-01-20T19:14:19.815-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/4
+2026-01-20T19:14:19.819-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing DELETE /api/incapacidades/4
+2026-01-20T19:14:19.831-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured DELETE /api/incapacidades/4
+2026-01-20T19:14:19.831-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : DELETE "/api/incapacidades/4", parameters={}
+2026-01-20T19:14:19.832-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#eliminar(Long, Authentication)
+2026-01-20T19:14:19.864-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.I.S.ServicioIncapacidad        : Se ha eliminado la incapacidad con ID: 4
+2026-01-20T19:14:19.865-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:14:19.866-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-01-20T19:14:19.866-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-01-20T19:14:19.870-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:14:19.881-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades
+2026-01-20T19:14:19.882-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades", parameters={}
+2026-01-20T19:14:19.882-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerTodos()
+2026-01-20T19:14:19.898-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.I.S.ServicioIncapacidad        : Se han obtenido todas las incapacidades. La cantidad de registros es: 1
+2026-01-20T19:14:19.899-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:14:19.900-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@4a0ceab5]]
+2026-01-20T19:14:19.901-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:14:22.000-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing DELETE /api/incapacidades/3
+2026-01-20T19:14:22.011-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured DELETE /api/incapacidades/3
+2026-01-20T19:14:22.012-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : DELETE "/api/incapacidades/3", parameters={}
+2026-01-20T19:14:22.013-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#eliminar(Long, Authentication)
+2026-01-20T19:14:22.045-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.I.S.ServicioIncapacidad        : Se ha eliminado la incapacidad con ID: 3
+2026-01-20T19:14:22.046-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:14:22.046-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-01-20T19:14:22.047-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-01-20T19:14:22.050-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:14:22.060-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades
+2026-01-20T19:14:22.060-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades", parameters={}
+2026-01-20T19:14:22.061-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerTodos()
+2026-01-20T19:14:22.066-06:00  INFO 1744 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.I.S.ServicioIncapacidad        : Se han obtenido todas las incapacidades. La cantidad de registros es: 0
+2026-01-20T19:14:22.067-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:14:22.068-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:14:22.069-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
