@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
+import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
-    @Value("${jwt.secret}")
+    @Value("${jwt.secret:${JWT_SECRET:}}")
     private String SECRET_KEY;
 
     public String getToken(User user) {
@@ -46,7 +47,7 @@ public class JwtService {
                 .claim("nombreCompleto", nombreCompleto)
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24)) // 24 horas
                 .signWith(getKey())
                 .compact();
     }
@@ -54,6 +55,13 @@ public class JwtService {
     private SecretKey getKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    @PostConstruct
+    private void checkSecret() {
+        if (SECRET_KEY == null || SECRET_KEY.trim().isEmpty()) {
+            throw new IllegalStateException("JWT secret not configured. Set 'jwt.secret' in application.properties or 'JWT_SECRET' env var.");
+        }
     }
 
     public String getUsernameFromToken(String token) {

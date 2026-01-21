@@ -2439,3 +2439,935 @@ Caused by: java.lang.Error: Unresolved compilation problems:
 2026-01-20T19:14:22.067-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2026-01-20T19:14:22.068-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
 2026-01-20T19:14:22.069-06:00 DEBUG 1744 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:18:22.290-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 17600 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-20T19:18:22.292-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-20T19:18:22.386-06:00  INFO 17600 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-20T19:18:22.386-06:00  INFO 17600 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-20T19:18:22.419-06:00  INFO 17600 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-20T19:18:23.422-06:00  INFO 17600 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-20T19:18:24.634-06:00  INFO 17600 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-20T19:18:24.819-06:00  INFO 17600 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 172 ms. Found 17 JPA repository interfaces.
+2026-01-20T19:18:25.916-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-20T19:18:25.943-06:00  INFO 17600 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-20T19:18:25.946-06:00  INFO 17600 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-20T19:18:26.022-06:00  INFO 17600 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-20T19:18:26.023-06:00  INFO 17600 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2580 ms
+2026-01-20T19:18:26.284-06:00  INFO 17600 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-20T19:18:26.402-06:00  INFO 17600 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-20T19:18:26.474-06:00  INFO 17600 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-20T19:18:27.084-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-20T19:18:27.139-06:00  INFO 17600 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-20T19:18:27.439-06:00  INFO 17600 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@266117cd
+2026-01-20T19:18:27.442-06:00  INFO 17600 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-20T19:18:27.500-06:00  WARN 17600 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-20T19:18:27.547-06:00  INFO 17600 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-20T19:18:29.333-06:00  INFO 17600 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-20T19:18:29.623-06:00  INFO 17600 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-20T19:18:30.244-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-20T19:18:31.894-06:00  INFO 17600 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-20T19:18:31.895-06:00  WARN 17600 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-20T19:18:31.964-06:00  WARN 17600 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-20T19:18:32.141-06:00 DEBUG 17600 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 113 mappings in 'requestMappingHandlerMapping'
+2026-01-20T19:18:32.316-06:00 DEBUG 17600 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-20T19:18:32.499-06:00 DEBUG 17600 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-20T19:18:32.619-06:00 DEBUG 17600 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-20T19:18:32.703-06:00 DEBUG 17600 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-20T19:18:32.880-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-20T19:18:32.898-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-20T19:18:32.899-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-20T19:18:32.900-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-20T19:18:32.903-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-20T19:18:32.903-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-20T19:18:32.903-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-20T19:18:32.906-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@4d8ed87
+2026-01-20T19:18:33.026-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-20T19:18:33.086-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-20T19:18:33.088-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-20T19:18:33.089-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-20T19:18:33.107-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 11.474 seconds (process running for 12.331)
+2026-01-20T19:18:33.254-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-01-20T19:29:02.004-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-20T19:29:02.005-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-20T19:29:02.006-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-20T19:29:02.006-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-20T19:29:02.006-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-20T19:29:02.009-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@6e430a73
+2026-01-20T19:29:02.010-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@40f0ae6
+2026-01-20T19:29:02.010-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-20T19:29:02.010-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2026-01-20T19:29:02.032-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:29:02.060-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:29:02.060-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:29:02.069-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:29:02.069-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:29:02.100-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=mrodriguez, password=TestPass123!)]
+2026-01-20T19:29:02.308-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:29:02.413-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:02.414-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE1LCJpZEVtcGxlYWRvIjoxNiwicm9sZSI6IkVNUExFQURP (truncated)...]
+2026-01-20T19:29:02.421-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:04.503-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/asistencias/mi-estado
+2026-01-20T19:29:04.503-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/asistencias/mi-estado
+2026-01-20T19:29:04.503-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/asistencias/historial?fechaInicio=2026-01-01+00%3A00%3A00&fechaFin=2026-01-31+23%3A59%3A59
+2026-01-20T19:29:04.503-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/asistencias/historial?fechaInicio=2026-01-01+00%3A00%3A00&fechaFin=2026-01-31+23%3A59%3A59
+2026-01-20T19:29:04.511-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/historial?fechaInicio=2026-01-01+00%3A00%3A00&fechaFin=2026-01-31+23%3A59%3A59
+2026-01-20T19:29:04.511-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/mi-estado
+2026-01-20T19:29:04.604-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/mi-estado
+2026-01-20T19:29:04.605-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/mi-estado", parameters={}
+2026-01-20T19:29:04.606-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerMiEstado()
+2026-01-20T19:29:04.608-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/historial?fechaInicio=2026-01-01+00%3A00%3A00&fechaFin=2026-01-31+23%3A59%3A59
+2026-01-20T19:29:04.610-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/historial?fechaInicio=2026-01-01+00%3A00%3A00&fechaFin=2026-01-31+23%3A59%3A59", parameters={masked}
+2026-01-20T19:29:04.611-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerHistorial(Long, LocalDateTime, LocalDateTime)
+2026-01-20T19:29:04.674-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:04.675-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.EstadoAsistenciaDTO@77ad6b77]
+2026-01-20T19:29:04.676-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:04.677-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAsistenciaDTO@9f1140b, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-01-20T19:29:04.677-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:04.679-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/mi-estado
+2026-01-20T19:29:04.681-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:04.683-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/historial?fechaInicio=2026-01-01+00%3A00%3A00&fechaFin=2026-01-31+23%3A59%3A59
+2026-01-20T19:29:04.696-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/mi-estado
+2026-01-20T19:29:04.697-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/mi-estado", parameters={}
+2026-01-20T19:29:04.698-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerMiEstado()
+2026-01-20T19:29:04.700-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/historial?fechaInicio=2026-01-01+00%3A00%3A00&fechaFin=2026-01-31+23%3A59%3A59
+2026-01-20T19:29:04.700-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/historial?fechaInicio=2026-01-01+00%3A00%3A00&fechaFin=2026-01-31+23%3A59%3A59", parameters={masked}
+2026-01-20T19:29:04.702-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerHistorial(Long, LocalDateTime, LocalDateTime)
+2026-01-20T19:29:04.713-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:04.714-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.EstadoAsistenciaDTO@366d05ec]
+2026-01-20T19:29:04.715-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:04.715-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAsistenciaDTO@31c14a57, com.anthony.tfg.tfg.DTOs.Respue (truncated)...]
+2026-01-20T19:29:04.716-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:04.718-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:05.238-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:29:05.250-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:29:05.251-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T19:29:05.251-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T19:29:05.275-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad para el empleado 16
+2026-01-20T19:29:05.277-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:05.277-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:29:05.280-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:05.281-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:29:05.291-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:29:05.291-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T19:29:05.292-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T19:29:05.305-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad para el empleado 16
+2026-01-20T19:29:05.306-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:05.306-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:29:05.308-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:31.646-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /api/incapacidades
+2026-01-20T19:29:31.657-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /api/incapacidades
+2026-01-20T19:29:31.659-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/api/incapacidades", parameters={}
+2026-01-20T19:29:31.659-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#crear(SolicitudIncapacidadesDTO, Authentication)
+2026-01-20T19:29:31.673-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudIncapacidadesDTO@13be4b29]
+2026-01-20T19:29:31.721-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.I.S.ServicioIncapacidad        : Se ha convertido el DTO de solicitud a entidad Incapacidades
+2026-01-20T19:29:31.753-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.I.S.ServicioIncapacidad        : Hay jefe en el departamento 4, solicitud queda PENDIENTE
+2026-01-20T19:29:31.803-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.I.S.ServicioIncapacidad        : Se ha guardado una nueva incapacidad con ID: 5 y estado: PENDIENTE
+2026-01-20T19:29:31.812-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:31.812-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@7e914e90]
+2026-01-20T19:29:31.812-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-01-20T19:29:33.264-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:29:33.278-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:29:33.279-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T19:29:33.280-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T19:29:33.292-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad para el empleado 16
+2026-01-20T19:29:33.294-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:33.295-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@1fd91734]]
+2026-01-20T19:29:33.296-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:39.226-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:29:39.226-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:29:39.226-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:29:39.226-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:29:39.226-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:29:39.226-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=djimenez, password=TestPass123!)]
+2026-01-20T19:29:39.299-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:29:39.308-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:39.309-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIzLCJpZEVtcGxlYWRvIjoyNCwicm9sZSI6IkpFRkUiLCJu (truncated)...]
+2026-01-20T19:29:39.311-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:40.682-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:29:40.682-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:29:40.692-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:29:40.692-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:29:40.693-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:29:40.693-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:29:40.693-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:29:40.693-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:29:40.713-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:29:40.715-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:40.716-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:29:40.716-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:29:40.717-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:40.717-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:40.718-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:29:40.718-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@4c9084d5]]
+2026-01-20T19:29:40.719-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:40.721-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:29:40.728-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:29:40.729-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:29:40.730-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:29:40.731-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:29:40.732-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:29:40.732-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:29:40.745-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:29:40.746-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:40.747-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:29:40.749-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:40.750-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:29:40.751-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:40.751-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@1548b33c]]
+2026-01-20T19:29:40.752-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:45.990-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/5/aprobar-jefe
+2026-01-20T19:29:45.994-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing POST /api/incapacidades/5/aprobar-jefe
+2026-01-20T19:29:46.007-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured POST /api/incapacidades/5/aprobar-jefe
+2026-01-20T19:29:46.008-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : POST "/api/incapacidades/5/aprobar-jefe", parameters={}
+2026-01-20T19:29:46.009-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#aprobarPorJefe(Long, AccionIncapacidadDTO, Authentication)
+2026-01-20T19:29:46.012-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.AccionIncapacidadDTO@165071ad]
+2026-01-20T19:29:46.066-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.I.S.ServicioIncapacidad        : Incapacidad 5 aprobada por jefe 24
+2026-01-20T19:29:46.067-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:46.068-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@fdc682e]
+2026-01-20T19:29:46.069-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:47.338-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:29:47.338-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:29:47.364-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:29:47.364-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:29:47.364-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:29:47.365-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:29:47.365-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:29:47.365-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:29:47.381-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:29:47.381-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:29:47.382-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:47.382-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:47.382-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:29:47.383-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:29:47.384-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:47.384-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:51.600-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:29:51.602-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:29:51.603-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:29:51.604-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:29:51.604-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:29:51.604-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=HHRR, password=doremi123)]
+2026-01-20T19:29:51.680-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:29:51.685-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:51.685-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsImlkRW1wbGVhZG8iOjEzLCJyb2xlIjoiSFIiLCJub21i (truncated)...]
+2026-01-20T19:29:51.686-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:55.109-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-rh
+2026-01-20T19:29:55.120-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-rh
+2026-01-20T19:29:55.120-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-rh", parameters={}
+2026-01-20T19:29:55.120-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesParaRH()
+2026-01-20T19:29:55.135-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad pendientes para RH
+2026-01-20T19:29:55.136-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:55.137-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@2191bb7b]]
+2026-01-20T19:29:55.138-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:55.139-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-rh
+2026-01-20T19:29:55.149-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-rh
+2026-01-20T19:29:55.149-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-rh", parameters={}
+2026-01-20T19:29:55.150-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesParaRH()
+2026-01-20T19:29:55.158-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad pendientes para RH
+2026-01-20T19:29:55.159-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:55.160-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@19614722]]
+2026-01-20T19:29:55.161-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:29:59.479-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/5/aprobar-rh
+2026-01-20T19:29:59.483-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing POST /api/incapacidades/5/aprobar-rh
+2026-01-20T19:29:59.495-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured POST /api/incapacidades/5/aprobar-rh
+2026-01-20T19:29:59.496-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/api/incapacidades/5/aprobar-rh", parameters={}
+2026-01-20T19:29:59.497-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#aprobarPorRH(Long, AccionIncapacidadDTO, Authentication)
+2026-01-20T19:29:59.499-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.AccionIncapacidadDTO@2ef9dc18]
+2026-01-20T19:29:59.538-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.I.S.ServicioIncapacidad        : Incapacidad 5 aprobada por RH 13
+2026-01-20T19:29:59.539-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:29:59.539-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@752ae1d5]
+2026-01-20T19:29:59.541-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:00.915-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-rh
+2026-01-20T19:30:00.929-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-rh
+2026-01-20T19:30:00.929-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-rh", parameters={}
+2026-01-20T19:30:00.929-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesParaRH()
+2026-01-20T19:30:00.929-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para RH
+2026-01-20T19:30:00.934-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:00.934-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:30:00.935-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:04.340-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:30:04.340-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:30:04.340-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:30:04.340-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:30:04.340-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:30:04.340-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=mrodriguez, password=TestPass123!)]
+2026-01-20T19:30:04.415-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:30:04.422-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:04.423-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE1LCJpZEVtcGxlYWRvIjoxNiwicm9sZSI6IkVNUExFQURP (truncated)...]
+2026-01-20T19:30:04.425-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:05.984-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:30:05.997-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:30:05.998-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T19:30:05.999-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T19:30:06.014-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad para el empleado 16
+2026-01-20T19:30:06.015-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:06.015-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@79aeff89]]
+2026-01-20T19:30:06.015-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:06.015-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:30:06.030-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:30:06.031-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T19:30:06.033-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T19:30:06.064-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad para el empleado 16
+2026-01-20T19:30:06.065-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:06.066-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@4fe6f625]]
+2026-01-20T19:30:06.068-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:12.660-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:30:12.662-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:30:12.662-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:30:12.662-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:30:12.663-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:30:12.664-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=djimenez, password=TestPass123!)]
+2026-01-20T19:30:12.735-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:30:12.740-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:12.741-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIzLCJpZEVtcGxlYWRvIjoyNCwicm9sZSI6IkpFRkUiLCJu (truncated)...]
+2026-01-20T19:30:12.742-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:14.577-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:30:14.577-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:30:14.587-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:30:14.588-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:30:14.588-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:30:14.588-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:30:14.589-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:30:14.589-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:30:14.600-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:30:14.601-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:14.601-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:30:14.602-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:14.604-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:30:14.605-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:30:14.606-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:14.607-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@6e989794]]
+2026-01-20T19:30:14.609-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:14.612-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:30:14.616-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:30:14.617-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:30:14.618-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:30:14.620-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:30:14.621-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:30:14.621-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:30:14.629-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:30:14.630-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:14.631-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:30:14.632-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:14.637-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:30:14.637-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:14.638-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@438fd0d1]]
+2026-01-20T19:30:14.639-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:25.388-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/5/solicitar-extension
+2026-01-20T19:30:25.391-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing POST /api/incapacidades/5/solicitar-extension
+2026-01-20T19:30:25.402-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured POST /api/incapacidades/5/solicitar-extension
+2026-01-20T19:30:25.402-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/api/incapacidades/5/solicitar-extension", parameters={}
+2026-01-20T19:30:25.402-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#solicitarExtension(Long, SolicitudExtensionIncapacidadDTO, Authentication)
+2026-01-20T19:30:25.412-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudExtensionIncapacidadDTO@15a31d1e]
+2026-01-20T19:30:25.455-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.I.S.ServicioIncapacidad        : Se creó una extensión de incapacidad con ID: 6 para la incapacidad original ID: 5
+2026-01-20T19:30:25.456-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:25.456-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@7c189c04]
+2026-01-20T19:30:25.458-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-01-20T19:30:27.925-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:30:27.925-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:30:27.939-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:30:27.939-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:30:27.939-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:30:27.939-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:30:27.940-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:30:27.940-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:30:27.952-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:30:27.953-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:27.953-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:30:27.954-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:27.957-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:30:27.959-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:27.959-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@4e284b3b]]
+2026-01-20T19:30:27.960-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:31.620-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:30:31.621-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:30:31.621-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:30:31.622-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:30:31.622-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:30:31.623-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=HHRR, password=doremi123)]
+2026-01-20T19:30:31.694-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:30:31.698-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:31.699-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsImlkRW1wbGVhZG8iOjEzLCJyb2xlIjoiSFIiLCJub21i (truncated)...]
+2026-01-20T19:30:31.700-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:34.113-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-rh
+2026-01-20T19:30:34.123-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-rh
+2026-01-20T19:30:34.124-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-rh", parameters={}
+2026-01-20T19:30:34.124-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesParaRH()
+2026-01-20T19:30:34.145-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad pendientes para RH
+2026-01-20T19:30:34.146-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:34.146-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@3af600c]]
+2026-01-20T19:30:34.147-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:34.148-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-rh
+2026-01-20T19:30:34.158-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-rh
+2026-01-20T19:30:34.159-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-rh", parameters={}
+2026-01-20T19:30:34.159-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesParaRH()
+2026-01-20T19:30:34.185-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad pendientes para RH
+2026-01-20T19:30:34.186-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:34.186-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@60a479f2]]
+2026-01-20T19:30:34.187-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:47.572-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/6/aprobar-rh
+2026-01-20T19:30:47.575-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /api/incapacidades/6/aprobar-rh
+2026-01-20T19:30:47.586-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured POST /api/incapacidades/6/aprobar-rh
+2026-01-20T19:30:47.586-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/incapacidades/6/aprobar-rh", parameters={}
+2026-01-20T19:30:47.588-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#aprobarPorRH(Long, AccionIncapacidadDTO, Authentication)
+2026-01-20T19:30:47.589-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.AccionIncapacidadDTO@2b73ec92]
+2026-01-20T19:30:47.641-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.I.S.ServicioIncapacidad        : Extensión de incapacidad 6 aprobada por RH 13. Se actualizaron los datos de la incapacidad original 5
+2026-01-20T19:30:47.642-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:47.643-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@648f81fc]
+2026-01-20T19:30:47.643-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:49.441-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-rh
+2026-01-20T19:30:49.451-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-rh
+2026-01-20T19:30:49.452-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-rh", parameters={}
+2026-01-20T19:30:49.452-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesParaRH()
+2026-01-20T19:30:49.455-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para RH
+2026-01-20T19:30:49.457-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:49.457-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:30:49.460-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:53.123-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:30:53.124-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:30:53.125-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:30:53.126-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:30:53.126-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:30:53.126-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=mrodriguez, password=TestPass123!)]
+2026-01-20T19:30:53.195-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:30:53.202-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:53.202-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE1LCJpZEVtcGxlYWRvIjoxNiwicm9sZSI6IkVNUExFQURP (truncated)...]
+2026-01-20T19:30:53.204-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:54.554-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:30:54.564-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:30:54.564-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T19:30:54.564-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T19:30:54.580-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad para el empleado 16
+2026-01-20T19:30:54.581-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:54.581-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@cbbc8d9]]
+2026-01-20T19:30:54.583-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:30:54.584-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:30:54.593-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T19:30:54.594-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T19:30:54.594-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T19:30:54.616-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 solicitudes de incapacidad para el empleado 16
+2026-01-20T19:30:54.617-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:30:54.618-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@48596256]]
+2026-01-20T19:30:54.620-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:31:00.304-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:31:00.306-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:31:00.306-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:31:00.306-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:31:00.306-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:31:00.306-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=djimenez, password=TestPass123!)]
+2026-01-20T19:31:00.378-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:31:00.383-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:00.383-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIzLCJpZEVtcGxlYWRvIjoyNCwicm9sZSI6IkpFRkUiLCJu (truncated)...]
+2026-01-20T19:31:00.384-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:31:03.361-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:31:03.361-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:31:03.372-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:31:03.372-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:31:03.372-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:31:03.372-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:31:03.373-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:31:03.373-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:31:03.385-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:31:03.386-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:03.386-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:31:03.388-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:31:03.390-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:31:03.392-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:31:03.393-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:03.393-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@a3717bb]]
+2026-01-20T19:31:03.394-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:31:03.397-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:31:03.401-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/pendientes-departamento
+2026-01-20T19:31:03.401-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/pendientes-departamento", parameters={}
+2026-01-20T19:31:03.402-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerSolicitudesPendientesDepartamento(Authentication)
+2026-01-20T19:31:03.408-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/empleados-incapacitados-departamento
+2026-01-20T19:31:03.409-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/empleados-incapacitados-departamento", parameters={}
+2026-01-20T19:31:03.410-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerEmpleadosIncapacitadosDepartamento(Authentication)
+2026-01-20T19:31:03.415-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad pendientes para el jefe 24
+2026-01-20T19:31:03.417-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:03.417-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:31:03.418-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:31:03.428-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 1 empleados incapacitados en departamentos del jefe 24
+2026-01-20T19:31:03.430-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:03.430-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@3c18bdac]]
+2026-01-20T19:31:03.431-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:31:19.325-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T19:31:19.326-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:31:19.326-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T19:31:19.327-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T19:31:19.327-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T19:31:19.328-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=Admin, password=doremi123)]
+2026-01-20T19:31:19.400-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T19:31:19.405-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:19.406-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImlkRW1wbGVhZG8iOjExLCJyb2xlIjoiQURNSU4iLCJu (truncated)...]
+2026-01-20T19:31:19.407-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:31:20.541-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:31:20.552-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades
+2026-01-20T19:31:20.552-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades", parameters={}
+2026-01-20T19:31:20.552-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerTodos()
+2026-01-20T19:31:20.567-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.I.S.ServicioIncapacidad        : Se han obtenido todas las incapacidades. La cantidad de registros es: 1
+2026-01-20T19:31:20.568-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:20.568-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@1d46c115]]
+2026-01-20T19:31:20.569-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:31:20.570-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:31:20.579-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades
+2026-01-20T19:31:20.580-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades", parameters={}
+2026-01-20T19:31:20.580-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerTodos()
+2026-01-20T19:31:20.592-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.I.S.ServicioIncapacidad        : Se han obtenido todas las incapacidades. La cantidad de registros es: 1
+2026-01-20T19:31:20.593-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:20.594-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaIncapacidadesDTO@77e860]]
+2026-01-20T19:31:20.595-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:31:23.107-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/5
+2026-01-20T19:31:23.111-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing DELETE /api/incapacidades/5
+2026-01-20T19:31:23.122-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured DELETE /api/incapacidades/5
+2026-01-20T19:31:23.123-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : DELETE "/api/incapacidades/5", parameters={}
+2026-01-20T19:31:23.124-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#eliminar(Long, Authentication)
+2026-01-20T19:31:23.158-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.I.S.ServicioIncapacidad        : Se ha eliminado la incapacidad con ID: 5
+2026-01-20T19:31:23.159-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:23.160-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-01-20T19:31:23.160-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-01-20T19:31:23.164-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:31:23.174-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades
+2026-01-20T19:31:23.175-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades", parameters={}
+2026-01-20T19:31:23.176-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerTodos()
+2026-01-20T19:31:23.181-06:00  INFO 17600 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.I.S.ServicioIncapacidad        : Se han obtenido todas las incapacidades. La cantidad de registros es: 0
+2026-01-20T19:31:23.182-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:31:23.183-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T19:31:23.184-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T19:44:00.510-06:00  WARN 17600 --- [tfg] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m32s862ms327µs700ns).
+2026-01-20T19:59:49.197-06:00  WARN 17600 --- [tfg] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8m18s655ms919µs400ns).
+2026-01-20T19:59:53.617-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:59:53.622-06:00 ERROR 17600 --- [tfg] [http-nio-8080-exec-6] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+
+io.jsonwebtoken.ExpiredJwtException: JWT expired 274617 milliseconds ago at 2026-01-21T01:55:19.000Z. Current time: 2026-01-21T01:59:53.617Z. Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:682) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:362) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:94) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:36) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:29) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseSignedClaims(DefaultJwtParser.java:821) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtService.getAllClaims(JwtService.java:73) ~[classes/:na]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtService.getClaim(JwtService.java:78) ~[classes/:na]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtService.getUsernameFromToken(JwtService.java:60) ~[classes/:na]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2026-01-20T19:59:53.639-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /error
+2026-01-20T19:59:53.640-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:59:53.640-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /error
+2026-01-20T19:59:53.640-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error", parameters={}
+2026-01-20T19:59:53.642-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2026-01-20T19:59:53.646-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:59:53.649-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Tue Jan 20 19:59:53 CST 2026, status=500, error=Internal Server Error, trace=io.jsonwebto (truncated)...]
+2026-01-20T19:59:53.657-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades
+2026-01-20T19:59:53.659-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 500
+2026-01-20T19:59:53.659-06:00 ERROR 17600 --- [tfg] [http-nio-8080-exec-5] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
+
+io.jsonwebtoken.ExpiredJwtException: JWT expired 274659 milliseconds ago at 2026-01-21T01:55:19.000Z. Current time: 2026-01-21T01:59:53.659Z. Allowed clock skew: 0 milliseconds.
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:682) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:362) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:94) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:36) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.io.AbstractParser.parse(AbstractParser.java:29) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at io.jsonwebtoken.impl.DefaultJwtParser.parseSignedClaims(DefaultJwtParser.java:821) ~[jjwt-impl-0.12.3.jar:0.12.3]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtService.getAllClaims(JwtService.java:73) ~[classes/:na]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtService.getClaim(JwtService.java:78) ~[classes/:na]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtService.getUsernameFromToken(JwtService.java:60) ~[classes/:na]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:51) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+
+2026-01-20T19:59:53.659-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /error
+2026-01-20T19:59:53.659-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T19:59:53.659-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /error
+2026-01-20T19:59:53.665-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : "ERROR" dispatch for GET "/error", parameters={}
+2026-01-20T19:59:53.665-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+2026-01-20T19:59:53.665-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T19:59:53.665-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{timestamp=Tue Jan 20 19:59:53 CST 2026, status=500, error=Internal Server Error, trace=io.jsonwebto (truncated)...]
+2026-01-20T19:59:53.669-06:00 DEBUG 17600 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Exiting from "ERROR" dispatch, status 500
+2026-01-20T20:03:53.369-06:00  INFO 17600 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-01-20T20:03:53.375-06:00  INFO 17600 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-01-20T20:03:53.378-06:00  INFO 17600 --- [tfg] [Thread-17] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-20T20:03:53.388-06:00  INFO 17600 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-20T20:03:53.392-06:00  INFO 17600 --- [tfg] [Thread-17] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-01-20T20:03:53.393-06:00  INFO 17600 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-01-20T20:03:53.393-06:00  INFO 17600 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-01-20T20:03:53.393-06:00  INFO 17600 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-01-20T20:03:53.402-06:00  INFO 17600 --- [tfg] [Thread-17] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-20T20:03:53.409-06:00  INFO 17600 --- [tfg] [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-20T20:03:53.417-06:00  INFO 17600 --- [tfg] [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-20T20:03:53.581-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 17600 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-20T20:03:53.581-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-20T20:03:53.593-06:00  INFO 17600 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-20T20:03:54.209-06:00  INFO 17600 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-20T20:03:54.792-06:00  INFO 17600 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-20T20:03:54.922-06:00  INFO 17600 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 127 ms. Found 17 JPA repository interfaces.
+2026-01-20T20:03:55.191-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-20T20:03:55.193-06:00  INFO 17600 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-20T20:03:55.193-06:00  INFO 17600 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-20T20:03:55.230-06:00  INFO 17600 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-20T20:03:55.230-06:00  INFO 17600 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1018 ms
+2026-01-20T20:03:55.319-06:00  INFO 17600 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-20T20:03:55.323-06:00  INFO 17600 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-20T20:03:55.339-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-20T20:03:55.344-06:00  INFO 17600 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-01-20T20:03:55.369-06:00  INFO 17600 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@5ff95d28
+2026-01-20T20:03:55.369-06:00  INFO 17600 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-01-20T20:03:55.376-06:00  WARN 17600 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-20T20:03:55.383-06:00  INFO 17600 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-20T20:03:55.999-06:00  INFO 17600 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-20T20:03:56.258-06:00  INFO 17600 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-20T20:03:56.853-06:00  INFO 17600 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-20T20:03:56.854-06:00  WARN 17600 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-20T20:03:56.864-06:00  WARN 17600 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-20T20:03:56.911-06:00 DEBUG 17600 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 113 mappings in 'requestMappingHandlerMapping'
+2026-01-20T20:03:56.973-06:00 DEBUG 17600 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-20T20:03:56.989-06:00 DEBUG 17600 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-20T20:03:57.015-06:00 DEBUG 17600 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-20T20:03:57.019-06:00 DEBUG 17600 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-20T20:03:57.056-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-20T20:03:57.056-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-20T20:03:57.056-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-20T20:03:57.056-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-20T20:03:57.056-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-20T20:03:57.056-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-20T20:03:57.056-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-20T20:03:57.062-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@517eb5e4
+2026-01-20T20:03:57.075-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-20T20:03:57.094-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-20T20:03:57.096-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-20T20:03:57.096-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-20T20:03:57.108-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 3.591 seconds (process running for 2736.332)
+2026-01-20T20:03:57.117-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-01-20T20:03:57.121-06:00  INFO 17600 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-20T20:04:04.987-06:00  INFO 17600 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-01-20T20:04:04.990-06:00  INFO 17600 --- [tfg] [Thread-19] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-01-20T20:04:04.990-06:00  INFO 17600 --- [tfg] [Thread-19] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-20T20:04:05.001-06:00  INFO 17600 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-20T20:04:05.001-06:00  INFO 17600 --- [tfg] [Thread-19] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-01-20T20:04:05.001-06:00  INFO 17600 --- [tfg] [Thread-19] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-01-20T20:04:05.005-06:00  INFO 17600 --- [tfg] [Thread-19] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-01-20T20:04:05.005-06:00  INFO 17600 --- [tfg] [Thread-19] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-01-20T20:04:05.007-06:00  INFO 17600 --- [tfg] [Thread-19] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-20T20:04:05.012-06:00  INFO 17600 --- [tfg] [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-01-20T20:04:05.023-06:00  INFO 17600 --- [tfg] [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-01-20T20:04:05.169-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 17600 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-20T20:04:05.169-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-20T20:04:05.178-06:00  INFO 17600 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-20T20:04:05.984-06:00  INFO 17600 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-20T20:04:06.430-06:00  INFO 17600 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-20T20:04:06.561-06:00  INFO 17600 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 127 ms. Found 17 JPA repository interfaces.
+2026-01-20T20:04:06.702-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-20T20:04:06.702-06:00  INFO 17600 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-20T20:04:06.702-06:00  INFO 17600 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-20T20:04:06.728-06:00  INFO 17600 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-20T20:04:06.728-06:00  INFO 17600 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 740 ms
+2026-01-20T20:04:06.779-06:00  INFO 17600 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-20T20:04:06.782-06:00  INFO 17600 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-20T20:04:06.790-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-20T20:04:06.790-06:00  INFO 17600 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-01-20T20:04:06.818-06:00  INFO 17600 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@58cb5ce8
+2026-01-20T20:04:06.818-06:00  INFO 17600 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-01-20T20:04:06.823-06:00  WARN 17600 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-20T20:04:06.829-06:00  INFO 17600 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-20T20:04:07.311-06:00  INFO 17600 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-20T20:04:07.568-06:00  INFO 17600 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-20T20:04:08.126-06:00  INFO 17600 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-20T20:04:08.126-06:00  WARN 17600 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-20T20:04:08.139-06:00  WARN 17600 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-20T20:04:08.176-06:00 DEBUG 17600 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 113 mappings in 'requestMappingHandlerMapping'
+2026-01-20T20:04:08.225-06:00 DEBUG 17600 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-20T20:04:08.241-06:00 DEBUG 17600 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-20T20:04:08.259-06:00 DEBUG 17600 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-20T20:04:08.264-06:00 DEBUG 17600 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-20T20:04:08.291-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-20T20:04:08.291-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-20T20:04:08.291-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-20T20:04:08.291-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-20T20:04:08.291-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-20T20:04:08.291-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-20T20:04:08.291-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-20T20:04:08.291-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@1816fef3
+2026-01-20T20:04:08.303-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-20T20:04:08.320-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-20T20:04:08.322-06:00  INFO 17600 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-20T20:04:08.322-06:00  INFO 17600 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-20T20:04:08.326-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 3.201 seconds (process running for 2747.551)
+2026-01-20T20:04:08.335-06:00  INFO 17600 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-01-20T20:04:08.338-06:00  INFO 17600 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-20T20:04:20.419-06:00  INFO 17600 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 3 class path changes (0 additions, 3 deletions, 0 modifications)
+2026-01-20T20:04:20.422-06:00  INFO 17600 --- [tfg] [Thread-31] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-01-20T20:04:20.423-06:00  INFO 17600 --- [tfg] [Thread-31] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-01-20T20:04:20.430-06:00  INFO 17600 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-01-20T20:04:20.431-06:00  INFO 17600 --- [tfg] [Thread-31] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-01-20T20:04:20.432-06:00  INFO 17600 --- [tfg] [Thread-31] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-01-20T20:04:20.432-06:00  INFO 17600 --- [tfg] [Thread-31] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-01-20T20:04:20.432-06:00  INFO 17600 --- [tfg] [Thread-31] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-01-20T20:04:20.438-06:00  INFO 17600 --- [tfg] [Thread-31] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-20T20:04:20.438-06:00  INFO 17600 --- [tfg] [Thread-31] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2026-01-20T20:04:20.444-06:00  INFO 17600 --- [tfg] [Thread-31] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2026-01-20T20:06:35.662-06:00  INFO 20916 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 20916 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-01-20T20:06:35.665-06:00  INFO 20916 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-01-20T20:06:35.754-06:00  INFO 20916 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-20T20:06:35.756-06:00  INFO 20916 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-20T20:06:35.782-06:00  INFO 20916 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-01-20T20:06:36.983-06:00  INFO 20916 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-01-20T20:06:38.244-06:00  INFO 20916 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-20T20:06:38.489-06:00  INFO 20916 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 219 ms. Found 17 JPA repository interfaces.
+2026-01-20T20:06:39.839-06:00  INFO 20916 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-20T20:06:39.864-06:00  INFO 20916 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-20T20:06:39.864-06:00  INFO 20916 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-01-20T20:06:39.965-06:00  INFO 20916 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-20T20:06:39.967-06:00  INFO 20916 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2969 ms
+2026-01-20T20:06:40.348-06:00  INFO 20916 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-20T20:06:40.438-06:00  INFO 20916 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-01-20T20:06:40.485-06:00  INFO 20916 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-20T20:06:41.200-06:00  INFO 20916 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-20T20:06:41.281-06:00  INFO 20916 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-20T20:06:41.627-06:00  INFO 20916 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@54c71164
+2026-01-20T20:06:41.651-06:00  INFO 20916 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-20T20:06:41.761-06:00  WARN 20916 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-20T20:06:41.885-06:00  INFO 20916 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-20T20:06:44.059-06:00  INFO 20916 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-20T20:06:44.344-06:00  INFO 20916 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-20T20:06:44.925-06:00  INFO 20916 --- [tfg] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-20T20:06:46.474-06:00  INFO 20916 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-01-20T20:06:46.474-06:00  WARN 20916 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-01-20T20:06:46.532-06:00  WARN 20916 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-20T20:06:46.699-06:00 DEBUG 20916 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 113 mappings in 'requestMappingHandlerMapping'
+2026-01-20T20:06:46.836-06:00 DEBUG 20916 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-01-20T20:06:46.967-06:00 DEBUG 20916 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-01-20T20:06:47.075-06:00 DEBUG 20916 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-01-20T20:06:47.192-06:00 DEBUG 20916 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-01-20T20:06:47.352-06:00  INFO 20916 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-01-20T20:06:47.369-06:00  INFO 20916 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-01-20T20:06:47.370-06:00  INFO 20916 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-01-20T20:06:47.371-06:00  INFO 20916 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-01-20T20:06:47.371-06:00  INFO 20916 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-01-20T20:06:47.371-06:00  INFO 20916 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-01-20T20:06:47.371-06:00  INFO 20916 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-01-20T20:06:47.371-06:00  INFO 20916 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@6f7c4b3c
+2026-01-20T20:06:47.474-06:00  INFO 20916 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-20T20:06:47.532-06:00  INFO 20916 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-01-20T20:06:47.535-06:00  INFO 20916 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-01-20T20:06:47.535-06:00  INFO 20916 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-01-20T20:06:47.553-06:00  INFO 20916 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 12.573 seconds (process running for 13.595)
+2026-01-20T20:06:53.515-06:00  INFO 20916 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-01-20T20:06:53.515-06:00  INFO 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-01-20T20:06:53.515-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-01-20T20:06:53.515-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-01-20T20:06:53.515-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-01-20T20:06:53.515-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@3850dcb7
+2026-01-20T20:06:53.525-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@5606e30f
+2026-01-20T20:06:53.526-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-01-20T20:06:53.526-06:00  INFO 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 11 ms
+2026-01-20T20:06:53.558-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-01-20T20:06:53.595-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-01-20T20:06:53.598-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-01-20T20:06:53.603-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-01-20T20:06:53.611-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-01-20T20:06:53.653-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=mrodriguez, password=TestPass123!)]
+2026-01-20T20:06:53.984-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-01-20T20:06:54.130-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T20:06:54.134-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE1LCJpZEVtcGxlYWRvIjoxNiwicm9sZSI6IkVNUExFQURP (truncated)...]
+2026-01-20T20:06:54.145-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T20:08:48.830-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/mis-solicitudes
+2026-01-20T20:08:48.830-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/incapacidades/mis-solicitudes
+2026-01-20T20:08:48.840-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T20:08:48.982-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T20:08:48.982-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T20:08:48.982-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T20:08:49.123-06:00  INFO 20916 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad para el empleado 16
+2026-01-20T20:08:49.133-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T20:08:49.133-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T20:08:49.137-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-01-20T20:08:49.137-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/incapacidades/mis-solicitudes
+2026-01-20T20:08:49.158-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/incapacidades/mis-solicitudes
+2026-01-20T20:08:49.159-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/incapacidades/mis-solicitudes", parameters={}
+2026-01-20T20:08:49.161-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Incapacidad.Controlador.ControladorIncapacidad#obtenerMisSolicitudes(Authentication)
+2026-01-20T20:08:49.181-06:00  INFO 20916 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.I.S.ServicioIncapacidad        : Se obtuvieron 0 solicitudes de incapacidad para el empleado 16
+2026-01-20T20:08:49.182-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-01-20T20:08:49.184-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-01-20T20:08:49.185-06:00 DEBUG 20916 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK

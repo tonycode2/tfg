@@ -378,6 +378,40 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         incapacidad.setFechaAprobacionRH(LocalDate.now());
         incapacidad.setAprobadorRH(rh);
         
+        // Si la solicitud es una extensión, aplicar los cambios sobre la incapacidad original
+        if (Boolean.TRUE.equals(incapacidad.getEsExtension())) {
+            Incapacidades original = incapacidad.getIncapacidadOriginal();
+            if (original == null) {
+                throw new BadRequestException("La extensión no referencia una incapacidad original válida");
+            }
+
+            // Actualizar la incapacidad original con la nueva fecha fin y sumar días
+            original.setFechaFin(incapacidad.getFechaFin());
+            if (original.getDiasTotales() == null) {
+                original.setDiasTotales(incapacidad.getDiasTotales());
+            } else {
+                original.setDiasTotales(original.getDiasTotales() + (incapacidad.getDiasTotales() == null ? 0 : incapacidad.getDiasTotales()));
+            }
+
+            // Marcar la aprobación en la incapacidad original para mantener consistencia
+            original.setFechaAprobacionRH(LocalDate.now());
+            original.setAprobadorRH(rh);
+            original.setEstadoSolicitud(EstadoSolicitud.APROBADA);
+
+            Incapacidades originalActualizada = mantenimiento.actualizar(original);
+
+            // Eliminar la entrada de extensión para evitar líneas duplicadas en la base de datos
+            try {
+                mantenimiento.eliminar(incapacidad.getId());
+            } catch (Exception e) {
+                // No interrumpir el flujo por un error al eliminar; solo registrar
+                log.warn("No se pudo eliminar la entrada de extensión con ID {}: {}", incapacidad.getId(), e.getMessage());
+            }
+
+            log.info("Extensión de incapacidad {} aprobada por RH {}. Se actualizaron los datos de la incapacidad original {}", idIncapacidad, rh.getId(), original.getId());
+            return deEntidadDtoARespuesta(originalActualizada);
+        }
+
         Incapacidades incapacidadActualizada = mantenimiento.actualizar(incapacidad);
         log.info("Incapacidad {} aprobada por RH {}", idIncapacidad, rh.getId());
         return deEntidadDtoARespuesta(incapacidadActualizada);
