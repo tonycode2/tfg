@@ -3,8 +3,7 @@ package com.anthony.tfg.tfg.Modulos.Extras.Servicio;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+// Email sending disabled for Horas Extra module
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -38,18 +37,15 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     private final MantenimientosHorasExtras mantenimiento;
     private final ConsultasEmpleados consultasEmpleados;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepo;
-    private final JavaMailSender emailSender;
 
     public ServicioExtras(ConsultasHorasExtras consulta,
                           MantenimientosHorasExtras mantenimiento,
                           ConsultasEmpleados consultasEmpleados,
-                          JefesDepartamentoRepositorio jefesDepartamentoRepo,
-                          JavaMailSender emailSender) {
+                          JefesDepartamentoRepositorio jefesDepartamentoRepo) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
         this.jefesDepartamentoRepo = jefesDepartamentoRepo;
-        this.emailSender = emailSender;
     }
 
     public RespuestaHorasExtraDTO obtenerPorId(Long id) {
@@ -278,33 +274,10 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return jefesDepartamentoRepo.findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(posibleJefe.getId(), idDepartamento).isPresent();
     }
 
+    // Email notifications for Horas Extra are intentionally disabled.
     private void enviarEmailCambioEstado(HorasExtra horaExtra) {
-        try {
-            Empleados empleado = horaExtra.getEmpleado();
-            if (empleado == null || empleado.getCorreoPersonal() == null || empleado.getCorreoPersonal().isEmpty()) {
-                log.warn("Empleado sin correo, no se enviará notificación");
-                return;
-            }
-
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(empleado.getCorreoPersonal());
-            message.setSubject("Estado de solicitud de horas extra: " + horaExtra.getEstadoSolicitud());
-            String text = String.format(
-                "Estimado(a) %s %s,\n\nSu solicitud de horas extra (ID: %d) cambió de estado a: %s.\n\nDetalles:\n- Fecha: %s\n- Horas: %d\n- Motivo: %s\n\nSaludos,\nRecursos Humanos",
-                empleado.getNombre(),
-                empleado.getPrimerApellido(),
-                horaExtra.getId(),
-                horaExtra.getEstadoSolicitud(),
-                horaExtra.getFechaSolicitud(),
-                horaExtra.getCantidadDeHoras(),
-                horaExtra.getMotivo() != null ? horaExtra.getMotivo() : "N/A"
-            );
-            message.setText(text);
-            emailSender.send(message);
-            log.info("Email de notificación enviado a {}", empleado.getCorreoPersonal());
-        } catch (Exception e) {
-            log.error("Error al enviar email de notificación: {}", e.getMessage());
-        }
+        Long id = horaExtra != null ? horaExtra.getId() : null;
+        log.info("Notificación por email deshabilitada para HorasExtra (ID: {})", id);
     }
 
     // =================== HELPERS AUTH ====================
