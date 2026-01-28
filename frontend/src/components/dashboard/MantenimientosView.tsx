@@ -1677,13 +1677,13 @@ export function MantenimientosView() {
           {(Object.keys(entities) as EntityType[]).map((key) => (
             <Card
               key={key}
-              className="p-6 hover:shadow-lg transition-shadow cursor-pointer"
+              className="p-3 hover:shadow-lg transition-shadow cursor-pointer"
               onClick={() => setSelectedEntity(key)}
             >
-              <div className="flex items-center gap-4">
-                <div className="text-4xl">{entities[key].icon}</div>
+              <div className="flex items-center gap-3">
+                <div className="text-2xl w-8 h-8 flex items-center justify-center">{entities[key].icon}</div>
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground">
+                  <h3 className="text-base font-semibold text-foreground">
                     {entities[key].name}
                   </h3>
                   <p className="text-sm text-muted-foreground">
