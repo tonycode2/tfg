@@ -1,20 +1,30 @@
 package com.anthony.tfg.tfg.Modulos.Extras.Servicio;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaHorasExtraDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudHorasExtraDTO;
 import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.HorasExtra;
+import com.anthony.tfg.tfg.Entidades.JefesDepartamento;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoTarifa;
+import com.anthony.tfg.tfg.Exceptions.BadRequestException;
+import com.anthony.tfg.tfg.Exceptions.ForbiddenException;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasHorasExtras;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosHorasExtras;
+import com.anthony.tfg.tfg.Repositorios.JefesDepartamentoRepositorio;
+import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,11 +37,19 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     private final ConsultasHorasExtras consulta;
     private final MantenimientosHorasExtras mantenimiento;
     private final ConsultasEmpleados consultasEmpleados;
+    private final JefesDepartamentoRepositorio jefesDepartamentoRepo;
+    private final JavaMailSender emailSender;
 
-    public ServicioExtras(ConsultasHorasExtras consulta, MantenimientosHorasExtras mantenimiento, ConsultasEmpleados consultasEmpleados) {
+    public ServicioExtras(ConsultasHorasExtras consulta,
+                          MantenimientosHorasExtras mantenimiento,
+                          ConsultasEmpleados consultasEmpleados,
+                          JefesDepartamentoRepositorio jefesDepartamentoRepo,
+                          JavaMailSender emailSender) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
+        this.jefesDepartamentoRepo = jefesDepartamentoRepo;
+        this.emailSender = emailSender;
     }
 
     public RespuestaHorasExtraDTO obtenerPorId(Long id) {
@@ -51,6 +69,9 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     }
 
     public RespuestaHorasExtraDTO guardar(SolicitudHorasExtraDTO entidad) {
+        // validar datos básicos y límite diario
+        validarSolicitudBasica(entidad);
+
         HorasExtra nuevaHoraExtra = deSolicitudDtoAEntidad(entidad);
         HorasExtra horaExtraGuardada = mantenimiento.crear(nuevaHoraExtra);
         log.info("Se ha guardado una nueva hora extra con ID: " + horaExtraGuardada.getId());
@@ -94,6 +115,227 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         log.info("Se ha eliminado la hora extra con ID: " + id);
     }
 
+    /**
+     * Guarda una solicitud autenticada (el idEmpleado se toma del usuario logueado)
+     */
+    public RespuestaHorasExtraDTO guardar(SolicitudHorasExtraDTO entidad, Authentication auth) {
+        Empleados empleadoAut = obtenerEmpleadoAutenticado(auth);
+        entidad.setIdEmpleado(empleadoAut.getId());
+
+        validarSolicitudBasica(entidad);
+
+        HorasExtra nuevaHoraExtra = deSolicitudDtoAEntidad(entidad);
+
+        // Determinar estado inicial: si el solicitante es jefe o no existe jefe -> PENDIENTE_RH, sino PENDIENTE
+        EstadoSolicitud estadoInicial = determinarEstadoInicial(empleadoAut);
+        nuevaHoraExtra.setEstadoSolicitud(estadoInicial);
+
+        HorasExtra horaExtraGuardada = mantenimiento.crear(nuevaHoraExtra);
+        log.info("Se ha guardado una nueva hora extra con ID: " + horaExtraGuardada.getId() + " y estado: " + horaExtraGuardada.getEstadoSolicitud());
+
+        // Notificar por correo al solicitante
+        enviarEmailCambioEstado(horaExtraGuardada);
+
+        return deEntidadDtoARespuesta(horaExtraGuardada);
+    }
+
+    private void validarSolicitudBasica(SolicitudHorasExtraDTO entidad) {
+        if (entidad.getCantidadDeHoras() == null || entidad.getCantidadDeHoras() <= 0) {
+            throw new BadRequestException("La cantidad de horas debe ser mayor que cero");
+        }
+        if (entidad.getCantidadDeHoras() > 3) {
+            throw new BadRequestException("No se permiten más de 3 horas extra por solicitud");
+        }
+
+        if (entidad.getFechaSolicitud() == null) {
+            throw new BadRequestException("La fecha de solicitud es requerida");
+        }
+
+        LocalDate fecha = entidad.getFechaSolicitud();
+        LocalDate hoy = LocalDate.now();
+        LocalDate ayer = hoy.minusDays(1);
+
+        if (!(fecha.equals(hoy) || fecha.equals(ayer))) {
+            throw new BadRequestException("La fecha de solicitud debe ser hoy o el día anterior");
+        }
+
+        // Validar que exista el empleado
+        if (entidad.getIdEmpleado() == null) {
+            throw new BadRequestException("El id del empleado es requerido");
+        }
+
+        Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
+        if (empleado == null) {
+            throw new BadRequestException("Empleado no encontrado con id: " + entidad.getIdEmpleado());
+        }
+
+        // Validación: máximo 3 horas por día por empleado (sumando solicitudes existentes)
+        List<HorasExtra> yaSolicitadas = consulta.obtenerPorEmpleadoYFecha(entidad.getIdEmpleado(), fecha);
+        int totalExistente = yaSolicitadas.stream()
+                .filter(h -> h.getCantidadDeHoras() != null)
+                .mapToInt(HorasExtra::getCantidadDeHoras)
+                .sum();
+
+        int nuevoTotal = totalExistente + entidad.getCantidadDeHoras();
+        if (nuevoTotal > 3) {
+            throw new BadRequestException("El total de horas extra para la fecha " + fecha + " excede el máximo permitido (3 horas). Horas ya solicitadas: " + totalExistente);
+        }
+    }
+
+    private EstadoSolicitud determinarEstadoInicial(Empleados empleado) {
+        // Si el empleado es jefe asignado -> va directo a RH
+        List<JefesDepartamento> listaJefes = jefesDepartamentoRepo.findByEmpleadoIdAndEstaActivoTrue(empleado.getId());
+        if (!listaJefes.isEmpty()) {
+            return EstadoSolicitud.PENDIENTE_RH;
+        }
+
+        if (empleado.getPuesto() == null || empleado.getPuesto().getDepartamento() == null) {
+            return EstadoSolicitud.PENDIENTE_RH;
+        }
+
+        Long idDept = empleado.getPuesto().getDepartamento().getId();
+        // Si no existen jefes activos para el departamento, ir a RH
+        boolean hayJefe = jefesDepartamentoRepo.findAll().stream()
+                .anyMatch(jd -> jd.getDepartamento().getId().equals(idDept) && jd.getEstaActivo());
+
+        return hayJefe ? EstadoSolicitud.PENDIENTE : EstadoSolicitud.PENDIENTE_RH;
+    }
+
+    // =================== APROBACIONES =====================
+    public RespuestaHorasExtraDTO aprobarPorJefe(Long id, Authentication auth) {
+        Empleados jefe = obtenerEmpleadoAutenticado(auth);
+        HorasExtra he = consulta.obtenerPorId(id);
+        if (he == null) throw new ResourceNotFoundException("HorasExtra", "id", id);
+
+        // Verificar que el autenticado es jefe del empleado de la solicitud
+        Empleados solicitante = he.getEmpleado();
+        if (solicitante == null) throw new BadRequestException("Solicitud sin empleado asociado");
+
+        if (!esJefeDelEmpleado(jefe, solicitante)) {
+            throw new ForbiddenException("No tiene permisos para aprobar esta solicitud");
+        }
+
+        he.setEstadoSolicitud(EstadoSolicitud.APROBADA_POR_JEFE);
+        HorasExtra actualizado = mantenimiento.actualizar(he);
+        enviarEmailCambioEstado(actualizado);
+        return deEntidadDtoARespuesta(actualizado);
+    }
+
+    public RespuestaHorasExtraDTO rechazarPorJefe(Long id, Authentication auth) {
+        Empleados jefe = obtenerEmpleadoAutenticado(auth);
+        HorasExtra he = consulta.obtenerPorId(id);
+        if (he == null) throw new ResourceNotFoundException("HorasExtra", "id", id);
+
+        Empleados solicitante = he.getEmpleado();
+        if (solicitante == null) throw new BadRequestException("Solicitud sin empleado asociado");
+
+        if (!esJefeDelEmpleado(jefe, solicitante)) {
+            throw new ForbiddenException("No tiene permisos para rechazar esta solicitud");
+        }
+
+        he.setEstadoSolicitud(EstadoSolicitud.RECHAZADA_POR_JEFE);
+        HorasExtra actualizado = mantenimiento.actualizar(he);
+        enviarEmailCambioEstado(actualizado);
+        return deEntidadDtoARespuesta(actualizado);
+    }
+
+    public RespuestaHorasExtraDTO aprobarPorRH(Long id, Authentication auth) {
+        User usuario = obtenerUsuarioAutenticado(auth);
+        String role = usuario.getRole().name();
+        if (!role.equals("HR") && !role.equals("ADMIN")) {
+            throw new ForbiddenException("Solo personal de RH o ADMIN puede aprobar por RH");
+        }
+
+        HorasExtra he = consulta.obtenerPorId(id);
+        if (he == null) throw new ResourceNotFoundException("HorasExtra", "id", id);
+
+        he.setEstadoSolicitud(EstadoSolicitud.APROBADA);
+        HorasExtra actualizado = mantenimiento.actualizar(he);
+        enviarEmailCambioEstado(actualizado);
+        return deEntidadDtoARespuesta(actualizado);
+    }
+
+    public RespuestaHorasExtraDTO rechazarPorRH(Long id, Authentication auth) {
+        User usuario = obtenerUsuarioAutenticado(auth);
+        String role = usuario.getRole().name();
+        if (!role.equals("HR") && !role.equals("ADMIN")) {
+            throw new ForbiddenException("Solo personal de RH o ADMIN puede rechazar por RH");
+        }
+
+        HorasExtra he = consulta.obtenerPorId(id);
+        if (he == null) throw new ResourceNotFoundException("HorasExtra", "id", id);
+
+        he.setEstadoSolicitud(EstadoSolicitud.RECHAZADA_POR_RH);
+        HorasExtra actualizado = mantenimiento.actualizar(he);
+        enviarEmailCambioEstado(actualizado);
+        return deEntidadDtoARespuesta(actualizado);
+    }
+
+    private boolean esJefeDelEmpleado(Empleados posibleJefe, Empleados empleado) {
+        if (posibleJefe == null || empleado == null) return false;
+        if (empleado.getPuesto() == null || empleado.getPuesto().getDepartamento() == null) return false;
+        Long idDepartamento = empleado.getPuesto().getDepartamento().getId();
+        return jefesDepartamentoRepo.findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(posibleJefe.getId(), idDepartamento).isPresent();
+    }
+
+    private void enviarEmailCambioEstado(HorasExtra horaExtra) {
+        try {
+            Empleados empleado = horaExtra.getEmpleado();
+            if (empleado == null || empleado.getCorreoPersonal() == null || empleado.getCorreoPersonal().isEmpty()) {
+                log.warn("Empleado sin correo, no se enviará notificación");
+                return;
+            }
+
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(empleado.getCorreoPersonal());
+            message.setSubject("Estado de solicitud de horas extra: " + horaExtra.getEstadoSolicitud());
+            String text = String.format(
+                "Estimado(a) %s %s,\n\nSu solicitud de horas extra (ID: %d) cambió de estado a: %s.\n\nDetalles:\n- Fecha: %s\n- Horas: %d\n- Motivo: %s\n\nSaludos,\nRecursos Humanos",
+                empleado.getNombre(),
+                empleado.getPrimerApellido(),
+                horaExtra.getId(),
+                horaExtra.getEstadoSolicitud(),
+                horaExtra.getFechaSolicitud(),
+                horaExtra.getCantidadDeHoras(),
+                horaExtra.getMotivo() != null ? horaExtra.getMotivo() : "N/A"
+            );
+            message.setText(text);
+            emailSender.send(message);
+            log.info("Email de notificación enviado a {}", empleado.getCorreoPersonal());
+        } catch (Exception e) {
+            log.error("Error al enviar email de notificación: {}", e.getMessage());
+        }
+    }
+
+    // =================== HELPERS AUTH ====================
+    private User obtenerUsuarioAutenticado(Authentication auth) {
+        if (auth == null) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null || !authentication.isAuthenticated()) {
+                throw new ForbiddenException("Usuario no autenticado");
+            }
+            auth = authentication;
+        }
+
+        Object principal = auth.getPrincipal();
+        if (!(principal instanceof User)) {
+            throw new ForbiddenException("Tipo de usuario no válido");
+        }
+
+        return (User) principal;
+    }
+
+    private Empleados obtenerEmpleadoAutenticado(Authentication auth) {
+        User user = obtenerUsuarioAutenticado(auth);
+        Empleados empleado = user.getEmpleado();
+
+        if (empleado == null) {
+            throw new ForbiddenException("El usuario no tiene un empleado asociado");
+        }
+
+        return empleado;
+    }
+
     public HorasExtra deSolicitudDtoAEntidad(SolicitudHorasExtraDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad HorasExtra.");
@@ -106,16 +348,24 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
             return null;
         }
         
-        EstadoSolicitud estadoSolicitud = obtenerEstadoSolicitud(solicitud.estadoSolicitud);
-        if(estadoSolicitud == null){
-            log.warn("No se ha encontrado el estado de solicitud: " + solicitud.estadoSolicitud);
-            return null;
+        EstadoSolicitud estadoSolicitud = null;
+        if (solicitud.estadoSolicitud != null) {
+            estadoSolicitud = obtenerEstadoSolicitud(solicitud.estadoSolicitud);
+            if(estadoSolicitud == null){
+                log.warn("No se ha encontrado el estado de solicitud: " + solicitud.estadoSolicitud);
+            }
         }
         
-        TipoTarifa tipoTarifa = obtenerTipoTarifa(solicitud.tipoTarifa);
-        if(tipoTarifa == null){
-            log.warn("No se ha encontrado el tipo de tarifa: " + solicitud.tipoTarifa);
-            return null;
+        TipoTarifa tipoTarifa = null;
+        if (solicitud.tipoTarifa != null) {
+            tipoTarifa = obtenerTipoTarifa(solicitud.tipoTarifa);
+            if(tipoTarifa == null){
+                log.warn("No se ha encontrado el tipo de tarifa: " + solicitud.tipoTarifa);
+            }
+        }
+        // Forzar SIMPLE por default si no se especifica
+        if (tipoTarifa == null) {
+            tipoTarifa = TipoTarifa.SIMPLE;
         }
         
         HorasExtra horaExtra = HorasExtra.builder()

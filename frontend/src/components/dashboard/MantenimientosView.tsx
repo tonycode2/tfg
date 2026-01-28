@@ -165,7 +165,11 @@ export function MantenimientosView() {
 
   const handleCreate = () => {
     setEditingItem(null);
-    setFormData({});
+    const initial = {} as any;
+    if (selectedEntity === 'horas-extra') {
+      initial.tipoTarifa = 'SIMPLE';
+    }
+    setFormData(initial);
     setIsModalOpen(true);
   };
 
@@ -901,20 +905,7 @@ export function MantenimientosView() {
                 onChange={(e) => setFormData({ ...formData, motivo: e.target.value })}
               />
             </div>
-            <div>
-              <Label htmlFor="tipoTarifa">Tipo de Tarifa</Label>
-              <select
-                id="tipoTarifa"
-                value={formData.tipoTarifa || 'NORMAL'}
-                onChange={(e) =>
-                  setFormData({ ...formData, tipoTarifa: e.target.value })
-                }
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-              >
-                <option value="NORMAL">Normal (1.5x)</option>
-                <option value="FERIADO">Feriado (2x)</option>
-              </select>
-            </div>
+            {/* Tipo de tarifa: oculto y fijo en 'SIMPLE' */}
             <div>
               <Label htmlFor="estadoSolicitud">Estado</Label>
               <select

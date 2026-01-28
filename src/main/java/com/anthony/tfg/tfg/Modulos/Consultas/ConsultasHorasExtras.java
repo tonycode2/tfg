@@ -28,4 +28,8 @@ public class ConsultasHorasExtras implements ConsultaInterface<HorasExtra>{
         return repo.findAll();
     }
 
+    public List<HorasExtra> obtenerPorEmpleadoYFecha(Long empleadoId, java.time.LocalDate fecha) {
+        return repo.findByEmpleadoIdAndFechaSolicitud(empleadoId, fecha);
+    }
+
 }

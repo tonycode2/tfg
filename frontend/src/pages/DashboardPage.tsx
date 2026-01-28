@@ -14,6 +14,7 @@ import IncapacidadesView from '../components/dashboard/IncapacidadesView';
 import IncapacidadesPendientesView from '../components/dashboard/IncapacidadesPendientesView';
 import GestionIncapacidadesView from '../components/dashboard/GestionIncapacidadesView';
 import { DiasFeriadosView } from '../components/dashboard/DiasFeriadosView';
+import HorasExtraView from '../components/dashboard/HorasExtraView';
 import { authService } from '../services/authService';
 
 // Memoized view components to prevent unnecessary re-renders
@@ -30,6 +31,7 @@ const MemoizedIncapacidadesPendientesView = memo(IncapacidadesPendientesView);
 const MemoizedGestionIncapacidadesView = memo(GestionIncapacidadesView);
 const MemoizedDiasFeriadosView = memo(DiasFeriadosView);
 const MemoizedEvaluacionesView = memo(EvaluacionesView);
+const MemoizedHorasExtraView = memo(HorasExtraView);
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -80,7 +82,7 @@ export default function DashboardPage() {
       case 'evaluaciones':
         return <MemoizedEvaluacionesView />;
       case 'horas-extra':
-        return <MemoizedPlaceholderView title="Horas Extra" description="Gestión de horas extra del departamento" />;
+        return <MemoizedHorasExtraView />;
       case 'solicitudes-pendientes':
         return <MemoizedPlaceholderView title="Solicitudes Pendientes" description="Revisa y aprueba solicitudes pendientes" />;
       case 'planilla-general':

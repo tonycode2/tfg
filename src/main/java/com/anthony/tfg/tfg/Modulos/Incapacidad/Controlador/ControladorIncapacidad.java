@@ -70,11 +70,8 @@ public class ControladorIncapacidad {
         // DEBUG: log incoming parameter map
         try {
             var paramMap = request.getParameterMap();
-            String params = java.util.Arrays.stream(paramMap.entrySet().toArray())
-                .map(o -> {
-                    java.util.Map.Entry e = (java.util.Map.Entry) o;
-                    return e.getKey() + "=" + java.util.Arrays.toString((Object[]) e.getValue());
-                })
+            String params = paramMap.entrySet().stream()
+                .map(entry -> entry.getKey() + "=" + java.util.Arrays.toString(entry.getValue()))
                 .collect(java.util.stream.Collectors.joining(", "));
             org.slf4j.LoggerFactory.getLogger(ControladorIncapacidad.class).info("[DEBUG-INC-CONTROLLER] Request parameters: {}", params);
         } catch (Exception e) {

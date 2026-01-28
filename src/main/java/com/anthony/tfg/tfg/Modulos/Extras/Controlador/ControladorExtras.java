@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +51,40 @@ public class ControladorExtras {
     public ResponseEntity<RespuestaHorasExtraDTO> crear(@Valid @RequestBody SolicitudHorasExtraDTO solicitud) {
         RespuestaHorasExtraDTO respuesta = servicio.guardar(solicitud);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+    }
+
+    /**
+     * Endpoint para que un empleado autenticado solicite horas extra.
+     * Toma el empleado del usuario autenticado y aplica las validaciones del servicio.
+     */
+    @PostMapping("/solicitar")
+    public ResponseEntity<RespuestaHorasExtraDTO> solicitar(@Valid @RequestBody SolicitudHorasExtraDTO solicitud, Authentication auth) {
+        RespuestaHorasExtraDTO respuesta = servicio.guardar(solicitud, auth);
+        return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+    }
+
+    @PutMapping("/{id}/aprobar-jefe")
+    public ResponseEntity<RespuestaHorasExtraDTO> aprobarPorJefe(@PathVariable Long id, Authentication auth) {
+        RespuestaHorasExtraDTO respuesta = servicio.aprobarPorJefe(id, auth);
+        return ResponseEntity.ok(respuesta);
+    }
+
+    @PutMapping("/{id}/rechazar-jefe")
+    public ResponseEntity<RespuestaHorasExtraDTO> rechazarPorJefe(@PathVariable Long id, Authentication auth) {
+        RespuestaHorasExtraDTO respuesta = servicio.rechazarPorJefe(id, auth);
+        return ResponseEntity.ok(respuesta);
+    }
+
+    @PutMapping("/{id}/aprobar-rh")
+    public ResponseEntity<RespuestaHorasExtraDTO> aprobarPorRH(@PathVariable Long id, Authentication auth) {
+        RespuestaHorasExtraDTO respuesta = servicio.aprobarPorRH(id, auth);
+        return ResponseEntity.ok(respuesta);
+    }
+
+    @PutMapping("/{id}/rechazar-rh")
+    public ResponseEntity<RespuestaHorasExtraDTO> rechazarPorRH(@PathVariable Long id, Authentication auth) {
+        RespuestaHorasExtraDTO respuesta = servicio.rechazarPorRH(id, auth);
+        return ResponseEntity.ok(respuesta);
     }
 
     @PutMapping("/{id}")

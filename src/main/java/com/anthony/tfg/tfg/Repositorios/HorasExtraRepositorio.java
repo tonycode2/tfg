@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.anthony.tfg.tfg.Entidades.HorasExtra;
 
 public interface HorasExtraRepositorio extends JpaRepository<HorasExtra, Long> {
+	java.util.List<HorasExtra> findByEmpleadoIdAndFechaSolicitud(Long empleadoId, java.time.LocalDate fechaSolicitud);
 
 }

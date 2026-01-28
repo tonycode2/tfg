@@ -1,6 +1,6 @@
 package com.anthony.tfg.tfg.DTOs.Solicitud;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +19,7 @@ public class SolicitudHorasExtraDTO {
 
     @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaSolicitud;
+    public LocalDate fechaSolicitud;
 
     @NotNull
     @Positive

@@ -1,6 +1,6 @@
 package com.anthony.tfg.tfg.Entidades;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoTarifa;
@@ -35,7 +35,7 @@ public class HorasExtra {
     Long id;
     @Column(name = "fecha_solicitud")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaSolicitud;
+    LocalDate fechaSolicitud;
     @Column(name = "cantidad_de_horas")
     Integer cantidadDeHoras;
     String motivo;
