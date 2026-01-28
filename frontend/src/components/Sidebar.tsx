@@ -108,14 +108,24 @@ const menuItems: MenuItem[] = [
     roles: ['HR', 'JEFE', 'EMPLEADO', 'ADMIN'],
   },
   {
-    id: 'horas-extra',
-    label: 'Horas Extra',
+    id: 'mis-horas-extra',
+    label: 'Mis Horas Extra',
     icon: (
       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     ),
-    roles: ['JEFE'],
+    roles: ['HR', 'JEFE', 'EMPLEADO'],
+  },
+  {
+    id: 'horas-extra-pendientes',
+    label: 'Horas Extra Pendientes',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" />
+      </svg>
+    ),
+    roles: ['JEFE', 'HR'],
   },
   {
     id: 'solicitudes-pendientes',

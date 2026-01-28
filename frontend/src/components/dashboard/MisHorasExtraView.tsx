@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-// Tipo de tarifa se maneja por defecto como SIMPLE (no se muestra dropdown)
 
 type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
 
@@ -25,7 +24,7 @@ interface HorasExtraDTO {
 
 const API_BASE = 'http://localhost:8080';
 
-export default function HorasExtraView() {
+export default function MisHorasExtraView() {
   function formatoEstado(s?: string) {
     switch (s) {
       case 'PENDIENTE':
@@ -46,6 +45,7 @@ export default function HorasExtraView() {
         return s || '';
     }
   }
+
   const [fecha, setFecha] = useState<string>(new Date().toISOString().slice(0, 10));
   const [horas, setHoras] = useState<number>(1);
   const [motivo, setMotivo] = useState<string>('');
@@ -68,7 +68,10 @@ export default function HorasExtraView() {
       });
       if (!res.ok) throw new Error('Error al obtener solicitudes');
       const data = await res.json();
-      setLista(data || []);
+      const items: any[] = Array.isArray(data) ? data : Array.isArray((data as any)?.content) ? (data as any).content : [];
+      const myId = userInfo.idEmpleado;
+      const filtered = items.filter((d: any) => d.idEmpleado === myId);
+      setLista(filtered || []);
     } catch (e) {
       console.error(e);
       alert('No se pudo cargar las solicitudes');
@@ -80,16 +83,7 @@ export default function HorasExtraView() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      // Obtener idEmpleado del token
-      const userInfoRaw = localStorage.getItem('token');
-      let idEmpleado: number | undefined = undefined;
-      try {
-        idEmpleado = (await import('../../services/authService')).authService.getUserInfo().idEmpleado;
-      } catch (err) {
-        // fallback: intentar leer directamente
-        const ui = (await import('../../services/authService')).authService.getUserInfo();
-        idEmpleado = ui.idEmpleado;
-      }
+      const idEmpleado = userInfo.idEmpleado;
 
       if (!idEmpleado) {
         alert('No se pudo determinar el empleado autenticado. Inicie sesión nuevamente.');
@@ -127,51 +121,11 @@ export default function HorasExtraView() {
     }
   }
 
-  async function handleAprobar(id: number) {
-    try {
-      let path = '';
-      if (role === 'JEFE') path = `/api/horas-extra/${id}/aprobar-jefe`;
-      else if (role === 'HR' || role === 'ADMIN') path = `/api/horas-extra/${id}/aprobar-rh`;
-      else return alert('Sin permisos');
-
-      const res = await fetch(`${API_BASE}${path}`, {
-        method: 'PUT',
-        headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-      });
-      if (!res.ok) throw new Error('Error al aprobar');
-      alert('Aprobado');
-      fetchLista();
-    } catch (e) {
-      console.error(e);
-      alert('No se pudo aprobar');
-    }
-  }
-
-  async function handleRechazar(id: number) {
-    try {
-      let path = '';
-      if (role === 'JEFE') path = `/api/horas-extra/${id}/rechazar-jefe`;
-      else if (role === 'HR' || role === 'ADMIN') path = `/api/horas-extra/${id}/rechazar-rh`;
-      else return alert('Sin permisos');
-
-      const res = await fetch(`${API_BASE}${path}`, {
-        method: 'PUT',
-        headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-      });
-      if (!res.ok) throw new Error('Error al rechazar');
-      alert('Rechazado');
-      fetchLista();
-    } catch (e) {
-      console.error(e);
-      alert('No se pudo rechazar');
-    }
-  }
-
   return (
     <div className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Solicitar Horas Extra</CardTitle>
+          <CardTitle>Mis Horas Extra</CardTitle>
           <CardDescription>Solicita hasta 3 horas extra para hoy o ayer.</CardDescription>
         </CardHeader>
         <CardContent>
@@ -185,8 +139,6 @@ export default function HorasExtraView() {
               <Label>Horas (max 3)</Label>
               <Input type="number" min={1} max={3} value={horas} onChange={(e) => setHoras(Number(e.target.value))} />
             </div>
-
-            {/* Tipo de tarifa: siempre SIMPLE por defecto (campo oculto) */}
 
             <div className="md:col-span-2 space-y-1">
               <Label>Motivo</Label>
@@ -202,8 +154,8 @@ export default function HorasExtraView() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Solicitudes</CardTitle>
-          <CardDescription>Lista de solicitudes de horas extra</CardDescription>
+          <CardTitle>Mis Solicitudes</CardTitle>
+          <CardDescription>Lista de mis solicitudes de horas extra</CardDescription>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -213,43 +165,17 @@ export default function HorasExtraView() {
               <table className="w-full text-sm table-fixed">
                 <thead>
                   <tr className="text-left text-muted-foreground">
-                    <th className="py-2 px-3">Empleado</th>
                     <th className="py-2 px-3 w-32">Fecha</th>
                     <th className="py-2 px-3 w-24">Horas</th>
                     <th className="py-2 px-3 w-48">Estado</th>
-                    {role !== 'EMPLEADO' && (
-                      <th className="py-2 px-3 w-48">Acciones</th>
-                    )}
                   </tr>
                 </thead>
                 <tbody>
                   {lista.map((item) => (
                     <tr key={item.id} className="border-t">
-                      <td className="py-2 px-3">{item.nombreEmpleado} {item.primerApellidoEmpleado}</td>
                       <td className="py-2 px-3">{item.fechaSolicitud}</td>
                       <td className="py-2 px-3">{item.cantidadDeHoras}</td>
                       <td className="py-2 px-3">{formatoEstado(item.estadoSolicitud)}</td>
-                      {role !== 'EMPLEADO' && (
-                        <td className="py-2 px-3">
-                          <div className="flex gap-2">
-                            {/* JEFE puede actuar sólo cuando está PENDIENTE */}
-                            {role === 'JEFE' && item.estadoSolicitud === 'PENDIENTE' && (
-                              <>
-                                <Button variant="ghost" size="sm" onClick={() => handleAprobar(item.id!)}>Aprobar</Button>
-                                <Button variant="destructive" size="sm" onClick={() => handleRechazar(item.id!)}>Rechazar</Button>
-                              </>
-                            )}
-
-                            {/* RH/ADMIN puede actuar cuando está PENDIENTE_RH o APROBADA_POR_JEFE */}
-                            {(role === 'HR' || role === 'ADMIN') && (item.estadoSolicitud === 'PENDIENTE_RH' || item.estadoSolicitud === 'APROBADA_POR_JEFE') && (
-                              <>
-                                <Button variant="ghost" size="sm" onClick={() => handleAprobar(item.id!)}>Aprobar</Button>
-                                <Button variant="destructive" size="sm" onClick={() => handleRechazar(item.id!)}>Rechazar</Button>
-                              </>
-                            )}
-                          </div>
-                        </td>
-                      )}
                     </tr>
                   ))}
                 </tbody>

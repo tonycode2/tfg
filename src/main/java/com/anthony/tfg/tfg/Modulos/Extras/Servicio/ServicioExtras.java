@@ -378,6 +378,7 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         }
         
         if(entidad.getEmpleado() != null){
+            respuesta.idEmpleado = entidad.getEmpleado().getId();
             respuesta.nombreEmpleado = entidad.getEmpleado().getNombre();
             respuesta.primerApellidoEmpleado = entidad.getEmpleado().getPrimerApellido();
             respuesta.segundoApellidoEmpleado = entidad.getEmpleado().getSegundoApellido();
