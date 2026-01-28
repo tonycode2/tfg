@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TopNavbar } from '../components/TopNavbar';
 import { EmpleadosView } from '../components/dashboard/EmpleadosView';
+import EvaluacionesView from '../components/dashboard/EvaluacionesView';
 import { MantenimientosView } from '../components/dashboard/MantenimientosView';
 import { InicioView } from '../components/dashboard/InicioView';
 import { PlaceholderView } from '../components/dashboard/PlaceholderView';
@@ -28,6 +29,7 @@ const MemoizedIncapacidadesView = memo(IncapacidadesView);
 const MemoizedIncapacidadesPendientesView = memo(IncapacidadesPendientesView);
 const MemoizedGestionIncapacidadesView = memo(GestionIncapacidadesView);
 const MemoizedDiasFeriadosView = memo(DiasFeriadosView);
+const MemoizedEvaluacionesView = memo(EvaluacionesView);
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -75,6 +77,8 @@ export default function DashboardPage() {
         return <MemoizedDiasFeriadosView />;
       case 'asistencia':
         return <MemoizedAsistenciaView />;
+      case 'evaluaciones':
+        return <MemoizedEvaluacionesView />;
       case 'horas-extra':
         return <MemoizedPlaceholderView title="Horas Extra" description="Gestión de horas extra del departamento" />;
       case 'solicitudes-pendientes':

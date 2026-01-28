@@ -102,6 +102,16 @@ const menuItems: MenuItem[] = [
     roles: ['JEFE'],
   },
   {
+    id: 'evaluaciones',
+    label: 'Evaluaciones',
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m-6-8h6M5 7h14v10H5z" />
+      </svg>
+    ),
+    roles: ['JEFE'],
+  },
+  {
     id: 'gestion-permisos',
     label: 'Gestión de Permisos',
     icon: (

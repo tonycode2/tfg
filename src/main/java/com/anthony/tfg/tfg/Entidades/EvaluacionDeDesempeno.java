@@ -29,10 +29,10 @@ public class EvaluacionDeDesempeno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(name = "empleado_id")
+    @Column(name = "fecha_evaluacion")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     Date fechaEvaluacion;
-    @Column(name = "empleado_nombre")
+    @Column(name = "periodo_evaluado")
     String periodoEvaluado;
     @Column(name = "puntuacion_final")
     Double puntuacionFinal;

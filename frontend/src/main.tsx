@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { ThemeProvider } from './hooks/useTheme'
+import { ToastProvider } from './components/ui/Toast'
 
 // Register Spanish locale for react-datepicker
 import { registerLocale, setDefaultLocale } from 'react-datepicker'
@@ -13,7 +14,9 @@ setDefaultLocale('es')
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>
-      <App />
+      <ToastProvider>
+        <App />
+      </ToastProvider>
     </ThemeProvider>
   </StrictMode>,
 )

@@ -66,15 +66,19 @@ export function SimpleDataTable<T extends { id: number | string }>({
                 {columns.map((column) => (
                   <td
                     key={`${item.id}-${String(column.key)}`}
-                    className="px-4 py-3 text-sm text-foreground"
+                    className="px-4 py-3 text-sm text-foreground align-middle"
                   >
                     {column.render
                       ? column.render(getCellValue(item, column), item)
                       : String(getCellValue(item, column) ?? '')}
                   </td>
                 ))}
-                <td className="px-4 py-3 text-right space-x-1">
-                  {customActions && customActions(item)}
+                <td className="px-4 py-3 text-right align-middle">
+                  <div className="inline-flex items-center justify-end gap-2">
+                    {customActions && customActions(item)}
+                    
+                    
+                  </div>
                   {onEdit && (
                     <Button
                       variant="ghost"

@@ -105,4 +105,73 @@ public class ServicioEmail {
             </html>
             """, nombreCompleto, username, password);
     }
+
+    public void enviarNotificacionEvaluacion(String destinatario, String nombreCompleto, Double puntuacionFinal,
+            String periodoEvaluado, String observaciones, String planDeMejora) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom(fromEmail);
+            helper.setTo(destinatario);
+            helper.setSubject(String.format("Nueva evaluación de desempeño - %s", periodoEvaluado));
+
+            String contenidoHtml = construirEmailEvaluacionHtml(nombreCompleto, puntuacionFinal, periodoEvaluado, observaciones, planDeMejora);
+            helper.setText(contenidoHtml, true);
+
+            mailSender.send(message);
+            log.info("Email de evaluación enviado exitosamente a: {}", destinatario);
+
+        } catch (Exception e) {
+            log.error("Error al enviar email de evaluación a: {}", destinatario, e);
+            throw new RuntimeException("No se pudo enviar el email: " + e.getMessage());
+        }
+    }
+
+    private String construirEmailEvaluacionHtml(String nombreCompleto, Double puntuacionFinal, String periodoEvaluado,
+            String observaciones, String planDeMejora) {
+        return String.format("""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background-color: #3b82f6; color: white; padding: 20px; text-align: center; }
+                    .content { background-color: #f9f9f9; padding: 20px; margin: 20px 0; }
+                    .summary { background-color: white; padding: 15px; border-left: 4px solid #3b82f6; margin: 15px 0; }
+                    .footer { text-align: center; color: #666; font-size: 12px; margin-top: 20px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>Sistema de Gestión de RH</h1>
+                        <p>Sastrería Gerson Andre</p>
+                    </div>
+                    <div class="content">
+                        <p>Hola <strong>%s</strong>,</p>
+                        <p>Se ha registrado una nueva evaluación de desempeño para el periodo <strong>%s</strong>.</p>
+
+                        <div class="summary">
+                            <p><strong>Puntuación final:</strong> %s</p>
+                            <p><strong>Observaciones:</strong><br/>%s</p>
+                            <p><strong>Plan de mejora:</strong><br/>%s</p>
+                        </div>
+
+                        <p>Si considera que hay algún error, contacte a su jefe o al departamento de Recursos Humanos.</p>
+                    </div>
+                    <div class="footer">
+                        <p><strong>Sastrería Gerson Andre</strong></p>
+                        <p>Este es un correo automático, por favor no responda a este mensaje.</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """, nombreCompleto, periodoEvaluado,
+                puntuacionFinal != null ? String.format("%.2f", puntuacionFinal) : "N/A",
+                observaciones != null ? observaciones : "-",
+                planDeMejora != null ? planDeMejora : "-");
+    }
 }

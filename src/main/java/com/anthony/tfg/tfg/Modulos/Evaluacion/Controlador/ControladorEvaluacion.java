@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEvaluacionDeDesempenoDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudEvaluacionDeDesempenoDTO;
+import com.anthony.tfg.tfg.DTOs.Respuesta.ResumenEvaluacionesDepartamentoDTO;
+import com.anthony.tfg.tfg.DTOs.Respuesta.EmpleadoEvaluacionResumenDTO;
 import com.anthony.tfg.tfg.Modulos.Evaluacion.Servicio.ServicioEvaluacion;
 
 import jakarta.validation.Valid;
@@ -67,5 +69,23 @@ public class ControladorEvaluacion {
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/resumen-departamento/{idDepartamento}")
+    public ResponseEntity<ResumenEvaluacionesDepartamentoDTO> obtenerResumenDepartamento(@PathVariable Long idDepartamento) {
+        ResumenEvaluacionesDepartamentoDTO resumen = servicio.obtenerResumenDepartamento(idDepartamento);
+        return ResponseEntity.ok(resumen);
+    }
+
+    @GetMapping("/empleados-mis-departamentos")
+    public ResponseEntity<java.util.List<EmpleadoEvaluacionResumenDTO>> obtenerEmpleadosMisDepartamentos() {
+        java.util.List<EmpleadoEvaluacionResumenDTO> lista = servicio.obtenerEmpleadosMisDepartamentos();
+        return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/por-empleado/{idEmpleado}")
+    public ResponseEntity<java.util.List<RespuestaEvaluacionDeDesempenoDTO>> obtenerPorEmpleado(@PathVariable Long idEmpleado) {
+        java.util.List<RespuestaEvaluacionDeDesempenoDTO> lista = servicio.obtenerPorEmpleado(idEmpleado);
+        return ResponseEntity.ok(lista);
     }
 }

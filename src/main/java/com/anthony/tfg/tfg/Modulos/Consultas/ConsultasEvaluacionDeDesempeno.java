@@ -27,4 +27,12 @@ public class ConsultasEvaluacionDeDesempeno implements ConsultaInterface<Evaluac
         return repo.findAll();
     }
 
+    public java.util.List<EvaluacionDeDesempeno> obtenerPorEmpleadoId(Long empleadoId) {
+        return repo.findByEmpleadoId(empleadoId);
+    }
+
+    public java.util.List<com.anthony.tfg.tfg.DTOs.Respuesta.EmpleadoEvaluacionResumenDTO> findResumenPorDepartamento(Long departamentoId) {
+        return repo.findResumenPorDepartamento(departamentoId);
+    }
+
 }

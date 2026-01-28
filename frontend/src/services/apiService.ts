@@ -54,8 +54,14 @@ export class ApiService<T> {
       
       try {
         const errorData: ErrorResponse = await response.json();
-        throw new Error(errorData.message || 'Error en la solicitud');
+        const err = new Error(errorData.message || 'Error en la solicitud');
+        // attach validation errors (if any) so callers can display them per-field
+        (err as any).validationErrors = errorData.errors || undefined;
+        throw err;
       } catch (error) {
+        if (error instanceof Error && (error as any).validationErrors) {
+          throw error;
+        }
         if (error instanceof Error && error.message !== 'Error en la solicitud') {
           throw error;
         }
