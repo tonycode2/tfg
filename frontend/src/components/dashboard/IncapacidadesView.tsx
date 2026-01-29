@@ -20,9 +20,8 @@ const TIPOS_INCAPACIDAD = [
   { value: 'ENFERMEDAD_COMUN', label: 'Enfermedad Común' },
   { value: 'ACCIDENTE_LABORAL', label: 'Accidente Laboral' },
   { value: 'ACCIDENTE_TRANSITO', label: 'Accidente de Tránsito' },
-  { value: 'MATERNIDAD', label: 'Maternidad' },
-  { value: 'RIESGO_EMBARAZO', label: 'Riesgo de Embarazo' },
-  { value: 'ENFERMEDAD_PROFESIONAL', label: 'Enfermedad Profesional' },
+  { value: 'LICENCIA_DE_MATERNIDAD', label: 'Licencia de Maternidad' },
+  { value: 'LICENCIA_DE_PATERNIDAD', label: 'Licencia de Paternidad' },
 ];
 
 const ENTIDADES_EMISORAS = [

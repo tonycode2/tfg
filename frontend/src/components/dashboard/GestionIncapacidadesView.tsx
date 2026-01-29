@@ -16,6 +16,7 @@ import {
 } from '@/services/incapacidadesService';
 import { formatearFecha } from '../../lib/utils';
 import { FileText, User, Eye, CheckCircle, XCircle, Clock, Filter, Ban, Activity, AlertCircle } from 'lucide-react';
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 
 const TIPOS_INCAPACIDAD: Record<string, string> = {
   'ENFERMEDAD_COMUN': 'Enfermedad Común',
@@ -24,6 +25,7 @@ const TIPOS_INCAPACIDAD: Record<string, string> = {
   'MATERNIDAD': 'Maternidad',
   'RIESGO_EMBARAZO': 'Riesgo de Embarazo',
   'ENFERMEDAD_PROFESIONAL': 'Enfermedad Profesional',
+  'LICENCIA_DE_PATERNIDAD': 'Licencia de paternidad',
 };
 
 const ENTIDADES_EMISORAS: Record<string, string> = {
@@ -276,36 +278,36 @@ export default function GestionIncapacidadesView() {
               {vistaActual === 'todas' && (
                 <div>
                   <Label htmlFor="filtroEstado">Estado</Label>
-                  <select
-                    id="filtroEstado"
-                    value={filtroEstado}
-                    onChange={(e) => setFiltroEstado(e.target.value)}
-                    className="w-full border rounded-md px-3 py-2"
-                  >
-                    <option value="">Todos</option>
-                    <option value="PENDIENTE">Pendiente</option>
-                    <option value="PENDIENTE_RH">Pendiente RH</option>
-                    <option value="APROBADA_POR_JEFE">Aprobada por Jefe</option>
-                    <option value="APROBADA">Aprobada</option>
-                    <option value="RECHAZADA_POR_JEFE">Rechazada por Jefe</option>
-                    <option value="RECHAZADA_POR_RH">Rechazada por RH</option>
-                    <option value="CANCELADA">Cancelada</option>
-                  </select>
+                  <Select value={filtroEstado === '' ? '__ALL__' : filtroEstado} onValueChange={(v) => setFiltroEstado(v === '__ALL__' ? '' : String(v))}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="__ALL__">Todos</SelectItem>
+                      <SelectItem value="PENDIENTE">Pendiente</SelectItem>
+                      <SelectItem value="PENDIENTE_RH">Pendiente RH</SelectItem>
+                      <SelectItem value="APROBADA_POR_JEFE">Aprobada por Jefe</SelectItem>
+                      <SelectItem value="APROBADA">Aprobada</SelectItem>
+                      <SelectItem value="RECHAZADA_POR_JEFE">Rechazada por Jefe</SelectItem>
+                      <SelectItem value="RECHAZADA_POR_RH">Rechazada por RH</SelectItem>
+                      <SelectItem value="CANCELADA">Cancelada</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               )}
               <div>
                 <Label htmlFor="filtroTipo">Tipo de Incapacidad</Label>
-                <select
-                  id="filtroTipo"
-                  value={filtroTipo}
-                  onChange={(e) => setFiltroTipo(e.target.value)}
-                  className="w-full border rounded-md px-3 py-2"
-                >
-                  <option value="">Todos</option>
-                  {Object.entries(TIPOS_INCAPACIDAD).map(([key, label]) => (
-                    <option key={key} value={key}>{label}</option>
-                  ))}
-                </select>
+                <Select value={filtroTipo === '' ? '__ALL__' : filtroTipo} onValueChange={(v) => setFiltroTipo(v === '__ALL__' ? '' : String(v))}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__ALL__">Todos</SelectItem>
+                    {Object.entries(TIPOS_INCAPACIDAD).map(([key, label]) => (
+                      <SelectItem key={key} value={key}>{label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <Label htmlFor="filtroEmpleado">Empleado</Label>

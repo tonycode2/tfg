@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { SimpleDataTable } from '@/components/SimpleDataTable';
+import { DataTable } from '@/components/DataTable';
 import { Modal } from '@/components/Modal';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -371,21 +371,25 @@ export function EmpleadosView() {
           {isLoading ? (
             <div className="text-center py-8">Cargando...</div>
           ) : (
-            <SimpleDataTable
-              data={empleados}
+            <DataTable
+              service={empleadosService}
               columns={columns}
+              title="Gestión de Empleados"
+              hideHeader={true}
               onEdit={handleEdit}
-              onDelete={handleDelete}
-              customActions={(empleado) => (
+              onCreate={handleAdd}
+              refreshTrigger={0}
+              customActions={(empleado: any) => (
                 !empleado.nombreUsuario && (
                   <Button
-                    variant="ghost"
+                    variant="outline"
                     size="sm"
-                    onClick={() => handleGenerarUsuario(empleado.id)}
-                    className="h-8 px-2 mr-1"
-                    title="Generar Usuario"
+                    onClick={(e: React.MouseEvent) => {
+                      e.stopPropagation();
+                      handleGenerarUsuario(empleado.id);
+                    }}
                   >
-                    👤
+                    👤 Generar Usuario
                   </Button>
                 )
               )}

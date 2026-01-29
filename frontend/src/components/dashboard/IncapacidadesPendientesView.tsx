@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DatePicker } from '@/components/ui/date-picker';
 import { Modal } from '@/components/Modal';
 import type { RespuestaIncapacidad, SolicitudExtensionIncapacidad } from '@/services/incapacidadesService';
 import { 
@@ -14,26 +16,33 @@ import {
   solicitarExtension
 } from '@/services/incapacidadesService';
 import { formatearFecha, parseContentDispositionFilename, buildIncapacidadFilename } from '../../lib/utils';
-import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock, Activity, AlertCircle, ArrowRightCircle } from 'lucide-react';
+import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock, Activity, AlertCircle, ArrowRightCircle, Plus } from 'lucide-react';
+import { authService } from '@/services/authService';
+import { crearSolicitud } from '@/services/incapacidadesService';
+import { obtenerEmpleadosMisDepartamentos } from '@/services/evaluacionesService';
 
-const TIPOS_INCAPACIDAD: Record<string, string> = {
-  'ENFERMEDAD_COMUN': 'Enfermedad Común',
-  'ACCIDENTE_LABORAL': 'Accidente Laboral',
-  'ACCIDENTE_TRANSITO': 'Accidente de Tránsito',
-  'MATERNIDAD': 'Maternidad',
-  'RIESGO_EMBARAZO': 'Riesgo de Embarazo',
-  'ENFERMEDAD_PROFESIONAL': 'Enfermedad Profesional',
+const TIPOS_INCAPACIDAD = [
+  { value: 'ENFERMEDAD_COMUN', label: 'Enfermedad Común' },
+  { value: 'ACCIDENTE_LABORAL', label: 'Accidente Laboral' },
+  { value: 'ACCIDENTE_TRANSITO', label: 'Accidente de Tránsito' },
+  { value: 'LICENCIA_DE_MATERNIDAD', label: 'Licencia de Maternidad' },
+  { value: 'LICENCIA_DE_PATERNIDAD', label: 'Licencia de Paternidad' },
+];
+
+const ENTIDADES_EMISORAS = [
+  { value: 'CCSS', label: 'CCSS' },
+  { value: 'INS', label: 'INS' },
+  { value: 'CLINICA_PRIVADA', label: 'Clínica Privada' },
+  { value: 'OTRO', label: 'Otro' },
+];
+
+const getTipoIncapacidadLabel = (tipo: string) => {
+  return TIPOS_INCAPACIDAD.find(t => t.value === tipo)?.label || tipo;
 };
 
-const ENTIDADES_EMISORAS: Record<string, string> = {
-  'CCSS': 'CCSS',
-  'INS': 'INS',
-  'CLINICA_PRIVADA': 'Clínica Privada',
-  'OTRO': 'Otro',
+const getEntidadEmisoraLabel = (entidad: string) => {
+  return ENTIDADES_EMISORAS.find(e => e.value === entidad)?.label || entidad;
 };
-
-const getTipoIncapacidadLabel = (tipo: string) => TIPOS_INCAPACIDAD[tipo] || tipo;
-const getEntidadEmisoraLabel = (entidad: string) => ENTIDADES_EMISORAS[entidad] || entidad;
 
 export default function IncapacidadesPendientesView() {
   const [solicitudes, setSolicitudes] = useState<RespuestaIncapacidad[]>([]);
@@ -46,6 +55,23 @@ export default function IncapacidadesPendientesView() {
   const [comentarios, setComentarios] = useState('');
   const [procesando, setProcesando] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Estados para crear incapacidad en nombre de un empleado a cargo (JEFE)
+  const [showNuevaSolicitudModal, setShowNuevaSolicitudModal] = useState(false);
+  const [empleadosACargo, setEmpleadosACargo] = useState<any[]>([]);
+  const [selectedEmpleadoId, setSelectedEmpleadoId] = useState<number | null>(null);
+  const [formData, setFormData] = useState({
+    fechaInicio: '',
+    fechaFin: '',
+    diasTotales: 0,
+    tipoIncapacidad: 'ENFERMEDAD_COMUN',
+    porcentajePago: 50,
+    entidadEmisora: 'CCSS',
+    numeroDocumento: '',
+    observaciones: '',
+  });
+  const [archivoAdjunto, setArchivoAdjunto] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   // Estados para el formulario de extensión
   const [nuevaFechaFin, setNuevaFechaFin] = useState('');
@@ -162,6 +188,96 @@ export default function IncapacidadesPendientesView() {
     setShowExtenderModal(true);
   };
 
+  const abrirModalNuevaSolicitud = async () => {
+    try {
+      // cargar empleados a cargo del jefe
+      const lista = await obtenerEmpleadosMisDepartamentos();
+      setEmpleadosACargo(lista || []);
+      // seleccionar el primer empleado por defecto si existe
+      if (lista && lista.length > 0) {
+        setSelectedEmpleadoId((lista[0] as any).empleadoId || null);
+      }
+      setShowNuevaSolicitudModal(true);
+    } catch (err) {
+      console.error('Error al cargar empleados a cargo:', err);
+      alert('No se pudieron cargar los empleados a cargo');
+    }
+  };
+
+  const handleFechaChange = (campo: 'fechaInicio' | 'fechaFin', valor: string) => {
+    const newFormData = { ...formData, [campo]: valor };
+    if (newFormData.fechaInicio && newFormData.fechaFin) {
+      const fin = new Date(newFormData.fechaFin);
+      const inicio = new Date(newFormData.fechaInicio);
+      const diff = Math.round((fin.getTime() - inicio.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+      newFormData.diasTotales = diff > 0 ? diff : 1;
+    }
+    setFormData(newFormData);
+  };
+
+  const resetForm = () => {
+    setFormData({
+      fechaInicio: '',
+      fechaFin: '',
+      diasTotales: 0,
+      tipoIncapacidad: 'ENFERMEDAD_COMUN',
+      porcentajePago: 50,
+      entidadEmisora: 'CCSS',
+      numeroDocumento: '',
+      observaciones: '',
+    });
+    setArchivoAdjunto(null);
+    setSelectedEmpleadoId(null);
+  };
+
+  const handleSubmitNuevaSolicitud = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.fechaInicio || !formData.fechaFin) {
+      alert('Debe seleccionar fechas');
+      return;
+    }
+    if (!selectedEmpleadoId) {
+      alert('Debe seleccionar un empleado');
+      return;
+    }
+
+    try {
+      const form = new FormData();
+      form.append('fechaInicio', formData.fechaInicio);
+      form.append('fechaFin', formData.fechaFin);
+      form.append('diasTotales', String(formData.diasTotales > 0 ? formData.diasTotales : 1));
+      form.append('tipoIncapacidad', formData.tipoIncapacidad);
+      form.append('porcentajePago', String(formData.porcentajePago));
+      form.append('entidadEmisora', formData.entidadEmisora);
+      if (formData.numeroDocumento) form.append('numeroDocumento', formData.numeroDocumento);
+      if (formData.observaciones) form.append('observaciones', formData.observaciones);
+      form.append('idEmpleado', String(selectedEmpleadoId));
+
+      if (archivoAdjunto) {
+        const MAX_SIZE = 5 * 1024 * 1024;
+        if (archivoAdjunto.size > MAX_SIZE) {
+          alert('El archivo excede 5 MB');
+          return;
+        }
+        const tipo = archivoAdjunto.type || '';
+        if (!(tipo === 'application/pdf' || tipo.startsWith('image/'))) {
+          alert('Tipo de archivo no permitido');
+          return;
+        }
+        form.append('archivo', archivoAdjunto);
+      }
+
+      await crearSolicitud(form);
+      alert('Solicitud creada correctamente');
+      setShowNuevaSolicitudModal(false);
+      resetForm();
+      cargarDatos();
+    } catch (err) {
+      console.error('Error al crear solicitud:', err);
+      alert(err instanceof Error ? err.message : 'Error al crear la solicitud');
+    }
+  };
+
   const handleSolicitarExtension = async () => {
     if (!incapacidadAExtender) return;
 
@@ -208,11 +324,21 @@ export default function IncapacidadesPendientesView() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight">Incapacidades Pendientes</h2>
-        <p className="text-muted-foreground">
-          Revise y apruebe/rechace las solicitudes de incapacidad de su departamento
-        </p>
+      <div className="flex justify-between items-start">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">Incapacidades Pendientes</h2>
+          <p className="text-muted-foreground">
+            Revise y apruebe/rechace las solicitudes de incapacidad de su departamento
+          </p>
+        </div>
+        {authService.getUserInfo().role === 'JEFE' && (
+          <div>
+            <Button onClick={abrirModalNuevaSolicitud} className="gap-2">
+              <Plus className="h-4 w-4" />
+              Agregar Incapacidad
+            </Button>
+          </div>
+        )}
       </div>
 
       {error && (
@@ -449,6 +575,123 @@ export default function IncapacidadesPendientesView() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Modal Crear Nueva Solicitud (Jefe) */}
+      <Modal
+        isOpen={showNuevaSolicitudModal}
+        onClose={() => {
+          setShowNuevaSolicitudModal(false);
+          resetForm();
+        }}
+        title="Nueva Incapacidad (a nombre de empleado)"
+      >
+        <form onSubmit={handleSubmitNuevaSolicitud} className="space-y-4">
+          <div>
+            <Label>Empleado *</Label>
+            <Select value={selectedEmpleadoId ? String(selectedEmpleadoId) : ''} onValueChange={(v) => setSelectedEmpleadoId(v ? Number(v) : null)} required>
+              <SelectTrigger>
+                <SelectValue placeholder="Seleccione empleado" />
+              </SelectTrigger>
+              <SelectContent>
+                {empleadosACargo.map((emp: any) => (
+                  <SelectItem key={emp.empleadoId} value={String(emp.empleadoId)}>
+                    {emp.nombre} {emp.primerApellido} {emp.segundoApellido || ''}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label>Tipo de Incapacidad *</Label>
+            <Select value={formData.tipoIncapacidad} onValueChange={(v) => setFormData({ ...formData, tipoIncapacidad: v })} required>
+              <SelectTrigger>
+                <SelectValue placeholder="Seleccione un tipo" />
+              </SelectTrigger>
+              <SelectContent>
+                {TIPOS_INCAPACIDAD.map((t) => (
+                  <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label>Fecha Inicio *</Label>
+              <DatePicker value={formData.fechaInicio} onChange={(f) => handleFechaChange('fechaInicio', f)} placeholder="Seleccionar fecha inicio" fromYear={new Date().getFullYear()-1} toYear={new Date().getFullYear()+1} />
+            </div>
+            <div>
+              <Label>Fecha Fin *</Label>
+              <DatePicker value={formData.fechaFin} onChange={(f) => handleFechaChange('fechaFin', f)} placeholder="Seleccionar fecha fin" fromYear={new Date().getFullYear()-1} toYear={new Date().getFullYear()+1} />
+            </div>
+          </div>
+
+          {formData.diasTotales > 0 && (
+            <div className="p-3 bg-muted rounded-lg">
+              <Label className="text-muted-foreground">Días de Incapacidad</Label>
+              <p className="text-2xl font-bold text-primary">{formData.diasTotales} día(s)</p>
+            </div>
+          )}
+
+          <div>
+            <Label>Entidad Emisora *</Label>
+            <Select value={formData.entidadEmisora} onValueChange={(v) => setFormData({ ...formData, entidadEmisora: v, porcentajePago: v === 'INS' ? 100 : v === 'CCSS' ? 50 : 0 })} required>
+              <SelectTrigger>
+                <SelectValue placeholder="Seleccione entidad" />
+              </SelectTrigger>
+              <SelectContent>
+                {ENTIDADES_EMISORAS.map((e) => (
+                  <SelectItem key={e.value} value={e.value}>{e.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
+            <Label>Número de Documento</Label>
+            <Input value={formData.numeroDocumento} onChange={(e) => setFormData({ ...formData, numeroDocumento: e.target.value })} placeholder="Ej: BLI-2026-001234" />
+          </div>
+
+          <div>
+            <Label>Documento Adjunto (Opcional)</Label>
+            <div className="mt-2">
+              <input id="archivoAdjunto" ref={fileInputRef} type="file" accept="application/pdf,image/*" className="hidden" onChange={(e) => setArchivoAdjunto(e.target.files && e.target.files[0] ? e.target.files[0] : null)} />
+              <div className="border border-dashed rounded-md p-3 flex items-center justify-between gap-4">
+                <div className="text-sm text-muted-foreground">
+                  {archivoAdjunto ? (
+                    <span className="font-medium">{archivoAdjunto.name}</span>
+                  ) : (
+                    <span>No se ha seleccionado archivo</span>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button type="button" variant="outline" onClick={() => fileInputRef.current && fileInputRef.current.click()}>
+                    Adjuntar archivo
+                  </Button>
+                  {archivoAdjunto && (
+                    <Button type="button" variant="ghost" onClick={() => setArchivoAdjunto(null)}>Quitar</Button>
+                  )}
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">Adjunte un PDF o imagen; el archivo se guardará internamente.</p>
+            </div>
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <Label>Observaciones</Label>
+              <span className="text-xs text-muted-foreground">{formData.observaciones.length}/1000</span>
+            </div>
+            <Textarea value={formData.observaciones} onChange={(e) => setFormData({ ...formData, observaciones: e.target.value })} placeholder="Información adicional sobre la incapacidad..." maxLength={1000} rows={3} />
+          </div>
+
+          <div className="flex gap-2 justify-end">
+            <Button type="button" variant="outline" onClick={() => { setShowNuevaSolicitudModal(false); resetForm(); }}>Cancelar</Button>
+            <Button type="submit">Crear Solicitud</Button>
+          </div>
+        </form>
+      </Modal>
 
       {/* Modal Revisar Solicitud */}
       <Modal

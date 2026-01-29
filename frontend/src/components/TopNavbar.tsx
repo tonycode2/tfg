@@ -1,6 +1,7 @@
 import { memo, useMemo, useState } from 'react';
 import { cn } from '../lib/utils';
 import { Button } from './ui/button';
+import { Popover, PopoverTrigger, PopoverContent } from './ui/popover';
 import { useTheme } from '../hooks/useTheme';
 import type { Role } from '../services/authService';
 import type { ReactElement } from 'react';
@@ -213,43 +214,7 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-// NavItem component with hover expand effect
-const NavItem = memo(function NavItem({
-  item,
-  isActive,
-  onClick,
-}: {
-  item: MenuItem;
-  isActive: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className={cn(
-        'group relative flex items-center gap-2 rounded-lg px-3 py-2 transition-all duration-200 ease-in-out',
-        'hover:bg-accent',
-        isActive
-          ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-          : 'text-muted-foreground hover:text-accent-foreground'
-      )}
-    >
-      {/* Icon - always visible */}
-      <span className="flex-shrink-0">{item.icon}</span>
-      
-      {/* Label - hidden by default, visible on hover with animation */}
-      <span
-        className={cn(
-          'whitespace-nowrap overflow-hidden transition-all duration-200 ease-in-out',
-          'max-w-0 opacity-0 group-hover:max-w-[200px] group-hover:opacity-100',
-          isActive && 'max-w-[200px] opacity-100'
-        )}
-      >
-        {item.label}
-      </span>
-    </button>
-  );
-});
+// NavItem removed: replaced by simplified text-only buttons and popovers
 
 // Mobile hamburger menu
 const MobileMenu = memo(function MobileMenu({
@@ -325,6 +290,9 @@ export const TopNavbar = memo(function TopNavbar({
 }: TopNavbarProps) {
   const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [misServiciosOpen, setMisServiciosOpen] = useState(false);
+  const [rhOpen, setRhOpen] = useState(false);
+  const [administrativoOpen, setAdministrativoOpen] = useState(false);
 
   const filteredItems = useMemo(
     () => menuItems.filter((item) => item.roles.includes(userRole)),
@@ -378,16 +346,244 @@ export const TopNavbar = memo(function TopNavbar({
             </div>
           </div>
 
-          {/* Center: Navigation items (hidden on mobile) */}
-          <nav className="hidden md:flex items-center gap-1">
-            {filteredItems.map((item) => (
-              <NavItem
-                key={item.id}
-                item={item}
-                isActive={activeItem === item.id}
-                onClick={() => onItemClick(item.id)}
-              />
-            ))}
+          {/* Center: Simplified navigation (hidden on mobile) */}
+          <nav className="hidden md:flex items-center gap-4">
+            {userRole === 'ADMIN' ? (
+              <button
+                onClick={() => onItemClick('mantenimientos')}
+                className={cn(
+                  'rounded-lg px-3 py-2 transition-colors',
+                  activeItem === 'mantenimientos'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-foreground hover:bg-accent'
+                )}
+              >
+                Mantenimientos y Consultas
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={() => onItemClick('inicio')}
+                  className={cn(
+                    'rounded-lg px-3 py-2 transition-colors',
+                    activeItem === 'inicio'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-foreground hover:bg-accent'
+                  )}
+                >
+                  Inicio
+                </button>
+
+                {/* Mis Servicios dropdown */}
+                <Popover open={misServiciosOpen} onOpenChange={setMisServiciosOpen}>
+                  <PopoverTrigger asChild>
+                    <button className="rounded-lg px-3 py-2 text-foreground hover:bg-accent flex items-center gap-2">
+                      <span>Mis Servicios</span>
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent align="start" className="p-2">
+                    <div className="flex flex-col">
+                      <button
+                        onClick={() => {
+                          setMisServiciosOpen(false);
+                          setTimeout(() => onItemClick('mi-planilla'), 120);
+                        }}
+                        className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'mi-planilla' && 'bg-primary text-primary-foreground')}
+                      >
+                        Mi Planilla
+                      </button>
+                      <button
+                        onClick={() => {
+                          setMisServiciosOpen(false);
+                          setTimeout(() => onItemClick('mis-permisos'), 120);
+                        }}
+                        className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'mis-permisos' && 'bg-primary text-primary-foreground')}
+                      >
+                        Mis Solicitudes
+                      </button>
+                      <button
+                        onClick={() => {
+                          setMisServiciosOpen(false);
+                          setTimeout(() => onItemClick('mis-incapacidades'), 120);
+                        }}
+                        className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'mis-incapacidades' && 'bg-primary text-primary-foreground')}
+                      >
+                        Mis Incapacidades
+                      </button>
+                      <button
+                        onClick={() => {
+                          setMisServiciosOpen(false);
+                          setTimeout(() => onItemClick('mis-horas-extra'), 120);
+                        }}
+                        className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'mis-horas-extra' && 'bg-primary text-primary-foreground')}
+                      >
+                        Mis Horas Extra
+                      </button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                {/* RH dropdown - visible only for HR users */}
+                {userRole === 'HR' && (
+                  <Popover open={rhOpen} onOpenChange={setRhOpen}>
+                    <PopoverTrigger asChild>
+                      <button className="rounded-lg px-3 py-2 text-foreground hover:bg-accent flex items-center gap-2">
+                        <span>RH</span>
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent align="start" className="p-2">
+                      <div className="flex flex-col">
+                        <button
+                          onClick={() => {
+                            setRhOpen(false);
+                            setTimeout(() => onItemClick('gestion-permisos'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'gestion-permisos' && 'bg-primary text-primary-foreground')}
+                        >
+                          Gestión de Permisos
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRhOpen(false);
+                            setTimeout(() => onItemClick('gestion-incapacidades'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'gestion-incapacidades' && 'bg-primary text-primary-foreground')}
+                        >
+                          Gestión de Incapacidades
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRhOpen(false);
+                            setTimeout(() => onItemClick('dias-feriados'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'dias-feriados' && 'bg-primary text-primary-foreground')}
+                        >
+                          Días Feriados
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRhOpen(false);
+                            setTimeout(() => onItemClick('planilla-general'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'planilla-general' && 'bg-primary text-primary-foreground')}
+                        >
+                          Planilla General
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRhOpen(false);
+                            setTimeout(() => onItemClick('liquidaciones'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'liquidaciones' && 'bg-primary text-primary-foreground')}
+                        >
+                          Liquidaciones
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRhOpen(false);
+                            setTimeout(() => onItemClick('aguinaldo'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'aguinaldo' && 'bg-primary text-primary-foreground')}
+                        >
+                          Aguinaldo
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRhOpen(false);
+                            setTimeout(() => onItemClick('empleados'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'empleados' && 'bg-primary text-primary-foreground')}
+                        >
+                          Empleados
+                        </button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                )}
+
+                {/* Administrativo dropdown - visible only for JEFE and ADMIN (hide for EMPLEADO and HR) */}
+                {(userRole === 'JEFE' || userRole === 'ADMIN') && (
+                  <Popover open={administrativoOpen} onOpenChange={setAdministrativoOpen}>
+                    <PopoverTrigger asChild>
+                      <button className="rounded-lg px-3 py-2 text-foreground hover:bg-accent flex items-center gap-2"> 
+                        <span>Administrativo</span>
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent align="start" className="p-2">
+                      <div className="flex flex-col">
+                        <button
+                          onClick={() => {
+                            setAdministrativoOpen(false);
+                            setTimeout(() => onItemClick('horas-extra-pendientes'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'horas-extra-pendientes' && 'bg-primary text-primary-foreground')}
+                        >
+                          Horas Extra Pendientes
+                        </button>
+                        <button
+                          onClick={() => {
+                            setAdministrativoOpen(false);
+                            setTimeout(() => onItemClick('solicitudes-pendientes-permisos'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'solicitudes-pendientes-permisos' && 'bg-primary text-primary-foreground')}
+                        >
+                          Solicitudes Pendientes
+                        </button>
+                        <button
+                          onClick={() => {
+                            setAdministrativoOpen(false);
+                            setTimeout(() => onItemClick('solicitudes-pendientes-incapacidades'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'solicitudes-pendientes-incapacidades' && 'bg-primary text-primary-foreground')}
+                        >
+                          Incapacidades Pendientes
+                        </button>
+                        <button
+                          onClick={() => {
+                            setAdministrativoOpen(false);
+                            setTimeout(() => onItemClick('evaluaciones'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'evaluaciones' && 'bg-primary text-primary-foreground')}
+                        >
+                          Evaluaciones
+                        </button>
+                        <button
+                          onClick={() => {
+                            setAdministrativoOpen(false);
+                            setTimeout(() => onItemClick('reportes'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'reportes' && 'bg-primary text-primary-foreground')}
+                        >
+                          Reportes
+                        </button>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                )}
+
+                {/* Asistencia (to the side of dropdowns) */}
+                <button
+                  onClick={() => onItemClick('asistencia')}
+                  className={cn(
+                    'rounded-lg px-3 py-2 transition-colors',
+                    activeItem === 'asistencia'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'text-foreground hover:bg-accent'
+                  )}
+                >
+                  Asistencia
+                </button>
+              </>
+            )}
           </nav>
 
           {/* Right: User info + actions */}

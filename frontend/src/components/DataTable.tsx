@@ -34,6 +34,7 @@ interface DataTableProps<T> {
   onCreate: () => void;
   refreshTrigger?: number;
   customActions?: (item: T) => React.ReactNode;
+  hideHeader?: boolean;
 }
 
 export function DataTable<T extends { id?: number | string }>({
@@ -44,6 +45,7 @@ export function DataTable<T extends { id?: number | string }>({
   onCreate,
   refreshTrigger = 0,
   customActions,
+  hideHeader = false,
 }: DataTableProps<T>) {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
@@ -169,14 +171,15 @@ export function DataTable<T extends { id?: number | string }>({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-foreground">{title}</h2>
-          <p className="text-sm text-muted-foreground mt-1">
-            Total de registros: {totalElements}
-          </p>
-        </div>
-        <Button onClick={onCreate} className="gap-2">
+      {!hideHeader && (
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">{title}</h2>
+            <p className="text-sm text-muted-foreground mt-1">
+              Total de registros: {totalElements}
+            </p>
+          </div>
+          <Button onClick={onCreate} className="gap-2">
           <svg
             className="w-4 h-4"
             fill="none"
@@ -193,6 +196,7 @@ export function DataTable<T extends { id?: number | string }>({
           Nuevo Registro
         </Button>
       </div>
+      )}
 
       {/* Barra de búsqueda y selector de tamaño */}
       <div className="flex items-center gap-4">

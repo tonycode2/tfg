@@ -28,11 +28,7 @@ import { Calendar, Plus, Eye, FileText, Clock, CheckCircle, XCircle, Palmtree } 
 
 const TIPOS_PERMISO = [
   { value: 'PERSONAL', label: 'Personal' },
-  { value: 'MEDICO', label: 'Médico' },
   { value: 'LUTO', label: 'Luto' },
-  { value: 'MATERNIDAD', label: 'Maternidad' },
-  { value: 'PATERNIDAD', label: 'Paternidad' },
-  { value: 'ESTUDIO', label: 'Estudio' },
   { value: 'SIN_GOCE_SALARIO', label: 'Sin Goce de Salario' },
   { value: 'VACACIONES', label: 'Vacaciones' },
 ];

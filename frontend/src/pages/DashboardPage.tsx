@@ -40,6 +40,7 @@ const MemoizedHorasExtraPendientesView = memo(HorasExtraPendientesView);
 export default function DashboardPage() {
   const navigate = useNavigate();
   const [activeView, setActiveView] = useState('inicio');
+  const [contentHidden, setContentHidden] = useState(false);
   
   // Memoize user info to prevent unnecessary re-computation
   const userInfo = useMemo(() => authService.getUserInfo(), []);
@@ -106,6 +107,17 @@ export default function DashboardPage() {
     }
   }, [activeView, userInfo.role]);
 
+  // Intercept view changes to animate content transition
+  const handleSetActiveView = useCallback((view: string) => {
+    // fade out
+    setContentHidden(true);
+    setTimeout(() => {
+      setActiveView(view);
+      // fade in
+      setContentHidden(false);
+    }, 150);
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Top Navigation Bar */}
@@ -113,12 +125,12 @@ export default function DashboardPage() {
         userRole={userInfo.role}
         username={userInfo.nombreCompleto || userInfo.username}
         activeItem={activeView}
-        onItemClick={setActiveView}
+        onItemClick={handleSetActiveView}
         onLogout={handleLogout}
       />
       
       {/* Main Content Area */}
-      <main className="flex-1 p-4 md:p-6">
+      <main className={"flex-1 p-4 md:p-6 transition-opacity duration-150 " + (contentHidden ? 'opacity-0' : 'opacity-100')}>
         {renderView()}
       </main>
     </div>

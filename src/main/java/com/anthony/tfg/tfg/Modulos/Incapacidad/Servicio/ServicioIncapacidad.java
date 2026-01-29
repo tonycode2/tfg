@@ -84,6 +84,43 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
      */
     public RespuestaIncapacidadesDTO guardar(SolicitudIncapacidadesDTO entidad, Authentication auth) {
         Empleados empleadoAutenticado = obtenerEmpleadoAutenticado(auth);
+
+        // If caller provided an idEmpleado explicitly, allow it only when the caller
+        // has sufficient role/permission (JEFE managing that employee, or HR/ADMIN).
+        Object principal = auth.getPrincipal();
+        com.anthony.tfg.tfg.Modulos.Seguridad.user.User user = (com.anthony.tfg.tfg.Modulos.Seguridad.user.User) principal;
+
+        if (entidad.getIdEmpleado() != null) {
+            // Admins and HR can create on behalf of any employee
+            if (user.getRole() != null && (user.getRole().name().equals("HR") || user.getRole().name().equals("ADMIN"))) {
+                return guardarInterno(entidad);
+            }
+
+            // If caller is JEFE, verify they manage the department of the target employee
+            if (user.getRole() != null && user.getRole().name().equals("JEFE")) {
+                Empleados target = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
+                if (target == null) {
+                    throw new ResourceNotFoundException("Empleados", "id", entidad.getIdEmpleado());
+                }
+                Long idDepartamento = null;
+                if (target.getPuesto() != null && target.getPuesto().getDepartamento() != null) {
+                    idDepartamento = target.getPuesto().getDepartamento().getId();
+                }
+                boolean esJefeDelDepartamento = idDepartamento != null && jefesDepartamentoRepo.findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(empleadoAutenticado.getId(), idDepartamento).isPresent();
+                if (!esJefeDelDepartamento) {
+                    throw new com.anthony.tfg.tfg.Exceptions.ForbiddenException("No tiene permisos para crear incapacidades para este empleado");
+                }
+
+                // Allowed: proceed without overriding idEmpleado
+                return guardarInterno(entidad);
+            }
+
+            // Otherwise (regular employee), ignore provided idEmpleado and use authenticated employee
+            entidad.setIdEmpleado(empleadoAutenticado.getId());
+            return guardarInterno(entidad);
+        }
+
+        // No idEmpleado provided: use authenticated employee
         entidad.setIdEmpleado(empleadoAutenticado.getId());
         return guardarInterno(entidad);
     }

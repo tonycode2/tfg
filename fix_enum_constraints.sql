@@ -19,3 +19,9 @@ ALTER TABLE permisos DROP CONSTRAINT IF EXISTS permisos_tipo_permiso_check;
 ALTER TABLE permisos
   ADD CONSTRAINT permisos_tipo_permiso_check
   CHECK (tipo_permiso IN ('PERSONAL','MEDICO','LUTO','MATERNIDAD','PATERNIDAD','ESTUDIO','SIN_GOCE_SALARIO','VACACIONES'));
+
+-- Fix enum check constraint for incapacidades (ensure DB allows current TipoIncapacidad values)
+ALTER TABLE incapacidades DROP CONSTRAINT IF EXISTS incapacidades_tipo_incapacidad_check;
+ALTER TABLE incapacidades
+  ADD CONSTRAINT incapacidades_tipo_incapacidad_check
+  CHECK (tipo_incapacidad IN ('ENFERMEDAD_COMUN','ACCIDENTE_LABORAL','ACCIDENTE_TRANSITO','LICENCIA_DE_MATERNIDAD','LICENCIA_DE_PATERNIDAD'));

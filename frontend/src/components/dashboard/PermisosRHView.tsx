@@ -22,6 +22,7 @@ import {
   formatearHoras
 } from '../../lib/utils';
 import { FileText, User, Eye, CheckCircle, XCircle, Clock, Filter, Ban, Palmtree } from 'lucide-react';
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
 
 export default function PermisosRHView() {
   const [solicitudesPendientes, setSolicitudesPendientes] = useState<RespuestaPermiso[]>([]);
@@ -260,39 +261,35 @@ export default function PermisosRHView() {
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <Label htmlFor="filtroEstado">Estado</Label>
-                <select
-                  id="filtroEstado"
-                  value={filtroEstado}
-                  onChange={(e) => setFiltroEstado(e.target.value)}
-                  className="w-full border rounded-md px-3 py-2"
-                >
-                  <option value="">Todos</option>
-                  <option value="PENDIENTE">Pendiente</option>
-                  <option value="PENDIENTE_RH">Pendiente RH</option>
-                  <option value="APROBADA_POR_JEFE">Aprobada por Jefe</option>
-                  <option value="APROBADA">Aprobada</option>
-                  <option value="RECHAZADA_POR_JEFE">Rechazada por Jefe</option>
-                  <option value="RECHAZADA_POR_RH">Rechazada por RH</option>
-                  <option value="CANCELADA">Cancelada</option>
-                </select>
+                <Select value={filtroEstado === '' ? '__ALL__' : filtroEstado} onValueChange={(v) => setFiltroEstado(v === '__ALL__' ? '' : String(v))}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__ALL__">Todos</SelectItem>
+                    <SelectItem value="PENDIENTE">Pendiente</SelectItem>
+                    <SelectItem value="PENDIENTE_RH">Pendiente RH</SelectItem>
+                    <SelectItem value="APROBADA_POR_JEFE">Aprobada por Jefe</SelectItem>
+                    <SelectItem value="APROBADA">Aprobada</SelectItem>
+                    <SelectItem value="RECHAZADA_POR_JEFE">Rechazada por Jefe</SelectItem>
+                    <SelectItem value="RECHAZADA_POR_RH">Rechazada por RH</SelectItem>
+                    <SelectItem value="CANCELADA">Cancelada</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <Label htmlFor="filtroTipo">Tipo de Permiso</Label>
-                <select
-                  id="filtroTipo"
-                  value={filtroTipo}
-                  onChange={(e) => setFiltroTipo(e.target.value)}
-                  className="w-full border rounded-md px-3 py-2"
-                >
-                  <option value="">Todos</option>
-                  <option value="PERSONAL">Personal</option>
-                  <option value="MEDICO">Médico</option>
-                  <option value="LUTO">Luto</option>
-                  <option value="MATERNIDAD">Maternidad</option>
-                  <option value="PATERNIDAD">Paternidad</option>
-                  <option value="ESTUDIO">Estudio</option>
-                  <option value="SIN_GOCE_SALARIO">Sin Goce de Salario</option>
-                </select>
+                <Select value={filtroTipo === '' ? '__ALL__' : filtroTipo} onValueChange={(v) => setFiltroTipo(v === '__ALL__' ? '' : String(v))}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="__ALL__">Todos</SelectItem>
+                    <SelectItem value="PERSONAL">Personal</SelectItem>
+                    <SelectItem value="LUTO">Luto</SelectItem>
+                    <SelectItem value="SIN_GOCE_SALARIO">Sin Goce de Salario</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div>
                 <Label htmlFor="filtroEmpleado">Empleado</Label>
