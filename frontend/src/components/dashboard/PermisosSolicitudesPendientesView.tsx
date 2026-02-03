@@ -17,6 +17,7 @@ import {
   formatearHoras
 } from '../../lib/utils';
 import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock, Palmtree } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function PermisosSolicitudesPendientesView() {
   const [solicitudes, setSolicitudes] = useState<RespuestaPermiso[]>([]);
@@ -69,14 +70,14 @@ export default function PermisosSolicitudesPendientesView() {
     try {
       setProcesando(true);
       await aprobarPorJefe(solicitudSeleccionada.id, { comentarios });
-      alert('Solicitud aprobada exitosamente');
+      toast.success('Solicitud aprobada exitosamente');
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
       cargarSolicitudes();
     } catch (err: any) {
       console.error('Error al aprobar solicitud:', err);
-      alert(err.response?.data?.message || 'Error al aprobar la solicitud');
+      toast.error(err.response?.data?.message || 'Error al aprobar la solicitud');
     } finally {
       setProcesando(false);
     }
@@ -86,7 +87,7 @@ export default function PermisosSolicitudesPendientesView() {
     if (!solicitudSeleccionada) return;
 
     if (!comentarios || comentarios.trim().length < 10) {
-      alert('Por favor, proporcione comentarios (mínimo 10 caracteres)');
+      toast.error('Por favor, proporcione comentarios (mínimo 10 caracteres)');
       return;
     }
 
@@ -97,14 +98,14 @@ export default function PermisosSolicitudesPendientesView() {
     try {
       setProcesando(true);
       await rechazarPorJefe(solicitudSeleccionada.id, { comentarios });
-      alert('Solicitud rechazada');
+      toast.success('Solicitud rechazada');
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
       cargarSolicitudes();
     } catch (err: any) {
       console.error('Error al rechazar solicitud:', err);
-      alert(err.response?.data?.message || 'Error al rechazar la solicitud');
+      toast.error(err.response?.data?.message || 'Error al rechazar la solicitud');
     } finally {
       setProcesando(false);
     }

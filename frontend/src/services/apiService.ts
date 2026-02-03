@@ -362,6 +362,18 @@ export interface DiaFeriado {
   descripcion?: string;
 }
 
+export interface JornadaDiaria {
+  id?: number;
+  fecha: string;
+  horaEntrada: string;
+  horaSalida: string;
+  horasRegulares: number;
+  horasExtra: number;
+  observaciones?: string;
+  idEmpleado: number;
+  nombreCompleto?: string;
+}
+
 // Servicios específicos para cada entidad
 export const empleadosService = new EmpleadosService('empleados');
 export const departamentosService = new ApiService<Departamento>('departamentos');
@@ -378,3 +390,4 @@ export const evaluacionesService = new ApiService<EvaluacionDesempeno>('evaluaci
 export const jefesDepartamentoService = new ApiService<JefeDepartamento>('jefes-departamento');
 export const incapacidadesService = new ApiService<Incapacidad>('incapacidades');
 export const diasFeriadosService = new ApiService<DiaFeriado>('dias-feriados');
+export const jornadaDiariaService = new ApiService<JornadaDiaria>('jornada-diaria');

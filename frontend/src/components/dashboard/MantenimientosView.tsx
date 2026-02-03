@@ -28,7 +28,9 @@ import {
   jefesDepartamentoService,
   incapacidadesService,
   diasFeriadosService,
+  jornadaDiariaService,
 } from '@/services/apiService';
+import { toast } from 'sonner';
 
 type EntityType =
   | 'empleados'
@@ -45,7 +47,8 @@ type EntityType =
   | 'planillas'
   | 'evaluaciones'
   | 'jefes-departamento'
-  | 'dias-feriados';
+  | 'dias-feriados'
+  | 'jornada-diaria';
 
 interface EntityConfig {
   name: string;
@@ -68,6 +71,7 @@ const entities: Record<EntityType, EntityConfig> = {
   evaluaciones: { name: 'Evaluaciones', icon: '⭐' },
   'jefes-departamento': { name: 'Jefes de Departamento', icon: '👔' },
   'dias-feriados': { name: 'Días Feriados', icon: '📅' },
+  'jornada-diaria': { name: 'Jornada Diaria', icon: '📋' },
 };
 
 // Configuración de relaciones entre entidades
@@ -116,6 +120,9 @@ const entityRelations: Record<EntityType, FieldRelation[]> = {
   'configuracion-renta': [],
   planillas: [],
   'dias-feriados': [],
+  'jornada-diaria': [
+    { fieldName: 'idEmpleado', label: 'Empleado', entityType: 'empleados', displayField: 'nombre' },
+  ],
 };
 
 export function MantenimientosView() {
@@ -291,7 +298,7 @@ export function MantenimientosView() {
       handleCloseModal();
     } catch (error) {
       console.error('Error al guardar:', error);
-      alert(error instanceof Error ? error.message : 'Error al guardar');
+      toast.error(error instanceof Error ? error.message : 'Error al guardar');
     } finally {
       setIsLoading(false);
     }
@@ -329,6 +336,8 @@ export function MantenimientosView() {
         return jefesDepartamentoService;
       case 'dias-feriados':
         return diasFeriadosService;
+      case 'jornada-diaria':
+        return jornadaDiariaService;
       default:
         throw new Error('Entidad no soportada');
     }
@@ -559,6 +568,47 @@ export function MantenimientosView() {
             }
           },
           { key: 'descripcion', label: 'Descripción' },
+        ];
+      case 'jornada-diaria':
+        return [
+          { 
+            key: 'fecha', 
+            label: 'Fecha',
+            render: (value) => {
+              if (!value) return '';
+              const [year, month, day] = value.split('-');
+              return `${day}/${month}/${year}`;
+            }
+          },
+          { key: 'nombreCompleto', label: 'Empleado' },
+          { 
+            key: 'horaEntrada', 
+            label: 'Entrada',
+            render: (value) => {
+              if (!value) return '';
+              const parts = value.split(':');
+              return `${parts[0]}:${parts[1]}`;
+            }
+          },
+          { 
+            key: 'horaSalida', 
+            label: 'Salida',
+            render: (value) => {
+              if (!value) return '';
+              const parts = value.split(':');
+              return `${parts[0]}:${parts[1]}`;
+            }
+          },
+          { 
+            key: 'horasRegulares', 
+            label: 'Horas Regulares',
+            render: (value) => `${value?.toFixed(2)} hrs`
+          },
+          { 
+            key: 'horasExtra', 
+            label: 'Horas Extra',
+            render: (value) => `${value?.toFixed(2)} hrs`
+          },
         ];
       default:
         return [];
@@ -1635,6 +1685,90 @@ export function MantenimientosView() {
                 value={formData.descripcion || ''}
                 onChange={(e) => setFormData({ ...formData, descripcion: e.target.value })}
                 placeholder="Descripción adicional del feriado..."
+                rows={3}
+              />
+            </div>
+          </div>
+        );
+
+      case 'jornada-diaria':
+        return (
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="fecha">Fecha *</Label>
+              <DatePicker
+                value={formData.fecha || ''}
+                onChange={(date) => setFormData({ ...formData, fecha: date })}
+                placeholder="Seleccionar fecha de la jornada"
+              />
+            </div>
+            <div>
+              <Label htmlFor="idEmpleado">Empleado *</Label>
+              <SearchableSelect
+                options={relationOptions['idEmpleado'] || []}
+                value={formData.idEmpleado?.toString() || ''}
+                onChange={(value) => setFormData({ ...formData, idEmpleado: Number(value) })}
+                placeholder="Seleccionar empleado..."
+                searchPlaceholder="Buscar empleado..."
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="horaEntrada">Hora de Entrada *</Label>
+                <Input
+                  id="horaEntrada"
+                  type="time"
+                  value={formData.horaEntrada || ''}
+                  onChange={(e) => setFormData({ ...formData, horaEntrada: e.target.value })}
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="horaSalida">Hora de Salida *</Label>
+                <Input
+                  id="horaSalida"
+                  type="time"
+                  value={formData.horaSalida || ''}
+                  onChange={(e) => setFormData({ ...formData, horaSalida: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="horasRegulares">Horas Regulares *</Label>
+                <Input
+                  id="horasRegulares"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={formData.horasRegulares || ''}
+                  onChange={(e) => setFormData({ ...formData, horasRegulares: parseFloat(e.target.value) || 0 })}
+                  placeholder="8.00"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="horasExtra">Horas Extra *</Label>
+                <Input
+                  id="horasExtra"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={formData.horasExtra || ''}
+                  onChange={(e) => setFormData({ ...formData, horasExtra: parseFloat(e.target.value) || 0 })}
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="observaciones">Observaciones (Opcional)</Label>
+              <Textarea
+                id="observaciones"
+                value={formData.observaciones || ''}
+                onChange={(e) => setFormData({ ...formData, observaciones: e.target.value })}
+                placeholder="Notas sobre la jornada..."
                 rows={3}
               />
             </div>

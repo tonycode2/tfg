@@ -19,6 +19,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import type { ApiService } from '@/services/apiService';
+import { toast } from 'sonner';
 
 export interface Column<T> {
   key: keyof T | string;
@@ -138,7 +139,7 @@ export function DataTable<T extends { id?: number | string }>({
       loadData();
     } catch (err) {
       console.error('Error al eliminar:', err);
-      alert(err instanceof Error ? err.message : 'Error al eliminar el registro');
+      toast.error(err instanceof Error ? err.message : 'Error al eliminar el registro');
     } finally {
       setIsDeleting(false);
     }

@@ -17,6 +17,7 @@ import {
 import { formatearFecha } from '../../lib/utils';
 import { FileText, User, Eye, CheckCircle, XCircle, Clock, Filter, Ban, Activity, AlertCircle } from 'lucide-react';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
+import { toast } from 'sonner';
 
 const TIPOS_INCAPACIDAD: Record<string, string> = {
   'ENFERMEDAD_COMUN': 'Enfermedad Común',
@@ -151,7 +152,7 @@ export default function GestionIncapacidadesView() {
     try {
       setProcesando(true);
       await aprobarPorRH(solicitudSeleccionada.id, { comentarios });
-      alert('Incapacidad aprobada exitosamente');
+      toast.success('Incapacidad aprobada exitosamente');
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
@@ -159,7 +160,7 @@ export default function GestionIncapacidadesView() {
     } catch (err: unknown) {
       console.error('Error al aprobar incapacidad:', err);
       const errorMessage = err instanceof Error ? err.message : 'Error al aprobar la incapacidad';
-      alert(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setProcesando(false);
     }
@@ -169,7 +170,7 @@ export default function GestionIncapacidadesView() {
     if (!solicitudSeleccionada) return;
 
     if (!comentarios || comentarios.trim().length < 10) {
-      alert('Por favor, proporcione comentarios (mínimo 10 caracteres)');
+      toast.error('Por favor, proporcione comentarios (mínimo 10 caracteres)');
       return;
     }
 
@@ -180,7 +181,7 @@ export default function GestionIncapacidadesView() {
     try {
       setProcesando(true);
       await rechazarPorRH(solicitudSeleccionada.id, { comentarios });
-      alert('Incapacidad rechazada');
+      toast.success('Incapacidad rechazada');
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
@@ -188,7 +189,7 @@ export default function GestionIncapacidadesView() {
     } catch (err: unknown) {
       console.error('Error al rechazar incapacidad:', err);
       const errorMessage = err instanceof Error ? err.message : 'Error al rechazar la incapacidad';
-      alert(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setProcesando(false);
     }
@@ -201,12 +202,12 @@ export default function GestionIncapacidadesView() {
 
     try {
       await cancelarSolicitud(solicitud.id);
-      alert('Incapacidad cancelada exitosamente');
+      toast.success('Incapacidad cancelada exitosamente');
       cargarDatos();
     } catch (err: unknown) {
       console.error('Error al cancelar incapacidad:', err);
       const errorMessage = err instanceof Error ? err.message : 'Error al cancelar la incapacidad';
-      alert(errorMessage);
+      toast.error(errorMessage);
     }
   };
 

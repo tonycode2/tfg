@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
 
 type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
 
@@ -74,7 +75,7 @@ export default function MisHorasExtraView() {
       setLista(filtered || []);
     } catch (e) {
       console.error(e);
-      alert('No se pudo cargar las solicitudes');
+      toast.error('No se pudo cargar las solicitudes');
     } finally {
       setLoading(false);
     }
@@ -86,7 +87,7 @@ export default function MisHorasExtraView() {
       const idEmpleado = userInfo.idEmpleado;
 
       if (!idEmpleado) {
-        alert('No se pudo determinar el empleado autenticado. Inicie sesión nuevamente.');
+        toast.error('No se pudo determinar el empleado autenticado. Inicie sesión nuevamente.');
         return;
       }
 
@@ -112,12 +113,12 @@ export default function MisHorasExtraView() {
         const err = await res.json();
         throw new Error(err.message || 'Error en la solicitud');
       }
-      alert('Solicitud enviada');
+      toast.success('Solicitud enviada');
       setMotivo('');
       setHoras(1);
       fetchLista();
     } catch (err: any) {
-      alert(err.message || 'Error');
+      toast.error(err.message || 'Error');
     }
   }
 

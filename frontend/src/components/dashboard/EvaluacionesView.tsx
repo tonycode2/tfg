@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { obtenerDepartamentosAccesibles } from '@/services/asistenciaService';
 import evaluacionesService, { type EmpleadoEvaluacionResumen, obtenerEvaluacionesPorEmpleado } from '@/services/evaluacionesService';
 import { evaluacionesService as apiEvaluaciones, departamentosService, type EvaluacionDesempeno } from '@/services/apiService';
-import { useToast } from '@/components/ui/Toast';
+import { toast } from 'sonner';
 
 export function EvaluacionesView() {
   const [departamentos, setDepartamentos] = useState<{ id: number; nombre: string }[]>([]);
@@ -21,7 +21,6 @@ export function EvaluacionesView() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [detalles, setDetalles] = useState<EvaluacionDesempeno[]>([]);
   const [detailsLoading, setDetailsLoading] = useState(false);
-  const toast = useToast();
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -116,7 +115,7 @@ export function EvaluacionesView() {
       await apiEvaluaciones.create(payload);
       setIsModalOpen(false);
       if (selectedDep) await loadResumen(selectedDep);
-      try { toast.show('success', 'Evaluación creada correctamente'); } catch { alert('Evaluación creada correctamente'); }
+      toast.success('Evaluación creada correctamente');
     } catch (error: any) {
       console.error('Error creando evaluación', error);
       const validation = (error as any)?.validationErrors;
@@ -126,7 +125,7 @@ export function EvaluacionesView() {
         setErrors(map);
       } else {
         const msg = error?.message || 'Error al crear la evaluación';
-        try { toast.show('error', msg); } catch { alert(msg); }
+        toast.error(msg);
       }
     } finally {
       setIsSubmitting(false);

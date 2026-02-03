@@ -20,6 +20,7 @@ import { Calendar, FileText, User, Eye, CheckCircle, XCircle, Clock, Activity, A
 import { authService } from '@/services/authService';
 import { crearSolicitud } from '@/services/incapacidadesService';
 import { obtenerEmpleadosMisDepartamentos } from '@/services/evaluacionesService';
+import { toast } from 'sonner';
 
 const TIPOS_INCAPACIDAD = [
   { value: 'ENFERMEDAD_COMUN', label: 'Enfermedad Común' },
@@ -136,7 +137,7 @@ export default function IncapacidadesPendientesView() {
     try {
       setProcesando(true);
       await aprobarPorJefe(solicitudSeleccionada.id, { comentarios });
-      alert('Solicitud de incapacidad aprobada exitosamente');
+      toast.success('Solicitud de incapacidad aprobada exitosamente');
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
@@ -144,7 +145,7 @@ export default function IncapacidadesPendientesView() {
     } catch (err: unknown) {
       console.error('Error al aprobar solicitud:', err);
       const errorMessage = err instanceof Error ? err.message : 'Error al aprobar la solicitud';
-      alert(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setProcesando(false);
     }
@@ -154,7 +155,7 @@ export default function IncapacidadesPendientesView() {
     if (!solicitudSeleccionada) return;
 
     if (!comentarios || comentarios.trim().length < 10) {
-      alert('Por favor, proporcione comentarios (mínimo 10 caracteres) para rechazar la solicitud');
+      toast.error('Por favor, proporcione comentarios (mínimo 10 caracteres) para rechazar la solicitud');
       return;
     }
 
@@ -165,7 +166,7 @@ export default function IncapacidadesPendientesView() {
     try {
       setProcesando(true);
       await rechazarPorJefe(solicitudSeleccionada.id, { comentarios });
-      alert('Solicitud de incapacidad rechazada');
+      toast.success('Solicitud de incapacidad rechazada');
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
@@ -173,7 +174,7 @@ export default function IncapacidadesPendientesView() {
     } catch (err: unknown) {
       console.error('Error al rechazar solicitud:', err);
       const errorMessage = err instanceof Error ? err.message : 'Error al rechazar la solicitud';
-      alert(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setProcesando(false);
     }
@@ -200,7 +201,7 @@ export default function IncapacidadesPendientesView() {
       setShowNuevaSolicitudModal(true);
     } catch (err) {
       console.error('Error al cargar empleados a cargo:', err);
-      alert('No se pudieron cargar los empleados a cargo');
+      toast.error('No se pudieron cargar los empleados a cargo');
     }
   };
 
@@ -233,11 +234,11 @@ export default function IncapacidadesPendientesView() {
   const handleSubmitNuevaSolicitud = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fechaInicio || !formData.fechaFin) {
-      alert('Debe seleccionar fechas');
+      toast.error('Debe seleccionar fechas');
       return;
     }
     if (!selectedEmpleadoId) {
-      alert('Debe seleccionar un empleado');
+      toast.error('Debe seleccionar un empleado');
       return;
     }
 
@@ -256,25 +257,25 @@ export default function IncapacidadesPendientesView() {
       if (archivoAdjunto) {
         const MAX_SIZE = 5 * 1024 * 1024;
         if (archivoAdjunto.size > MAX_SIZE) {
-          alert('El archivo excede 5 MB');
+          toast.error('El archivo excede 5 MB');
           return;
         }
         const tipo = archivoAdjunto.type || '';
         if (!(tipo === 'application/pdf' || tipo.startsWith('image/'))) {
-          alert('Tipo de archivo no permitido');
+          toast.error('Tipo de archivo no permitido');
           return;
         }
         form.append('archivo', archivoAdjunto);
       }
 
       await crearSolicitud(form);
-      alert('Solicitud creada correctamente');
+      toast.success('Solicitud creada correctamente');
       setShowNuevaSolicitudModal(false);
       resetForm();
       cargarDatos();
     } catch (err) {
       console.error('Error al crear solicitud:', err);
-      alert(err instanceof Error ? err.message : 'Error al crear la solicitud');
+      toast.error(err instanceof Error ? err.message : 'Error al crear la solicitud');
     }
   };
 
@@ -282,13 +283,13 @@ export default function IncapacidadesPendientesView() {
     if (!incapacidadAExtender) return;
 
     if (!nuevaFechaFin || !diasAdicionales) {
-      alert('Por favor, complete todos los campos requeridos');
+      toast.error('Por favor, complete todos los campos requeridos');
       return;
     }
 
     const diasNum = parseInt(diasAdicionales);
     if (isNaN(diasNum) || diasNum <= 0) {
-      alert('Los días adicionales deben ser un número positivo');
+      toast.error('Los días adicionales deben ser un número positivo');
       return;
     }
 
@@ -301,14 +302,14 @@ export default function IncapacidadesPendientesView() {
         observaciones: observacionesExtension || undefined,
       };
       await solicitarExtension(incapacidadAExtender.id, solicitud);
-      alert('Solicitud de extensión creada exitosamente. Debe ser aprobada por RH.');
+      toast.success('Solicitud de extensión creada exitosamente. Debe ser aprobada por RH.');
       setShowExtenderModal(false);
       setIncapacidadAExtender(null);
       cargarDatos();
     } catch (err: unknown) {
       console.error('Error al solicitar extensión:', err);
       const errorMessage = err instanceof Error ? err.message : 'Error al solicitar la extensión';
-      alert(errorMessage);
+      toast.error(errorMessage);
     } finally {
       setProcesando(false);
     }
@@ -456,7 +457,7 @@ export default function IncapacidadesPendientesView() {
                                 URL.revokeObjectURL(href);
                               } catch (err) {
                                 console.error(err);
-                                alert('No se pudo descargar el archivo');
+                                toast.error('No se pudo descargar el archivo');
                               }
                             }}
                             className="text-primary hover:underline"
@@ -810,7 +811,7 @@ export default function IncapacidadesPendientesView() {
                       URL.revokeObjectURL(href);
                     } catch (err) {
                       console.error(err);
-                      alert('No se pudo descargar el archivo');
+                      toast.error('No se pudo descargar el archivo');
                     }
                   }}
                   className="text-primary hover:underline flex items-center gap-1 mt-1"

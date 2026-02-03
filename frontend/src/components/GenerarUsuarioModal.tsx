@@ -3,6 +3,7 @@ import { Modal } from './Modal';
 import { Button } from './ui/button';
 import { Label } from './ui/label';
 import { empleadosService, type Role, type CredencialesResponse } from '@/services/apiService';
+import { toast } from 'sonner';
 
 interface GenerarUsuarioModalProps {
   isOpen: boolean;
@@ -57,7 +58,7 @@ export function GenerarUsuarioModal({
       setShowCredentials(true);
     } catch (error) {
       console.error('Error al generar usuario:', error);
-      alert(error instanceof Error ? error.message : 'Error al generar usuario');
+      toast.error(error instanceof Error ? error.message : 'Error al generar usuario');
     } finally {
       setIsLoading(false);
     }
@@ -75,7 +76,7 @@ export function GenerarUsuarioModal({
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
-    alert(`${label} copiado al portapapeles`);
+    toast.success(`${label} copiado al portapapeles`);
   };
 
   return (

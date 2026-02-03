@@ -5,6 +5,7 @@ import DashboardPage from './pages/DashboardPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import { ThemeProvider } from './hooks/useTheme';
 import { authService } from './services/authService';
+import { Toaster } from '@/components/ui/sonner';
 
 // Memoized ProtectedRoute to prevent unnecessary re-renders
 const ProtectedRoute = memo(({ children }: { children: React.ReactNode }) => {
@@ -37,6 +38,7 @@ function App() {
           />
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
+        <Toaster />
       </BrowserRouter>
     </ThemeProvider>
   );

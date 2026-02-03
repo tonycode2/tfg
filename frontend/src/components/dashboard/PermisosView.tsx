@@ -25,6 +25,7 @@ import {
   formatearHoras
 } from '../../lib/utils';
 import { Calendar, Plus, Eye, FileText, Clock, CheckCircle, XCircle, Palmtree } from 'lucide-react';
+import { toast } from 'sonner';
 
 const TIPOS_PERMISO = [
   { value: 'PERSONAL', label: 'Personal' },
@@ -153,12 +154,12 @@ export default function PermisosView() {
     
     // Validaciones comunes
     if (!formData.fechaInicio) {
-      alert('Debe seleccionar la fecha de inicio');
+      toast.error('Debe seleccionar la fecha de inicio');
       return;
     }
     
     if (formData.motivo.length < 10) {
-      alert('El motivo debe tener al menos 10 caracteres');
+      toast.error('El motivo debe tener al menos 10 caracteres');
       return;
     }
     
@@ -167,34 +168,34 @@ export default function PermisosView() {
     const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
     
     if (formData.fechaInicio < hoyStr) {
-      alert('No se permiten solicitudes con fechas pasadas');
+      toast.error('No se permiten solicitudes con fechas pasadas');
       return;
     }
     
     // Validaciones específicas por unidad de tiempo
     if (formData.unidadTiempo === 'HORAS') {
       if (!formData.horaInicio || !formData.horaFin) {
-        alert('Debe seleccionar hora de inicio y fin');
+        toast.error('Debe seleccionar hora de inicio y fin');
         return;
       }
       if (formData.totalHoras <= 0) {
-        alert('La hora de fin debe ser posterior a la hora de inicio');
+        toast.error('La hora de fin debe ser posterior a la hora de inicio');
         return;
       }
       // No se permiten vacaciones por horas
       if (formData.tipoPermiso === 'VACACIONES') {
-        alert('Las vacaciones solo pueden solicitarse por días completos');
+        toast.error('Las vacaciones solo pueden solicitarse por días completos');
         return;
       }
     } else {
       if (!formData.fechaFin) {
-        alert('Debe seleccionar la fecha de fin');
+        toast.error('Debe seleccionar la fecha de fin');
         return;
       }
       // Validar saldo de vacaciones
       if (formData.tipoPermiso === 'VACACIONES' && saldoVacaciones !== null) {
         if (formData.diasTotales > saldoVacaciones) {
-          alert(`No tiene suficiente saldo de vacaciones. Tiene ${saldoVacaciones} día(s) disponible(s) y está solicitando ${formData.diasTotales} día(s).`);
+          toast.error(`No tiene suficiente saldo de vacaciones. Tiene ${saldoVacaciones} día(s) disponible(s) y está solicitando ${formData.diasTotales} día(s).`);
           return;
         }
       }
@@ -206,7 +207,7 @@ export default function PermisosView() {
           const listaFeriados = feriadosEnRango
             .map(f => `• ${formatearFechaFeriado(f.fecha)} - ${f.nombre}`)
             .join('\n');
-          alert(`No se pueden solicitar permisos en días feriados.\n\nLos siguientes días feriados están incluidos en su solicitud:\n${listaFeriados}`);
+          toast.error(`No se pueden solicitar permisos en días feriados.\n\nLos siguientes días feriados están incluidos en su solicitud:\n${listaFeriados}`);
           return;
         }
       } catch (err) {
@@ -221,7 +222,7 @@ export default function PermisosView() {
       const idEmpleado = userInfo.idEmpleado;
       
       if (!idEmpleado) {
-        alert('Error: No se pudo obtener la información del empleado');
+        toast.error('Error: No se pudo obtener la información del empleado');
         return;
       }
       
@@ -247,7 +248,7 @@ export default function PermisosView() {
       
       await crearSolicitud(solicitud);
       
-      alert('Solicitud creada exitosamente');
+      toast.success('Solicitud creada exitosamente');
       setShowNuevaSolicitudModal(false);
       resetForm();
       cargarSolicitudes();
@@ -257,7 +258,7 @@ export default function PermisosView() {
       }
     } catch (err: any) {
       console.error('Error al crear solicitud:', err);
-      alert(err.response?.data?.message || err.message || 'Error al crear la solicitud');
+      toast.error(err.response?.data?.message || err.message || 'Error al crear la solicitud');
     }
   };
 

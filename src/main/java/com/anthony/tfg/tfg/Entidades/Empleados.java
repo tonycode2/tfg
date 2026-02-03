@@ -101,4 +101,7 @@ public class Empleados {
     @OneToMany(mappedBy = "empleado")
     List<JefesDepartamento> jefesDepartamento;
     
+    @OneToMany(mappedBy = "empleado")
+    List<JornadaDiaria> jornadasDiarias;
+    
 }

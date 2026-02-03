@@ -15,6 +15,7 @@ import {
 import { authService } from '../../services/authService';
 import { formatearFecha, calcularDiasHabiles, parseContentDispositionFilename, buildIncapacidadFilename } from '../../lib/utils';
 import { Calendar, Plus, Eye, FileText, Activity, AlertCircle } from 'lucide-react';
+import { toast } from 'sonner';
 
 const TIPOS_INCAPACIDAD = [
   { value: 'ENFERMEDAD_COMUN', label: 'Enfermedad Común' },
@@ -138,18 +139,18 @@ export default function IncapacidadesView() {
     
     // Validaciones
     if (!formData.fechaInicio) {
-      alert('Debe seleccionar la fecha de inicio');
+      toast.error('Debe seleccionar la fecha de inicio');
       return;
     }
     
     if (!formData.fechaFin) {
-      alert('Debe seleccionar la fecha de fin');
+      toast.error('Debe seleccionar la fecha de fin');
       return;
     }
     
     // Validar que fechaFin >= fechaInicio
     if (formData.fechaFin < formData.fechaInicio) {
-      alert('La fecha de fin debe ser igual o posterior a la fecha de inicio');
+      toast.error('La fecha de fin debe ser igual o posterior a la fecha de inicio');
       return;
     }
     
@@ -159,7 +160,7 @@ export default function IncapacidadesView() {
       console.debug('userInfo:', userInfo, 'idEmpleado:', idEmpleado);
       
       if (!idEmpleado) {
-        alert('Error: No se pudo obtener la información del empleado');
+        toast.error('Error: No se pudo obtener la información del empleado');
         return;
       }
 
@@ -179,12 +180,12 @@ export default function IncapacidadesView() {
       if (archivoAdjunto) {
         const MAX_SIZE = 5 * 1024 * 1024; // 5MB
         if (archivoAdjunto.size > MAX_SIZE) {
-          alert('El archivo excede el tamaño máximo permitido de 5 MB');
+          toast.error('El archivo excede el tamaño máximo permitido de 5 MB');
           return;
         }
         const tipo = archivoAdjunto.type || '';
         if (!(tipo === 'application/pdf' || tipo.startsWith('image/'))) {
-          alert('Tipo de archivo no permitido. Solo PDF o imágenes.');
+          toast.error('Tipo de archivo no permitido. Solo PDF o imágenes.');
           return;
         }
 
@@ -202,7 +203,7 @@ export default function IncapacidadesView() {
       setShowNuevaSolicitudModal(false);
       resetForm();
       await cargarSolicitudes();
-      alert('Solicitud creada correctamente');
+      toast.success('Solicitud creada correctamente');
     } catch (err: unknown) {
       console.error('Error al crear solicitud:', err);
       let errorMessage = 'Error al crear la solicitud';
@@ -232,7 +233,7 @@ export default function IncapacidadesView() {
         errorMessage = err;
       }
 
-      alert(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -637,7 +638,7 @@ export default function IncapacidadesView() {
                       URL.revokeObjectURL(href);
                     } catch (err) {
                       console.error(err);
-                      alert('No se pudo descargar el archivo');
+                      toast.error('No se pudo descargar el archivo');
                     }
                   }
                   }

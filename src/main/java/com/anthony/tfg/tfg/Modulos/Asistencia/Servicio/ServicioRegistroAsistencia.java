@@ -26,6 +26,7 @@ import com.anthony.tfg.tfg.Entidades.Enums.TipoEvento;
 import com.anthony.tfg.tfg.Exceptions.BadRequestException;
 import com.anthony.tfg.tfg.Exceptions.ForbiddenException;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
+import com.anthony.tfg.tfg.Modulos.JornadaDiaria.Servicio.ServicioJornadaDiaria;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.Role;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 import com.anthony.tfg.tfg.Repositorios.AsistenciaRepositorio;
@@ -50,16 +51,19 @@ public class ServicioRegistroAsistencia {
     private final EmpleadosRepositorio empleadosRepositorio;
     private final DepartamentoRepositorio departamentoRepositorio;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepositorio;
+    private final ServicioJornadaDiaria servicioJornadaDiaria;
 
     public ServicioRegistroAsistencia(
             AsistenciaRepositorio asistenciaRepositorio,
             EmpleadosRepositorio empleadosRepositorio,
             DepartamentoRepositorio departamentoRepositorio,
-            JefesDepartamentoRepositorio jefesDepartamentoRepositorio) {
+            JefesDepartamentoRepositorio jefesDepartamentoRepositorio,
+            ServicioJornadaDiaria servicioJornadaDiaria) {
         this.asistenciaRepositorio = asistenciaRepositorio;
         this.empleadosRepositorio = empleadosRepositorio;
         this.departamentoRepositorio = departamentoRepositorio;
         this.jefesDepartamentoRepositorio = jefesDepartamentoRepositorio;
+        this.servicioJornadaDiaria = servicioJornadaDiaria;
     }
 
     // ==================== PUBLIC METHODS ====================
@@ -142,6 +146,15 @@ public class ServicioRegistroAsistencia {
         
         Asistencia saved = asistenciaRepositorio.save(asistencia);
         log.info("Empleado {} registró salida a las {}", empleado.getId(), fechaHoraRegistro);
+        
+        // Registrar jornada diaria después del clock out
+        try {
+            servicioJornadaDiaria.registrarJornadaPorClockOut(empleado.getId(), fechaHoraRegistro);
+            log.info("Jornada diaria registrada automáticamente para empleado {}", empleado.getId());
+        } catch (Exception e) {
+            log.error("Error al registrar jornada diaria para empleado {}: {}", empleado.getId(), e.getMessage());
+            // No lanzamos la excepción para que la salida se registre de todas formas
+        }
         
         return toRespuestaDTO(saved);
     }

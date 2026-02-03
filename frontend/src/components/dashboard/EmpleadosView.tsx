@@ -10,6 +10,7 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { getProvincias, getCantonesByProvincia, getDistritosByCanton } from '@/data/costaRicaLocations';
 import { empleadosService, puestosService, direccionesService, type Empleado, type Puesto } from '@/services/apiService';
 import { GenerarUsuarioModal } from '@/components/GenerarUsuarioModal';
+import { toast } from 'sonner';
 
 interface EmpleadoFormData {
   cedula: string;
@@ -161,7 +162,7 @@ export function EmpleadosView() {
         loadEmpleados();
       } catch (error) {
         console.error('Error eliminando empleado:', error);
-        alert('Error al eliminar el empleado');
+        toast.error('Error al eliminar el empleado');
       }
     }
   };
@@ -268,7 +269,7 @@ export function EmpleadosView() {
   const handleSubmit = async () => {
     // Validar formulario antes de enviar
     if (!validateForm()) {
-      alert('Por favor corrija los errores en el formulario');
+      toast.error('Por favor corrija los errores en el formulario');
       return;
     }
 
@@ -317,7 +318,7 @@ export function EmpleadosView() {
       loadEmpleados();
     } catch (error) {
       console.error('Error guardando empleado:', error);
-      alert('Error al guardar el empleado');
+      toast.error('Error al guardar el empleado');
     }
   };
 

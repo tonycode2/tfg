@@ -276,3 +276,29 @@ export function getEndOfMonthString(): string {
   const monthStr = String(month + 1).padStart(2, '0');
   return `${year}-${monthStr}-${lastDay} 23:59:59`;
 }
+
+/**
+ * Get preview of daily work record (jornada diaria) before clock-out
+ * @param fechaHoraSalida - Optional ISO timestamp for clock-out time (defaults to current time on backend)
+ */
+export async function obtenerPreviewJornadaDiaria(fechaHoraSalida?: string): Promise<{
+  fecha: string;
+  horaEntrada: string;
+  horaSalida: string;
+  horasRegulares: number;
+  horasExtra: number;
+  observaciones: string;
+  idEmpleado: number;
+  nombreCompleto: string;
+}> {
+  const url = fechaHoraSalida 
+    ? `${API_URL}/jornada-diaria/preview?fechaHoraSalida=${encodeURIComponent(fechaHoraSalida)}`
+    : `${API_URL}/jornada-diaria/preview`;
+    
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: getAuthHeaders(),
+  });
+  
+  return handleResponse(response);
+}

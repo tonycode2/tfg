@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { toast } from 'sonner';
 // Tipo de tarifa se maneja por defecto como SIMPLE (no se muestra dropdown)
 
 type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
@@ -71,7 +72,7 @@ export default function HorasExtraView() {
       setLista(data || []);
     } catch (e) {
       console.error(e);
-      alert('No se pudo cargar las solicitudes');
+      toast.error('No se pudo cargar las solicitudes');
     } finally {
       setLoading(false);
     }
@@ -92,7 +93,7 @@ export default function HorasExtraView() {
       }
 
       if (!idEmpleado) {
-        alert('No se pudo determinar el empleado autenticado. Inicie sesión nuevamente.');
+        toast.error('No se pudo determinar el empleado autenticado. Inicie sesión nuevamente.');
         return;
       }
 
@@ -118,12 +119,12 @@ export default function HorasExtraView() {
         const err = await res.json();
         throw new Error(err.message || 'Error en la solicitud');
       }
-      alert('Solicitud enviada');
+      toast.success('Solicitud enviada');
       setMotivo('');
       setHoras(1);
       fetchLista();
     } catch (err: any) {
-      alert(err.message || 'Error');
+      toast.error(err.message || 'Error');
     }
   }
 
@@ -132,18 +133,18 @@ export default function HorasExtraView() {
       let path = '';
       if (role === 'JEFE') path = `/api/horas-extra/${id}/aprobar-jefe`;
       else if (role === 'HR' || role === 'ADMIN') path = `/api/horas-extra/${id}/aprobar-rh`;
-      else return alert('Sin permisos');
+      else return toast.error('Sin permisos');
 
       const res = await fetch(`${API_BASE}${path}`, {
         method: 'PUT',
         headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
       });
       if (!res.ok) throw new Error('Error al aprobar');
-      alert('Aprobado');
+      toast.success('Aprobado');
       fetchLista();
     } catch (e) {
       console.error(e);
-      alert('No se pudo aprobar');
+      toast.error('No se pudo aprobar');
     }
   }
 
@@ -152,18 +153,18 @@ export default function HorasExtraView() {
       let path = '';
       if (role === 'JEFE') path = `/api/horas-extra/${id}/rechazar-jefe`;
       else if (role === 'HR' || role === 'ADMIN') path = `/api/horas-extra/${id}/rechazar-rh`;
-      else return alert('Sin permisos');
+      else return toast.error('Sin permisos');
 
       const res = await fetch(`${API_BASE}${path}`, {
         method: 'PUT',
         headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
       });
       if (!res.ok) throw new Error('Error al rechazar');
-      alert('Rechazado');
+      toast.success('Rechazado');
       fetchLista();
     } catch (e) {
       console.error(e);
-      alert('No se pudo rechazar');
+      toast.error('No se pudo rechazar');
     }
   }
 

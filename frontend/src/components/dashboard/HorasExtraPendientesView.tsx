@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { authService } from '../../services/authService';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
 
@@ -75,7 +76,7 @@ export default function HorasExtraPendientesView() {
       setLista(filtered || []);
     } catch (e) {
       console.error(e);
-      alert('No se pudo cargar las solicitudes');
+      toast.error('No se pudo cargar las solicitudes');
     } finally {
       setLoading(false);
     }
@@ -86,18 +87,18 @@ export default function HorasExtraPendientesView() {
       let path = '';
       if (role === 'JEFE') path = `/api/horas-extra/${id}/aprobar-jefe`;
       else if (role === 'HR' || role === 'ADMIN') path = `/api/horas-extra/${id}/aprobar-rh`;
-      else return alert('Sin permisos');
+      else return toast.error('Sin permisos');
 
       const res = await fetch(`${API_BASE}${path}`, {
         method: 'PUT',
         headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
       });
       if (!res.ok) throw new Error('Error al aprobar');
-      alert('Aprobado');
+      toast.success('Aprobado');
       fetchLista();
     } catch (e) {
       console.error(e);
-      alert('No se pudo aprobar');
+      toast.error('No se pudo aprobar');
     }
   }
 
@@ -106,18 +107,18 @@ export default function HorasExtraPendientesView() {
       let path = '';
       if (role === 'JEFE') path = `/api/horas-extra/${id}/rechazar-jefe`;
       else if (role === 'HR' || role === 'ADMIN') path = `/api/horas-extra/${id}/rechazar-rh`;
-      else return alert('Sin permisos');
+      else return toast.error('Sin permisos');
 
       const res = await fetch(`${API_BASE}${path}`, {
         method: 'PUT',
         headers: { ...(token ? { Authorization: `Bearer ${token}` } : {}) },
       });
       if (!res.ok) throw new Error('Error al rechazar');
-      alert('Rechazado');
+      toast.success('Rechazado');
       fetchLista();
     } catch (e) {
       console.error(e);
-      alert('No se pudo rechazar');
+      toast.error('No se pudo rechazar');
     }
   }
 

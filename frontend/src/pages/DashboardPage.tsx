@@ -14,6 +14,7 @@ import IncapacidadesView from '../components/dashboard/IncapacidadesView';
 import IncapacidadesPendientesView from '../components/dashboard/IncapacidadesPendientesView';
 import GestionIncapacidadesView from '../components/dashboard/GestionIncapacidadesView';
 import { DiasFeriadosView } from '../components/dashboard/DiasFeriadosView';
+import { JornadaDiariaView } from '../components/dashboard/JornadaDiariaView';
 import HorasExtraView from '../components/dashboard/HorasExtraView';
 import MisHorasExtraView from '../components/dashboard/MisHorasExtraView';
 import HorasExtraPendientesView from '../components/dashboard/HorasExtraPendientesView';
@@ -32,6 +33,7 @@ const MemoizedIncapacidadesView = memo(IncapacidadesView);
 const MemoizedIncapacidadesPendientesView = memo(IncapacidadesPendientesView);
 const MemoizedGestionIncapacidadesView = memo(GestionIncapacidadesView);
 const MemoizedDiasFeriadosView = memo(DiasFeriadosView);
+const MemoizedJornadaDiariaView = memo(JornadaDiariaView);
 const MemoizedEvaluacionesView = memo(EvaluacionesView);
 const MemoizedHorasExtraView = memo(HorasExtraView);
 const MemoizedMisHorasExtraView = memo(MisHorasExtraView);
@@ -82,6 +84,8 @@ export default function DashboardPage() {
         return <MemoizedGestionIncapacidadesView />;
       case 'dias-feriados':
         return <MemoizedDiasFeriadosView />;
+      case 'jornada-diaria':
+        return <MemoizedJornadaDiariaView />;
       case 'asistencia':
         return <MemoizedAsistenciaView />;
       case 'evaluaciones':

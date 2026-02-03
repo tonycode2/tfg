@@ -24,6 +24,7 @@ import {
 import { diasFeriadosService, type DiaFeriado } from '@/services/apiService';
 import { Plus, Pencil, Trash2 } from 'lucide-react';
 import { ConfirmDialog } from '@/components/ConfirmDialog';
+import { toast } from 'sonner';
 
 interface DiaFeriadoFormData {
   nombre: string;
@@ -139,7 +140,7 @@ export function DiasFeriadosView() {
       setFeriadoToDelete(null);
     } catch (error: any) {
       console.error('Error eliminando feriado:', error);
-      alert(error.message || 'Error al eliminar el día feriado');
+      toast.error(error.message || 'Error al eliminar el día feriado');
     }
   };
 
@@ -148,12 +149,12 @@ export function DiasFeriadosView() {
 
     // Validaciones
     if (!formData.nombre.trim()) {
-      alert('El nombre del feriado es obligatorio');
+      toast.error('El nombre del feriado es obligatorio');
       return;
     }
 
     if (!formData.fecha) {
-      alert('La fecha del feriado es obligatoria');
+      toast.error('La fecha del feriado es obligatoria');
       return;
     }
 
@@ -162,7 +163,7 @@ export function DiasFeriadosView() {
     const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
     
     if (formData.fecha <= hoyStr) {
-      alert('Solo se pueden registrar feriados con fechas futuras');
+      toast.error('Solo se pueden registrar feriados con fechas futuras');
       return;
     }
 
@@ -190,7 +191,7 @@ export function DiasFeriadosView() {
       resetForm();
     } catch (error: any) {
       console.error('Error guardando feriado:', error);
-      alert(error.message || 'Error al guardar el día feriado');
+      toast.error(error.message || 'Error al guardar el día feriado');
     }
   };
 

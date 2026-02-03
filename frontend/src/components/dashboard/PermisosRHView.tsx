@@ -23,6 +23,7 @@ import {
 } from '../../lib/utils';
 import { FileText, User, Eye, CheckCircle, XCircle, Clock, Filter, Ban, Palmtree } from 'lucide-react';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select';
+import { toast } from 'sonner';
 
 export default function PermisosRHView() {
   const [solicitudesPendientes, setSolicitudesPendientes] = useState<RespuestaPermiso[]>([]);
@@ -88,10 +89,10 @@ export default function PermisosRHView() {
     try {
       setEjecutandoAcumulacion(true);
       await ejecutarAcumulacionManual();
-      alert('Acumulación de vacaciones ejecutada exitosamente. Se ha agregado 1 día a todos los empleados activos.');
+      toast.success('Acumulación de vacaciones ejecutada exitosamente. Se ha agregado 1 día a todos los empleados activos.');
     } catch (err: any) {
       console.error('Error al ejecutar acumulación:', err);
-      alert(err.response?.data?.message || err.message || 'Error al ejecutar la acumulación de vacaciones');
+      toast.error(err.response?.data?.message || err.message || 'Error al ejecutar la acumulación de vacaciones');
     } finally {
       setEjecutandoAcumulacion(false);
     }
@@ -136,14 +137,14 @@ export default function PermisosRHView() {
     try {
       setProcesando(true);
       await aprobarPorRH(solicitudSeleccionada.id, { comentarios });
-      alert('Solicitud aprobada exitosamente. Se ha enviado notificación al empleado.');
+      toast.success('Solicitud aprobada exitosamente. Se ha enviado notificación al empleado.');
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
       cargarDatos();
     } catch (err: any) {
       console.error('Error al aprobar solicitud:', err);
-      alert(err.response?.data?.message || 'Error al aprobar la solicitud');
+      toast.error(err.response?.data?.message || 'Error al aprobar la solicitud');
     } finally {
       setProcesando(false);
     }
@@ -153,7 +154,7 @@ export default function PermisosRHView() {
     if (!solicitudSeleccionada) return;
 
     if (!comentarios || comentarios.trim().length < 10) {
-      alert('Por favor, proporcione comentarios (mínimo 10 caracteres)');
+      toast.error('Por favor, proporcione comentarios (mínimo 10 caracteres)');
       return;
     }
 
@@ -164,14 +165,14 @@ export default function PermisosRHView() {
     try {
       setProcesando(true);
       await rechazarPorRH(solicitudSeleccionada.id, { comentarios });
-      alert('Solicitud rechazada');
+      toast.success('Solicitud rechazada');
       setShowRevisarModal(false);
       setSolicitudSeleccionada(null);
       setComentarios('');
       cargarDatos();
     } catch (err: any) {
       console.error('Error al rechazar solicitud:', err);
-      alert(err.response?.data?.message || 'Error al rechazar la solicitud');
+      toast.error(err.response?.data?.message || 'Error al rechazar la solicitud');
     } finally {
       setProcesando(false);
     }
@@ -184,11 +185,11 @@ export default function PermisosRHView() {
 
     try {
       await cancelarSolicitud(solicitud.id);
-      alert('Solicitud cancelada exitosamente');
+      toast.success('Solicitud cancelada exitosamente');
       cargarDatos();
     } catch (err: any) {
       console.error('Error al cancelar solicitud:', err);
-      alert(err.response?.data?.message || 'Error al cancelar la solicitud');
+      toast.error(err.response?.data?.message || 'Error al cancelar la solicitud');
     }
   };
 

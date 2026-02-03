@@ -211,7 +211,8 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
             throw new ForbiddenException("No tiene permisos para aprobar esta solicitud");
         }
 
-        he.setEstadoSolicitud(EstadoSolicitud.APROBADA_POR_JEFE);
+        he.setEstadoSolicitud(EstadoSolicitud.APROBADA);
+        he.setAprobado(true);
         HorasExtra actualizado = mantenimiento.actualizar(he);
         enviarEmailCambioEstado(actualizado);
         return deEntidadDtoARespuesta(actualizado);

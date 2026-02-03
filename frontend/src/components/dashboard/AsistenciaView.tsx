@@ -16,6 +16,7 @@ import {
   obtenerDepartamentosAccesibles,
   obtenerResumenDepartamento,
   obtenerHistorial,
+  obtenerPreviewJornadaDiaria,
   combineDateAndTime,
   getCurrentDateString,
   getCurrentTimeString,
@@ -25,6 +26,7 @@ import {
   type ResumenDepartamento,
   type Asistencia,
 } from '@/services/asistenciaService';
+import { ConfirmClockOutModal } from '@/components/ConfirmClockOutModal';
 
 // ==================== ICONS ====================
 
@@ -85,6 +87,9 @@ export function AsistenciaView() {
   const [historialFechaInicio, setHistorialFechaInicio] = useState<string>('');
   const [historialFechaFin, setHistorialFechaFin] = useState<string>('');
   const [isLoadingHistorial, setIsLoadingHistorial] = useState(false);
+
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [jornadaPreview, setJornadaPreview] = useState<any>(null);
 
   // ==================== DATA LOADING ====================
 
@@ -200,12 +205,27 @@ export function AsistenciaView() {
   };
 
   const handleMarcarSalida = async () => {
+    try {
+      // Primero obtener el preview de la jornada con la hora seleccionada
+      const fechaHoraSalida = combineDateAndTime(testDate, testTime);
+      const preview = await obtenerPreviewJornadaDiaria(fechaHoraSalida);
+      setJornadaPreview(preview);
+      setIsConfirmModalOpen(true);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Error al obtener información de la jornada';
+      showMessage(message, true);
+    }
+  };
+
+  const handleConfirmSalida = async () => {
     setIsClocking(true);
     try {
       const fechaHora = combineDateAndTime(testDate, testTime);
       await marcarSalida(fechaHora);
 
       showMessage(`✅ Marcaste salida a las ${testTime}`);
+      setIsConfirmModalOpen(false);
+      setJornadaPreview(null);
 
       await Promise.all([loadMiEstado(), loadHistorial()]);
       if (selectedDepartamento) {
@@ -436,6 +456,17 @@ export function AsistenciaView() {
           <SimpleDataTable data={historialRows as any} columns={historialColumns as any} />
         </CardContent>
       </Card>
+
+      <ConfirmClockOutModal
+        isOpen={isConfirmModalOpen}
+        onClose={() => {
+          setIsConfirmModalOpen(false);
+          setJornadaPreview(null);
+        }}
+        onConfirm={handleConfirmSalida}
+        preview={jornadaPreview}
+        isLoading={isClocking}
+      />
     </div>
   );
 }
