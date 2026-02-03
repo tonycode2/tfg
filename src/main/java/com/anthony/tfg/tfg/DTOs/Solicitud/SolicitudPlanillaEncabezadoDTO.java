@@ -1,6 +1,6 @@
 package com.anthony.tfg.tfg.DTOs.Solicitud;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
@@ -20,20 +20,18 @@ public class SolicitudPlanillaEncabezadoDTO {
     @NotNull
     @Past
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaInicioPeriodo;
+    public LocalDate fechaInicioPeriodo;
     @NotNull
     @Past
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaFinPeriodo;
+    public LocalDate fechaFinPeriodo;
     @NotNull
     @Future
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaPago;
+    public LocalDate fechaPago;
     @NotNull
-    @Positive
     public Double totalPlanillaBruto;
     @NotNull
-    @Positive
     public Double totalPlanillaNeto;
     @NotBlank
     public String estadoPlanilla;

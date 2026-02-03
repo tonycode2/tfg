@@ -1,17 +1,17 @@
 package com.anthony.tfg.tfg.DTOs.Respuesta;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class RespuestaPlanillaEncabezadoDTO {
     public Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaInicioPeriodo;
+    public LocalDate fechaInicioPeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaFinPeriodo;
+    public LocalDate fechaFinPeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    public Date fechaPago;
+    public LocalDate fechaPago;
     public Double totalPlanillaBruto;
     public Double totalPlanillaNeto;
     public String estadoPlanilla;

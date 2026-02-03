@@ -294,6 +294,34 @@ export interface PlanillaEncabezado {
   estadoPlanilla: string;
 }
 
+export interface PlanillaEmpleado {
+  // ID para compatibilidad con DataTable (usar idDetalle como id único)
+  id: number;
+  
+  // Datos del encabezado
+  idEncabezado: number;
+  fechaInicioPeriodo: string;
+  fechaFinPeriodo: string;
+  fechaPago: string;
+  estadoPlanilla: string;
+  
+  // Datos del detalle
+  idDetalle: number;
+  salarioBasePeriodo: number;
+  cantidadDiasFeriados: number;
+  montoHorasExtra: number;
+  montoIncapacidad: number;
+  deduccionCcssIvm: number;
+  deduccionCcssSem: number;
+  impuestoDeRenta: number;
+  otrasDeducciones: number;
+  
+  // Totales calculados
+  totalDevengado: number;
+  totalDeducciones: number;
+  salarioNeto: number;
+}
+
 export interface EvaluacionDesempeno {
   id?: number;
   fechaEvaluacion: string;
@@ -355,6 +383,37 @@ export class EmpleadosService extends ApiService<Empleado> {
   }
 }
 
+// Extender ApiService para Planillas con método específico
+export class PlanillasService extends ApiService<PlanillaEncabezado> {
+  async getPlanillasPorEmpleado(empleadoId: number, signal?: AbortSignal): Promise<PlanillaEmpleado[]> {
+    const token = localStorage.getItem('token');
+    const response = await fetch(
+      `${API_URL}/${this.endpoint}/empleado/${empleadoId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        signal,
+      }
+    );
+    
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+        throw new Error('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      }
+      
+      const errorData: ErrorResponse = await response.json();
+      throw new Error(errorData.message || 'Error al obtener planillas');
+    }
+    
+    return response.json();
+  }
+}
+
 export interface DiaFeriado {
   id: number;
   nombre: string;
@@ -385,7 +444,7 @@ export const aguinaldosService = new ApiService<Aguinaldo>('aguinaldos');
 export const horasExtraService = new ApiService<HorasExtra>('horas-extra');
 export const permisosService = new ApiService<Permiso>('permisos');
 export const liquidacionesService = new ApiService<Liquidacion>('liquidaciones');
-export const planillasService = new ApiService<PlanillaEncabezado>('planillas');
+export const planillasService = new PlanillasService('planillas');
 export const evaluacionesService = new ApiService<EvaluacionDesempeno>('evaluaciones');
 export const jefesDepartamentoService = new ApiService<JefeDepartamento>('jefes-departamento');
 export const incapacidadesService = new ApiService<Incapacidad>('incapacidades');

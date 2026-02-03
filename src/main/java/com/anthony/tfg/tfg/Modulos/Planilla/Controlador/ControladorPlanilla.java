@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO;
 import com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla;
@@ -44,6 +45,13 @@ public class ControladorPlanilla {
     public ResponseEntity<List<RespuestaPlanillaEncabezadoDTO>> obtenerTodos() {
         List<RespuestaPlanillaEncabezadoDTO> lista = servicio.obtenerTodos();
         return ResponseEntity.ok(lista);
+    }
+
+    @GetMapping("/empleado/{empleadoId}")
+    public ResponseEntity<List<RespuestaPlanillaEmpleadoDTO>> obtenerPlanillasPorEmpleado(
+            @PathVariable Long empleadoId) {
+        List<RespuestaPlanillaEmpleadoDTO> planillas = servicio.obtenerPlanillasPorEmpleado(empleadoId);
+        return ResponseEntity.ok(planillas);
     }
 
     @PostMapping

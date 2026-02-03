@@ -35747,3 +35747,1100 @@
 2026-02-02T19:03:19.132-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 2.106 seconds (process running for 6773.585)
 2026-02-02T19:03:19.138-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
 2026-02-02T19:03:19.140-06:00  INFO 2968 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-02T19:07:59.798-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-02T19:07:59.798-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-02T19:07:59.798-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-02-02T19:07:59.798-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-02-02T19:07:59.798-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-02-02T19:07:59.800-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@26ae5277
+2026-02-02T19:07:59.801-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@2d9e9fbd
+2026-02-02T19:07:59.801-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-02T19:07:59.801-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-02-02T19:07:59.801-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-02T19:07:59.804-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-02T19:07:59.804-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-02T19:07:59.804-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-02T19:07:59.804-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-02T19:07:59.811-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=mrodriguez, password=TestPass123!)]
+2026-02-02T19:07:59.981-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-02T19:07:59.991-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:07:59.991-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE1LCJpZEVtcGxlYWRvIjoxNiwicm9sZSI6IkVNUExFQURP (truncated)...]
+2026-02-02T19:07:59.994-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:12:13.762-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-02T19:12:13.763-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-02T19:12:13.764-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-02T19:12:13.764-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-02T19:12:13.765-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-02T19:12:13.766-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=HHRR, password=doremi123)]
+2026-02-02T19:12:13.836-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-02T19:12:13.843-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:12:13.844-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsImlkRW1wbGVhZG8iOjEzLCJyb2xlIjoiSFIiLCJub21i (truncated)...]
+2026-02-02T19:12:13.846-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:13:11.275-06:00  INFO 2968 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-02-02T19:13:11.277-06:00  INFO 2968 --- [tfg] [Thread-335] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:11.277-06:00  INFO 2968 --- [tfg] [Thread-335] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-02T19:13:11.283-06:00  INFO 2968 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-02T19:13:11.286-06:00  INFO 2968 --- [tfg] [Thread-335] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-02T19:13:11.286-06:00  INFO 2968 --- [tfg] [Thread-335] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-02T19:13:11.286-06:00  INFO 2968 --- [tfg] [Thread-335] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:11.286-06:00  INFO 2968 --- [tfg] [Thread-335] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-02T19:13:11.287-06:00  INFO 2968 --- [tfg] [Thread-335] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:11.288-06:00  INFO 2968 --- [tfg] [Thread-335] com.zaxxer.hikari.HikariDataSource       : HikariPool-28 - Shutdown initiated...
+2026-02-02T19:13:11.292-06:00  INFO 2968 --- [tfg] [Thread-335] com.zaxxer.hikari.HikariDataSource       : HikariPool-28 - Shutdown completed.
+2026-02-02T19:13:11.388-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 2968 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:13:11.388-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:13:11.398-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:13:11.919-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:13:12.155-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:13:12.238-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 81 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:13:12.311-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:13:12.313-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:13:12.313-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:13:12.329-06:00  INFO 2968 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:13:12.330-06:00  INFO 2968 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 409 ms
+2026-02-02T19:13:12.367-06:00  INFO 2968 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:13:12.372-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:13:12.378-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:13:12.378-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-29 - Starting...
+2026-02-02T19:13:12.403-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-29 - Added connection org.postgresql.jdbc.PgConnection@5ad0f371
+2026-02-02T19:13:12.403-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-29 - Start completed.
+2026-02-02T19:13:12.408-06:00  WARN 2968 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:13:12.414-06:00  INFO 2968 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-29)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:13:12.688-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:13:12.944-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:13.309-06:00  INFO 2968 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-02T19:13:13.309-06:00  WARN 2968 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-02T19:13:13.317-06:00  WARN 2968 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-02T19:13:13.334-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 128 mappings in 'requestMappingHandlerMapping'
+2026-02-02T19:13:13.362-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-02T19:13:13.373-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-02T19:13:13.393-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-02T19:13:13.397-06:00 DEBUG 2968 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-02T19:13:13.411-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-02T19:13:13.412-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-02T19:13:13.413-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-02T19:13:13.413-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-02T19:13:13.413-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-02T19:13:13.413-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-02T19:13:13.413-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-02T19:13:13.414-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@5aca7b63
+2026-02-02T19:13:13.417-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-02T19:13:13.425-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-02T19:13:13.425-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-02T19:13:13.425-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-02T19:13:13.430-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 2.058 seconds (process running for 7367.883)
+2026-02-02T19:13:13.436-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-02T19:13:13.439-06:00  INFO 2968 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-02T19:13:14.938-06:00  INFO 2968 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-02-02T19:13:14.939-06:00  INFO 2968 --- [tfg] [Thread-347] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:14.940-06:00  INFO 2968 --- [tfg] [Thread-347] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-02T19:13:14.947-06:00  INFO 2968 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-02T19:13:14.948-06:00  INFO 2968 --- [tfg] [Thread-347] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-02T19:13:14.949-06:00  INFO 2968 --- [tfg] [Thread-347] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-02T19:13:14.949-06:00  INFO 2968 --- [tfg] [Thread-347] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:14.949-06:00  INFO 2968 --- [tfg] [Thread-347] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-02T19:13:14.950-06:00  INFO 2968 --- [tfg] [Thread-347] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:14.950-06:00  INFO 2968 --- [tfg] [Thread-347] com.zaxxer.hikari.HikariDataSource       : HikariPool-29 - Shutdown initiated...
+2026-02-02T19:13:14.953-06:00  INFO 2968 --- [tfg] [Thread-347] com.zaxxer.hikari.HikariDataSource       : HikariPool-29 - Shutdown completed.
+2026-02-02T19:13:15.057-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 2968 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:13:15.057-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:13:15.057-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:13:15.567-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:13:15.780-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:13:15.850-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:13:15.920-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:13:15.921-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:13:15.922-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:13:15.937-06:00  INFO 2968 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:13:15.938-06:00  INFO 2968 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 369 ms
+2026-02-02T19:13:15.975-06:00  INFO 2968 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:13:15.977-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:13:15.984-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:13:15.985-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-30 - Starting...
+2026-02-02T19:13:16.003-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-30 - Added connection org.postgresql.jdbc.PgConnection@59d30b8d
+2026-02-02T19:13:16.003-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-30 - Start completed.
+2026-02-02T19:13:16.008-06:00  WARN 2968 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:13:16.012-06:00  INFO 2968 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-30)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:13:16.240-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:13:16.477-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:16.891-06:00  INFO 2968 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-02T19:13:16.891-06:00  WARN 2968 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-02T19:13:16.901-06:00  WARN 2968 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-02T19:13:16.912-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 128 mappings in 'requestMappingHandlerMapping'
+2026-02-02T19:13:16.953-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-02T19:13:16.963-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-02T19:13:16.973-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-02T19:13:16.980-06:00 DEBUG 2968 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-02T19:13:16.994-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-02T19:13:16.995-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-02T19:13:16.996-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-02T19:13:16.996-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-02T19:13:16.996-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-02T19:13:16.996-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-02T19:13:16.996-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-02T19:13:16.996-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@43c86a4e
+2026-02-02T19:13:16.998-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-02T19:13:17.010-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-02T19:13:17.010-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-02T19:13:17.010-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-02T19:13:17.016-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 1.974 seconds (process running for 7371.469)
+2026-02-02T19:13:17.024-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-02T19:13:17.026-06:00  INFO 2968 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-02T19:13:30.055-06:00  INFO 2968 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-02-02T19:13:30.057-06:00  INFO 2968 --- [tfg] [Thread-359] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:30.057-06:00  INFO 2968 --- [tfg] [Thread-359] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-02T19:13:30.058-06:00  INFO 2968 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-02T19:13:30.066-06:00  INFO 2968 --- [tfg] [Thread-359] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-02T19:13:30.066-06:00  INFO 2968 --- [tfg] [Thread-359] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-02T19:13:30.066-06:00  INFO 2968 --- [tfg] [Thread-359] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:30.066-06:00  INFO 2968 --- [tfg] [Thread-359] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-02T19:13:30.067-06:00  INFO 2968 --- [tfg] [Thread-359] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:30.067-06:00  INFO 2968 --- [tfg] [Thread-359] com.zaxxer.hikari.HikariDataSource       : HikariPool-30 - Shutdown initiated...
+2026-02-02T19:13:30.069-06:00  INFO 2968 --- [tfg] [Thread-359] com.zaxxer.hikari.HikariDataSource       : HikariPool-30 - Shutdown completed.
+2026-02-02T19:13:30.171-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 2968 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:13:30.171-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:13:30.171-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:13:30.732-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:13:30.955-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:13:31.025-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 73 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:13:31.088-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:13:31.097-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:13:31.097-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:13:31.111-06:00  INFO 2968 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:13:31.111-06:00  INFO 2968 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 377 ms
+2026-02-02T19:13:31.149-06:00  INFO 2968 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:13:31.149-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:13:31.158-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:13:31.159-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-31 - Starting...
+2026-02-02T19:13:31.178-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-31 - Added connection org.postgresql.jdbc.PgConnection@43b21561
+2026-02-02T19:13:31.178-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-31 - Start completed.
+2026-02-02T19:13:31.182-06:00  WARN 2968 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:13:31.187-06:00  INFO 2968 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-31)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:13:31.407-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:13:31.613-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:31.984-06:00  INFO 2968 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-02T19:13:31.986-06:00  WARN 2968 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-02T19:13:31.992-06:00  WARN 2968 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-02T19:13:32.007-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 128 mappings in 'requestMappingHandlerMapping'
+2026-02-02T19:13:32.041-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-02T19:13:32.052-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-02T19:13:32.061-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-02T19:13:32.069-06:00 DEBUG 2968 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-02T19:13:32.083-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-02T19:13:32.084-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-02T19:13:32.085-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-02T19:13:32.085-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-02T19:13:32.086-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-02T19:13:32.086-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-02T19:13:32.086-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-02T19:13:32.086-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@2b48ad78
+2026-02-02T19:13:32.091-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-02T19:13:32.099-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-02T19:13:32.100-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-02T19:13:32.100-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-02T19:13:32.103-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 1.948 seconds (process running for 7386.556)
+2026-02-02T19:13:32.108-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-02T19:13:32.110-06:00  INFO 2968 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-02T19:13:33.611-06:00  INFO 2968 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-02-02T19:13:33.613-06:00  INFO 2968 --- [tfg] [Thread-371] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:33.613-06:00  INFO 2968 --- [tfg] [Thread-371] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-02T19:13:33.618-06:00  INFO 2968 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-02T19:13:33.621-06:00  INFO 2968 --- [tfg] [Thread-371] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-02T19:13:33.622-06:00  INFO 2968 --- [tfg] [Thread-371] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-02T19:13:33.622-06:00  INFO 2968 --- [tfg] [Thread-371] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:33.622-06:00  INFO 2968 --- [tfg] [Thread-371] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-02T19:13:33.622-06:00  INFO 2968 --- [tfg] [Thread-371] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:33.624-06:00  INFO 2968 --- [tfg] [Thread-371] com.zaxxer.hikari.HikariDataSource       : HikariPool-31 - Shutdown initiated...
+2026-02-02T19:13:33.625-06:00  INFO 2968 --- [tfg] [Thread-371] com.zaxxer.hikari.HikariDataSource       : HikariPool-31 - Shutdown completed.
+2026-02-02T19:13:33.729-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 2968 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:13:33.730-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:13:33.733-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:13:34.258-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:13:34.478-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:13:34.561-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 82 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:13:34.627-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:13:34.628-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:13:34.628-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:13:34.643-06:00  INFO 2968 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:13:34.643-06:00  INFO 2968 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 383 ms
+2026-02-02T19:13:34.680-06:00  INFO 2968 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:13:34.682-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:13:34.689-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:13:34.690-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-32 - Starting...
+2026-02-02T19:13:34.707-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-32 - Added connection org.postgresql.jdbc.PgConnection@3f6d9a5b
+2026-02-02T19:13:34.708-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-32 - Start completed.
+2026-02-02T19:13:34.712-06:00  WARN 2968 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:13:34.716-06:00  INFO 2968 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-32)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:13:34.943-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:13:35.161-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:35.456-06:00  INFO 2968 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-02T19:13:35.456-06:00  WARN 2968 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-02T19:13:35.464-06:00  WARN 2968 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-02T19:13:35.481-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 128 mappings in 'requestMappingHandlerMapping'
+2026-02-02T19:13:35.510-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-02T19:13:35.526-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-02T19:13:35.537-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-02T19:13:35.542-06:00 DEBUG 2968 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-02T19:13:35.555-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-02T19:13:35.559-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-02T19:13:35.560-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-02T19:13:35.560-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-02T19:13:35.560-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-02T19:13:35.560-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-02T19:13:35.560-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-02T19:13:35.560-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@722985ff
+2026-02-02T19:13:35.565-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-02T19:13:35.576-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-02T19:13:35.576-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-02T19:13:35.577-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-02T19:13:35.580-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 1.868 seconds (process running for 7390.033)
+2026-02-02T19:13:35.585-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-02T19:13:35.587-06:00  INFO 2968 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-02T19:13:41.284-06:00  INFO 2968 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-02-02T19:13:41.286-06:00  INFO 2968 --- [tfg] [Thread-383] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:41.286-06:00  INFO 2968 --- [tfg] [Thread-383] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-02T19:13:41.293-06:00  INFO 2968 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-02T19:13:41.295-06:00  INFO 2968 --- [tfg] [Thread-383] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-02T19:13:41.295-06:00  INFO 2968 --- [tfg] [Thread-383] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-02T19:13:41.295-06:00  INFO 2968 --- [tfg] [Thread-383] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:13:41.295-06:00  INFO 2968 --- [tfg] [Thread-383] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-02T19:13:41.296-06:00  INFO 2968 --- [tfg] [Thread-383] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:41.296-06:00  INFO 2968 --- [tfg] [Thread-383] com.zaxxer.hikari.HikariDataSource       : HikariPool-32 - Shutdown initiated...
+2026-02-02T19:13:41.299-06:00  INFO 2968 --- [tfg] [Thread-383] com.zaxxer.hikari.HikariDataSource       : HikariPool-32 - Shutdown completed.
+2026-02-02T19:13:41.406-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 2968 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:13:41.406-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:13:41.410-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:13:41.956-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:13:42.293-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:13:42.436-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 141 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:13:42.515-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:13:42.516-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:13:42.517-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:13:42.534-06:00  INFO 2968 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:13:42.534-06:00  INFO 2968 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 576 ms
+2026-02-02T19:13:42.588-06:00  INFO 2968 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:13:42.588-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:13:42.597-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:13:42.597-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-33 - Starting...
+2026-02-02T19:13:42.619-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-33 - Added connection org.postgresql.jdbc.PgConnection@7f58e2a2
+2026-02-02T19:13:42.619-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-33 - Start completed.
+2026-02-02T19:13:42.624-06:00  WARN 2968 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:13:42.630-06:00  INFO 2968 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-33)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:13:42.856-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:13:43.203-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:43.609-06:00  WARN 2968 --- [tfg] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'controladorPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Controlador\ControladorPlanilla.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'servicioPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Servicio\ServicioPlanilla.class]: Failed to instantiate [com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla]: Constructor threw exception
+2026-02-02T19:13:43.610-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:43.611-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-33 - Shutdown initiated...
+2026-02-02T19:13:43.614-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-33 - Shutdown completed.
+2026-02-02T19:13:43.617-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-02-02T19:13:43.628-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-02-02T19:13:43.682-06:00 ERROR 2968 --- [tfg] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'controladorPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Controlador\ControladorPlanilla.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'servicioPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Servicio\ServicioPlanilla.class]: Failed to instantiate [com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1228) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1194) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1130) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:990) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.7.jar:3.5.7]
+	at com.anthony.tfg.tfg.TfgApplication.main(TfgApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.5.7.jar:3.5.7]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'servicioPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Servicio\ServicioPlanilla.class]: Failed to instantiate [com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1770) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1653) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 24 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:223) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:146) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 38 common frames omitted
+Caused by: java.lang.Error: Unresolved compilation problem: 
+	The blank final field planillaDetalleRepo may not have been initialized
+
+	at com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla.<init>(ServicioPlanilla.java:32) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62) ~[na:na]
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502) ~[na:na]
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486) ~[na:na]
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:210) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 40 common frames omitted
+
+2026-02-02T19:13:45.259-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 2968 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:13:45.259-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:13:45.263-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:13:45.776-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:13:45.984-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:13:46.056-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:13:46.123-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:13:46.124-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:13:46.124-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:13:46.139-06:00  INFO 2968 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:13:46.139-06:00  INFO 2968 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 361 ms
+2026-02-02T19:13:46.177-06:00  INFO 2968 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:13:46.180-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:13:46.186-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:13:46.187-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-34 - Starting...
+2026-02-02T19:13:46.205-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-34 - Added connection org.postgresql.jdbc.PgConnection@6dadb147
+2026-02-02T19:13:46.205-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-34 - Start completed.
+2026-02-02T19:13:46.209-06:00  WARN 2968 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:13:46.214-06:00  INFO 2968 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-34)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:13:46.411-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:13:46.624-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:46.954-06:00  WARN 2968 --- [tfg] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'controladorPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Controlador\ControladorPlanilla.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'servicioPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Servicio\ServicioPlanilla.class]: Failed to instantiate [com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla]: Constructor threw exception
+2026-02-02T19:13:46.954-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:13:46.956-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-34 - Shutdown initiated...
+2026-02-02T19:13:46.957-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-34 - Shutdown completed.
+2026-02-02T19:13:46.957-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-02-02T19:13:46.963-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-02-02T19:13:46.965-06:00 ERROR 2968 --- [tfg] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'controladorPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Controlador\ControladorPlanilla.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'servicioPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Servicio\ServicioPlanilla.class]: Failed to instantiate [com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:804) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.instantiateSingleton(DefaultListableBeanFactory.java:1228) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingleton(DefaultListableBeanFactory.java:1194) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:1130) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:990) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627) ~[spring-context-6.2.12.jar:6.2.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361) ~[spring-boot-3.5.7.jar:3.5.7]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350) ~[spring-boot-3.5.7.jar:3.5.7]
+	at com.anthony.tfg.tfg.TfgApplication.main(TfgApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.5.7.jar:3.5.7]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'servicioPlanilla' defined in file [C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes\com\anthony\tfg\tfg\Modulos\Planilla\Servicio\ServicioPlanilla.class]: Failed to instantiate [com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1395) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:569) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1770) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1653) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:913) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:791) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 24 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:223) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:146) ~[spring-beans-6.2.12.jar:6.2.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 38 common frames omitted
+Caused by: java.lang.Error: Unresolved compilation problem: 
+	The blank final field planillaDetalleRepo may not have been initialized
+
+	at com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla.<init>(ServicioPlanilla.java:32) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62) ~[na:na]
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502) ~[na:na]
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486) ~[na:na]
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:210) ~[spring-beans-6.2.12.jar:6.2.12]
+	... 40 common frames omitted
+
+2026-02-02T19:14:04.369-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 2968 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:14:04.369-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:14:04.373-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:14:04.897-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:14:05.087-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:14:05.152-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 70 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:14:05.232-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:14:05.233-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:14:05.233-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:14:05.250-06:00  INFO 2968 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:14:05.250-06:00  INFO 2968 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 352 ms
+2026-02-02T19:14:05.287-06:00  INFO 2968 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:14:05.287-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:14:05.307-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:14:05.308-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-35 - Starting...
+2026-02-02T19:14:05.324-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-35 - Added connection org.postgresql.jdbc.PgConnection@7effa454
+2026-02-02T19:14:05.325-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-35 - Start completed.
+2026-02-02T19:14:05.329-06:00  WARN 2968 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:14:05.333-06:00  INFO 2968 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-35)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:14:05.521-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:14:05.726-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:14:06.057-06:00  INFO 2968 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-02T19:14:06.057-06:00  WARN 2968 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-02T19:14:06.064-06:00  WARN 2968 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-02T19:14:06.083-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 128 mappings in 'requestMappingHandlerMapping'
+2026-02-02T19:14:06.116-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-02T19:14:06.131-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-02T19:14:06.141-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-02T19:14:06.146-06:00 DEBUG 2968 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-02T19:14:06.160-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-02T19:14:06.161-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-02T19:14:06.161-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-02T19:14:06.161-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-02T19:14:06.161-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-02T19:14:06.162-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-02T19:14:06.162-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-02T19:14:06.162-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@434da964
+2026-02-02T19:14:06.166-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-02T19:14:06.180-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-02T19:14:06.182-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-02T19:14:06.184-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-02T19:14:06.211-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 1.854 seconds (process running for 7420.665)
+2026-02-02T19:14:06.244-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-02T19:14:06.250-06:00  INFO 2968 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-02T19:14:12.999-06:00  INFO 2968 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-02-02T19:14:13.001-06:00  INFO 2968 --- [tfg] [Thread-395] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:14:13.001-06:00  INFO 2968 --- [tfg] [Thread-395] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-02T19:14:13.009-06:00  INFO 2968 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-02T19:14:13.011-06:00  INFO 2968 --- [tfg] [Thread-395] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-02T19:14:13.011-06:00  INFO 2968 --- [tfg] [Thread-395] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-02T19:14:13.011-06:00  INFO 2968 --- [tfg] [Thread-395] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:14:13.011-06:00  INFO 2968 --- [tfg] [Thread-395] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-02T19:14:13.012-06:00  INFO 2968 --- [tfg] [Thread-395] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:14:13.012-06:00  INFO 2968 --- [tfg] [Thread-395] com.zaxxer.hikari.HikariDataSource       : HikariPool-35 - Shutdown initiated...
+2026-02-02T19:14:13.015-06:00  INFO 2968 --- [tfg] [Thread-395] com.zaxxer.hikari.HikariDataSource       : HikariPool-35 - Shutdown completed.
+2026-02-02T19:14:13.136-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 2968 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:14:13.137-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:14:13.140-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:14:13.654-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:14:13.863-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:14:13.941-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 77 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:14:14.006-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:14:14.007-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:14:14.007-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:14:14.023-06:00  INFO 2968 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:14:14.023-06:00  INFO 2968 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 369 ms
+2026-02-02T19:14:14.062-06:00  INFO 2968 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:14:14.063-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:14:14.070-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:14:14.071-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-36 - Starting...
+2026-02-02T19:14:14.091-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-36 - Added connection org.postgresql.jdbc.PgConnection@3287e320
+2026-02-02T19:14:14.091-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-36 - Start completed.
+2026-02-02T19:14:14.095-06:00  WARN 2968 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:14:14.100-06:00  INFO 2968 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-36)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:14:14.320-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:14:14.553-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:14:14.910-06:00  INFO 2968 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-02T19:14:14.910-06:00  WARN 2968 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-02T19:14:14.917-06:00  WARN 2968 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-02T19:14:14.933-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 128 mappings in 'requestMappingHandlerMapping'
+2026-02-02T19:14:14.967-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-02T19:14:14.977-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-02T19:14:14.987-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-02T19:14:14.992-06:00 DEBUG 2968 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-02T19:14:15.007-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-02T19:14:15.008-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-02T19:14:15.008-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-02T19:14:15.009-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-02T19:14:15.009-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-02T19:14:15.009-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-02T19:14:15.009-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-02T19:14:15.009-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@20c42b84
+2026-02-02T19:14:15.014-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-02T19:14:15.023-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-02T19:14:15.024-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-02T19:14:15.024-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-02T19:14:15.027-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 1.909 seconds (process running for 7429.479)
+2026-02-02T19:14:15.031-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-02T19:14:15.034-06:00  INFO 2968 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-02T19:14:18.033-06:00  INFO 2968 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-02-02T19:14:18.034-06:00  INFO 2968 --- [tfg] [Thread-429] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:14:18.034-06:00  INFO 2968 --- [tfg] [Thread-429] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-02T19:14:18.042-06:00  INFO 2968 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-02T19:14:18.043-06:00  INFO 2968 --- [tfg] [Thread-429] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-02T19:14:18.043-06:00  INFO 2968 --- [tfg] [Thread-429] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-02T19:14:18.043-06:00  INFO 2968 --- [tfg] [Thread-429] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:14:18.043-06:00  INFO 2968 --- [tfg] [Thread-429] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-02T19:14:18.044-06:00  INFO 2968 --- [tfg] [Thread-429] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:14:18.044-06:00  INFO 2968 --- [tfg] [Thread-429] com.zaxxer.hikari.HikariDataSource       : HikariPool-36 - Shutdown initiated...
+2026-02-02T19:14:18.046-06:00  INFO 2968 --- [tfg] [Thread-429] com.zaxxer.hikari.HikariDataSource       : HikariPool-36 - Shutdown completed.
+2026-02-02T19:14:18.159-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 2968 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:14:18.159-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:14:18.163-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:14:18.665-06:00  INFO 2968 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:14:18.848-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:14:18.918-06:00  INFO 2968 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:14:18.971-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:14:18.971-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:14:18.971-06:00  INFO 2968 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:14:18.994-06:00  INFO 2968 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:14:18.994-06:00  INFO 2968 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 328 ms
+2026-02-02T19:14:19.027-06:00  INFO 2968 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:14:19.027-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:14:19.036-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:14:19.037-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-37 - Starting...
+2026-02-02T19:14:19.055-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-37 - Added connection org.postgresql.jdbc.PgConnection@6d4e2a7c
+2026-02-02T19:14:19.055-06:00  INFO 2968 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-37 - Start completed.
+2026-02-02T19:14:19.058-06:00  WARN 2968 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:14:19.063-06:00  INFO 2968 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-37)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:14:19.263-06:00  INFO 2968 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:14:19.496-06:00  INFO 2968 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:14:19.848-06:00  INFO 2968 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-02T19:14:19.849-06:00  WARN 2968 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-02T19:14:19.853-06:00  WARN 2968 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-02T19:14:19.873-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 129 mappings in 'requestMappingHandlerMapping'
+2026-02-02T19:14:19.907-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-02T19:14:19.924-06:00 DEBUG 2968 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-02T19:14:19.936-06:00 DEBUG 2968 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-02T19:14:19.942-06:00 DEBUG 2968 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-02T19:14:19.957-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-02T19:14:19.962-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-02T19:14:19.962-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-02T19:14:19.962-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-02T19:14:19.962-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-02T19:14:19.963-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-02T19:14:19.963-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-02T19:14:19.963-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@60d3cde8
+2026-02-02T19:14:19.970-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-02T19:14:19.982-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-02T19:14:19.982-06:00  INFO 2968 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-02T19:14:19.982-06:00  INFO 2968 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-02T19:14:19.986-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 1.846 seconds (process running for 7434.439)
+2026-02-02T19:14:19.992-06:00  INFO 2968 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-02T19:14:19.996-06:00  INFO 2968 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-02T19:22:13.649-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-02T19:22:13.650-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-02T19:22:13.650-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-02-02T19:22:13.650-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-02-02T19:22:13.650-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-02-02T19:22:13.651-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@5083d71a
+2026-02-02T19:22:13.652-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@27bc6353
+2026-02-02T19:22:13.652-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-02T19:22:13.652-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-02-02T19:22:13.653-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /auth/login
+2026-02-02T19:22:13.663-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-02T19:22:13.665-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-02T19:22:13.665-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-02T19:22:13.666-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-02T19:22:13.666-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-02T19:22:13.672-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=mrodriguez, password=TestPass123!)]
+2026-02-02T19:22:13.850-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-02T19:22:13.861-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:22:13.861-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjE1LCJpZEVtcGxlYWRvIjoxNiwicm9sZSI6IkVNUExFQURP (truncated)...]
+2026-02-02T19:22:13.863-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:22:15.936-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/empleado/16
+2026-02-02T19:22:15.936-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/empleado/16
+2026-02-02T19:22:15.936-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/16
+2026-02-02T19:22:15.981-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/16
+2026-02-02T19:22:15.982-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/16", parameters={}
+2026-02-02T19:22:15.983-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-02T19:22:15.986-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 16
+2026-02-02T19:22:15.993-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 0 planillas para el empleado con ID: 16
+2026-02-02T19:22:15.996-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:22:15.996-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-02T19:22:15.998-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:22:16.000-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/16
+2026-02-02T19:22:16.009-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/16
+2026-02-02T19:22:16.010-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/16", parameters={}
+2026-02-02T19:22:16.011-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-02T19:22:16.012-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 16
+2026-02-02T19:22:16.015-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 0 planillas para el empleado con ID: 16
+2026-02-02T19:22:16.015-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:22:16.016-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-02T19:22:16.017-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:22:22.164-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-02T19:22:22.165-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-02T19:22:22.166-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-02T19:22:22.166-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-02T19:22:22.166-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-02T19:22:22.167-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=HHRR, password=doremi123)]
+2026-02-02T19:22:22.231-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-02T19:22:22.244-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:22:22.244-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsImlkRW1wbGVhZG8iOjEzLCJyb2xlIjoiSFIiLCJub21i (truncated)...]
+2026-02-02T19:22:22.246-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:22:24.252-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/empleado/13
+2026-02-02T19:22:24.252-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/empleado/13
+2026-02-02T19:22:24.254-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/13
+2026-02-02T19:22:24.266-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/13
+2026-02-02T19:22:24.266-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/13", parameters={}
+2026-02-02T19:22:24.267-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-02T19:22:24.267-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 13
+2026-02-02T19:22:24.270-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 0 planillas para el empleado con ID: 13
+2026-02-02T19:22:24.270-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:22:24.270-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-02T19:22:24.271-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:22:24.273-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/13
+2026-02-02T19:22:24.284-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/13
+2026-02-02T19:22:24.284-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/13", parameters={}
+2026-02-02T19:22:24.284-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-02T19:22:24.285-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 13
+2026-02-02T19:22:24.287-06:00  INFO 2968 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 0 planillas para el empleado con ID: 13
+2026-02-02T19:22:24.288-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:22:24.288-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-02T19:22:24.289-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:28:41.198-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas
+2026-02-02T19:28:41.201-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /api/planillas
+2026-02-02T19:28:41.212-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured POST /api/planillas
+2026-02-02T19:28:41.213-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/api/planillas", parameters={}
+2026-02-02T19:28:41.215-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#crear(SolicitudPlanillaEncabezadoDTO)
+2026-02-02T19:28:41.221-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO@3b384e4a]
+2026-02-02T19:28:41.244-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.anthony.tfg.tfg.Exceptions.Handler.GlobalExceptionHandler#handleValidationException(MethodArgumentNotValidException, HttpServletRequest)
+2026-02-02T19:28:41.244-06:00 ERROR 2968 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.E.H.GlobalExceptionHandler       : Error de validación: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO> com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla.crear(com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO) with 3 errors: [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaBruto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,Positive.totalPlanillaBruto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,totalPlanillaBruto]; arguments []; default message [totalPlanillaBruto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaNeto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,Positive.totalPlanillaNeto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,totalPlanillaNeto]; arguments []; default message [totalPlanillaNeto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'fechaPago': rejected value [2026-01-29]; codes [Future.solicitudPlanillaEncabezadoDTO.fechaPago,Future.fechaPago,Future.java.sql.Date,Future]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.fechaPago,fechaPago]; arguments []; default message [fechaPago]]; default message [debe ser una fecha futura]] 
+2026-02-02T19:28:41.252-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:28:41.252-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ErrorResponse[timestamp=2026-02-02T19:28:41.252166300, status=400, error=Bad Request, message=Error  (truncated)...]
+2026-02-02T19:28:41.261-06:00  WARN 2968 --- [tfg] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO> com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla.crear(com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO) with 3 errors: [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaBruto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,Positive.totalPlanillaBruto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,totalPlanillaBruto]; arguments []; default message [totalPlanillaBruto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaNeto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,Positive.totalPlanillaNeto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,totalPlanillaNeto]; arguments []; default message [totalPlanillaNeto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'fechaPago': rejected value [2026-01-29]; codes [Future.solicitudPlanillaEncabezadoDTO.fechaPago,Future.fechaPago,Future.java.sql.Date,Future]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.fechaPago,fechaPago]; arguments []; default message [fechaPago]]; default message [debe ser una fecha futura]] ]
+2026-02-02T19:28:41.261-06:00 DEBUG 2968 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 400 BAD_REQUEST
+2026-02-02T19:34:41.885-06:00  INFO 4864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 4864 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:34:41.890-06:00  INFO 4864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:34:41.959-06:00  INFO 4864 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-02-02T19:34:41.959-06:00  INFO 4864 --- [tfg] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-02-02T19:34:41.988-06:00  INFO 4864 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:34:42.884-06:00  INFO 4864 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:34:43.967-06:00  INFO 4864 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:34:44.154-06:00  INFO 4864 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 174 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:34:44.994-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:34:45.016-06:00  INFO 4864 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:34:45.017-06:00  INFO 4864 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:34:45.077-06:00  INFO 4864 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:34:45.078-06:00  INFO 4864 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2182 ms
+2026-02-02T19:34:45.298-06:00  INFO 4864 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:34:45.408-06:00  INFO 4864 --- [tfg] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.33.Final
+2026-02-02T19:34:45.465-06:00  INFO 4864 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:34:45.976-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:34:46.034-06:00  INFO 4864 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-02T19:34:46.260-06:00  INFO 4864 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1dc1194f
+2026-02-02T19:34:46.262-06:00  INFO 4864 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-02T19:34:46.310-06:00  WARN 4864 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:34:46.338-06:00  INFO 4864 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:34:47.981-06:00  INFO 4864 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:34:48.267-06:00  INFO 4864 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:34:48.871-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-02T19:34:50.471-06:00  INFO 4864 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-02T19:34:50.472-06:00  WARN 4864 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-02T19:34:50.526-06:00  WARN 4864 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-02T19:34:50.680-06:00 DEBUG 4864 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 129 mappings in 'requestMappingHandlerMapping'
+2026-02-02T19:34:50.799-06:00 DEBUG 4864 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-02T19:34:50.937-06:00 DEBUG 4864 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-02T19:34:51.053-06:00 DEBUG 4864 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-02T19:34:51.132-06:00 DEBUG 4864 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-02T19:34:51.276-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-02T19:34:51.291-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-02T19:34:51.292-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-02T19:34:51.293-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-02T19:34:51.294-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-02T19:34:51.295-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-02T19:34:51.296-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-02T19:34:51.296-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@c350852
+2026-02-02T19:34:51.397-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-02T19:34:51.455-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-02T19:34:51.457-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-02T19:34:51.457-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-02T19:34:51.472-06:00  INFO 4864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 10.169 seconds (process running for 10.949)
+2026-02-02T19:34:51.579-06:00  INFO 4864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-02T19:34:57.308-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-02T19:34:57.308-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-02T19:34:57.309-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-02-02T19:34:57.309-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-02-02T19:34:57.309-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-02-02T19:34:57.309-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@3232decf
+2026-02-02T19:34:57.313-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@4b38ad82
+2026-02-02T19:34:57.313-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-02T19:34:57.313-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2026-02-02T19:34:57.338-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/vacaciones/mi-saldo
+2026-02-02T19:34:57.338-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/permisos/mis-solicitudes
+2026-02-02T19:34:57.594-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/vacaciones/mi-saldo
+2026-02-02T19:34:57.594-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/permisos/mis-solicitudes
+2026-02-02T19:34:57.597-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/vacaciones/mi-saldo", parameters={}
+2026-02-02T19:34:57.597-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/permisos/mis-solicitudes", parameters={}
+2026-02-02T19:34:57.599-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Vacaciones.Controlador.ControladorVacaciones#obtenerMiSaldo(Authentication)
+2026-02-02T19:34:57.599-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Permisos.Controlador.ControladorPermisos#obtenerMisSolicitudes(Authentication)
+2026-02-02T19:34:57.618-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.V.Servicio.ServicioVacaciones  : Saldo de vacaciones para empleado 13: 29 días
+2026-02-02T19:34:57.637-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:34:57.639-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{diasDisponibles=29}]
+2026-02-02T19:34:57.641-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se obtuvieron 0 solicitudes para el empleado 13
+2026-02-02T19:34:57.650-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:34:57.650-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-02T19:34:57.655-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:34:57.655-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:34:57.655-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/permisos/mis-solicitudes
+2026-02-02T19:34:57.655-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/vacaciones/mi-saldo
+2026-02-02T19:34:57.672-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/vacaciones/mi-saldo
+2026-02-02T19:34:57.672-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/permisos/mis-solicitudes
+2026-02-02T19:34:57.672-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/vacaciones/mi-saldo", parameters={}
+2026-02-02T19:34:57.672-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/permisos/mis-solicitudes", parameters={}
+2026-02-02T19:34:57.673-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Vacaciones.Controlador.ControladorVacaciones#obtenerMiSaldo(Authentication)
+2026-02-02T19:34:57.673-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Permisos.Controlador.ControladorPermisos#obtenerMisSolicitudes(Authentication)
+2026-02-02T19:34:57.673-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.V.Servicio.ServicioVacaciones  : Saldo de vacaciones para empleado 13: 29 días
+2026-02-02T19:34:57.674-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:34:57.675-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{diasDisponibles=29}]
+2026-02-02T19:34:57.677-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:34:57.679-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se obtuvieron 0 solicitudes para el empleado 13
+2026-02-02T19:34:57.680-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:34:57.681-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-02T19:34:57.682-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:37:16.284-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing POST /api/planillas
+2026-02-02T19:37:16.298-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured POST /api/planillas
+2026-02-02T19:37:16.298-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/api/planillas", parameters={}
+2026-02-02T19:37:16.298-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#crear(SolicitudPlanillaEncabezadoDTO)
+2026-02-02T19:37:16.316-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO@10fd7a11]
+2026-02-02T19:37:16.385-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.anthony.tfg.tfg.Exceptions.Handler.GlobalExceptionHandler#handleValidationException(MethodArgumentNotValidException, HttpServletRequest)
+2026-02-02T19:37:16.386-06:00 ERROR 4864 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.E.H.GlobalExceptionHandler       : Error de validación: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO> com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla.crear(com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO) with 3 errors: [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaBruto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,Positive.totalPlanillaBruto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,totalPlanillaBruto]; arguments []; default message [totalPlanillaBruto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaNeto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,Positive.totalPlanillaNeto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,totalPlanillaNeto]; arguments []; default message [totalPlanillaNeto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'fechaPago': rejected value [2026-01-30]; codes [Future.solicitudPlanillaEncabezadoDTO.fechaPago,Future.fechaPago,Future.java.time.LocalDate,Future]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.fechaPago,fechaPago]; arguments []; default message [fechaPago]]; default message [debe ser una fecha futura]] 
+2026-02-02T19:37:16.392-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:37:16.410-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ErrorResponse[timestamp=2026-02-02T19:37:16.388230200, status=400, error=Bad Request, message=Error  (truncated)...]
+2026-02-02T19:37:16.419-06:00  WARN 4864 --- [tfg] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO> com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla.crear(com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO) with 3 errors: [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaBruto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,Positive.totalPlanillaBruto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,totalPlanillaBruto]; arguments []; default message [totalPlanillaBruto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaNeto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,Positive.totalPlanillaNeto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,totalPlanillaNeto]; arguments []; default message [totalPlanillaNeto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'fechaPago': rejected value [2026-01-30]; codes [Future.solicitudPlanillaEncabezadoDTO.fechaPago,Future.fechaPago,Future.java.time.LocalDate,Future]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.fechaPago,fechaPago]; arguments []; default message [fechaPago]]; default message [debe ser una fecha futura]] ]
+2026-02-02T19:37:16.420-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 400 BAD_REQUEST
+2026-02-02T19:37:42.906-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing POST /api/planillas
+2026-02-02T19:37:42.916-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured POST /api/planillas
+2026-02-02T19:37:42.916-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : POST "/api/planillas", parameters={}
+2026-02-02T19:37:42.916-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#crear(SolicitudPlanillaEncabezadoDTO)
+2026-02-02T19:37:42.916-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO@879ff5f]
+2026-02-02T19:37:42.923-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.anthony.tfg.tfg.Exceptions.Handler.GlobalExceptionHandler#handleValidationException(MethodArgumentNotValidException, HttpServletRequest)
+2026-02-02T19:37:42.923-06:00 ERROR 4864 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.E.H.GlobalExceptionHandler       : Error de validación: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO> com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla.crear(com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO) with 2 errors: [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaNeto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,Positive.totalPlanillaNeto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,totalPlanillaNeto]; arguments []; default message [totalPlanillaNeto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaBruto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,Positive.totalPlanillaBruto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,totalPlanillaBruto]; arguments []; default message [totalPlanillaBruto]]; default message [debe ser mayor que 0]] 
+2026-02-02T19:37:42.923-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:37:42.923-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ErrorResponse[timestamp=2026-02-02T19:37:42.923836200, status=400, error=Bad Request, message=Error  (truncated)...]
+2026-02-02T19:37:42.926-06:00  WARN 4864 --- [tfg] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.bind.MethodArgumentNotValidException: Validation failed for argument [0] in public org.springframework.http.ResponseEntity<com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO> com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla.crear(com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO) with 2 errors: [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaNeto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,Positive.totalPlanillaNeto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaNeto,totalPlanillaNeto]; arguments []; default message [totalPlanillaNeto]]; default message [debe ser mayor que 0]] [Field error in object 'solicitudPlanillaEncabezadoDTO' on field 'totalPlanillaBruto': rejected value [0.0]; codes [Positive.solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,Positive.totalPlanillaBruto,Positive.java.lang.Double,Positive]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [solicitudPlanillaEncabezadoDTO.totalPlanillaBruto,totalPlanillaBruto]; arguments []; default message [totalPlanillaBruto]]; default message [debe ser mayor que 0]] ]
+2026-02-02T19:37:42.926-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 400 BAD_REQUEST
+2026-02-02T19:38:30.334-06:00  INFO 4864 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-02-02T19:38:30.337-06:00  INFO 4864 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:38:30.339-06:00  INFO 4864 --- [tfg] [Thread-17] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-02T19:38:30.346-06:00  INFO 4864 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-02T19:38:30.350-06:00  INFO 4864 --- [tfg] [Thread-17] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-02T19:38:30.350-06:00  INFO 4864 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-02T19:38:30.350-06:00  INFO 4864 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-02T19:38:30.350-06:00  INFO 4864 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-02T19:38:30.357-06:00  INFO 4864 --- [tfg] [Thread-17] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:38:30.360-06:00  INFO 4864 --- [tfg] [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-02-02T19:38:30.370-06:00  INFO 4864 --- [tfg] [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-02-02T19:38:30.478-06:00  INFO 4864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 4864 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-02T19:38:30.478-06:00  INFO 4864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-02T19:38:30.478-06:00  INFO 4864 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-02T19:38:30.994-06:00  INFO 4864 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-02T19:38:31.444-06:00  INFO 4864 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-02T19:38:31.542-06:00  INFO 4864 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 100 ms. Found 18 JPA repository interfaces.
+2026-02-02T19:38:31.688-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-02T19:38:31.688-06:00  INFO 4864 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-02T19:38:31.688-06:00  INFO 4864 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-02T19:38:31.714-06:00  INFO 4864 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-02T19:38:31.714-06:00  INFO 4864 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 717 ms
+2026-02-02T19:38:31.776-06:00  INFO 4864 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-02T19:38:31.779-06:00  INFO 4864 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-02T19:38:31.789-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-02T19:38:31.791-06:00  INFO 4864 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-02-02T19:38:31.813-06:00  INFO 4864 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@5ec1730
+2026-02-02T19:38:31.813-06:00  INFO 4864 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-02-02T19:38:31.818-06:00  WARN 4864 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-02T19:38:31.825-06:00  INFO 4864 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-02T19:38:32.236-06:00  INFO 4864 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-02T19:38:32.476-06:00  INFO 4864 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-02T19:38:32.946-06:00  INFO 4864 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-02T19:38:32.946-06:00  WARN 4864 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-02T19:38:32.966-06:00  WARN 4864 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-02T19:38:33.005-06:00 DEBUG 4864 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 129 mappings in 'requestMappingHandlerMapping'
+2026-02-02T19:38:33.054-06:00 DEBUG 4864 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-02T19:38:33.072-06:00 DEBUG 4864 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-02T19:38:33.100-06:00 DEBUG 4864 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-02T19:38:33.105-06:00 DEBUG 4864 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-02T19:38:33.132-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-02T19:38:33.133-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-02T19:38:33.133-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-02T19:38:33.134-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-02T19:38:33.134-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-02T19:38:33.134-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-02T19:38:33.135-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-02T19:38:33.135-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@369fe974
+2026-02-02T19:38:33.146-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-02T19:38:33.152-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-02T19:38:33.152-06:00  INFO 4864 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-02T19:38:33.152-06:00  INFO 4864 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-02T19:38:33.164-06:00  INFO 4864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 2.725 seconds (process running for 232.641)
+2026-02-02T19:38:33.173-06:00  INFO 4864 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-02T19:38:33.176-06:00  INFO 4864 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-02T19:38:38.471-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-02T19:38:38.471-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-02T19:38:38.472-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-02-02T19:38:38.472-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-02-02T19:38:38.472-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-02-02T19:38:38.473-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@6f81ca52
+2026-02-02T19:38:38.473-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@244fdd50
+2026-02-02T19:38:38.474-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-02T19:38:38.474-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-02-02T19:38:38.475-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /api/planillas
+2026-02-02T19:38:38.519-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /api/planillas
+2026-02-02T19:38:38.519-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/planillas", parameters={}
+2026-02-02T19:38:38.519-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#crear(SolicitudPlanillaEncabezadoDTO)
+2026-02-02T19:38:38.522-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO@1ea5df70]
+2026-02-02T19:38:38.533-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido el DTO de solicitud a entidad PlanillaEncabezado: com.anthony.tfg.tfg.Entidades.PlanillaEncabezado@5d45be48
+2026-02-02T19:38:38.595-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha guardado una nueva planilla con ID: 1
+2026-02-02T19:38:38.596-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@4c5bc316
+2026-02-02T19:38:38.599-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:38:38.599-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@4c5bc316]
+2026-02-02T19:38:38.601-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-02-02T19:39:58.797-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-02T19:39:58.810-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-02T19:39:58.810-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-02T19:39:58.811-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-02T19:39:58.819-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-02T19:39:58.819-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@1e404231
+2026-02-02T19:39:58.822-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:39:58.823-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@1e404231]]
+2026-02-02T19:39:58.824-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:41:26.669-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-02T19:41:26.682-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-02T19:41:26.683-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-02T19:41:26.684-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-02T19:41:26.692-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-02T19:41:26.693-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@5438c9fa
+2026-02-02T19:41:26.694-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:41:26.695-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@5438c9fa]]
+2026-02-02T19:41:26.697-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:41:26.700-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-02T19:41:26.713-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-02T19:41:26.713-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-02T19:41:26.714-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-02T19:41:26.719-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-02T19:41:26.720-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@280edad7
+2026-02-02T19:41:26.720-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:41:26.721-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@280edad7]]
+2026-02-02T19:41:26.722-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:43:11.991-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-02T19:43:11.992-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-02T19:43:11.993-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-02T19:43:11.993-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-02T19:43:11.993-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-02T19:43:11.998-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=Admin, password=doremi123)]
+2026-02-02T19:43:12.138-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-02T19:43:12.165-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:43:12.166-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImlkRW1wbGVhZG8iOjExLCJyb2xlIjoiQURNSU4iLCJu (truncated)...]
+2026-02-02T19:43:12.167-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:43:15.495-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-02T19:43:15.507-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-02T19:43:15.507-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-02T19:43:15.507-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-02T19:43:15.514-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-02T19:43:15.515-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@775e8dc7
+2026-02-02T19:43:15.516-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:43:15.517-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@775e8dc7]]
+2026-02-02T19:43:15.518-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:43:15.521-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-02T19:43:15.532-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-02T19:43:15.533-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-02T19:43:15.533-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-02T19:43:15.538-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-02T19:43:15.539-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@572e7def
+2026-02-02T19:43:15.539-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:43:15.539-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@572e7def]]
+2026-02-02T19:43:15.540-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:43:17.649-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/1
+2026-02-02T19:43:17.649-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing DELETE /api/planillas/1
+2026-02-02T19:43:17.669-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured DELETE /api/planillas/1
+2026-02-02T19:43:17.669-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : DELETE "/api/planillas/1", parameters={}
+2026-02-02T19:43:17.670-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#eliminar(Long)
+2026-02-02T19:43:17.703-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha eliminado la planilla con ID: 1
+2026-02-02T19:43:17.704-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:43:17.705-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-02-02T19:43:17.705-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-02-02T19:43:17.709-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-02T19:43:17.718-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-02T19:43:17.718-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-02T19:43:17.719-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-02T19:43:17.724-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 0
+2026-02-02T19:43:17.724-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:43:17.725-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-02T19:43:17.726-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:43:20.752-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-02T19:43:20.753-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-02T19:43:20.754-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-02T19:43:20.754-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-02T19:43:20.755-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-02T19:43:20.756-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=HHRR, password=doremi123)]
+2026-02-02T19:43:20.821-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-02T19:43:20.836-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:43:20.836-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsImlkRW1wbGVhZG8iOjEzLCJyb2xlIjoiSFIiLCJub21i (truncated)...]
+2026-02-02T19:43:20.838-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:43:23.510-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-02T19:43:23.520-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-02T19:43:23.520-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-02T19:43:23.521-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-02T19:43:23.525-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 0
+2026-02-02T19:43:23.526-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:43:23.526-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-02T19:43:23.528-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-02T19:43:23.530-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-02T19:43:23.537-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-02T19:43:23.537-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-02T19:43:23.537-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-02T19:43:23.543-06:00  INFO 4864 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 0
+2026-02-02T19:43:23.544-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-02T19:43:23.544-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-02T19:43:23.545-06:00 DEBUG 4864 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK

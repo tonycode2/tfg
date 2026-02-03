@@ -18,6 +18,8 @@ import { JornadaDiariaView } from '../components/dashboard/JornadaDiariaView';
 import HorasExtraView from '../components/dashboard/HorasExtraView';
 import MisHorasExtraView from '../components/dashboard/MisHorasExtraView';
 import HorasExtraPendientesView from '../components/dashboard/HorasExtraPendientesView';
+import { MiPlanillaView } from '../components/dashboard/MiPlanillaView';
+import { PlanillaGeneralView } from '../components/dashboard/PlanillaGeneralView';
 import { authService } from '../services/authService';
 
 // Memoized view components to prevent unnecessary re-renders
@@ -38,6 +40,8 @@ const MemoizedEvaluacionesView = memo(EvaluacionesView);
 const MemoizedHorasExtraView = memo(HorasExtraView);
 const MemoizedMisHorasExtraView = memo(MisHorasExtraView);
 const MemoizedHorasExtraPendientesView = memo(HorasExtraPendientesView);
+const MemoizedMiPlanillaView = memo(MiPlanillaView);
+const MemoizedPlanillaGeneralView = memo(PlanillaGeneralView);
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -67,7 +71,7 @@ export default function DashboardPage() {
       case 'mantenimientos':
         return <MemoizedMantenimientosView />;
       case 'mi-planilla':
-        return <MemoizedPlaceholderView title="Mi Planilla" description="Consulta tu información de planilla personal" />;
+        return <MemoizedMiPlanillaView />;
       case 'mis-solicitudes':
         return <MemoizedPlaceholderView title="Mis Solicitudes" description="Gestiona tus solicitudes de permisos y vacaciones" />;
       case 'mis-permisos':
@@ -99,7 +103,7 @@ export default function DashboardPage() {
       case 'solicitudes-pendientes':
         return <MemoizedPlaceholderView title="Solicitudes Pendientes" description="Revisa y aprueba solicitudes pendientes" />;
       case 'planilla-general':
-        return <MemoizedPlaceholderView title="Planilla General" description="Gestión de planilla de todos los empleados" />;
+        return <MemoizedPlanillaGeneralView />;
       case 'liquidaciones':
         return <MemoizedPlaceholderView title="Liquidaciones" description="Cálculo y gestión de liquidaciones" />;
       case 'aguinaldo':

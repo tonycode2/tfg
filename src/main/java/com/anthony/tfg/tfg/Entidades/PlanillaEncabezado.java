@@ -1,6 +1,6 @@
 package com.anthony.tfg.tfg.Entidades;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoPlanilla;
@@ -34,13 +34,13 @@ public class PlanillaEncabezado {
     Long id;
     @Column(name = "fecha_inicio_periodo")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaInicioPeriodo;
+    LocalDate fechaInicioPeriodo;
     @Column(name = "fecha_fin_periodo")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaFinPeriodo;
+    LocalDate fechaFinPeriodo;
     @Column(name = "fecha_pago")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaPago;
+    LocalDate fechaPago;
     @Column(name = "total_planilla_bruto")
     Double totalPlanillaBruto;
     @Column(name = "total_planilla_neto")

@@ -1,17 +1,21 @@
 package com.anthony.tfg.tfg.Modulos.Planilla.Servicio;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO;
+import com.anthony.tfg.tfg.Entidades.PlanillaDetalle;
 import com.anthony.tfg.tfg.Entidades.PlanillaEncabezado;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoPlanilla;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPlanillaEncabezado;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPlanillaEncabezados;
+import com.anthony.tfg.tfg.Repositorios.PlanillaDetalleRepositorio;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,10 +27,66 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
 
     private final ConsultasPlanillaEncabezado consulta;
     private final MantenimientosPlanillaEncabezados mantenimiento;
+    private final PlanillaDetalleRepositorio planillaDetalleRepo;
 
-    public ServicioPlanilla(ConsultasPlanillaEncabezado consulta, MantenimientosPlanillaEncabezados mantenimiento) {
+    public ServicioPlanilla(ConsultasPlanillaEncabezado consulta, 
+                           MantenimientosPlanillaEncabezados mantenimiento,
+                           PlanillaDetalleRepositorio planillaDetalleRepo) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
+        this.planillaDetalleRepo = planillaDetalleRepo;
+    }
+
+    /**
+     * Obtiene las planillas de un empleado específico
+     * @param empleadoId ID del empleado
+     * @return Lista de planillas del empleado con sus detalles
+     */
+    public List<RespuestaPlanillaEmpleadoDTO> obtenerPlanillasPorEmpleado(Long empleadoId) {
+        log.info("Obteniendo planillas para el empleado con ID: {}", empleadoId);
+        List<PlanillaDetalle> detalles = planillaDetalleRepo.findByEmpleadoId(empleadoId);
+        
+        List<RespuestaPlanillaEmpleadoDTO> planillas = detalles.stream()
+            .map(this::deDetalleADtoEmpleado)
+            .collect(Collectors.toList());
+        
+        log.info("Se encontraron {} planillas para el empleado con ID: {}", planillas.size(), empleadoId);
+        return planillas;
+    }
+
+    /**
+     * Convierte PlanillaDetalle a RespuestaPlanillaEmpleadoDTO
+     */
+    private RespuestaPlanillaEmpleadoDTO deDetalleADtoEmpleado(PlanillaDetalle detalle) {
+        RespuestaPlanillaEmpleadoDTO dto = new RespuestaPlanillaEmpleadoDTO();
+        
+        // Datos del encabezado
+        PlanillaEncabezado encabezado = detalle.getPlanillaEncabezado();
+        dto.idEncabezado = encabezado.getId();
+        dto.fechaInicioPeriodo = encabezado.getFechaInicioPeriodo();
+        dto.fechaFinPeriodo = encabezado.getFechaFinPeriodo();
+        dto.fechaPago = encabezado.getFechaPago();
+        dto.estadoPlanilla = encabezado.getEstadoPlanilla() != null ? 
+                            encabezado.getEstadoPlanilla().name() : null;
+        
+        // Datos del detalle
+        dto.idDetalle = detalle.getId();
+        dto.salarioBasePeriodo = detalle.getSalarioBasePeriodo() != null ? detalle.getSalarioBasePeriodo() : 0.0;
+        dto.cantidadDiasFeriados = detalle.getCantidadDiasFeriados() != null ? detalle.getCantidadDiasFeriados() : 0;
+        dto.montoHorasExtra = detalle.getMontoHorasExtra() != null ? detalle.getMontoHorasExtra() : 0.0;
+        dto.montoIncapacidad = detalle.getMontoIncapacidad() != null ? detalle.getMontoIncapacidad() : 0.0;
+        dto.deduccionCcssIvm = detalle.getDeduccionCcssIvm() != null ? detalle.getDeduccionCcssIvm() : 0.0;
+        dto.deduccionCcssSem = detalle.getDeduccionCcssSem() != null ? detalle.getDeduccionCcssSem() : 0.0;
+        dto.impuestoDeRenta = detalle.getImpuestoDeRenta() != null ? detalle.getImpuestoDeRenta() : 0.0;
+        dto.otrasDeducciones = detalle.getOtrasDeducciones() != null ? detalle.getOtrasDeducciones() : 0.0;
+        
+        // Calcular totales
+        dto.totalDevengado = dto.salarioBasePeriodo + dto.montoHorasExtra + dto.montoIncapacidad;
+        dto.totalDeducciones = dto.deduccionCcssIvm + dto.deduccionCcssSem + 
+                              dto.impuestoDeRenta + dto.otrasDeducciones;
+        dto.salarioNeto = dto.totalDevengado - dto.totalDeducciones;
+        
+        return dto;
     }
 
     public RespuestaPlanillaEncabezadoDTO obtenerPorId(Long id) {
