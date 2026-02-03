@@ -95,7 +95,17 @@ public class DataSeeder implements CommandLineRunner {
         logger.info("=== Starting database seeding for Sastrería department ===");
 
         try {
-            // Step 1: Get or create Sastrería department
+            // Step 1: Get or create Admin department
+            Departamento admin = departamentoRepositorio.findById(5L)
+                .orElseGet(() -> {
+                    logger.info("Admin department not found, creating it...");
+                    Departamento newDept = new Departamento();
+                    newDept.setNombre("Admin");
+                    return departamentoRepositorio.save(newDept);
+                });
+            logger.info("Using department: {}", admin.getNombre());
+
+            // Step 1b: Get or create Sastrería department
             Departamento sastreria = departamentoRepositorio.findById(4L)
                 .orElseGet(() -> {
                     logger.info("Sastrería department not found, creating it...");
@@ -105,9 +115,9 @@ public class DataSeeder implements CommandLineRunner {
                 });
             logger.info("Using department: {}", sastreria.getNombre());
 
-            // Step 2: Create positions for Sastrería
-            List<Puestos> puestos = createSastreriaPositions(sastreria);
-            logger.info("Created {} positions for Sastrería", puestos.size());
+            // Step 2: Create positions for Admin and Sastrería
+            List<Puestos> puestos = createPositions(admin, sastreria);
+            logger.info("Created {} positions for Admin and Sastrería", puestos.size());
 
             // Step 3: Create addresses for 5 employees
             List<Direccion> direcciones = createAddresses();
@@ -156,14 +166,36 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     /**
-     * Creates positions for Sastrería department.
+     * Creates positions for Admin and Sastrería departments.
      */
-    private List<Puestos> createSastreriaPositions(Departamento sastreria) {
+    private List<Puestos> createPositions(Departamento admin, Departamento sastreria) {
         List<Puestos> positions = new ArrayList<>();
         
         Time horaEntrada = Time.valueOf("08:00:00");
         Time horaSalida = Time.valueOf("17:00:00");
 
+        // ===== ADMIN DEPARTMENT POSITIONS =====
+        // Administrador
+        Puestos administrador = Puestos.builder()
+            .nombre("Administrador")
+            .salarioMinimo(800000.0)
+            .horaEntrada(horaEntrada)
+            .horaSalida(horaSalida)
+            .departamento(admin)
+            .build();
+        positions.add(puestosRepositorio.save(administrador));
+
+        // Gerente de RH
+        Puestos gerenteRH = Puestos.builder()
+            .nombre("Gerente de RH")
+            .salarioMinimo(1100000.0)
+            .horaEntrada(horaEntrada)
+            .horaSalida(horaSalida)
+            .departamento(admin)
+            .build();
+        positions.add(puestosRepositorio.save(gerenteRH));
+
+        // ===== SASTRERÍA DEPARTMENT POSITIONS =====
         // Sastre (for jefe)
         Puestos sastre = Puestos.builder()
             .nombre("Sastre")
@@ -193,18 +225,6 @@ public class DataSeeder implements CommandLineRunner {
             .departamento(sastreria)
             .build();
         positions.add(puestosRepositorio.save(cortador));
-
-        // Gerente de RH (different department, but needed for RH user)
-        Departamento rhDept = departamentoRepositorio.findById(1L)
-            .orElseThrow(() -> new IllegalStateException("RH department not found"));
-        Puestos gerenteRH = Puestos.builder()
-            .nombre("Gerente de RH")
-            .salarioMinimo(1100000.0)
-            .horaEntrada(horaEntrada)
-            .horaSalida(horaSalida)
-            .departamento(rhDept)
-            .build();
-        positions.add(puestosRepositorio.save(gerenteRH));
 
         return positions;
     }
@@ -272,18 +292,20 @@ public class DataSeeder implements CommandLineRunner {
 
     /**
      * Creates 6 employees: 1 ADMIN, 1 RH, 1 JEFE, 3 EMPLEADO.
+     * Admin and RH are in the Admin department, JEFE and EMPLEADO are in Sastrería.
      */
     private List<Empleados> createEmployees(List<Puestos> puestos, List<Direccion> direcciones, List<User> users) {
         List<Empleados> empleados = new ArrayList<>();
 
         // {nombre, primerApellido, segundoApellido, birthDate, startDate, positionIndex, userIndex, salary, cedula}
+        // positionIndex: 0=Administrador(Admin), 1=GerenteRH(Admin), 2=Sastre(Sastrería), 3=SastreJr, 4=SastreJr, 5=Cortador
         Object[][] employeeData = {
-            {"Carlos", "Administrador", "Vargas", "1985-03-15", "2020-01-10", 0, 0, 800000.0, "101230456"},   // ADMIN
-            {"María", "González", "Solano", "1988-07-22", "2021-06-15", 3, 1, 1100000.0, "102340567"},        // RH (Gerente RH)
-            {"José", "Fernández", "Castro", "1980-11-08", "2019-03-20", 0, 2, 600000.0, "103450678"},         // JEFE (Sastre)
-            {"Ana", "López", "Mora", "1992-05-12", "2023-02-01", 1, 3, 380000.0, "104560789"},                // EMPLEADO (Sastre Jr)
-            {"Pedro", "Álvarez", "Jiménez", "1995-09-30", "2024-01-15", 1, 4, 370000.0, "105670890"},         // EMPLEADO (Sastre Jr)
-            {"Laura", "Rodríguez", "Pérez", "1993-04-18", "2023-08-10", 2, 5, 420000.0, "106780901"}          // EMPLEADO (Cortador)
+            {"Carlos", "Administrador", "Vargas", "1985-03-15", "2020-01-10", 0, 0, 800000.0, "101230456"},   // ADMIN (Administrador/Admin dept)
+            {"María", "González", "Solano", "1988-07-22", "2021-06-15", 1, 1, 1100000.0, "102340567"},        // RH (Gerente RH/Admin dept)
+            {"José", "Fernández", "Castro", "1980-11-08", "2019-03-20", 2, 2, 600000.0, "103450678"},         // JEFE (Sastre/Sastrería)
+            {"Ana", "López", "Mora", "1992-05-12", "2023-02-01", 3, 3, 380000.0, "104560789"},                // EMPLEADO (Sastre Jr/Sastrería)
+            {"Pedro", "Álvarez", "Jiménez", "1995-09-30", "2024-01-15", 3, 4, 370000.0, "105670890"},         // EMPLEADO (Sastre Jr/Sastrería)
+            {"Laura", "Rodríguez", "Pérez", "1993-04-18", "2023-08-10", 4, 5, 420000.0, "106780901"}          // EMPLEADO (Cortador/Sastrería)
         };
 
         for (int i = 0; i < employeeData.length; i++) {
