@@ -2,7 +2,7 @@ package com.anthony.tfg.tfg.DTOs.Solicitud;
 
 import java.time.LocalDate;
 
-import com.anthony.tfg.tfg.Utils.EdadMinima;
+import com.anthony.tfg.tfg.Util.EdadMinima;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.Email;
