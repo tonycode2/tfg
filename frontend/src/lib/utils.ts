@@ -5,6 +5,20 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+// Parse dates preserving yyyy-MM-dd as local to avoid timezone shifts when displaying
+function parseDatePreserveLocal(value: string | Date | null | undefined): Date | null {
+  if (!value) return null;
+  if (value instanceof Date) return value;
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
 // ==================== PERMISOS UTILITIES ====================
 
 /**
@@ -70,10 +84,10 @@ export function getTipoPermisoLabel(tipo: string): string {
  * @returns Número de días hábiles (incluye ambos días)
  */
 export function calcularDiasHabiles(fechaInicio: string, fechaFin: string): number {
-  const inicio = new Date(fechaInicio);
-  const fin = new Date(fechaFin);
+  const inicio = parseDatePreserveLocal(fechaInicio);
+  const fin = parseDatePreserveLocal(fechaFin);
   
-  if (fin < inicio) {
+  if (!inicio || !fin || fin < inicio) {
     return 0;
   }
   
@@ -100,7 +114,9 @@ export function calcularDiasHabiles(fechaInicio: string, fechaFin: string): numb
 export function formatearFecha(fecha: string | Date | null | undefined): string {
   if (!fecha) return 'N/A';
   
-  const date = typeof fecha === 'string' ? new Date(fecha) : fecha;
+  const date = parseDatePreserveLocal(fecha);
+  if (!date) return 'N/A';
+
   const dia = String(date.getDate()).padStart(2, '0');
   const mes = String(date.getMonth() + 1).padStart(2, '0');
   const año = date.getFullYear();

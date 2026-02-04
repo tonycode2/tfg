@@ -17,6 +17,7 @@ import com.anthony.tfg.tfg.Entidades.JefesDepartamento;
 import com.anthony.tfg.tfg.Entidades.Permisos;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
+import com.anthony.tfg.tfg.Entidades.Enums.UnidadTiempo;
 import com.anthony.tfg.tfg.Exceptions.BadRequestException;
 import com.anthony.tfg.tfg.Exceptions.ForbiddenException;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
@@ -24,6 +25,7 @@ import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPermisos;
 import com.anthony.tfg.tfg.Modulos.DiasFeriados.Servicio.ServicioDiasFeriados;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
+import com.anthony.tfg.tfg.Modulos.JornadaDiaria.Servicio.ServicioJornadaDiaria;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPermisos;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 import com.anthony.tfg.tfg.Modulos.Vacaciones.Servicio.ServicioVacaciones;
@@ -44,6 +46,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
     private final JavaMailSender emailSender;
     private final ServicioVacaciones servicioVacaciones;
     private final ServicioDiasFeriados servicioDiasFeriados;
+    private final ServicioJornadaDiaria servicioJornadaDiaria;
 
     public ServicioPermisos(
             ConsultasPermisos consulta, 
@@ -52,7 +55,8 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
             JefesDepartamentoRepositorio jefesDepartamentoRepo,
             JavaMailSender emailSender,
             ServicioVacaciones servicioVacaciones,
-            ServicioDiasFeriados servicioDiasFeriados) {
+            ServicioDiasFeriados servicioDiasFeriados,
+            ServicioJornadaDiaria servicioJornadaDiaria) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
@@ -60,6 +64,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         this.emailSender = emailSender;
         this.servicioVacaciones = servicioVacaciones;
         this.servicioDiasFeriados = servicioDiasFeriados;
+        this.servicioJornadaDiaria = servicioJornadaDiaria;
     }
 
     public RespuestaPermisosDTO obtenerPorId(Long id) {
@@ -183,6 +188,11 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         Permisos permisoGuardado = mantenimiento.crear(nuevoPermiso);
         log.info("Se ha guardado un nuevo permiso con ID: {} y estado: {}", 
                 permisoGuardado.getId(), permisoGuardado.getEstadoSolicitud());
+
+        if (permisoGuardado.getUnidadTiempo() == null || permisoGuardado.getUnidadTiempo() == UnidadTiempo.DIAS) {
+            servicioJornadaDiaria.generarJornadasParaPermiso(permisoGuardado);
+        }
+
         return deEntidadDtoARespuesta(permisoGuardado);
     }
 

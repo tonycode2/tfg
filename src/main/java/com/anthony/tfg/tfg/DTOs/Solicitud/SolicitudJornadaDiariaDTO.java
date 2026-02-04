@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,9 @@ public class SolicitudJornadaDiariaDTO {
     Double horasExtra;
     
     String observaciones;
+
+    @Positive
+    Integer diaPermiso;
     
     @NotNull
     Long idEmpleado;

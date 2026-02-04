@@ -22,6 +22,7 @@ import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasIncapacidades;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
+import com.anthony.tfg.tfg.Modulos.JornadaDiaria.Servicio.ServicioJornadaDiaria;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosIncapacidades;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 import com.anthony.tfg.tfg.Repositorios.JefesDepartamentoRepositorio;
@@ -39,17 +40,20 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
     private final ConsultasEmpleados consultasEmpleados;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepo;
     private final com.anthony.tfg.tfg.Util.FileStorageService fileStorageService;
+    private final ServicioJornadaDiaria servicioJornadaDiaria;
 
     public ServicioIncapacidad(ConsultasIncapacidades consulta, 
                                MantenimientosIncapacidades mantenimiento, 
                                ConsultasEmpleados consultasEmpleados,
                                JefesDepartamentoRepositorio jefesDepartamentoRepo,
-                               com.anthony.tfg.tfg.Util.FileStorageService fileStorageService) {
+                               com.anthony.tfg.tfg.Util.FileStorageService fileStorageService,
+                               ServicioJornadaDiaria servicioJornadaDiaria) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
         this.jefesDepartamentoRepo = jefesDepartamentoRepo;
         this.fileStorageService = fileStorageService;
+        this.servicioJornadaDiaria = servicioJornadaDiaria;
     }
 
     // ==================== MÉTODOS BÁSICOS (CRUD) ====================
@@ -150,6 +154,12 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         Incapacidades incapacidadGuardada = mantenimiento.crear(nuevaIncapacidad);
         log.info("Se ha guardado una nueva incapacidad con ID: {} y estado: {}", 
                 incapacidadGuardada.getId(), incapacidadGuardada.getEstadoSolicitud());
+
+        servicioJornadaDiaria.generarJornadasParaIncapacidad(
+            incapacidadGuardada,
+            incapacidadGuardada.getFechaInicio(),
+            incapacidadGuardada.getFechaFin());
+
         return deEntidadDtoARespuesta(incapacidadGuardada);
     }
 
@@ -268,7 +278,7 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
     public RespuestaIncapacidadesDTO solicitarExtension(Long idIncapacidad, 
                                                         SolicitudExtensionIncapacidadDTO solicitudExtension, 
                                                         Authentication auth) {
-        Empleados jefe = obtenerEmpleadoAutenticado(auth);
+        Empleados solicitante = obtenerEmpleadoAutenticado(auth);
         Incapacidades incapacidadOriginal = consulta.obtenerPorId(idIncapacidad);
         
         if (incapacidadOriginal == null) {
@@ -280,9 +290,13 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
             throw new BadRequestException("Solo se pueden extender incapacidades aprobadas");
         }
         
-        // Validar que el jefe tenga permiso sobre el departamento del empleado
         Long idDepartamento = incapacidadOriginal.getEmpleado().getPuesto().getDepartamento().getId();
-        if (!jefesDepartamentoRepo.findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(jefe.getId(), idDepartamento).isPresent()) {
+        boolean esPropietario = solicitante.getId().equals(incapacidadOriginal.getEmpleado().getId());
+        boolean esJefeConPermiso = jefesDepartamentoRepo
+                .findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(solicitante.getId(), idDepartamento)
+                .isPresent();
+
+        if (!esPropietario && !esJefeConPermiso) {
             throw new ForbiddenException("No tiene permisos para extender esta incapacidad");
         }
         
@@ -292,6 +306,10 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         }
         
         // Crear nueva solicitud de incapacidad como extensión
+        String comentarioExtension = esJefeConPermiso
+            ? "Extensión solicitada por jefe: " + solicitante.getNombre() + " " + solicitante.getPrimerApellido()
+            : "Extensión solicitada por empleado";
+
         Incapacidades extension = Incapacidades.builder()
                 .fechaInicio(incapacidadOriginal.getFechaFin().plusDays(1)) // Empieza el día siguiente al fin de la original
                 .fechaFin(solicitudExtension.getNuevaFechaFin())
@@ -308,7 +326,7 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
                 .esExtension(true)
                 .incapacidadOriginal(incapacidadOriginal)
                 .fechaFinOriginal(incapacidadOriginal.getFechaFin())
-                .comentariosExtension("Extensión solicitada por jefe: " + jefe.getNombre() + " " + jefe.getPrimerApellido())
+                .comentariosExtension(comentarioExtension)
                 .build();
         
         Incapacidades extensionGuardada = mantenimiento.crear(extension);
@@ -434,6 +452,10 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
                 throw new BadRequestException("La extensión no referencia una incapacidad original válida");
             }
 
+            LocalDate fechaInicioNuevosDias = original.getFechaFin() != null
+                    ? original.getFechaFin().plusDays(1)
+                    : incapacidad.getFechaInicio();
+
             // Actualizar la incapacidad original con la nueva fecha fin y sumar días
             original.setFechaFin(incapacidad.getFechaFin());
             if (original.getDiasTotales() == null) {
@@ -448,6 +470,16 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
             original.setEstadoSolicitud(EstadoSolicitud.APROBADA);
 
             Incapacidades originalActualizada = mantenimiento.actualizar(original);
+
+            LocalDate nuevaFechaFin = incapacidad.getFechaFin();
+            if (nuevaFechaFin != null
+                    && fechaInicioNuevosDias != null
+                    && !fechaInicioNuevosDias.isAfter(nuevaFechaFin)) {
+                servicioJornadaDiaria.generarJornadasParaIncapacidad(
+                        originalActualizada,
+                        fechaInicioNuevosDias,
+                        nuevaFechaFin);
+            }
 
             // Eliminar la entrada de extensión para evitar líneas duplicadas en la base de datos
             try {

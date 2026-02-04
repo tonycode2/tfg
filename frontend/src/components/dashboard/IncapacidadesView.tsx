@@ -9,12 +9,13 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { Modal } from '@/components/Modal';
 import type { RespuestaIncapacidad } from '../../services/incapacidadesService';
 import {
-  crearSolicitud, 
-  obtenerMisSolicitudes 
+  crearSolicitud,
+  obtenerMisSolicitudes,
+  solicitarExtension
 } from '../../services/incapacidadesService';
 import { authService } from '../../services/authService';
 import { formatearFecha, calcularDiasHabiles, parseContentDispositionFilename, buildIncapacidadFilename } from '../../lib/utils';
-import { Calendar, Plus, Eye, FileText, Activity, AlertCircle } from 'lucide-react';
+import { Calendar, Plus, Eye, FileText, Activity, AlertCircle, ArrowRightCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 const TIPOS_INCAPACIDAD = [
@@ -87,7 +88,13 @@ export default function IncapacidadesView() {
   const [loading, setLoading] = useState(true);
   const [showNuevaSolicitudModal, setShowNuevaSolicitudModal] = useState(false);
   const [showDetalleModal, setShowDetalleModal] = useState(false);
+  const [showExtenderModal, setShowExtenderModal] = useState(false);
   const [solicitudSeleccionada, setSolicitudSeleccionada] = useState<RespuestaIncapacidad | null>(null);
+  const [incapacidadAExtender, setIncapacidadAExtender] = useState<RespuestaIncapacidad | null>(null);
+  const [nuevaFechaFin, setNuevaFechaFin] = useState('');
+  const [diasAdicionales, setDiasAdicionales] = useState('');
+  const [numeroDocumento, setNumeroDocumento] = useState('');
+  const [observacionesExtension, setObservacionesExtension] = useState('');
   const [error, setError] = useState<string | null>(null);
 
   // Form state
@@ -257,6 +264,72 @@ export default function IncapacidadesView() {
     setShowDetalleModal(true);
   };
 
+  const handleExtender = (solicitud: RespuestaIncapacidad) => {
+    setIncapacidadAExtender(solicitud);
+    setShowExtenderModal(true);
+    setNumeroDocumento('');
+    setObservacionesExtension('');
+    const fechaMinima = solicitud.fechaFin ? new Date(solicitud.fechaFin) : null;
+    if (fechaMinima) {
+      const siguiente = new Date(fechaMinima);
+      siguiente.setDate(siguiente.getDate() + 1);
+      const siguienteStr = siguiente.toISOString().slice(0, 10);
+      setNuevaFechaFin(siguienteStr);
+      setDiasAdicionales('1');
+    } else {
+      setNuevaFechaFin('');
+      setDiasAdicionales('');
+    }
+  };
+
+  const handleNuevaFechaFinChange = (fecha: string) => {
+    setNuevaFechaFin(fecha);
+    if (!incapacidadAExtender?.fechaFin || !fecha) {
+      setDiasAdicionales('');
+      return;
+    }
+    const finActual = new Date(incapacidadAExtender.fechaFin);
+    const finNuevo = new Date(fecha);
+    const diff = Math.round((finNuevo.getTime() - finActual.getTime()) / (1000 * 60 * 60 * 24));
+    setDiasAdicionales(diff > 0 ? String(diff) : '');
+  };
+
+  const handleSolicitarExtension = async () => {
+    if (!incapacidadAExtender) return;
+
+    if (!nuevaFechaFin || !diasAdicionales) {
+      toast.error('Complete fecha fin y días adicionales');
+      return;
+    }
+
+    const diasNum = parseInt(diasAdicionales, 10);
+    if (Number.isNaN(diasNum) || diasNum <= 0) {
+      toast.error('Los días adicionales deben ser mayores a cero');
+      return;
+    }
+
+    try {
+      await solicitarExtension(incapacidadAExtender.id, {
+        nuevaFechaFin,
+        diasAdicionales: diasNum,
+        numeroDocumento: numeroDocumento || undefined,
+        observaciones: observacionesExtension || undefined,
+      });
+      toast.success('Extensión solicitada correctamente');
+      setShowExtenderModal(false);
+      setIncapacidadAExtender(null);
+      setNuevaFechaFin('');
+      setDiasAdicionales('');
+      setNumeroDocumento('');
+      setObservacionesExtension('');
+      cargarSolicitudes();
+    } catch (err: unknown) {
+      console.error('Error al solicitar extensión:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Error al solicitar la extensión';
+      toast.error(errorMessage);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -350,6 +423,17 @@ export default function IncapacidadesView() {
                           <Eye className="h-4 w-4" />
                           Ver
                         </Button>
+                        {solicitud.estadoSolicitud === 'APROBADA' && (
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleExtender(solicitud)}
+                            className="gap-2 ml-2"
+                          >
+                            <ArrowRightCircle className="h-4 w-4" />
+                            Extender
+                          </Button>
+                        )}
                       </td>
                     </tr>
                   ))
@@ -531,6 +615,87 @@ export default function IncapacidadesView() {
             </Button>
           </div>
         </form>
+      </Modal>
+
+      {/* Modal Extender Incapacidad */}
+      <Modal
+        isOpen={showExtenderModal}
+        onClose={() => {
+          setShowExtenderModal(false);
+          setIncapacidadAExtender(null);
+        }}
+        title="Extender Incapacidad"
+      >
+        {incapacidadAExtender && (
+          <div className="space-y-4">
+            <div className="p-3 bg-muted rounded-lg">
+              <p className="text-sm text-muted-foreground">Incapacidad #{incapacidadAExtender.id}</p>
+              <p className="font-semibold">
+                {formatearFecha(incapacidadAExtender.fechaInicio)} - {formatearFecha(incapacidadAExtender.fechaFin)}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label>Nueva fecha fin *</Label>
+                <DatePicker
+                  value={nuevaFechaFin}
+                  onChange={(fecha) => handleNuevaFechaFinChange(fecha)}
+                  placeholder="Seleccionar fecha"
+                  fromYear={new Date().getFullYear() - 1}
+                  toYear={new Date().getFullYear() + 2}
+                />
+              </div>
+              <div>
+                <Label>Días adicionales *</Label>
+                <Input
+                  type="number"
+                  min={1}
+                  value={diasAdicionales}
+                  onChange={(e) => setDiasAdicionales(e.target.value)}
+                  placeholder="Ej: 2"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="numeroDocumento">Número de documento</Label>
+                <Input
+                  id="numeroDocumento"
+                  value={numeroDocumento}
+                  onChange={(e) => setNumeroDocumento(e.target.value)}
+                  placeholder="Opcional"
+                />
+              </div>
+              <div>
+                <Label htmlFor="observacionesExtension">Observaciones</Label>
+                <Textarea
+                  id="observacionesExtension"
+                  value={observacionesExtension}
+                  onChange={(e) => setObservacionesExtension(e.target.value)}
+                  placeholder="Motivo o detalles de la extensión"
+                  rows={3}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowExtenderModal(false);
+                  setIncapacidadAExtender(null);
+                }}
+              >
+                Cancelar
+              </Button>
+              <Button onClick={handleSolicitarExtension}>
+                Enviar extensión
+              </Button>
+            </div>
+          </div>
+        )}
       </Modal>
 
       {/* Modal Detalle Solicitud */}

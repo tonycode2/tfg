@@ -43,4 +43,10 @@ public interface JornadaDiariaRepositorio extends JpaRepository<JornadaDiaria, L
     List<JornadaDiaria> findByFechaBetween(
             @Param("fechaInicio") LocalDate fechaInicio,
             @Param("fechaFin") LocalDate fechaFin);
+
+    @Query("SELECT COALESCE(MAX(j.diaPermiso), 0) FROM JornadaDiaria j WHERE j.permiso.id = :idPermiso")
+    Integer findMaxDiaPermisoByPermisoId(@Param("idPermiso") Long idPermiso);
+
+    @Query("SELECT COALESCE(MAX(j.diaPermiso), 0) FROM JornadaDiaria j WHERE j.incapacidad.id = :idIncapacidad")
+    Integer findMaxDiaPermisoByIncapacidadId(@Param("idIncapacidad") Long idIncapacidad);
 }

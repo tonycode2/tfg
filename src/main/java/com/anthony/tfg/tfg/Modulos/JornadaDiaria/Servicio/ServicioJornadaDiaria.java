@@ -21,6 +21,7 @@ import com.anthony.tfg.tfg.Entidades.Incapacidades;
 import com.anthony.tfg.tfg.Entidades.JornadaDiaria;
 import com.anthony.tfg.tfg.Entidades.Permisos;
 import com.anthony.tfg.tfg.Entidades.Puestos;
+import com.anthony.tfg.tfg.Entidades.Enums.UnidadTiempo;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasJornadaDiaria;
@@ -96,6 +97,136 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return deEntidadDtoARespuesta(jornadaGuardada);
     }
 
+    @Transactional
+    public void generarJornadasParaPermiso(Permisos permiso) {
+        if (permiso == null) {
+            log.warn("No se pudo generar jornadas: el permiso es nulo");
+            return;
+        }
+
+        if (permiso.getUnidadTiempo() != null && permiso.getUnidadTiempo() != UnidadTiempo.DIAS) {
+            log.info("Permiso {} no genera jornadas porque es por horas", permiso.getId());
+            return;
+        }
+
+        if (permiso.getEmpleado() == null || permiso.getFechaInicio() == null || permiso.getFechaFin() == null) {
+            log.warn("Datos incompletos para generar jornadas del permiso {}", permiso.getId());
+            return;
+        }
+
+        int diaInicial = obtenerSiguienteDiaPermiso(permiso.getId());
+        generarJornadasEnRango(
+                permiso.getEmpleado(),
+                permiso.getFechaInicio(),
+                permiso.getFechaFin(),
+                permiso,
+                null,
+                diaInicial,
+                "Día de permiso"
+        );
+    }
+
+    @Transactional
+    public void generarJornadasParaIncapacidad(Incapacidades incapacidad, LocalDate fechaInicio, LocalDate fechaFin) {
+        if (incapacidad == null) {
+            log.warn("No se pudo generar jornadas: la incapacidad es nula");
+            return;
+        }
+
+        LocalDate inicio = fechaInicio != null ? fechaInicio : incapacidad.getFechaInicio();
+        LocalDate fin = fechaFin != null ? fechaFin : incapacidad.getFechaFin();
+
+        if (incapacidad.getEmpleado() == null || inicio == null || fin == null) {
+            log.warn("Datos incompletos para generar jornadas de la incapacidad {}", incapacidad.getId());
+            return;
+        }
+
+        int diaInicial = obtenerSiguienteDiaIncapacidad(incapacidad.getId());
+        generarJornadasEnRango(
+                incapacidad.getEmpleado(),
+                inicio,
+                fin,
+                null,
+                incapacidad,
+                diaInicial,
+                "Día de incapacidad"
+        );
+    }
+
+    private void generarJornadasEnRango(Empleados empleado,
+                                        LocalDate fechaInicio,
+                                        LocalDate fechaFin,
+                                        Permisos permiso,
+                                        Incapacidades incapacidad,
+                                        int diaInicial,
+                                        String observacionBase) {
+        if (fechaInicio.isAfter(fechaFin)) {
+            log.warn("El rango de fechas es inválido: inicio {} después de fin {}", fechaInicio, fechaFin);
+            return;
+        }
+
+        LocalDate fecha = fechaInicio;
+        int diaPermiso = diaInicial;
+        while (!fecha.isAfter(fechaFin)) {
+            crearOActualizarJornadaEnCero(empleado, fecha, permiso, incapacidad, diaPermiso, observacionBase);
+            fecha = fecha.plusDays(1);
+            diaPermiso++;
+        }
+    }
+
+    private void crearOActualizarJornadaEnCero(Empleados empleado,
+                                               LocalDate fecha,
+                                               Permisos permiso,
+                                               Incapacidades incapacidad,
+                                               int diaPermiso,
+                                               String observacionBase) {
+        Optional<JornadaDiaria> existente = jornadaDiariaRepositorio.findByEmpleadoIdAndFecha(empleado.getId(), fecha);
+        String observacion = observacionBase != null ? observacionBase + " - día " + diaPermiso : null;
+
+        if (existente.isPresent()) {
+            JornadaDiaria jornada = existente.get();
+            jornada.setHoraEntrada(null);
+            jornada.setHoraSalida(null);
+            jornada.setHorasRegulares(0.0);
+            jornada.setHorasExtra(0.0);
+            jornada.setObservaciones(observacion);
+            jornada.setPermiso(permiso);
+            jornada.setIncapacidad(incapacidad);
+            jornada.setDiaPermiso(diaPermiso);
+            mantenimiento.actualizar(jornada);
+        } else {
+            JornadaDiaria jornada = JornadaDiaria.builder()
+                    .fecha(fecha)
+                    .horaEntrada(null)
+                    .horaSalida(null)
+                    .horasRegulares(0.0)
+                    .horasExtra(0.0)
+                    .observaciones(observacion)
+                    .empleado(empleado)
+                    .permiso(permiso)
+                    .incapacidad(incapacidad)
+                    .diaPermiso(diaPermiso)
+                    .build();
+            mantenimiento.crear(jornada);
+        }
+    }
+
+    private int obtenerSiguienteDiaPermiso(Long idPermiso) {
+        if (idPermiso == null) {
+            return 1;
+        }
+        Integer maxDia = jornadaDiariaRepositorio.findMaxDiaPermisoByPermisoId(idPermiso);
+        return (maxDia == null || maxDia == 0) ? 1 : maxDia + 1;
+    }
+
+    private int obtenerSiguienteDiaIncapacidad(Long idIncapacidad) {
+        if (idIncapacidad == null) {
+            return 1;
+        }
+        Integer maxDia = jornadaDiariaRepositorio.findMaxDiaPermisoByIncapacidadId(idIncapacidad);
+        return (maxDia == null || maxDia == 0) ? 1 : maxDia + 1;
+    }
+
     public RespuestaJornadaDiariaDTO actualizar(Long id, SolicitudJornadaDiariaDTO entidad) {
         JornadaDiaria jornadaExistente = consulta.obtenerPorId(id);
         if (jornadaExistente == null) {
@@ -109,6 +240,7 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         jornadaExistente.setHorasRegulares(entidad.getHorasRegulares());
         jornadaExistente.setHorasExtra(entidad.getHorasExtra());
         jornadaExistente.setObservaciones(entidad.getObservaciones());
+        jornadaExistente.setDiaPermiso(entidad.getDiaPermiso());
         
         Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
         if (empleado != null) {
@@ -290,6 +422,7 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
                 .horasRegulares(solicitud.getHorasRegulares())
                 .horasExtra(solicitud.getHorasExtra())
                 .observaciones(solicitud.getObservaciones())
+                .diaPermiso(solicitud.getDiaPermiso())
                 .empleado(empleado)
                 .permiso(permiso)
                 .incapacidad(incapacidad)
@@ -310,6 +443,7 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         respuesta.setHorasRegulares(entidad.getHorasRegulares());
         respuesta.setHorasExtra(entidad.getHorasExtra());
         respuesta.setObservaciones(entidad.getObservaciones());
+        respuesta.setDiaPermiso(entidad.getDiaPermiso());
         
         if (entidad.getEmpleado() != null) {
             respuesta.setIdEmpleado(entidad.getEmpleado().getId());

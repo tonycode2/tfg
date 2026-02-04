@@ -51,6 +51,9 @@ public class JornadaDiaria {
     
     @Column(name = "observaciones")
     String observaciones;
+
+    @Column(name = "dia_permiso")
+    Integer diaPermiso;
     
     @ManyToOne
     @JoinColumn(name = "id_empleado")

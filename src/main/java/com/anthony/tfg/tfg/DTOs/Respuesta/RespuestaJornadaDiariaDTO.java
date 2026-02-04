@@ -30,6 +30,8 @@ public class RespuestaJornadaDiariaDTO {
     
     String observaciones;
     
+    Integer diaPermiso;
+    
     Long idEmpleado;
     String nombreCompleto;
     
