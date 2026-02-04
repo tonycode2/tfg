@@ -20,6 +20,7 @@ import MisHorasExtraView from '../components/dashboard/MisHorasExtraView';
 import HorasExtraPendientesView from '../components/dashboard/HorasExtraPendientesView';
 import { MiPlanillaView } from '../components/dashboard/MiPlanillaView';
 import { PlanillaGeneralView } from '../components/dashboard/PlanillaGeneralView';
+import { ConfiguracionRentaView } from '../components/dashboard/ConfiguracionRentaView';
 import { authService } from '../services/authService';
 
 // Memoized view components to prevent unnecessary re-renders
@@ -42,6 +43,7 @@ const MemoizedMisHorasExtraView = memo(MisHorasExtraView);
 const MemoizedHorasExtraPendientesView = memo(HorasExtraPendientesView);
 const MemoizedMiPlanillaView = memo(MiPlanillaView);
 const MemoizedPlanillaGeneralView = memo(PlanillaGeneralView);
+const MemoizedConfiguracionRentaView = memo(ConfiguracionRentaView);
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -104,6 +106,8 @@ export default function DashboardPage() {
         return <MemoizedPlaceholderView title="Solicitudes Pendientes" description="Revisa y aprueba solicitudes pendientes" />;
       case 'planilla-general':
         return <MemoizedPlanillaGeneralView />;
+      case 'configuracion-renta':
+        return <MemoizedConfiguracionRentaView />;
       case 'liquidaciones':
         return <MemoizedPlaceholderView title="Liquidaciones" description="Cálculo y gestión de liquidaciones" />;
       case 'aguinaldo':
