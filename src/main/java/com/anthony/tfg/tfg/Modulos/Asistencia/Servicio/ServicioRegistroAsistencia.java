@@ -23,6 +23,11 @@ import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.JefesDepartamento;
 import com.anthony.tfg.tfg.Entidades.Puestos;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoEvento;
+import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
+import com.anthony.tfg.tfg.Entidades.Enums.UnidadTiempo;
+import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
+import com.anthony.tfg.tfg.Entidades.JornadaDiaria;
+import com.anthony.tfg.tfg.Entidades.Permisos;
 import com.anthony.tfg.tfg.Exceptions.BadRequestException;
 import com.anthony.tfg.tfg.Exceptions.ForbiddenException;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
@@ -33,6 +38,7 @@ import com.anthony.tfg.tfg.Repositorios.AsistenciaRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DepartamentoRepositorio;
 import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.JefesDepartamentoRepositorio;
+import com.anthony.tfg.tfg.Repositorios.JornadaDiariaRepositorio;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -52,18 +58,21 @@ public class ServicioRegistroAsistencia {
     private final DepartamentoRepositorio departamentoRepositorio;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepositorio;
     private final ServicioJornadaDiaria servicioJornadaDiaria;
+    private final JornadaDiariaRepositorio jornadaDiariaRepositorio;
 
     public ServicioRegistroAsistencia(
             AsistenciaRepositorio asistenciaRepositorio,
             EmpleadosRepositorio empleadosRepositorio,
             DepartamentoRepositorio departamentoRepositorio,
             JefesDepartamentoRepositorio jefesDepartamentoRepositorio,
-            ServicioJornadaDiaria servicioJornadaDiaria) {
+            ServicioJornadaDiaria servicioJornadaDiaria,
+            JornadaDiariaRepositorio jornadaDiariaRepositorio) {
         this.asistenciaRepositorio = asistenciaRepositorio;
         this.empleadosRepositorio = empleadosRepositorio;
         this.departamentoRepositorio = departamentoRepositorio;
         this.jefesDepartamentoRepositorio = jefesDepartamentoRepositorio;
         this.servicioJornadaDiaria = servicioJornadaDiaria;
+        this.jornadaDiariaRepositorio = jornadaDiariaRepositorio;
     }
 
     // ==================== PUBLIC METHODS ====================
@@ -81,6 +90,9 @@ public class ServicioRegistroAsistencia {
         
         // Determine the registration date and prevent entry if there's already a SALIDA that day
         LocalDate fechaRegistro = fechaHoraRegistro.toLocalDate();
+
+        validarAusenciaAprobada(empleado.getId(), fechaRegistro);
+
         if (tieneSalidaEnDia(empleado.getId(), fechaRegistro)) {
             log.warn("Intento de marcar entrada después de salida en el mismo día. Empleado: {}, Fecha: {}", empleado.getId(), fechaRegistro);
             throw new BadRequestException("Ya tiene una salida registrada para este día. No puede marcar entrada nuevamente.");
@@ -271,6 +283,38 @@ public class ServicioRegistroAsistencia {
         }
         
         return List.of();
+    }
+
+    private void validarAusenciaAprobada(Long idEmpleado, LocalDate fecha) {
+        Optional<JornadaDiaria> jornadaOpt = jornadaDiariaRepositorio.findByEmpleadoIdAndFecha(idEmpleado, fecha);
+        if (jornadaOpt.isEmpty()) {
+            return;
+        }
+
+        JornadaDiaria jornada = jornadaOpt.get();
+
+        if (jornada.getIncapacidad() != null
+                && EstadoSolicitud.APROBADA.equals(jornada.getIncapacidad().getEstadoSolicitud())) {
+            throw new BadRequestException(String.format(
+                    "No puede marcar entrada el %s porque tiene una incapacidad aprobada.", fecha));
+        }
+
+        Permisos permiso = jornada.getPermiso();
+        if (permiso == null) {
+            return;
+        }
+
+        UnidadTiempo unidad = permiso.getUnidadTiempo();
+        boolean esPermisoPorDia = unidad == null || unidad == UnidadTiempo.DIAS;
+        boolean permisoAprobado = EstadoSolicitud.APROBADA.equals(permiso.getEstadoSolicitud());
+
+        if (esPermisoPorDia && permisoAprobado) {
+            String tipoTexto = permiso.getTipoPermiso() == TipoPermiso.VACACIONES
+                    ? "vacaciones aprobadas"
+                    : "un permiso por días aprobado";
+            throw new BadRequestException(String.format(
+                    "No puede marcar entrada el %s porque tiene %s.", fecha, tipoTexto));
+        }
     }
 
     // ==================== PRIVATE HELPER METHODS ====================

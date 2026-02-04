@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Modal } from '@/components/Modal';
 import type { RespuestaIncapacidad } from '../../services/incapacidadesService';
 import {
@@ -110,6 +111,8 @@ export default function IncapacidadesView() {
   });
   const [archivoAdjunto, setArchivoAdjunto] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
 
   useEffect(() => {
     cargarSolicitudes();
@@ -120,6 +123,7 @@ export default function IncapacidadesView() {
       setLoading(true);
       const data = await obtenerMisSolicitudes();
       setSolicitudes(data);
+      setPage(0);
       setError(null);
     } catch (err: unknown) {
       console.error('Error al cargar solicitudes:', err);
@@ -330,6 +334,21 @@ export default function IncapacidadesView() {
     }
   };
 
+  const totalPages = Math.ceil(solicitudes.length / pageSize);
+  const startIndex = page * pageSize;
+  const paginatedSolicitudes = solicitudes.slice(startIndex, startIndex + pageSize);
+
+  useEffect(() => {
+    if (totalPages > 0 && page >= totalPages) {
+      setPage(Math.max(totalPages - 1, 0));
+    }
+  }, [page, totalPages]);
+
+  const handlePageSizeChange = (newSize: string) => {
+    setPageSize(Number(newSize));
+    setPage(0);
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -388,7 +407,7 @@ export default function IncapacidadesView() {
                     </td>
                   </tr>
                 ) : (
-                  solicitudes.map((solicitud) => (
+                  paginatedSolicitudes.map((solicitud) => (
                     <tr key={solicitud.id} className="border-b hover:bg-muted/50">
                       <td className="p-3">
                         <div className="flex items-center gap-2">
@@ -441,6 +460,78 @@ export default function IncapacidadesView() {
               </tbody>
             </table>
           </div>
+
+          {solicitudes.length > 0 && (
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Mostrar:</span>
+                <Select value={String(pageSize)} onValueChange={handlePageSizeChange}>
+                  <SelectTrigger className="w-[110px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="20">20</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {totalPages > 1 && (
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => setPage(Math.max(0, page - 1))}
+                        className={page === 0 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+
+                    {Array.from({ length: totalPages }, (_, i) => i).map((pageNum) => {
+                      if (
+                        pageNum === 0 ||
+                        pageNum === totalPages - 1 ||
+                        (pageNum >= page - 1 && pageNum <= page + 1)
+                      ) {
+                        return (
+                          <PaginationItem key={pageNum}>
+                            <PaginationLink
+                              onClick={() => setPage(pageNum)}
+                              isActive={pageNum === page}
+                              className="cursor-pointer"
+                            >
+                              {pageNum + 1}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      }
+                      if (pageNum === page - 2 || pageNum === page + 2) {
+                        return (
+                          <PaginationItem key={pageNum}>
+                            <span className="flex h-9 w-9 items-center justify-center">...</span>
+                          </PaginationItem>
+                        );
+                      }
+                      return null;
+                    })}
+
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setPage(Math.min(totalPages - 1, page + 1))}
+                        className={page === totalPages - 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              )}
+
+              <div className="text-sm text-muted-foreground text-center sm:text-right">
+                {totalPages > 0
+                  ? `Página ${page + 1} de ${totalPages} • ${solicitudes.length} incapacidad(es)`
+                  : 'Sin incapacidades para paginar'}
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 

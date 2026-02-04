@@ -7,6 +7,8 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { TimePicker } from '@/components/ui/time-picker';
 import { SearchableSelect } from '@/components/ui/searchable-select';
 import { SimpleDataTable, type Column } from '@/components/SimpleDataTable';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { authService } from '@/services/authService';
 import { departamentosService, type Departamento } from '@/services/apiService';
 import {
@@ -82,11 +84,15 @@ export function AsistenciaView() {
   const [isLoadingDepartamento, setIsLoadingDepartamento] = useState(false);
   const [searchFilter, setSearchFilter] = useState('');
   const [fechaDepartamento, setFechaDepartamento] = useState<string>(getCurrentDateString());
+  const [pageEmpleados, setPageEmpleados] = useState(0);
+  const [pageSizeEmpleados, setPageSizeEmpleados] = useState(5);
 
   const [historial, setHistorial] = useState<Asistencia[]>([]);
   const [historialFechaInicio, setHistorialFechaInicio] = useState<string>('');
   const [historialFechaFin, setHistorialFechaFin] = useState<string>('');
   const [isLoadingHistorial, setIsLoadingHistorial] = useState(false);
+  const [pageHistorial, setPageHistorial] = useState(0);
+  const [pageSizeHistorial, setPageSizeHistorial] = useState(5);
 
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [jornadaPreview, setJornadaPreview] = useState<any>(null);
@@ -144,6 +150,7 @@ export function AsistenciaView() {
 
       const data = await obtenerHistorial(undefined, fechaInicio, fechaFin);
       setHistorial(Array.isArray(data) ? data : []);
+      setPageHistorial(0);
     } catch (error) {
       console.error('Error loading history:', error);
       setHistorial([]);
@@ -299,6 +306,46 @@ export function AsistenciaView() {
     return rows.sort((a,b) => b.fecha.localeCompare(a.fecha));
   }, [historial]);
 
+  // ==================== PAGINATION ====================
+
+  const totalPagesEmpleados = Math.ceil(filteredEmpleados.length / pageSizeEmpleados);
+  const paginatedEmpleados = filteredEmpleados.slice(
+    pageEmpleados * pageSizeEmpleados,
+    pageEmpleados * pageSizeEmpleados + pageSizeEmpleados,
+  );
+
+  const totalPagesHistorial = Math.ceil(historialRows.length / pageSizeHistorial);
+  const paginatedHistorial = historialRows.slice(
+    pageHistorial * pageSizeHistorial,
+    pageHistorial * pageSizeHistorial + pageSizeHistorial,
+  );
+
+  useEffect(() => {
+    setPageEmpleados(0);
+  }, [searchFilter, resumenDepartamento]);
+
+  useEffect(() => {
+    if (totalPagesEmpleados > 0 && pageEmpleados >= totalPagesEmpleados) {
+      setPageEmpleados(Math.max(totalPagesEmpleados - 1, 0));
+    }
+  }, [pageEmpleados, totalPagesEmpleados]);
+
+  useEffect(() => {
+    if (totalPagesHistorial > 0 && pageHistorial >= totalPagesHistorial) {
+      setPageHistorial(Math.max(totalPagesHistorial - 1, 0));
+    }
+  }, [pageHistorial, totalPagesHistorial]);
+
+  const handlePageSizeEmpleadosChange = (newSize: string) => {
+    setPageSizeEmpleados(Number(newSize));
+    setPageEmpleados(0);
+  };
+
+  const handlePageSizeHistorialChange = (newSize: string) => {
+    setPageSizeHistorial(Number(newSize));
+    setPageHistorial(0);
+  };
+
   // ==================== TABLE COLUMNS ====================
 
   const historialColumns: Column<HistorialRow>[] = [
@@ -424,7 +471,81 @@ export function AsistenciaView() {
                   <Input placeholder="Buscar empleado" value={searchFilter} onChange={(e) => setSearchFilter(e.target.value)} />
                 </div>
 
-                <SimpleDataTable data={filteredEmpleados as any} columns={empleadosColumns as any} />
+                <div className="space-y-3">
+                  <SimpleDataTable data={paginatedEmpleados as any} columns={empleadosColumns as any} />
+
+                  {filteredEmpleados.length > 0 && (
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm text-muted-foreground">Mostrar:</span>
+                        <Select value={String(pageSizeEmpleados)} onValueChange={handlePageSizeEmpleadosChange}>
+                          <SelectTrigger className="w-[110px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="5">5</SelectItem>
+                            <SelectItem value="10">10</SelectItem>
+                            <SelectItem value="20">20</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      {totalPagesEmpleados > 1 && (
+                        <Pagination>
+                          <PaginationContent>
+                            <PaginationItem>
+                              <PaginationPrevious
+                                onClick={() => setPageEmpleados(Math.max(0, pageEmpleados - 1))}
+                                className={pageEmpleados === 0 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                              />
+                            </PaginationItem>
+
+                            {Array.from({ length: totalPagesEmpleados }, (_, i) => i).map((pageNum) => {
+                              if (
+                                pageNum === 0 ||
+                                pageNum === totalPagesEmpleados - 1 ||
+                                (pageNum >= pageEmpleados - 1 && pageNum <= pageEmpleados + 1)
+                              ) {
+                                return (
+                                  <PaginationItem key={pageNum}>
+                                    <PaginationLink
+                                      onClick={() => setPageEmpleados(pageNum)}
+                                      isActive={pageNum === pageEmpleados}
+                                      className="cursor-pointer"
+                                    >
+                                      {pageNum + 1}
+                                    </PaginationLink>
+                                  </PaginationItem>
+                                );
+                              }
+                              if (pageNum === pageEmpleados - 2 || pageNum === pageEmpleados + 2) {
+                                return (
+                                  <PaginationItem key={pageNum}>
+                                    <span className="flex h-9 w-9 items-center justify-center">...</span>
+                                  </PaginationItem>
+                                );
+                              }
+                              return null;
+                            })}
+
+                            <PaginationItem>
+                              <PaginationNext
+                                onClick={() => setPageEmpleados(Math.min(totalPagesEmpleados - 1, pageEmpleados + 1))}
+                                className={pageEmpleados === totalPagesEmpleados - 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                              />
+                            </PaginationItem>
+                          </PaginationContent>
+                        </Pagination>
+                      )}
+
+                      <div className="text-sm text-muted-foreground text-center sm:text-right">
+                        {totalPagesEmpleados > 0
+                          ? `Página ${pageEmpleados + 1} de ${totalPagesEmpleados} • ${filteredEmpleados.length} empleado(s)`
+                          : 'Sin empleados para paginar'}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
               <div>No hay datos del departamento seleccionado.</div>
@@ -453,7 +574,81 @@ export function AsistenciaView() {
             </div>
           </div>
 
-          <SimpleDataTable data={historialRows as any} columns={historialColumns as any} />
+          <div className="space-y-3">
+            <SimpleDataTable data={paginatedHistorial as any} columns={historialColumns as any} />
+
+            {historialRows.length > 0 && (
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">Mostrar:</span>
+                  <Select value={String(pageSizeHistorial)} onValueChange={handlePageSizeHistorialChange}>
+                    <SelectTrigger className="w-[110px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="5">5</SelectItem>
+                      <SelectItem value="10">10</SelectItem>
+                      <SelectItem value="20">20</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {totalPagesHistorial > 1 && (
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() => setPageHistorial(Math.max(0, pageHistorial - 1))}
+                          className={pageHistorial === 0 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+                      </PaginationItem>
+
+                      {Array.from({ length: totalPagesHistorial }, (_, i) => i).map((pageNum) => {
+                        if (
+                          pageNum === 0 ||
+                          pageNum === totalPagesHistorial - 1 ||
+                          (pageNum >= pageHistorial - 1 && pageNum <= pageHistorial + 1)
+                        ) {
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <PaginationLink
+                                onClick={() => setPageHistorial(pageNum)}
+                                isActive={pageNum === pageHistorial}
+                                className="cursor-pointer"
+                              >
+                                {pageNum + 1}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        }
+                        if (pageNum === pageHistorial - 2 || pageNum === pageHistorial + 2) {
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <span className="flex h-9 w-9 items-center justify-center">...</span>
+                            </PaginationItem>
+                          );
+                        }
+                        return null;
+                      })}
+
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() => setPageHistorial(Math.min(totalPagesHistorial - 1, pageHistorial + 1))}
+                          className={pageHistorial === totalPagesHistorial - 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                )}
+
+                <div className="text-sm text-muted-foreground text-center sm:text-right">
+                  {totalPagesHistorial > 0
+                    ? `Página ${pageHistorial + 1} de ${totalPagesHistorial} • ${historialRows.length} registro(s)`
+                    : 'Sin historial para paginar'}
+                </div>
+              </div>
+            )}
+          </div>
         </CardContent>
       </Card>
 

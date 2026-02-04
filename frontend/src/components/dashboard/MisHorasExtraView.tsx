@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 
 type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
@@ -53,6 +55,8 @@ export default function MisHorasExtraView() {
   const [tipo, setTipo] = useState<string>('SIMPLE');
   const [lista, setLista] = useState<HorasExtraDTO[]>([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
   const userInfo = authService.getUserInfo();
   const role = (userInfo.role || 'EMPLEADO') as Role;
   const token = localStorage.getItem('token') || '';
@@ -73,6 +77,7 @@ export default function MisHorasExtraView() {
       const myId = userInfo.idEmpleado;
       const filtered = items.filter((d: any) => d.idEmpleado === myId);
       setLista(filtered || []);
+      setPage(0);
     } catch (e) {
       console.error(e);
       toast.error('No se pudo cargar las solicitudes');
@@ -121,6 +126,21 @@ export default function MisHorasExtraView() {
       toast.error(err.message || 'Error');
     }
   }
+
+  const totalPages = Math.ceil(lista.length / pageSize);
+  const startIndex = page * pageSize;
+  const paginatedSolicitudes = lista.slice(startIndex, startIndex + pageSize);
+
+  useEffect(() => {
+    if (totalPages > 0 && page >= totalPages) {
+      setPage(Math.max(totalPages - 1, 0));
+    }
+  }, [page, totalPages]);
+
+  const handlePageSizeChange = (newSize: string) => {
+    setPageSize(Number(newSize));
+    setPage(0);
+  };
 
   return (
     <div className="space-y-6">
@@ -172,7 +192,7 @@ export default function MisHorasExtraView() {
                   </tr>
                 </thead>
                 <tbody>
-                  {lista.map((item) => (
+                  {paginatedSolicitudes.map((item) => (
                     <tr key={item.id} className="border-t">
                       <td className="py-2 px-3">{item.fechaSolicitud}</td>
                       <td className="py-2 px-3">{item.cantidadDeHoras}</td>
@@ -181,6 +201,78 @@ export default function MisHorasExtraView() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          )}
+
+          {lista.length > 0 && (
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Mostrar:</span>
+                <Select value={String(pageSize)} onValueChange={handlePageSizeChange}>
+                  <SelectTrigger className="w-[110px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="20">20</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {totalPages > 1 && (
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        onClick={() => setPage(Math.max(0, page - 1))}
+                        className={page === 0 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+
+                    {Array.from({ length: totalPages }, (_, i) => i).map((pageNum) => {
+                      if (
+                        pageNum === 0 ||
+                        pageNum === totalPages - 1 ||
+                        (pageNum >= page - 1 && pageNum <= page + 1)
+                      ) {
+                        return (
+                          <PaginationItem key={pageNum}>
+                            <PaginationLink
+                              onClick={() => setPage(pageNum)}
+                              isActive={pageNum === page}
+                              className="cursor-pointer"
+                            >
+                              {pageNum + 1}
+                            </PaginationLink>
+                          </PaginationItem>
+                        );
+                      }
+                      if (pageNum === page - 2 || pageNum === page + 2) {
+                        return (
+                          <PaginationItem key={pageNum}>
+                            <span className="flex h-9 w-9 items-center justify-center">...</span>
+                          </PaginationItem>
+                        );
+                      }
+                      return null;
+                    })}
+
+                    <PaginationItem>
+                      <PaginationNext
+                        onClick={() => setPage(Math.min(totalPages - 1, page + 1))}
+                        className={page === totalPages - 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              )}
+
+              <div className="text-sm text-muted-foreground text-center sm:text-right">
+                {totalPages > 0
+                  ? `Página ${page + 1} de ${totalPages} • ${lista.length} solicitud(es)`
+                  : 'Sin solicitudes para paginar'}
+              </div>
             </div>
           )}
         </CardContent>

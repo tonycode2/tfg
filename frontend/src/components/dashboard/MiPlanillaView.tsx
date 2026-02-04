@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { authService } from '@/services/authService';
 import { planillasService, type PlanillaEmpleado } from '@/services/apiService';
 import { toast } from 'sonner';
@@ -68,6 +70,8 @@ export function MiPlanillaView() {
   const [planillas, setPlanillas] = useState<PlanillaEmpleado[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPlanilla, setSelectedPlanilla] = useState<PlanillaEmpleado | null>(null);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(5);
 
   const userInfo = authService.getUserInfo();
 
@@ -91,6 +95,7 @@ export function MiPlanillaView() {
       // Agregar id para compatibilidad con DataTable (usar idDetalle como id único, garantizando que nunca sea undefined)
       const planillasConId = planillasArray.map(p => ({ ...p, id: p.idDetalle || 0 }));
       setPlanillas(planillasConId);
+      setPage(0);
 
       // Si hay planillas, seleccionar la más reciente por defecto
       if (planillasConId.length > 0) {
@@ -104,6 +109,21 @@ export function MiPlanillaView() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const totalPages = Math.ceil(planillas.length / pageSize);
+  const startIndex = page * pageSize;
+  const paginatedPlanillas = planillas.slice(startIndex, startIndex + pageSize);
+
+  useEffect(() => {
+    if (totalPages > 0 && page >= totalPages) {
+      setPage(Math.max(totalPages - 1, 0));
+    }
+  }, [page, totalPages]);
+
+  const handlePageSizeChange = (newSize: string) => {
+    setPageSize(Number(newSize));
+    setPage(0);
   };
 
   if (loading) {
@@ -139,44 +159,118 @@ export function MiPlanillaView() {
               </AlertDescription>
             </Alert>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-muted">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Periodo</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Fecha de Pago</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Neto</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Estado</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-card divide-y divide-border">
-                  {planillas.map((planilla) => (
-                    <tr
-                      key={planilla.id}
-                      onClick={() => setSelectedPlanilla(planilla)}
-                      className={`cursor-pointer hover:bg-muted/50 transition-colors ${
-                        selectedPlanilla?.id === planilla.id ? 'bg-primary/10' : ''
-                      }`}
-                    >
-                      <td className="px-4 py-3">
-                        <div className="font-medium">{formatDate(planilla.fechaInicioPeriodo)}</div>
-                        <div className="text-sm text-muted-foreground">al {formatDate(planilla.fechaFinPeriodo)}</div>
-                      </td>
-                      <td className="px-4 py-3">{formatDate(planilla.fechaPago)}</td>
-                      <td className="px-4 py-3">
-                        <span className="font-semibold text-green-600">
-                          {formatCurrency(planilla.salarioNeto)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoBadge(planilla.estadoPlanilla)}`}>
-                          {getEstadoLabel(planilla.estadoPlanilla)}
-                        </span>
-                      </td>
+            <div className="space-y-4">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-muted">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Periodo</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Fecha de Pago</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Neto</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Estado</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="bg-card divide-y divide-border">
+                    {paginatedPlanillas.map((planilla) => (
+                      <tr
+                        key={planilla.id}
+                        onClick={() => setSelectedPlanilla(planilla)}
+                        className={`cursor-pointer hover:bg-muted/50 transition-colors ${
+                          selectedPlanilla?.id === planilla.id ? 'bg-primary/10' : ''
+                        }`}
+                      >
+                        <td className="px-4 py-3">
+                          <div className="font-medium">{formatDate(planilla.fechaInicioPeriodo)}</div>
+                          <div className="text-sm text-muted-foreground">al {formatDate(planilla.fechaFinPeriodo)}</div>
+                        </td>
+                        <td className="px-4 py-3">{formatDate(planilla.fechaPago)}</td>
+                        <td className="px-4 py-3">
+                          <span className="font-semibold text-green-600">
+                            {formatCurrency(planilla.salarioNeto)}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoBadge(planilla.estadoPlanilla)}`}>
+                            {getEstadoLabel(planilla.estadoPlanilla)}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {planillas.length > 0 && (
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-muted-foreground">Mostrar:</span>
+                    <Select value={String(pageSize)} onValueChange={handlePageSizeChange}>
+                      <SelectTrigger className="w-[110px]">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="5">5</SelectItem>
+                        <SelectItem value="10">10</SelectItem>
+                        <SelectItem value="20">20</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {totalPages > 1 && (
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious
+                            onClick={() => setPage(Math.max(0, page - 1))}
+                            className={page === 0 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                          />
+                        </PaginationItem>
+
+                        {Array.from({ length: totalPages }, (_, i) => i).map((pageNum) => {
+                          if (
+                            pageNum === 0 ||
+                            pageNum === totalPages - 1 ||
+                            (pageNum >= page - 1 && pageNum <= page + 1)
+                          ) {
+                            return (
+                              <PaginationItem key={pageNum}>
+                                <PaginationLink
+                                  onClick={() => setPage(pageNum)}
+                                  isActive={pageNum === page}
+                                  className="cursor-pointer"
+                                >
+                                  {pageNum + 1}
+                                </PaginationLink>
+                              </PaginationItem>
+                            );
+                          }
+                          if (pageNum === page - 2 || pageNum === page + 2) {
+                            return (
+                              <PaginationItem key={pageNum}>
+                                <span className="flex h-9 w-9 items-center justify-center">...</span>
+                              </PaginationItem>
+                            );
+                          }
+                          return null;
+                        })}
+
+                        <PaginationItem>
+                          <PaginationNext
+                            onClick={() => setPage(Math.min(totalPages - 1, page + 1))}
+                            className={page === totalPages - 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  )}
+
+                  <div className="text-sm text-muted-foreground text-center sm:text-right">
+                    {totalPages > 0
+                      ? `Página ${page + 1} de ${totalPages} • ${planillas.length} planilla(s)`
+                      : 'Sin planillas para paginar'}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </CardContent>

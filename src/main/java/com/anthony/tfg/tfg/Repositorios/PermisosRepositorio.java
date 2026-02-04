@@ -1,5 +1,6 @@
 package com.anthony.tfg.tfg.Repositorios;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +31,11 @@ public interface PermisosRepositorio extends JpaRepository<Permisos, Long> {
     
     // Obtener todas las solicitudes ordenadas por fecha (para auditoría RH)
     List<Permisos> findAllByOrderByFechaSolicitudDesc();
+
+       @Query("SELECT p FROM Permisos p WHERE p.empleado.id = :idEmpleado " +
+                 "AND p.unidadTiempo = com.anthony.tfg.tfg.Entidades.Enums.UnidadTiempo.HORAS " +
+                 "AND p.estadoSolicitud = com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud.APROBADA " +
+                 "AND :fecha BETWEEN p.fechaInicio AND p.fechaFin")
+       List<Permisos> findPermisosHorasAprobadosEnFecha(@Param("idEmpleado") Long idEmpleado,
+                                                                                            @Param("fecha") LocalDate fecha);
 }

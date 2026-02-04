@@ -285,12 +285,18 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         }
         
         LocalDate fecha = fechaHoraSalida.toLocalDate();
+        Permisos permisoHoras = obtenerPermisoHorasAprobado(idEmpleado, fecha);
         
         // Verificar si ya existe un registro para este día
         Optional<JornadaDiaria> jornadaExistente = jornadaDiariaRepositorio.findByEmpleadoIdAndFecha(idEmpleado, fecha);
         if (jornadaExistente.isPresent()) {
+            JornadaDiaria jornada = jornadaExistente.get();
+            if (permisoHoras != null && jornada.getPermiso() == null) {
+                jornada.setPermiso(permisoHoras);
+                jornada = mantenimiento.actualizar(jornada);
+            }
             log.warn("Ya existe un registro de jornada diaria para empleado {} en fecha {}", idEmpleado, fecha);
-            return deEntidadDtoARespuesta(jornadaExistente.get());
+            return deEntidadDtoARespuesta(jornada);
         }
         
         // Buscar la entrada del día
@@ -373,6 +379,12 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
                 observaciones = String.format("Horas adicionales sin aprobar: %.2f", horasAdicionales);
             }
         }
+
+            if (permisoHoras != null) {
+                observaciones = observaciones == null || observaciones.isBlank()
+                    ? "Permiso por horas aplicado"
+                    : observaciones + " | Permiso por horas aplicado";
+            }
         
         // Crear el registro de jornada diaria
         JornadaDiaria jornada = JornadaDiaria.builder()
@@ -383,6 +395,7 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
                 .horasExtra(horasExtra)
                 .observaciones(observaciones)
                 .empleado(empleado)
+                .permiso(permisoHoras)
                 .build();
         
         JornadaDiaria jornadaGuardada = mantenimiento.crear(jornada);
@@ -590,6 +603,14 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
                 empleado.getId(), horasRegulares, horasExtra);
         
         return respuesta;
+    }
+
+    private Permisos obtenerPermisoHorasAprobado(Long idEmpleado, LocalDate fecha) {
+        List<Permisos> permisosHoras = permisosRepositorio.findPermisosHorasAprobadosEnFecha(idEmpleado, fecha);
+        if (permisosHoras == null || permisosHoras.isEmpty()) {
+            return null;
+        }
+        return permisosHoras.get(0);
     }
 
     private Empleados obtenerEmpleadoAutenticado() {
