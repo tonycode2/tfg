@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.anthony.tfg.tfg.Entidades.Asistencia;
 import com.anthony.tfg.tfg.Entidades.Departamento;
+import com.anthony.tfg.tfg.Entidades.DiasFeriados;
 import com.anthony.tfg.tfg.Entidades.Direccion;
 import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.HorasExtra;
@@ -38,6 +39,7 @@ import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.UserRepository;
 import com.anthony.tfg.tfg.Repositorios.AsistenciaRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DepartamentoRepositorio;
+import com.anthony.tfg.tfg.Repositorios.DiasFeriadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DireccionRepositorio;
 import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.HorasExtraRepositorio;
@@ -74,6 +76,7 @@ public class DataSeeder implements CommandLineRunner {
     private final DireccionRepositorio direccionRepositorio;
     private final UserRepository userRepository;
     private final EmpleadosRepositorio empleadosRepositorio;
+    private final DiasFeriadosRepositorio diasFeriadosRepositorio;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepositorio;
     private final AsistenciaRepositorio asistenciaRepositorio;
     private final JornadaDiariaRepositorio jornadaDiariaRepositorio;
@@ -87,6 +90,11 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
+        int holidaysSeeded = seedHolidays2026();
+        if (holidaysSeeded > 0) {
+            logger.info("Seeded {} holidays for 2026", holidaysSeeded);
+        }
+
         if (empleadosRepositorio.count() > 0) {
             logger.info("Database already seeded (employees exist), skipping...");
             return;
@@ -163,6 +171,75 @@ public class DataSeeder implements CommandLineRunner {
             logger.error("Error during database seeding: {}", e.getMessage(), e);
             throw new RuntimeException("Database seeding failed", e);
         }
+    }
+
+    /**
+     * Seeds Costa Rica national holidays for 2026.
+     */
+    private int seedHolidays2026() {
+        List<DiasFeriados> holidays = List.of(
+            DiasFeriados.builder()
+                .nombre("Año Nuevo")
+                .fecha(LocalDate.of(2026, 1, 1))
+                .descripcion("Celebración de Año Nuevo")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Jueves Santo")
+                .fecha(LocalDate.of(2026, 4, 2))
+                .descripcion("Semana Santa - Jueves Santo")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Viernes Santo")
+                .fecha(LocalDate.of(2026, 4, 3))
+                .descripcion("Semana Santa - Viernes Santo")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Día de Juan Santamaría")
+                .fecha(LocalDate.of(2026, 4, 11))
+                .descripcion("Conmemoración de la Batalla de Rivas")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Día Internacional del Trabajo")
+                .fecha(LocalDate.of(2026, 5, 1))
+                .descripcion("Celebración del Día del Trabajo")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Anexión del Partido de Nicoya a Costa Rica")
+                .fecha(LocalDate.of(2026, 7, 25))
+                .descripcion("Anexión del Partido de Nicoya")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Día de Nuestra Señora de los Ángeles")
+                .fecha(LocalDate.of(2026, 8, 2))
+                .descripcion("Festividad de Nuestra Señora de los Ángeles")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Independencia de Costa Rica")
+                .fecha(LocalDate.of(2026, 9, 15))
+                .descripcion("Conmemoración de la Independencia")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Día de Abolición del Ejército")
+                .fecha(LocalDate.of(2026, 12, 1))
+                .descripcion("Abolición del Ejército en Costa Rica")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Navidad")
+                .fecha(LocalDate.of(2026, 12, 25))
+                .descripcion("Celebración de Navidad")
+                .build()
+        );
+
+        List<DiasFeriados> toCreate = holidays.stream()
+            .filter(holiday -> !diasFeriadosRepositorio.existsByFecha(holiday.getFecha()))
+            .toList();
+
+        if (toCreate.isEmpty()) {
+            return 0;
+        }
+
+        diasFeriadosRepositorio.saveAll(toCreate);
+        return toCreate.size();
     }
 
     /**

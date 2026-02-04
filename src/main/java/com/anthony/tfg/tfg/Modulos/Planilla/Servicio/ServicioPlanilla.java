@@ -224,6 +224,14 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             .map(DiasFeriados::getFecha)
             .collect(Collectors.toCollection(HashSet::new));
 
+        YearMonth yearMonth = YearMonth.of(solicitud.anio(), solicitud.mes());
+        LocalDate fechaInicioMes = yearMonth.atDay(1);
+        LocalDate fechaFinMes = yearMonth.atEndOfMonth();
+        Set<LocalDate> fechasFeriadosMes = diasFeriadosRepositorio.findByFechaBetween(fechaInicioMes, fechaFinMes)
+            .stream()
+            .map(DiasFeriados::getFecha)
+            .collect(Collectors.toCollection(HashSet::new));
+
         List<ConfiguracionRenta> tramosRenta = consultasConfiguracionRentas.obtenerTodos().stream()
             .sorted((a, b) -> Double.compare(a.getMontoMinimo(), b.getMontoMinimo()))
             .toList();
@@ -244,7 +252,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         double totalPlanillaNeto = 0.0;
         List<PlanillaDetalle> detalles = empleadosActivos.stream()
             .map(empleado -> calcularDetallePlanilla(empleado, fechaInicioPeriodo,
-                fechaFinPeriodo, fechasFeriados, tramosRenta, encabezadoGuardado))
+                fechaFinPeriodo, fechasFeriados, fechasFeriadosMes, tramosRenta, encabezadoGuardado))
             .toList();
 
         planillaDetalleRepo.saveAll(detalles);
@@ -406,6 +414,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                                                     LocalDate fechaInicio,
                                                     LocalDate fechaFin,
                                                     Set<LocalDate> feriados,
+                                                    Set<LocalDate> feriadosMes,
                                                     List<ConfiguracionRenta> tramosRenta,
                                                     PlanillaEncabezado encabezado) {
         double salarioMensual = obtenerSalarioMensual(empleado);
@@ -418,8 +427,13 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         int cantidadDiasFeriados = 0;
         double montoIncapacidad = 0.0;
 
-        List<JornadaDiaria> jornadas = jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(
-                empleado.getId(), fechaInicio, fechaFin);
+        TipoQuincena tipoQuincena = encabezado.getTipoQuincena();
+        YearMonth yearMonth = YearMonth.from(fechaInicio);
+        LocalDate inicioMes = yearMonth.atDay(1);
+        LocalDate finMes = yearMonth.atEndOfMonth();
+        List<JornadaDiaria> jornadas = tipoQuincena == TipoQuincena.SEGUNDA
+            ? jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(empleado.getId(), inicioMes, finMes)
+            : jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(empleado.getId(), fechaInicio, fechaFin);
         Map<LocalDate, JornadaDiaria> jornadasPorFecha = mapearJornadas(jornadas);
 
         LocalDate fecha = fechaInicio;
@@ -474,7 +488,19 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         double deduccionCcssSem = totalDevengado * 0.055;
         double deduccionCcssIvm = totalDevengado * 0.0433;
         double otrasDeducciones = totalDevengado * 0.01;
-        double impuestoRenta = calcularImpuestoRenta(totalDevengado, tramosRenta);
+        double ccssMensual = salarioMensual * 0.055 + salarioMensual * 0.0433;
+        double impuestoRenta = calcularImpuestoRentaQuincena(tipoQuincena,
+            salarioMensual,
+            salarioDiario,
+            salarioHora,
+            montoHorasExtra,
+            montoDiasFeriados,
+            inicioMes,
+            finMes,
+            jornadasPorFecha,
+            feriadosMes,
+            ccssMensual,
+            tramosRenta);
 
         return PlanillaDetalle.builder()
                 .salarioBasePeriodo(salarioBasePeriodo)
@@ -490,14 +516,66 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                 .build();
     }
 
+    private double calcularImpuestoRentaQuincena(TipoQuincena tipoQuincena,
+                                                 double salarioMensual,
+                                                 double salarioDiario,
+                                                 double salarioHora,
+                                                 double montoHorasExtraPeriodo,
+                                                 double montoDiasFeriadosPeriodo,
+                                                 LocalDate inicioMes,
+                                                 LocalDate finMes,
+                                                 Map<LocalDate, JornadaDiaria> jornadasPorFechaMes,
+                                                 Set<LocalDate> feriadosMes,
+                                                 double ccssMensual,
+                                                 List<ConfiguracionRenta> tramosRenta) {
+        double baseRentaQuincena = salarioMensual + montoHorasExtraPeriodo + montoDiasFeriadosPeriodo - ccssMensual;
+        double impuestoMensualConQuincena = calcularImpuestoRenta(baseRentaQuincena, tramosRenta);
+
+        if (tipoQuincena == TipoQuincena.PRIMERA) {
+            return Math.max(0.0, impuestoMensualConQuincena * 0.5);
+        }
+
+        if (tipoQuincena == TipoQuincena.SEGUNDA) {
+            ResumenRenta resumenMes = calcularResumenRenta(inicioMes, finMes, jornadasPorFechaMes, feriadosMes);
+            LocalDate finQuincenaUno = inicioMes.plusDays(14);
+            ResumenRenta resumenQuincenaUno = calcularResumenRenta(inicioMes, finQuincenaUno, jornadasPorFechaMes,
+                    feriadosMes);
+
+            double montoHorasExtraMes = resumenMes.totalHorasExtra() * salarioHora * 0.5;
+            double montoFeriadosMes = resumenMes.cantidadDiasFeriados() * salarioDiario;
+            double baseRentaMes = salarioMensual + montoHorasExtraMes + montoFeriadosMes - ccssMensual;
+            double impuestoMensual = calcularImpuestoRenta(baseRentaMes, tramosRenta);
+
+            double montoHorasExtraQuincenaUno = resumenQuincenaUno.totalHorasExtra() * salarioHora * 0.5;
+            double montoFeriadosQuincenaUno = resumenQuincenaUno.cantidadDiasFeriados() * salarioDiario;
+            double baseRentaQuincenaUno = salarioMensual + montoHorasExtraQuincenaUno + montoFeriadosQuincenaUno
+                    - ccssMensual;
+            double impuestoQuincenaUno = calcularImpuestoRenta(baseRentaQuincenaUno, tramosRenta) * 0.5;
+
+            return Math.max(0.0, impuestoMensual - impuestoQuincenaUno);
+        }
+
+        return 0.0;
+    }
+
     private double calcularImpuestoRenta(double salario, List<ConfiguracionRenta> tramosRenta) {
         if (tramosRenta.isEmpty()) {
             return 0.0;
         }
         double impuesto = 0.0;
-        for (ConfiguracionRenta tramo : tramosRenta) {
+        for (int i = 0; i < tramosRenta.size(); i++) {
+            ConfiguracionRenta tramo = tramosRenta.get(i);
             double minimo = tramo.getMontoMinimo() != null ? tramo.getMontoMinimo() : 0.0;
-            double maximo = tramo.getMontoMaximo() != null ? tramo.getMontoMaximo() : Double.MAX_VALUE;
+            double maximo = Double.MAX_VALUE;
+            if (i + 1 < tramosRenta.size()) {
+                Double siguienteMinimo = tramosRenta.get(i + 1).getMontoMinimo();
+                if (siguienteMinimo != null) {
+                    maximo = siguienteMinimo;
+                }
+            } else if (tramo.getMontoMaximo() != null) {
+                maximo = tramo.getMontoMaximo();
+            }
+
             if (salario <= minimo) {
                 break;
             }
@@ -511,6 +589,38 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             }
         }
         return impuesto;
+    }
+
+    private record ResumenRenta(double totalHorasExtra, int cantidadDiasFeriados) {
+    }
+
+    private ResumenRenta calcularResumenRenta(LocalDate inicio,
+                                              LocalDate fin,
+                                              Map<LocalDate, JornadaDiaria> jornadasPorFecha,
+                                              Set<LocalDate> feriados) {
+        double totalHorasExtra = 0.0;
+        int cantidadDiasFeriados = 0;
+
+        LocalDate fecha = inicio;
+        while (!fecha.isAfter(fin)) {
+            JornadaDiaria jornada = jornadasPorFecha.get(fecha);
+            double horasRegulares = jornada != null && jornada.getHorasRegulares() != null
+                    ? jornada.getHorasRegulares()
+                    : 0.0;
+            double horasExtra = jornada != null && jornada.getHorasExtra() != null
+                    ? jornada.getHorasExtra()
+                    : 0.0;
+            totalHorasExtra += horasExtra;
+
+            boolean esFeriado = feriados.contains(fecha);
+            boolean tieneHorasTrabajadas = horasRegulares > 0 || horasExtra > 0;
+            if (esFeriado && tieneHorasTrabajadas) {
+                cantidadDiasFeriados++;
+            }
+            fecha = fecha.plusDays(1);
+        }
+
+        return new ResumenRenta(totalHorasExtra, cantidadDiasFeriados);
     }
 
     private boolean esFinDeSemana(LocalDate fecha) {
