@@ -210,7 +210,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             solicitud.tipoQuincena());
         LocalDate fechaFinPeriodo = calcularFechaFinPeriodo(solicitud.anio(), solicitud.mes(),
             solicitud.tipoQuincena());
-        LocalDate fechaPago = calcularFechaPago(solicitud.anio(), solicitud.mes());
+        LocalDate fechaPago = calcularFechaPago(solicitud.anio(), solicitud.mes(), solicitud.tipoQuincena());
 
         List<Empleados> empleadosActivos = empleadosRepositorio.findByEstaActivoTrue();
         if (empleadosActivos.isEmpty()) {
@@ -392,22 +392,25 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
 
     private LocalDate calcularFechaInicioPeriodo(int anio, int mes, TipoQuincena tipoQuincena) {
         if (tipoQuincena == TipoQuincena.PRIMERA) {
-            return LocalDate.of(anio, mes, 1);
+            return YearMonth.of(anio, mes).minusMonths(1).atEndOfMonth();
         }
-        return LocalDate.of(anio, mes, 16);
+        return LocalDate.of(anio, mes, 15);
     }
 
     private LocalDate calcularFechaFinPeriodo(int anio, int mes, TipoQuincena tipoQuincena) {
         if (tipoQuincena == TipoQuincena.PRIMERA) {
+            return LocalDate.of(anio, mes, 14);
+        }
+        YearMonth yearMonth = YearMonth.of(anio, mes);
+        return yearMonth.atEndOfMonth().minusDays(1);
+    }
+
+    private LocalDate calcularFechaPago(int anio, int mes, TipoQuincena tipoQuincena) {
+        if (tipoQuincena == TipoQuincena.PRIMERA) {
             return LocalDate.of(anio, mes, 15);
         }
         YearMonth yearMonth = YearMonth.of(anio, mes);
-        return LocalDate.of(anio, mes, yearMonth.lengthOfMonth());
-    }
-
-    private LocalDate calcularFechaPago(int anio, int mes) {
-        YearMonth yearMonth = YearMonth.of(anio, mes);
-        return LocalDate.of(anio, mes, yearMonth.lengthOfMonth());
+        return yearMonth.atEndOfMonth();
     }
 
     private PlanillaDetalle calcularDetallePlanilla(Empleados empleado,
@@ -537,7 +540,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
 
         if (tipoQuincena == TipoQuincena.SEGUNDA) {
             ResumenRenta resumenMes = calcularResumenRenta(inicioMes, finMes, jornadasPorFechaMes, feriadosMes);
-            LocalDate finQuincenaUno = inicioMes.plusDays(14);
+            LocalDate finQuincenaUno = inicioMes.plusDays(13);
             ResumenRenta resumenQuincenaUno = calcularResumenRenta(inicioMes, finQuincenaUno, jornadasPorFechaMes,
                     feriadosMes);
 

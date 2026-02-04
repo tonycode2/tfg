@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { authService } from '@/services/authService';
@@ -28,42 +29,30 @@ const formatCurrency = (value: number | undefined): string => {
   }).format(value);
 };
 
+const parseLocalDate = (dateString: string | undefined): Date | null => {
+  if (!dateString) return null;
+  if (dateString.includes('T')) {
+    const date = new Date(dateString);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  const [year, month, day] = dateString.split('-').map(Number);
+  if (!year || !month || !day) {
+    const fallback = new Date(dateString);
+    return Number.isNaN(fallback.getTime()) ? null : fallback;
+  }
+
+  return new Date(year, month - 1, day);
+};
+
 const formatDate = (dateString: string | undefined): string => {
-  if (!dateString) return 'N/A';
-  const date = new Date(dateString);
+  const date = parseLocalDate(dateString);
+  if (!date) return 'N/A';
   return date.toLocaleDateString('es-CR', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
-};
-
-const getEstadoBadge = (estado: string | undefined): string => {
-  if (!estado) return 'bg-gray-100 text-gray-800';
-  
-  const estadoMap: Record<string, string> = {
-    'BORRADOR': 'bg-gray-100 text-gray-800',
-    'EN_REVISION': 'bg-yellow-100 text-yellow-800',
-    'APROBADA': 'bg-blue-100 text-blue-800',
-    'PAGADA': 'bg-green-100 text-green-800',
-    'CANCELADA': 'bg-red-100 text-red-800',
-  };
-  
-  return estadoMap[estado] || 'bg-gray-100 text-gray-800';
-};
-
-const getEstadoLabel = (estado: string | undefined): string => {
-  if (!estado) return 'Desconocido';
-  
-  const estadoLabels: Record<string, string> = {
-    'BORRADOR': 'Borrador',
-    'EN_REVISION': 'En Revisión',
-    'APROBADA': 'Aprobada',
-    'PAGADA': 'Pagada',
-    'CANCELADA': 'Cancelada',
-  };
-  
-  return estadoLabels[estado] || estado;
 };
 
 export function MiPlanillaView() {
@@ -97,10 +86,8 @@ export function MiPlanillaView() {
       setPlanillas(planillasConId);
       setPage(0);
 
-      // Si hay planillas, seleccionar la más reciente por defecto
-      if (planillasConId.length > 0) {
-        setSelectedPlanilla(planillasConId[0]);
-      }
+      // Mantener selección explícita del usuario
+      setSelectedPlanilla(null);
     } catch (err: any) {
       console.error('Error al cargar planillas:', err);
       toast.error('Error al cargar las planillas', {
@@ -167,15 +154,14 @@ export function MiPlanillaView() {
                       <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Periodo</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Fecha de Pago</th>
                       <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Neto</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Estado</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Acciones</th>
                     </tr>
                   </thead>
                   <tbody className="bg-card divide-y divide-border">
                     {paginatedPlanillas.map((planilla) => (
                       <tr
                         key={planilla.id}
-                        onClick={() => setSelectedPlanilla(planilla)}
-                        className={`cursor-pointer hover:bg-muted/50 transition-colors ${
+                        className={`hover:bg-muted/50 transition-colors ${
                           selectedPlanilla?.id === planilla.id ? 'bg-primary/10' : ''
                         }`}
                       >
@@ -190,9 +176,17 @@ export function MiPlanillaView() {
                           </span>
                         </td>
                         <td className="px-4 py-3">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoBadge(planilla.estadoPlanilla)}`}>
-                            {getEstadoLabel(planilla.estadoPlanilla)}
-                          </span>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() =>
+                              setSelectedPlanilla((current) =>
+                                current?.id === planilla.id ? null : planilla,
+                              )
+                            }
+                          >
+                            {selectedPlanilla?.id === planilla.id ? 'Ocultar detalle' : 'Ver detalle'}
+                          </Button>
                         </td>
                       </tr>
                     ))}
@@ -351,7 +345,7 @@ export function MiPlanillaView() {
               </div>
             </div>
 
-            {selectedPlanilla.cantidadDiasFeriados && selectedPlanilla.cantidadDiasFeriados > 0 && (
+            {(selectedPlanilla.cantidadDiasFeriados ?? 0) > 0 && (
               <Alert className="mt-4">
                 <InfoIcon />
                 <AlertDescription>

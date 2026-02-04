@@ -42,12 +42,21 @@ const getLastDayOfMonth = (year: number, month: number): number => {
   return new Date(year, month, 0).getDate();
 };
 
+const getLastDateOfPreviousMonth = (year: number, month: number): { year: number; month: number; day: number } => {
+  const date = new Date(year, month - 1, 0);
+  return {
+    year: date.getFullYear(),
+    month: date.getMonth() + 1,
+    day: date.getDate(),
+  };
+};
+
 const getQuincenaLabel = (tipoQuincena: string | undefined): string => {
   if (tipoQuincena === 'PRIMERA') {
-    return 'Primera quincena (1 al 15)';
+    return 'Primera quincena (último día del mes anterior al 14)';
   }
   if (tipoQuincena === 'SEGUNDA') {
-    return 'Segunda quincena (16 al último día)';
+    return 'Segunda quincena (15 al penúltimo día)';
   }
   return 'Sin definir';
 };
@@ -125,12 +134,25 @@ export function PlanillaGeneralView() {
 
     const monthValue = Number(mes);
     const lastDay = getLastDayOfMonth(anio, monthValue);
-    const inicio = tipoQuincena === 'PRIMERA' ? 1 : 16;
-    const fin = tipoQuincena === 'PRIMERA' ? 15 : lastDay;
 
-    setFechaInicio(buildDateString(anio, monthValue, inicio));
-    setFechaFin(buildDateString(anio, monthValue, fin));
-    setFechaPago(buildDateString(anio, monthValue, lastDay));
+    if (tipoQuincena === 'PRIMERA') {
+      const lastPrev = getLastDateOfPreviousMonth(anio, monthValue);
+      setFechaInicio(buildDateString(lastPrev.year, lastPrev.month, lastPrev.day));
+      setFechaFin(buildDateString(anio, monthValue, 14));
+      setFechaPago(buildDateString(anio, monthValue, 15));
+      return;
+    }
+
+    if (tipoQuincena === 'SEGUNDA') {
+      setFechaInicio(buildDateString(anio, monthValue, 15));
+      setFechaFin(buildDateString(anio, monthValue, lastDay - 1));
+      setFechaPago(buildDateString(anio, monthValue, lastDay));
+      return;
+    }
+
+    setFechaInicio('');
+    setFechaFin('');
+    setFechaPago('');
   }, [mes, tipoQuincena, anio]);
 
   useEffect(() => {
@@ -291,8 +313,8 @@ export function PlanillaGeneralView() {
                   <SelectValue placeholder="Seleccionar quincena" />
                 </SelectTrigger>
                 <SelectContent className="max-h-56 overflow-y-auto">
-                  <SelectItem value="PRIMERA">Primera quincena (1 al 15)</SelectItem>
-                  <SelectItem value="SEGUNDA">Segunda quincena (16 al último día)</SelectItem>
+                  <SelectItem value="PRIMERA">Primera quincena (último día del mes anterior al 14)</SelectItem>
+                  <SelectItem value="SEGUNDA">Segunda quincena (15 al penúltimo día)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -517,6 +539,7 @@ export function PlanillaGeneralView() {
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Incapacidad</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Devengado</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Deducciones</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Impuesto Renta</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Neto</th>
                       </tr>
                     </thead>
@@ -551,6 +574,7 @@ export function PlanillaGeneralView() {
                             <td className="px-4 py-3">{formatCurrency(detalle.montoIncapacidad)}</td>
                             <td className="px-4 py-3 font-semibold">{formatCurrency(totalDevengado)}</td>
                             <td className="px-4 py-3">{formatCurrency(totalDeducciones)}</td>
+                            <td className="px-4 py-3">{formatCurrency(detalle.impuestoDeRenta)}</td>
                             <td className="px-4 py-3 font-semibold text-green-600">{formatCurrency(salarioNeto)}</td>
                           </tr>
                         );

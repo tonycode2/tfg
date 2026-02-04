@@ -4161,3 +4161,452 @@ java.lang.Error: Unresolved compilation problem:
 2026-02-04T13:48:59.854-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2026-02-04T13:48:59.855-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
 2026-02-04T13:48:59.856-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:52:53.958-06:00  INFO 22268 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2026-02-04T13:52:53.965-06:00  INFO 22268 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-04T13:52:53.966-06:00  INFO 22268 --- [tfg] [Thread-17] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-04T13:52:53.982-06:00  INFO 22268 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-04T13:52:53.990-06:00  INFO 22268 --- [tfg] [Thread-17] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-04T13:52:53.990-06:00  INFO 22268 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-04T13:52:53.993-06:00  INFO 22268 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-04T13:52:53.995-06:00  INFO 22268 --- [tfg] [Thread-17] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-04T13:52:54.001-06:00  INFO 22268 --- [tfg] [Thread-17] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-04T13:52:54.010-06:00  INFO 22268 --- [tfg] [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-02-04T13:52:54.024-06:00  INFO 22268 --- [tfg] [Thread-17] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-02-04T13:52:54.220-06:00  INFO 22268 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 22268 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-04T13:52:54.222-06:00  INFO 22268 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-04T13:52:54.228-06:00  INFO 22268 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-04T13:52:54.962-06:00  INFO 22268 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-04T13:52:55.535-06:00  INFO 22268 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-04T13:52:55.703-06:00  INFO 22268 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 166 ms. Found 18 JPA repository interfaces.
+2026-02-04T13:52:55.911-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-04T13:52:55.911-06:00  INFO 22268 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-04T13:52:55.911-06:00  INFO 22268 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-04T13:52:55.942-06:00  INFO 22268 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-04T13:52:55.942-06:00  INFO 22268 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 975 ms
+2026-02-04T13:52:56.013-06:00  INFO 22268 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-04T13:52:56.016-06:00  INFO 22268 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-04T13:52:56.032-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-04T13:52:56.033-06:00  INFO 22268 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-02-04T13:52:56.066-06:00  INFO 22268 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@685ca12c
+2026-02-04T13:52:56.067-06:00  INFO 22268 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-02-04T13:52:56.074-06:00  WARN 22268 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-04T13:52:56.081-06:00  INFO 22268 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-04T13:52:56.720-06:00  INFO 22268 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-04T13:52:57.008-06:00  INFO 22268 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-04T13:52:57.607-06:00  INFO 22268 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-04T13:52:57.607-06:00  WARN 22268 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-04T13:52:57.622-06:00  WARN 22268 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-04T13:52:57.674-06:00 DEBUG 22268 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 131 mappings in 'requestMappingHandlerMapping'
+2026-02-04T13:52:57.731-06:00 DEBUG 22268 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-04T13:52:57.758-06:00 DEBUG 22268 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-04T13:52:57.789-06:00 DEBUG 22268 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-04T13:52:57.793-06:00 DEBUG 22268 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-04T13:52:57.852-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-04T13:52:57.854-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-04T13:52:57.855-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-04T13:52:57.855-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-04T13:52:57.855-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-04T13:52:57.856-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-04T13:52:57.856-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-04T13:52:57.856-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@73a61ca
+2026-02-04T13:52:57.877-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-04T13:52:57.896-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-04T13:52:57.896-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-04T13:52:57.897-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-04T13:52:57.897-06:00  INFO 22268 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 3.739 seconds (process running for 333.527)
+2026-02-04T13:52:57.948-06:00  INFO 22268 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-04T13:52:57.951-06:00  INFO 22268 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-04T13:53:57.033-06:00  INFO 22268 --- [tfg] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2026-02-04T13:53:57.036-06:00  INFO 22268 --- [tfg] [Thread-19] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-04T13:53:57.037-06:00  INFO 22268 --- [tfg] [Thread-19] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-04T13:53:57.047-06:00  INFO 22268 --- [tfg] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-02-04T13:53:57.050-06:00  INFO 22268 --- [tfg] [Thread-19] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2026-02-04T13:53:57.050-06:00  INFO 22268 --- [tfg] [Thread-19] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2026-02-04T13:53:57.051-06:00  INFO 22268 --- [tfg] [Thread-19] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2026-02-04T13:53:57.052-06:00  INFO 22268 --- [tfg] [Thread-19] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2026-02-04T13:53:57.055-06:00  INFO 22268 --- [tfg] [Thread-19] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-04T13:53:57.057-06:00  INFO 22268 --- [tfg] [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-02-04T13:53:57.060-06:00  INFO 22268 --- [tfg] [Thread-19] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-02-04T13:53:57.236-06:00  INFO 22268 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Starting TfgApplication v1.0.0 using Java 21.0.9 with PID 22268 (C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\target\classes started by aalva in C:\Users\aalva\OneDrive\Documentos\Codigo\tfg)
+2026-02-04T13:53:57.239-06:00  INFO 22268 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : No active profile set, falling back to 1 default profile: "default"
+2026-02-04T13:53:57.253-06:00  INFO 22268 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : Using Docker Compose file C:\Users\aalva\OneDrive\Documentos\Codigo\tfg\compose.yaml
+2026-02-04T13:53:57.995-06:00  INFO 22268 --- [tfg] [restartedMain] .s.b.d.c.l.DockerComposeLifecycleManager : There are already Docker Compose services running, skipping startup
+2026-02-04T13:53:58.361-06:00  INFO 22268 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-04T13:53:58.460-06:00  INFO 22268 --- [tfg] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 100 ms. Found 18 JPA repository interfaces.
+2026-02-04T13:53:58.584-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-04T13:53:58.584-06:00  INFO 22268 --- [tfg] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-04T13:53:58.584-06:00  INFO 22268 --- [tfg] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2026-02-04T13:53:58.605-06:00  INFO 22268 --- [tfg] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-04T13:53:58.605-06:00  INFO 22268 --- [tfg] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 610 ms
+2026-02-04T13:53:58.670-06:00  INFO 22268 --- [tfg] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-04T13:53:58.673-06:00  INFO 22268 --- [tfg] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-04T13:53:58.684-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-04T13:53:58.687-06:00  INFO 22268 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-02-04T13:53:58.712-06:00  INFO 22268 --- [tfg] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@f749577
+2026-02-04T13:53:58.712-06:00  INFO 22268 --- [tfg] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-02-04T13:53:58.718-06:00  WARN 22268 --- [tfg] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-04T13:53:58.724-06:00  INFO 22268 --- [tfg] [restartedMain] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-3)']
+	Database driver: undefined/unknown
+	Database version: 15.15
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-04T13:53:59.176-06:00  INFO 22268 --- [tfg] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-04T13:53:59.454-06:00  INFO 22268 --- [tfg] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-04T13:53:59.958-06:00  INFO 22268 --- [tfg] [restartedMain] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-02-04T13:53:59.959-06:00  WARN 22268 --- [tfg] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-02-04T13:53:59.971-06:00  WARN 22268 --- [tfg] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-04T13:54:00.008-06:00 DEBUG 22268 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : 131 mappings in 'requestMappingHandlerMapping'
+2026-02-04T13:54:00.056-06:00 DEBUG 22268 --- [tfg] [restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2026-02-04T13:54:00.070-06:00 DEBUG 22268 --- [tfg] [restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-02-04T13:54:00.088-06:00 DEBUG 22268 --- [tfg] [restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2026-02-04T13:54:00.096-06:00 DEBUG 22268 --- [tfg] [restartedMain] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 1 @ExceptionHandler, 1 ResponseBodyAdvice
+2026-02-04T13:54:00.123-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2026-02-04T13:54:00.123-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2026-02-04T13:54:00.123-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Quartz Scheduler v2.5.0 created.
+2026-02-04T13:54:00.123-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2026-02-04T13:54:00.123-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.5.0) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2026-02-04T13:54:00.127-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2026-02-04T13:54:00.127-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.5.0
+2026-02-04T13:54:00.128-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@46eec1c9
+2026-02-04T13:54:00.138-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-04T13:54:00.148-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-02-04T13:54:00.154-06:00  INFO 22268 --- [tfg] [restartedMain] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2026-02-04T13:54:00.154-06:00  INFO 22268 --- [tfg] [restartedMain] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2026-02-04T13:54:00.158-06:00  INFO 22268 --- [tfg] [restartedMain] com.anthony.tfg.tfg.TfgApplication       : Started TfgApplication in 2.978 seconds (process running for 395.785)
+2026-02-04T13:54:00.199-06:00  INFO 22268 --- [tfg] [restartedMain] com.anthony.tfg.tfg.Config.DataSeeder    : Database already seeded (employees exist), skipping...
+2026-02-04T13:54:00.202-06:00  INFO 22268 --- [tfg] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-02-04T13:55:29.581-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-04T13:55:29.582-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-04T13:55:29.582-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected StandardServletMultipartResolver
+2026-02-04T13:55:29.583-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected AcceptHeaderLocaleResolver
+2026-02-04T13:55:29.583-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected FixedThemeResolver
+2026-02-04T13:55:29.586-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@31dbbce3
+2026-02-04T13:55:29.587-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Detected org.springframework.web.servlet.support.SessionFlashMapManager@363ef19c
+2026-02-04T13:55:29.587-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2026-02-04T13:55:29.588-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2026-02-04T13:55:29.590-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-04T13:55:29.593-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-04T13:55:29.595-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-04T13:55:29.595-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-04T13:55:29.596-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-04T13:55:29.604-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=rh_sasteria, password=TestPass123!)]
+2026-02-04T13:55:29.815-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-04T13:55:29.830-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:55:29.832-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImlkRW1wbGVhZG8iOjIsInJvbGUiOiJIUiIsIm5vbWJy (truncated)...]
+2026-02-04T13:55:29.834-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:55:36.881-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T13:55:36.944-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T13:55:36.945-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T13:55:36.946-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T13:55:36.963-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 0
+2026-02-04T13:55:36.967-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:55:36.969-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-04T13:55:36.973-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:55:36.977-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T13:55:36.995-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T13:55:36.996-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T13:55:36.997-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T13:55:37.008-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 0
+2026-02-04T13:55:37.010-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:55:37.011-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-04T13:55:37.014-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:55:44.692-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /api/planillas/generar
+2026-02-04T13:55:44.713-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured POST /api/planillas/generar
+2026-02-04T13:55:44.714-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/api/planillas/generar", parameters={}
+2026-02-04T13:55:44.714-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#generarPlanilla(SolicitudGenerarPlanillaDTO)
+2026-02-04T13:55:44.720-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [SolicitudGenerarPlanillaDTO[mes=2, anio=2026, tipoQuincena=PRIMERA]]
+2026-02-04T13:55:44.912-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se generó la planilla 11 para el periodo 2026-01-31 a 2026-02-14 con 6 detalles
+2026-02-04T13:55:44.913-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@729ff8c3
+2026-02-04T13:55:44.928-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:55:44.930-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@729ff8c3]
+2026-02-04T13:55:44.930-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-02-04T13:55:44.938-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T13:55:44.953-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T13:55:44.954-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T13:55:44.955-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T13:55:44.964-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-04T13:55:44.965-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@144027ee
+2026-02-04T13:55:44.965-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:55:44.965-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@144027ee]]
+2026-02-04T13:55:44.968-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:55:53.078-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing POST /api/planillas/generar
+2026-02-04T13:55:53.099-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured POST /api/planillas/generar
+2026-02-04T13:55:53.100-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/api/planillas/generar", parameters={}
+2026-02-04T13:55:53.101-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#generarPlanilla(SolicitudGenerarPlanillaDTO)
+2026-02-04T13:55:53.104-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [SolicitudGenerarPlanillaDTO[mes=2, anio=2026, tipoQuincena=SEGUNDA]]
+2026-02-04T13:55:53.265-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se generó la planilla 12 para el periodo 2026-02-15 a 2026-02-27 con 6 detalles
+2026-02-04T13:55:53.265-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@55e6ab4
+2026-02-04T13:55:53.278-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:55:53.279-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@55e6ab4]
+2026-02-04T13:55:53.281-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-02-04T13:55:53.288-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T13:55:53.304-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T13:55:53.306-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T13:55:53.307-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T13:55:53.325-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 2
+2026-02-04T13:55:53.325-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@1461274
+2026-02-04T13:55:53.326-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@77f21c6e
+2026-02-04T13:55:53.327-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:55:53.328-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@1461274, com.anthony.tfg.tfg.DTOs (truncated)...]
+2026-02-04T13:55:53.329-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:56:13.678-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/12/detalles
+2026-02-04T13:56:13.684-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/12/detalles
+2026-02-04T13:56:13.705-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/12/detalles
+2026-02-04T13:56:13.705-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/12/detalles", parameters={}
+2026-02-04T13:56:13.706-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerDetallesPorPlanilla(Long)
+2026-02-04T13:56:13.759-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 6 detalles para la planilla con ID: 12
+2026-02-04T13:56:13.761-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:56:13.761-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaDetalleDTO@203b0e48, com.anthony.tfg.tfg.DTOs.R (truncated)...]
+2026-02-04T13:56:13.765-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:57:31.724-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-04T13:57:31.725-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-04T13:57:31.725-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-04T13:57:31.727-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-04T13:57:31.727-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-04T13:57:31.728-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=admin_sasteria, password=TestPass123!)]
+2026-02-04T13:57:31.816-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-04T13:57:31.825-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:31.825-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlkRW1wbGVhZG8iOjEsInJvbGUiOiJBRE1JTiIsIm5v (truncated)...]
+2026-02-04T13:57:31.827-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:57:36.453-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/permisos
+2026-02-04T13:57:36.454-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/permisos
+2026-02-04T13:57:36.458-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/permisos
+2026-02-04T13:57:36.477-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/permisos
+2026-02-04T13:57:36.478-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/permisos", parameters={}
+2026-02-04T13:57:36.478-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Permisos.Controlador.ControladorPermisos#obtenerTodos()
+2026-02-04T13:57:36.577-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se han obtenido todos los permisos. La cantidad de registros es: 3
+2026-02-04T13:57:36.578-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se ha convertido la entidad Permisos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO@465251cb
+2026-02-04T13:57:36.579-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se ha convertido la entidad Permisos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO@7754a30b
+2026-02-04T13:57:36.579-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se ha convertido la entidad Permisos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO@64ba94e9
+2026-02-04T13:57:36.580-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:36.580-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO@465251cb, com.anthony.tfg.tfg.DTOs.Respuest (truncated)...]
+2026-02-04T13:57:36.584-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:57:36.587-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/permisos
+2026-02-04T13:57:36.605-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/permisos
+2026-02-04T13:57:36.606-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/permisos", parameters={}
+2026-02-04T13:57:36.606-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Permisos.Controlador.ControladorPermisos#obtenerTodos()
+2026-02-04T13:57:36.623-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se han obtenido todos los permisos. La cantidad de registros es: 3
+2026-02-04T13:57:36.624-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se ha convertido la entidad Permisos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO@39932896
+2026-02-04T13:57:36.624-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se ha convertido la entidad Permisos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO@6707138f
+2026-02-04T13:57:36.624-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se ha convertido la entidad Permisos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO@40f8f478
+2026-02-04T13:57:36.626-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:36.626-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPermisosDTO@39932896, com.anthony.tfg.tfg.DTOs.Respuest (truncated)...]
+2026-02-04T13:57:36.628-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:57:45.097-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-04T13:57:45.099-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-04T13:57:45.100-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-04T13:57:45.100-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-04T13:57:45.102-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-04T13:57:45.102-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=admin_sasteria, password=TestPass123!)]
+2026-02-04T13:57:45.185-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-04T13:57:45.196-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:45.196-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsImlkRW1wbGVhZG8iOjEsInJvbGUiOiJBRE1JTiIsIm5v (truncated)...]
+2026-02-04T13:57:45.199-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:57:46.078-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T13:57:46.096-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T13:57:46.097-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T13:57:46.098-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T13:57:46.118-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 2
+2026-02-04T13:57:46.119-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@40ef62ee
+2026-02-04T13:57:46.120-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@304766fa
+2026-02-04T13:57:46.122-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:46.124-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@40ef62ee, com.anthony.tfg.tfg.DTO (truncated)...]
+2026-02-04T13:57:46.129-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:57:46.133-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T13:57:46.146-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T13:57:46.147-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T13:57:46.147-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T13:57:46.156-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 2
+2026-02-04T13:57:46.156-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@391e003a
+2026-02-04T13:57:46.157-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@7d56a48b
+2026-02-04T13:57:46.158-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:46.158-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@391e003a, com.anthony.tfg.tfg.DTO (truncated)...]
+2026-02-04T13:57:46.160-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:57:50.260-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/11
+2026-02-04T13:57:50.265-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing DELETE /api/planillas/11
+2026-02-04T13:57:50.285-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured DELETE /api/planillas/11
+2026-02-04T13:57:50.286-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : DELETE "/api/planillas/11", parameters={}
+2026-02-04T13:57:50.286-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#eliminar(Long)
+2026-02-04T13:57:50.398-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha eliminado la planilla con ID: 11
+2026-02-04T13:57:50.400-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:50.401-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-02-04T13:57:50.403-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-02-04T13:57:50.408-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T13:57:50.423-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T13:57:50.424-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T13:57:50.425-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T13:57:50.437-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-04T13:57:50.438-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@42648788
+2026-02-04T13:57:50.439-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:50.439-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@42648788]]
+2026-02-04T13:57:50.441-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T13:57:53.100-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/12
+2026-02-04T13:57:53.106-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing DELETE /api/planillas/12
+2026-02-04T13:57:53.126-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured DELETE /api/planillas/12
+2026-02-04T13:57:53.127-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : DELETE "/api/planillas/12", parameters={}
+2026-02-04T13:57:53.128-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#eliminar(Long)
+2026-02-04T13:57:53.176-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha eliminado la planilla con ID: 12
+2026-02-04T13:57:53.178-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:53.179-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Nothing to write: null body
+2026-02-04T13:57:53.179-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 204 NO_CONTENT
+2026-02-04T13:57:53.182-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T13:57:53.199-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T13:57:53.200-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T13:57:53.201-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T13:57:53.210-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 0
+2026-02-04T13:57:53.211-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T13:57:53.211-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-04T13:57:53.211-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:01:40.561-06:00  WARN 22268 --- [tfg] [HikariPool-3:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Thread starvation or clock leap detected (housekeeper delta=1m11s648ms778µs700ns).
+2026-02-04T14:02:54.723-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-04T14:02:54.725-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-04T14:02:54.726-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-04T14:02:54.726-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-04T14:02:54.727-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-04T14:02:54.730-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=rh_sasteria, password=TestPass123!)]
+2026-02-04T14:02:54.821-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-04T14:02:54.832-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:02:54.832-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImlkRW1wbGVhZG8iOjIsInJvbGUiOiJIUiIsIm5vbWJy (truncated)...]
+2026-02-04T14:02:54.835-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:03:01.987-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T14:03:02.005-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T14:03:02.006-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T14:03:02.007-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T14:03:02.016-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 0
+2026-02-04T14:03:02.018-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:03:02.019-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-04T14:03:02.022-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:03:02.025-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T14:03:02.039-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T14:03:02.039-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T14:03:02.041-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T14:03:02.049-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 0
+2026-02-04T14:03:02.050-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:03:02.051-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-04T14:03:02.054-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:03:14.413-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing POST /api/planillas/generar
+2026-02-04T14:03:14.426-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured POST /api/planillas/generar
+2026-02-04T14:03:14.426-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : POST "/api/planillas/generar", parameters={}
+2026-02-04T14:03:14.426-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#generarPlanilla(SolicitudGenerarPlanillaDTO)
+2026-02-04T14:03:14.426-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [SolicitudGenerarPlanillaDTO[mes=2, anio=2026, tipoQuincena=PRIMERA]]
+2026-02-04T14:03:14.575-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se generó la planilla 13 para el periodo 2026-01-31 a 2026-02-14 con 6 detalles
+2026-02-04T14:03:14.576-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@4665145f
+2026-02-04T14:03:14.596-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:03:14.597-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@4665145f]
+2026-02-04T14:03:14.599-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 201 CREATED
+2026-02-04T14:03:14.605-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T14:03:14.617-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T14:03:14.618-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T14:03:14.619-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T14:03:14.628-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-04T14:03:14.628-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@429eb128
+2026-02-04T14:03:14.629-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:03:14.630-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@429eb128]]
+2026-02-04T14:03:14.631-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:03:20.343-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/13/detalles
+2026-02-04T14:03:20.348-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/13/detalles
+2026-02-04T14:03:20.362-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/13/detalles
+2026-02-04T14:03:20.363-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/13/detalles", parameters={}
+2026-02-04T14:03:20.364-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerDetallesPorPlanilla(Long)
+2026-02-04T14:03:20.404-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 6 detalles para la planilla con ID: 13
+2026-02-04T14:03:20.405-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:03:20.405-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaDetalleDTO@72b89bad, com.anthony.tfg.tfg.DTOs.R (truncated)...]
+2026-02-04T14:03:20.407-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:06:25.382-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T14:06:25.397-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T14:06:25.399-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T14:06:25.399-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T14:06:25.399-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-04T14:06:25.399-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@4488b295
+2026-02-04T14:06:25.410-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:06:25.410-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@4488b295]]
+2026-02-04T14:06:25.413-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:06:25.416-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas
+2026-02-04T14:06:25.429-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas
+2026-02-04T14:06:25.430-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas", parameters={}
+2026-02-04T14:06:25.431-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerTodos()
+2026-02-04T14:06:25.441-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se han obtenido todas las planillas. La cantidad de registros es: 1
+2026-02-04T14:06:25.442-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se ha convertido la entidad PlanillaEncabezado a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@50c8b85d
+2026-02-04T14:06:25.443-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:06:25.444-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO@50c8b85d]]
+2026-02-04T14:06:25.446-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:06:27.957-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/13/detalles
+2026-02-04T14:06:27.972-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/13/detalles
+2026-02-04T14:06:27.973-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/13/detalles", parameters={}
+2026-02-04T14:06:27.973-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerDetallesPorPlanilla(Long)
+2026-02-04T14:06:28.009-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 6 detalles para la planilla con ID: 13
+2026-02-04T14:06:28.010-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:06:28.011-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaDetalleDTO@1790f95a, com.anthony.tfg.tfg.DTOs.R (truncated)...]
+2026-02-04T14:06:28.012-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:06:43.696-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-04T14:06:43.698-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-04T14:06:43.699-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-04T14:06:43.699-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-04T14:06:43.700-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-04T14:06:43.701-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=empleado1_sasteria, password=TestPass123!)]
+2026-02-04T14:06:43.785-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-04T14:06:43.794-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:06:43.794-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjQsImlkRW1wbGVhZG8iOjQsInJvbGUiOiJFTVBMRUFETyIs (truncated)...]
+2026-02-04T14:06:43.796-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:06:46.404-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/empleado/4
+2026-02-04T14:06:46.404-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/planillas/empleado/4
+2026-02-04T14:06:46.409-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-04T14:06:46.423-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-04T14:06:46.423-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-04T14:06:46.423-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-04T14:06:46.430-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-04T14:06:46.446-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 1 planillas para el empleado con ID: 4
+2026-02-04T14:06:46.449-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:06:46.449-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@225c93c1]]
+2026-02-04T14:06:46.454-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:06:46.456-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-04T14:06:46.469-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-04T14:06:46.470-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-04T14:06:46.471-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-04T14:06:46.473-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-04T14:06:46.486-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 1 planillas para el empleado con ID: 4
+2026-02-04T14:06:46.487-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:06:46.488-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@1516e4]]
+2026-02-04T14:06:46.490-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:10:21.787-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-04T14:10:21.807-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-04T14:10:21.807-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-04T14:10:21.809-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-04T14:10:21.811-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-04T14:10:21.822-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 1 planillas para el empleado con ID: 4
+2026-02-04T14:10:21.823-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:10:21.824-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@921c04c]]
+2026-02-04T14:10:21.826-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-04T14:10:21.831-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-04T14:10:21.842-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-04T14:10:21.843-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-04T14:10:21.844-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-04T14:10:21.846-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-04T14:10:21.857-06:00  INFO 22268 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 1 planillas para el empleado con ID: 4
+2026-02-04T14:10:21.859-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-04T14:10:21.860-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@6658ab7d]]
+2026-02-04T14:10:21.861-06:00 DEBUG 22268 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
