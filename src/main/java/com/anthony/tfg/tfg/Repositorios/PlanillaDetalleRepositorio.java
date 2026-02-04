@@ -13,4 +13,7 @@ public interface PlanillaDetalleRepositorio extends JpaRepository<PlanillaDetall
     @Query("SELECT pd FROM PlanillaDetalle pd WHERE pd.empleado.id = :empleadoId ORDER BY pd.planillaEncabezado.fechaInicioPeriodo DESC")
     List<PlanillaDetalle> findByEmpleadoId(@Param("empleadoId") Long empleadoId);
 
+    @Query("SELECT pd FROM PlanillaDetalle pd WHERE pd.planillaEncabezado.id = :planillaId ORDER BY pd.empleado.primerApellido, pd.empleado.nombre")
+    List<PlanillaDetalle> findByPlanillaEncabezadoId(@Param("planillaId") Long planillaId);
+
 }

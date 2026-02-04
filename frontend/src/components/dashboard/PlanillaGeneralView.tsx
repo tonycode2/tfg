@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { planillasService, type PlanillaEncabezado } from '@/services/apiService';
+import { planillasService, type PlanillaEncabezado, type PlanillaDetalleGeneral } from '@/services/apiService';
 import { toast } from 'sonner';
 
 const CalendarIcon = () => (
@@ -62,6 +62,11 @@ const formatDate = (dateString: string | undefined): string => {
   });
 };
 
+const formatCurrency = (value: number | undefined): string => {
+  const amount = typeof value === 'number' && !Number.isNaN(value) ? value : 0;
+  return `₡${amount.toLocaleString('es-CR')}`;
+};
+
 const getEstadoBadge = (estado: string | undefined): string => {
   if (!estado) return 'bg-gray-100 text-gray-800';
   
@@ -98,10 +103,46 @@ export function PlanillaGeneralView() {
   const [planillas, setPlanillas] = useState<PlanillaEncabezado[]>([]);
   const [loadingPlanillas, setLoadingPlanillas] = useState(true);
   const [selectedPlanilla, setSelectedPlanilla] = useState<PlanillaEncabezado | null>(null);
+  const [detallesPlanilla, setDetallesPlanilla] = useState<PlanillaDetalleGeneral[]>([]);
+  const [loadingDetalles, setLoadingDetalles] = useState(false);
+  const [detallesError, setDetallesError] = useState<string | null>(null);
 
   useEffect(() => {
     cargarPlanillas();
   }, []);
+
+  useEffect(() => {
+    if (!selectedPlanilla?.id) {
+      setDetallesPlanilla([]);
+      setDetallesError(null);
+      return;
+    }
+
+    const controller = new AbortController();
+
+    const cargarDetalles = async () => {
+      try {
+        setLoadingDetalles(true);
+        setDetallesError(null);
+        const data = await planillasService.getDetallesPorPlanilla(selectedPlanilla.id, controller.signal);
+        const detallesArray = Array.isArray(data) ? data : [];
+        setDetallesPlanilla(detallesArray);
+      } catch (error: any) {
+        if (error?.name === 'AbortError') {
+          return;
+        }
+        console.error('Error al cargar detalles de planilla:', error);
+        setDetallesError(error.message || 'Ocurrió un error inesperado');
+        setDetallesPlanilla([]);
+      } finally {
+        setLoadingDetalles(false);
+      }
+    };
+
+    cargarDetalles();
+
+    return () => controller.abort();
+  }, [selectedPlanilla?.id]);
 
   const cargarPlanillas = async () => {
     try {
@@ -154,12 +195,9 @@ export function PlanillaGeneralView() {
         fechaInicioPeriodo: fechaInicio,
         fechaFinPeriodo: fechaFin,
         fechaPago: fechaPago,
-        totalPlanillaBruto: 0,
-        totalPlanillaNeto: 0,
-        estadoPlanilla: 'BORRADOR',
       };
 
-      await planillasService.create(planillaData);
+      await planillasService.generarPlanilla(planillaData);
       
       toast.success('Planilla creada exitosamente', {
         description: `Periodo: ${formatDate(fechaInicio)} al ${formatDate(fechaFin)}`,
@@ -169,6 +207,8 @@ export function PlanillaGeneralView() {
       setFechaInicio('');
       setFechaFin('');
       setFechaPago('');
+
+      await cargarPlanillas();
     } catch (error: any) {
       console.error('Error al crear planilla:', error);
       toast.error('Error al crear la planilla', {
@@ -423,16 +463,90 @@ export function PlanillaGeneralView() {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Total Bruto:</span>
-                    <span className="font-medium">₡{selectedPlanilla.totalPlanillaBruto?.toLocaleString('es-CR') || '0.00'}</span>
+                    <span className="font-medium">{formatCurrency(selectedPlanilla.totalPlanillaBruto)}</span>
                   </div>
                   <div className="flex justify-between pt-2 border-t">
                     <span className="font-semibold">Total Neto:</span>
-                    <span className="font-semibold text-green-600">₡{selectedPlanilla.totalPlanillaNeto?.toLocaleString('es-CR') || '0.00'}</span>
+                    <span className="font-semibold text-green-600">{formatCurrency(selectedPlanilla.totalPlanillaNeto)}</span>
                   </div>
                 </div>
               </div>
             </div>
-        
+
+            <div className="mt-8 space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <h3 className="font-semibold text-lg">Detalle por Empleado</h3>
+                <span className="text-sm text-muted-foreground">
+                  {detallesPlanilla.length} empleados
+                </span>
+              </div>
+
+              {loadingDetalles ? (
+                <div className="text-center py-6 text-muted-foreground">Cargando detalles...</div>
+              ) : detallesError ? (
+                <Alert>
+                  <InfoIcon />
+                  <AlertDescription>{detallesError}</AlertDescription>
+                </Alert>
+              ) : detallesPlanilla.length === 0 ? (
+                <Alert>
+                  <InfoIcon />
+                  <AlertDescription>No hay detalles disponibles para esta planilla.</AlertDescription>
+                </Alert>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-muted">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Empleado</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Base</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Horas Extra</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Incapacidad</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Devengado</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Deducciones</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Neto</th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-card divide-y divide-border">
+                      {detallesPlanilla.map((detalle) => {
+                        const totalDevengado =
+                          (detalle.salarioBasePeriodo || 0) +
+                          (detalle.montoHorasExtra || 0) +
+                          (detalle.montoIncapacidad || 0);
+                        const totalDeducciones =
+                          (detalle.deduccionCcssIvm || 0) +
+                          (detalle.deduccionCcssSem || 0) +
+                          (detalle.impuestoDeRenta || 0) +
+                          (detalle.otrasDeducciones || 0);
+                        const salarioNeto = totalDevengado - totalDeducciones;
+                        const nombreCompleto = [
+                          detalle.nombreEmpleado,
+                          detalle.primerApellidoEmpleado,
+                          detalle.segundoApellidoEmpleado,
+                        ]
+                          .filter(Boolean)
+                          .join(' ')
+                          .trim();
+
+                        return (
+                          <tr key={detalle.id} className="hover:bg-muted/50 transition-colors">
+                            <td className="px-4 py-3 font-medium">
+                              {nombreCompleto || 'Empleado'}
+                            </td>
+                            <td className="px-4 py-3">{formatCurrency(detalle.salarioBasePeriodo)}</td>
+                            <td className="px-4 py-3">{formatCurrency(detalle.montoHorasExtra)}</td>
+                            <td className="px-4 py-3">{formatCurrency(detalle.montoIncapacidad)}</td>
+                            <td className="px-4 py-3 font-semibold">{formatCurrency(totalDevengado)}</td>
+                            <td className="px-4 py-3">{formatCurrency(totalDeducciones)}</td>
+                            <td className="px-4 py-3 font-semibold text-green-600">{formatCurrency(salarioNeto)}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
           </CardContent>
         </Card>
       )}

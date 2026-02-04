@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaDetalleDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO;
+import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudGenerarPlanillaDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO;
 import com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla;
 
@@ -54,9 +57,24 @@ public class ControladorPlanilla {
         return ResponseEntity.ok(planillas);
     }
 
+    @GetMapping("/{id}/detalles")
+    @PreAuthorize("hasAnyRole('HR', 'ADMIN')")
+    public ResponseEntity<List<RespuestaPlanillaDetalleDTO>> obtenerDetallesPorPlanilla(@PathVariable Long id) {
+        List<RespuestaPlanillaDetalleDTO> detalles = servicio.obtenerDetallesPorPlanilla(id);
+        return ResponseEntity.ok(detalles);
+    }
+
     @PostMapping
     public ResponseEntity<RespuestaPlanillaEncabezadoDTO> crear(@Valid @RequestBody SolicitudPlanillaEncabezadoDTO solicitud) {
         RespuestaPlanillaEncabezadoDTO respuesta = servicio.guardar(solicitud);
+        return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+    }
+
+    @PostMapping("/generar")
+    @PreAuthorize("hasAnyRole('HR', 'ADMIN')")
+    public ResponseEntity<RespuestaPlanillaEncabezadoDTO> generarPlanilla(
+            @Valid @RequestBody SolicitudGenerarPlanillaDTO solicitud) {
+        RespuestaPlanillaEncabezadoDTO respuesta = servicio.generarPlanilla(solicitud);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 

@@ -1,20 +1,40 @@
 package com.anthony.tfg.tfg.Modulos.Planilla.Servicio;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaDetalleDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO;
+import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudGenerarPlanillaDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO;
+import com.anthony.tfg.tfg.Entidades.ConfiguracionRenta;
+import com.anthony.tfg.tfg.Entidades.DiasFeriados;
+import com.anthony.tfg.tfg.Entidades.Empleados;
+import com.anthony.tfg.tfg.Entidades.JornadaDiaria;
 import com.anthony.tfg.tfg.Entidades.PlanillaDetalle;
 import com.anthony.tfg.tfg.Entidades.PlanillaEncabezado;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoPlanilla;
+import com.anthony.tfg.tfg.Entidades.Enums.TipoEntidadEmisora;
+import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
+import com.anthony.tfg.tfg.Exceptions.BadRequestException;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
+import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasConfiguracionRentas;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPlanillaEncabezado;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPlanillaEncabezados;
+import com.anthony.tfg.tfg.Repositorios.DiasFeriadosRepositorio;
+import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
+import com.anthony.tfg.tfg.Repositorios.JornadaDiariaRepositorio;
 import com.anthony.tfg.tfg.Repositorios.PlanillaDetalleRepositorio;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +48,25 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
     private final ConsultasPlanillaEncabezado consulta;
     private final MantenimientosPlanillaEncabezados mantenimiento;
     private final PlanillaDetalleRepositorio planillaDetalleRepo;
+    private final EmpleadosRepositorio empleadosRepositorio;
+    private final JornadaDiariaRepositorio jornadaDiariaRepositorio;
+    private final DiasFeriadosRepositorio diasFeriadosRepositorio;
+    private final ConsultasConfiguracionRentas consultasConfiguracionRentas;
 
     public ServicioPlanilla(ConsultasPlanillaEncabezado consulta, 
                            MantenimientosPlanillaEncabezados mantenimiento,
-                           PlanillaDetalleRepositorio planillaDetalleRepo) {
+                           PlanillaDetalleRepositorio planillaDetalleRepo,
+                           EmpleadosRepositorio empleadosRepositorio,
+                           JornadaDiariaRepositorio jornadaDiariaRepositorio,
+                           DiasFeriadosRepositorio diasFeriadosRepositorio,
+                           ConsultasConfiguracionRentas consultasConfiguracionRentas) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.planillaDetalleRepo = planillaDetalleRepo;
+        this.empleadosRepositorio = empleadosRepositorio;
+        this.jornadaDiariaRepositorio = jornadaDiariaRepositorio;
+        this.diasFeriadosRepositorio = diasFeriadosRepositorio;
+        this.consultasConfiguracionRentas = consultasConfiguracionRentas;
     }
 
     /**
@@ -52,6 +84,27 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         
         log.info("Se encontraron {} planillas para el empleado con ID: {}", planillas.size(), empleadoId);
         return planillas;
+    }
+
+    /**
+     * Obtiene los detalles de planilla para un encabezado específico.
+     * @param planillaId ID de la planilla encabezado
+     * @return Lista de detalles con datos del empleado
+     */
+    public List<RespuestaPlanillaDetalleDTO> obtenerDetallesPorPlanilla(Long planillaId) {
+        PlanillaEncabezado planilla = consulta.obtenerPorId(planillaId);
+        if (planilla == null) {
+            log.warn("No se ha encontrado la planilla con ID: {} para obtener detalles", planillaId);
+            throw new ResourceNotFoundException("PlanillaEncabezado", "id", planillaId);
+        }
+
+        List<PlanillaDetalle> detalles = planillaDetalleRepo.findByPlanillaEncabezadoId(planillaId);
+        List<RespuestaPlanillaDetalleDTO> respuesta = detalles.stream()
+            .map(this::deDetalleADto)
+            .toList();
+
+        log.info("Se encontraron {} detalles para la planilla con ID: {}", respuesta.size(), planillaId);
+        return respuesta;
     }
 
     /**
@@ -89,6 +142,30 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return dto;
     }
 
+    /**
+     * Convierte PlanillaDetalle a RespuestaPlanillaDetalleDTO
+     */
+    private RespuestaPlanillaDetalleDTO deDetalleADto(PlanillaDetalle detalle) {
+        RespuestaPlanillaDetalleDTO dto = new RespuestaPlanillaDetalleDTO();
+        dto.id = detalle.getId();
+        dto.salarioBasePeriodo = detalle.getSalarioBasePeriodo() != null ? detalle.getSalarioBasePeriodo() : 0.0;
+        dto.cantidadDiasFeriados = detalle.getCantidadDiasFeriados() != null ? detalle.getCantidadDiasFeriados() : 0;
+        dto.montoHorasExtra = detalle.getMontoHorasExtra() != null ? detalle.getMontoHorasExtra() : 0.0;
+        dto.montoIncapacidad = detalle.getMontoIncapacidad() != null ? detalle.getMontoIncapacidad() : 0.0;
+        dto.deduccionCcssIvm = detalle.getDeduccionCcssIvm() != null ? detalle.getDeduccionCcssIvm() : 0.0;
+        dto.deduccionCcssSem = detalle.getDeduccionCcssSem() != null ? detalle.getDeduccionCcssSem() : 0.0;
+        dto.impuestoDeRenta = detalle.getImpuestoDeRenta() != null ? detalle.getImpuestoDeRenta() : 0.0;
+        dto.otrasDeducciones = detalle.getOtrasDeducciones() != null ? detalle.getOtrasDeducciones() : 0.0;
+
+        if (detalle.getEmpleado() != null) {
+            dto.nombreEmpleado = detalle.getEmpleado().getNombre();
+            dto.primerApellidoEmpleado = detalle.getEmpleado().getPrimerApellido();
+            dto.segundoApellidoEmpleado = detalle.getEmpleado().getSegundoApellido();
+        }
+
+        return dto;
+    }
+
     public RespuestaPlanillaEncabezadoDTO obtenerPorId(Long id) {
         PlanillaEncabezado planilla = consulta.obtenerPorId(id);
         if(planilla == null){
@@ -111,6 +188,78 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         log.info("Se ha guardado una nueva planilla con ID: " + planillaGuardada.getId());
         return deEntidadDtoARespuesta(planillaGuardada);
     }
+
+        /**
+         * Genera una planilla completa para todos los empleados activos en el periodo.
+         */
+        @Transactional
+        public RespuestaPlanillaEncabezadoDTO generarPlanilla(SolicitudGenerarPlanillaDTO solicitud) {
+        if (solicitud == null) {
+            throw new BadRequestException("La solicitud de planilla es requerida");
+        }
+        if (solicitud.fechaFinPeriodo().isBefore(solicitud.fechaInicioPeriodo())) {
+            throw new BadRequestException("La fecha de fin no puede ser anterior a la fecha de inicio");
+        }
+
+        List<Empleados> empleadosActivos = empleadosRepositorio.findByEstaActivoTrue();
+        if (empleadosActivos.isEmpty()) {
+            throw new BadRequestException("No hay empleados activos para generar la planilla");
+        }
+
+        List<DiasFeriados> feriadosEnRango = diasFeriadosRepositorio.findByFechaBetween(
+            solicitud.fechaInicioPeriodo(),
+            solicitud.fechaFinPeriodo());
+        Set<LocalDate> fechasFeriados = feriadosEnRango.stream()
+            .map(DiasFeriados::getFecha)
+            .collect(Collectors.toCollection(HashSet::new));
+
+        List<ConfiguracionRenta> tramosRenta = consultasConfiguracionRentas.obtenerTodos().stream()
+            .sorted((a, b) -> Double.compare(a.getMontoMinimo(), b.getMontoMinimo()))
+            .toList();
+
+        PlanillaEncabezado encabezado = PlanillaEncabezado.builder()
+            .fechaInicioPeriodo(solicitud.fechaInicioPeriodo())
+            .fechaFinPeriodo(solicitud.fechaFinPeriodo())
+            .fechaPago(solicitud.fechaPago())
+            .totalPlanillaBruto(0.0)
+            .totalPlanillaNeto(0.0)
+            .estadoPlanilla(EstadoPlanilla.BORRADOR)
+            .build();
+
+        PlanillaEncabezado encabezadoGuardado = mantenimiento.crear(encabezado);
+
+        double totalPlanillaBruto = 0.0;
+        double totalPlanillaNeto = 0.0;
+        List<PlanillaDetalle> detalles = empleadosActivos.stream()
+            .map(empleado -> calcularDetallePlanilla(empleado, solicitud.fechaInicioPeriodo(),
+                solicitud.fechaFinPeriodo(), fechasFeriados, tramosRenta, encabezadoGuardado))
+            .toList();
+
+        planillaDetalleRepo.saveAll(detalles);
+
+        for (PlanillaDetalle detalle : detalles) {
+            double totalDevengado = safe(detalle.getSalarioBasePeriodo())
+                + safe(detalle.getMontoHorasExtra())
+                + safe(detalle.getMontoIncapacidad());
+            double totalDeducciones = safe(detalle.getDeduccionCcssIvm())
+                + safe(detalle.getDeduccionCcssSem())
+                + safe(detalle.getOtrasDeducciones())
+                + safe(detalle.getImpuestoDeRenta());
+            totalPlanillaBruto += totalDevengado;
+            totalPlanillaNeto += (totalDevengado - totalDeducciones);
+        }
+
+        encabezadoGuardado.setTotalPlanillaBruto(totalPlanillaBruto);
+        encabezadoGuardado.setTotalPlanillaNeto(totalPlanillaNeto);
+        PlanillaEncabezado encabezadoActualizado = mantenimiento.actualizar(encabezadoGuardado);
+
+        log.info("Se generó la planilla {} para el periodo {} a {} con {} detalles",
+            encabezadoActualizado.getId(),
+            solicitud.fechaInicioPeriodo(),
+            solicitud.fechaFinPeriodo(),
+            detalles.size());
+        return deEntidadDtoARespuesta(encabezadoActualizado);
+        }
 
     public RespuestaPlanillaEncabezadoDTO actualizar(Long id, SolicitudPlanillaEncabezadoDTO entidad) {
         PlanillaEncabezado planillaExistente = consulta.obtenerPorId(id);
@@ -197,6 +346,150 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private PlanillaDetalle calcularDetallePlanilla(Empleados empleado,
+                                                    LocalDate fechaInicio,
+                                                    LocalDate fechaFin,
+                                                    Set<LocalDate> feriados,
+                                                    List<ConfiguracionRenta> tramosRenta,
+                                                    PlanillaEncabezado encabezado) {
+        double salarioMensual = obtenerSalarioMensual(empleado);
+        double salarioDiario = salarioMensual / 30.0;
+        double salarioHora = salarioDiario / 8.0;
+
+        double basePeriodo = salarioMensual / 2.0;
+        double horasFaltantes = 0.0;
+        double totalHorasExtra = 0.0;
+        int cantidadDiasFeriados = 0;
+        double montoIncapacidad = 0.0;
+
+        List<JornadaDiaria> jornadas = jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(
+                empleado.getId(), fechaInicio, fechaFin);
+        Map<LocalDate, JornadaDiaria> jornadasPorFecha = mapearJornadas(jornadas);
+
+        LocalDate fecha = fechaInicio;
+        while (!fecha.isAfter(fechaFin)) {
+            JornadaDiaria jornada = jornadasPorFecha.get(fecha);
+            double horasRegulares = jornada != null && jornada.getHorasRegulares() != null
+                    ? jornada.getHorasRegulares()
+                    : 0.0;
+            double horasExtra = jornada != null && jornada.getHorasExtra() != null
+                    ? jornada.getHorasExtra()
+                    : 0.0;
+            totalHorasExtra += horasExtra;
+
+            boolean esFeriado = feriados.contains(fecha);
+            boolean esFinSemana = esFinDeSemana(fecha);
+            boolean tieneHorasTrabajadas = horasRegulares > 0 || horasExtra > 0;
+
+            if (esFeriado && tieneHorasTrabajadas) {
+                cantidadDiasFeriados++;
+            }
+
+            boolean esVacaciones = jornada != null
+                    && jornada.getPermiso() != null
+                    && jornada.getPermiso().getTipoPermiso() == TipoPermiso.VACACIONES;
+            boolean esIncapacidad = jornada != null && jornada.getIncapacidad() != null;
+
+            if (esIncapacidad) {
+                Integer diaIncapacidad = jornada.getDiaPermiso();
+                if (diaIncapacidad != null && diaIncapacidad <= 3) {
+                    TipoEntidadEmisora entidad = jornada.getIncapacidad().getEntidadEmisora();
+                    double factorPago = entidad == TipoEntidadEmisora.CCSS ? 0.5
+                            : entidad == TipoEntidadEmisora.INS ? 1.0
+                            : 0.0;
+                    montoIncapacidad += salarioDiario * factorPago;
+                }
+            }
+
+            if (!esFinSemana && !esFeriado && !esVacaciones && !esIncapacidad) {
+                if (horasRegulares < 8.0) {
+                    horasFaltantes += (8.0 - horasRegulares);
+                }
+            }
+
+            fecha = fecha.plusDays(1);
+        }
+
+        double montoHorasExtra = totalHorasExtra * salarioHora * 0.5;
+        double montoDiasFeriados = cantidadDiasFeriados * salarioDiario;
+        double salarioBasePeriodo = Math.max(0.0, basePeriodo - (horasFaltantes * salarioHora)) + montoDiasFeriados;
+        double totalDevengado = salarioBasePeriodo + montoHorasExtra + montoIncapacidad;
+
+        double deduccionCcssSem = totalDevengado * 0.055;
+        double deduccionCcssIvm = totalDevengado * 0.0433;
+        double otrasDeducciones = totalDevengado * 0.01;
+        double impuestoRenta = calcularImpuestoRenta(totalDevengado, tramosRenta);
+
+        return PlanillaDetalle.builder()
+                .salarioBasePeriodo(salarioBasePeriodo)
+                .cantidadDiasFeriados(cantidadDiasFeriados)
+                .montoHorasExtra(montoHorasExtra)
+                .montoIncapacidad(montoIncapacidad)
+                .deduccionCcssIvm(deduccionCcssIvm)
+                .deduccionCcssSem(deduccionCcssSem)
+                .impuestoDeRenta(impuestoRenta)
+                .otrasDeducciones(otrasDeducciones)
+                .empleado(empleado)
+                .planillaEncabezado(encabezado)
+                .build();
+    }
+
+    private double calcularImpuestoRenta(double salario, List<ConfiguracionRenta> tramosRenta) {
+        if (tramosRenta.isEmpty()) {
+            return 0.0;
+        }
+        double impuesto = 0.0;
+        for (ConfiguracionRenta tramo : tramosRenta) {
+            double minimo = tramo.getMontoMinimo() != null ? tramo.getMontoMinimo() : 0.0;
+            double maximo = tramo.getMontoMaximo() != null ? tramo.getMontoMaximo() : Double.MAX_VALUE;
+            if (salario <= minimo) {
+                break;
+            }
+            double base = Math.min(salario, maximo) - minimo;
+            if (base > 0) {
+                double porcentaje = tramo.getPorcentaje() != null ? tramo.getPorcentaje() : 0.0;
+                impuesto += base * (porcentaje / 100.0);
+            }
+            if (salario <= maximo) {
+                break;
+            }
+        }
+        return impuesto;
+    }
+
+    private boolean esFinDeSemana(LocalDate fecha) {
+        DayOfWeek dia = fecha.getDayOfWeek();
+        return dia == DayOfWeek.SATURDAY || dia == DayOfWeek.SUNDAY;
+    }
+
+    private Map<LocalDate, JornadaDiaria> mapearJornadas(List<JornadaDiaria> jornadas) {
+        Map<LocalDate, JornadaDiaria> resultado = new HashMap<>();
+        for (JornadaDiaria jornada : jornadas) {
+            if (jornada.getFecha() != null) {
+                resultado.put(jornada.getFecha(), jornada);
+            }
+        }
+        return resultado;
+    }
+
+    private double obtenerSalarioMensual(Empleados empleado) {
+        if (empleado == null) {
+            return 0.0;
+        }
+        if (empleado.getPuesto() != null && empleado.getPuesto().getSalarioMinimo() != null) {
+            return empleado.getPuesto().getSalarioMinimo();
+        }
+        if (empleado.getSalarioBase() != null) {
+            return empleado.getSalarioBase();
+        }
+        log.warn("El empleado {} no tiene salario mensual definido", empleado.getId());
+        return 0.0;
+    }
+
+    private double safe(Double value) {
+        return value == null ? 0.0 : value;
     }
 
 }

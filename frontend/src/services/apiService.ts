@@ -294,6 +294,12 @@ export interface PlanillaEncabezado {
   estadoPlanilla: string;
 }
 
+export interface GenerarPlanillaRequest {
+  fechaInicioPeriodo: string;
+  fechaFinPeriodo: string;
+  fechaPago: string;
+}
+
 export interface PlanillaEmpleado {
   // ID para compatibilidad con DataTable (usar idDetalle como id único)
   id: number;
@@ -320,6 +326,21 @@ export interface PlanillaEmpleado {
   totalDevengado: number;
   totalDeducciones: number;
   salarioNeto: number;
+}
+
+export interface PlanillaDetalleGeneral {
+  id: number;
+  salarioBasePeriodo: number;
+  cantidadDiasFeriados: number;
+  montoHorasExtra: number;
+  montoIncapacidad: number;
+  deduccionCcssIvm: number;
+  deduccionCcssSem: number;
+  impuestoDeRenta: number;
+  otrasDeducciones: number;
+  nombreEmpleado?: string;
+  primerApellidoEmpleado?: string;
+  segundoApellidoEmpleado?: string;
 }
 
 export interface EvaluacionDesempeno {
@@ -410,6 +431,59 @@ export class PlanillasService extends ApiService<PlanillaEncabezado> {
       throw new Error(errorData.message || 'Error al obtener planillas');
     }
     
+    return response.json();
+  }
+
+  async getDetallesPorPlanilla(planillaId: number, signal?: AbortSignal): Promise<PlanillaDetalleGeneral[]> {
+    const token = localStorage.getItem('token');
+    const response = await fetch(
+      `${API_URL}/${this.endpoint}/${planillaId}/detalles`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        signal,
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+        throw new Error('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      }
+
+      const errorData: ErrorResponse = await response.json();
+      throw new Error(errorData.message || 'Error al obtener detalles de planilla');
+    }
+
+    return response.json();
+  }
+
+  async generarPlanilla(payload: GenerarPlanillaRequest): Promise<PlanillaEncabezado> {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_URL}/${this.endpoint}/generar`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+        throw new Error('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      }
+
+      const errorData: ErrorResponse = await response.json();
+      throw new Error(errorData.message || 'Error al generar la planilla');
+    }
+
     return response.json();
   }
 }
