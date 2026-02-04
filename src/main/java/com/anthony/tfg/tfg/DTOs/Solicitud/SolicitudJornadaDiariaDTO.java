@@ -21,19 +21,15 @@ public class SolicitudJornadaDiariaDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDate fecha;
     
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     LocalTime horaEntrada;
     
-    @NotNull
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     LocalTime horaSalida;
     
-    @NotNull
     @PositiveOrZero
     Double horasRegulares;
     
-    @NotNull
     @PositiveOrZero
     Double horasExtra;
     
@@ -41,4 +37,8 @@ public class SolicitudJornadaDiariaDTO {
     
     @NotNull
     Long idEmpleado;
+    
+    Long idPermiso;
+    
+    Long idIncapacidad;
 }

@@ -55,4 +55,12 @@ public class JornadaDiaria {
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     Empleados empleado;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_permiso")
+    Permisos permiso;
+    
+    @ManyToOne
+    @JoinColumn(name = "id_incapacidad")
+    Incapacidades incapacidad;
 }

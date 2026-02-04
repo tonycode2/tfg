@@ -32,4 +32,8 @@ public class RespuestaJornadaDiariaDTO {
     
     Long idEmpleado;
     String nombreCompleto;
+    
+    Long idPermiso;
+    
+    Long idIncapacidad;
 }

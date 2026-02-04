@@ -17,7 +17,9 @@ import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudJornadaDiariaDTO;
 import com.anthony.tfg.tfg.Entidades.Asistencia;
 import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.HorasExtra;
+import com.anthony.tfg.tfg.Entidades.Incapacidades;
 import com.anthony.tfg.tfg.Entidades.JornadaDiaria;
+import com.anthony.tfg.tfg.Entidades.Permisos;
 import com.anthony.tfg.tfg.Entidades.Puestos;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
@@ -28,7 +30,9 @@ import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 import com.anthony.tfg.tfg.Repositorios.AsistenciaRepositorio;
 import com.anthony.tfg.tfg.Repositorios.HorasExtraRepositorio;
 import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
+import com.anthony.tfg.tfg.Repositorios.IncapacidadesRepositorio;
 import com.anthony.tfg.tfg.Repositorios.JornadaDiariaRepositorio;
+import com.anthony.tfg.tfg.Repositorios.PermisosRepositorio;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +49,8 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
     private final HorasExtraRepositorio horasExtraRepositorio;
     private final JornadaDiariaRepositorio jornadaDiariaRepositorio;
     private final EmpleadosRepositorio empleadosRepositorio;
+    private final PermisosRepositorio permisosRepositorio;
+    private final IncapacidadesRepositorio incapacidadesRepositorio;
 
     public ServicioJornadaDiaria(
             ConsultasJornadaDiaria consulta,
@@ -53,7 +59,9 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
             AsistenciaRepositorio asistenciaRepositorio,
             HorasExtraRepositorio horasExtraRepositorio,
             JornadaDiariaRepositorio jornadaDiariaRepositorio,
-            EmpleadosRepositorio empleadosRepositorio) {
+            EmpleadosRepositorio empleadosRepositorio,
+            PermisosRepositorio permisosRepositorio,
+            IncapacidadesRepositorio incapacidadesRepositorio) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
@@ -61,6 +69,8 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         this.horasExtraRepositorio = horasExtraRepositorio;
         this.jornadaDiariaRepositorio = jornadaDiariaRepositorio;
         this.empleadosRepositorio = empleadosRepositorio;
+        this.permisosRepositorio = permisosRepositorio;
+        this.incapacidadesRepositorio = incapacidadesRepositorio;
     }
 
     public RespuestaJornadaDiariaDTO obtenerPorId(Long id) {
@@ -103,6 +113,16 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         Empleados empleado = consultasEmpleados.obtenerPorId(entidad.getIdEmpleado());
         if (empleado != null) {
             jornadaExistente.setEmpleado(empleado);
+        }
+        
+        if (entidad.getIdPermiso() != null) {
+            Permisos permiso = permisosRepositorio.findById(entidad.getIdPermiso()).orElse(null);
+            jornadaExistente.setPermiso(permiso);
+        }
+        
+        if (entidad.getIdIncapacidad() != null) {
+            Incapacidades incapacidad = incapacidadesRepositorio.findById(entidad.getIdIncapacidad()).orElse(null);
+            jornadaExistente.setIncapacidad(incapacidad);
         }
         
         JornadaDiaria jornadaActualizada = mantenimiento.actualizar(jornadaExistente);
@@ -252,6 +272,16 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
             return null;
         }
         
+        Permisos permiso = null;
+        if (solicitud.getIdPermiso() != null) {
+            permiso = permisosRepositorio.findById(solicitud.getIdPermiso()).orElse(null);
+        }
+        
+        Incapacidades incapacidad = null;
+        if (solicitud.getIdIncapacidad() != null) {
+            incapacidad = incapacidadesRepositorio.findById(solicitud.getIdIncapacidad()).orElse(null);
+        }
+        
         return JornadaDiaria.builder()
                 .id(solicitud.getId())
                 .fecha(solicitud.getFecha())
@@ -261,6 +291,8 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
                 .horasExtra(solicitud.getHorasExtra())
                 .observaciones(solicitud.getObservaciones())
                 .empleado(empleado)
+                .permiso(permiso)
+                .incapacidad(incapacidad)
                 .build();
     }
 
@@ -286,6 +318,14 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
                     entidad.getEmpleado().getPrimerApellido(),
                     entidad.getEmpleado().getSegundoApellido());
             respuesta.setNombreCompleto(nombreCompleto);
+        }
+        
+        if (entidad.getPermiso() != null) {
+            respuesta.setIdPermiso(entidad.getPermiso().getId());
+        }
+        
+        if (entidad.getIncapacidad() != null) {
+            respuesta.setIdIncapacidad(entidad.getIncapacidad().getId());
         }
         
         return respuesta;

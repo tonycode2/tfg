@@ -1,6 +1,7 @@
 package com.anthony.tfg.tfg.Entidades;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
@@ -16,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -106,4 +108,7 @@ public class Permisos {
     @ManyToOne
     @JoinColumn(name = "id_aprobador_rh")
     Empleados aprobadorRH;
+    
+    @OneToMany(mappedBy = "permiso")
+    List<JornadaDiaria> jornadasDiarias;
 }
