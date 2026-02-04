@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoPlanilla;
+import com.anthony.tfg.tfg.Entidades.Enums.TipoQuincena;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -41,6 +43,9 @@ public class PlanillaEncabezado {
     @Column(name = "fecha_pago")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDate fechaPago;
+    @Column(name = "tipo_quincena")
+    @Enumerated(EnumType.STRING)
+    TipoQuincena tipoQuincena;
     @Column(name = "total_planilla_bruto")
     Double totalPlanillaBruto;
     @Column(name = "total_planilla_neto")
@@ -49,6 +54,7 @@ public class PlanillaEncabezado {
     @Enumerated(EnumType.STRING)
     EstadoPlanilla estadoPlanilla;
     
-    @OneToMany(mappedBy = "planillaEncabezado")
+    // Eliminación en cascada para evitar referencias huérfanas en detalles al borrar planillas.
+    @OneToMany(mappedBy = "planillaEncabezado", cascade = CascadeType.ALL, orphanRemoval = true)
     List<PlanillaDetalle> detalles;
 }

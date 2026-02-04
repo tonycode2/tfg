@@ -289,15 +289,16 @@ export interface PlanillaEncabezado {
   fechaInicioPeriodo: string;
   fechaFinPeriodo: string;
   fechaPago: string;
+  tipoQuincena?: string;
   totalPlanillaBruto: number;
   totalPlanillaNeto: number;
   estadoPlanilla: string;
 }
 
 export interface GenerarPlanillaRequest {
-  fechaInicioPeriodo: string;
-  fechaFinPeriodo: string;
-  fechaPago: string;
+  mes: number;
+  anio: number;
+  tipoQuincena: string;
 }
 
 export interface PlanillaEmpleado {
@@ -309,6 +310,7 @@ export interface PlanillaEmpleado {
   fechaInicioPeriodo: string;
   fechaFinPeriodo: string;
   fechaPago: string;
+  tipoQuincena?: string;
   estadoPlanilla: string;
   
   // Datos del detalle

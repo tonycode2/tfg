@@ -28,6 +28,8 @@ public class SolicitudPlanillaEncabezadoDTO {
     @Future
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate fechaPago;
+    @NotBlank
+    public String tipoQuincena;
     @NotNull
     public Double totalPlanillaBruto;
     @NotNull

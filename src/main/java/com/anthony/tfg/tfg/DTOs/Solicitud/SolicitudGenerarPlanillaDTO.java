@@ -1,24 +1,19 @@
 package com.anthony.tfg.tfg.DTOs.Solicitud;
 
-import java.time.LocalDate;
+import com.anthony.tfg.tfg.Entidades.Enums.TipoQuincena;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 
 public record SolicitudGenerarPlanillaDTO(
         @NotNull
-        @Past
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-        LocalDate fechaInicioPeriodo,
+        @Min(1)
+        @Max(12)
+        Integer mes,
         @NotNull
-        @Past
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-        LocalDate fechaFinPeriodo,
+        @Min(2000)
+        Integer anio,
         @NotNull
-        @Future
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-        LocalDate fechaPago) {
+        TipoQuincena tipoQuincena) {
 }

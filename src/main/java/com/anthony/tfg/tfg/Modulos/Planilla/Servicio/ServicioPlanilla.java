@@ -2,6 +2,7 @@ package com.anthony.tfg.tfg.Modulos.Planilla.Servicio;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ import com.anthony.tfg.tfg.Entidades.JornadaDiaria;
 import com.anthony.tfg.tfg.Entidades.PlanillaDetalle;
 import com.anthony.tfg.tfg.Entidades.PlanillaEncabezado;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoPlanilla;
+import com.anthony.tfg.tfg.Entidades.Enums.TipoQuincena;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoEntidadEmisora;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
 import com.anthony.tfg.tfg.Exceptions.BadRequestException;
@@ -119,6 +121,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         dto.fechaInicioPeriodo = encabezado.getFechaInicioPeriodo();
         dto.fechaFinPeriodo = encabezado.getFechaFinPeriodo();
         dto.fechaPago = encabezado.getFechaPago();
+        dto.tipoQuincena = encabezado.getTipoQuincena() != null
+                    ? encabezado.getTipoQuincena().name()
+                    : null;
         dto.estadoPlanilla = encabezado.getEstadoPlanilla() != null ? 
                             encabezado.getEstadoPlanilla().name() : null;
         
@@ -197,9 +202,15 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         if (solicitud == null) {
             throw new BadRequestException("La solicitud de planilla es requerida");
         }
-        if (solicitud.fechaFinPeriodo().isBefore(solicitud.fechaInicioPeriodo())) {
-            throw new BadRequestException("La fecha de fin no puede ser anterior a la fecha de inicio");
+        if (solicitud.mes() == null || solicitud.anio() == null || solicitud.tipoQuincena() == null) {
+            throw new BadRequestException("El mes, año y la quincena son requeridos");
         }
+
+        LocalDate fechaInicioPeriodo = calcularFechaInicioPeriodo(solicitud.anio(), solicitud.mes(),
+            solicitud.tipoQuincena());
+        LocalDate fechaFinPeriodo = calcularFechaFinPeriodo(solicitud.anio(), solicitud.mes(),
+            solicitud.tipoQuincena());
+        LocalDate fechaPago = calcularFechaPago(solicitud.anio(), solicitud.mes());
 
         List<Empleados> empleadosActivos = empleadosRepositorio.findByEstaActivoTrue();
         if (empleadosActivos.isEmpty()) {
@@ -207,8 +218,8 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         }
 
         List<DiasFeriados> feriadosEnRango = diasFeriadosRepositorio.findByFechaBetween(
-            solicitud.fechaInicioPeriodo(),
-            solicitud.fechaFinPeriodo());
+            fechaInicioPeriodo,
+            fechaFinPeriodo);
         Set<LocalDate> fechasFeriados = feriadosEnRango.stream()
             .map(DiasFeriados::getFecha)
             .collect(Collectors.toCollection(HashSet::new));
@@ -218,9 +229,10 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             .toList();
 
         PlanillaEncabezado encabezado = PlanillaEncabezado.builder()
-            .fechaInicioPeriodo(solicitud.fechaInicioPeriodo())
-            .fechaFinPeriodo(solicitud.fechaFinPeriodo())
-            .fechaPago(solicitud.fechaPago())
+            .fechaInicioPeriodo(fechaInicioPeriodo)
+            .fechaFinPeriodo(fechaFinPeriodo)
+            .fechaPago(fechaPago)
+            .tipoQuincena(solicitud.tipoQuincena())
             .totalPlanillaBruto(0.0)
             .totalPlanillaNeto(0.0)
             .estadoPlanilla(EstadoPlanilla.BORRADOR)
@@ -231,8 +243,8 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         double totalPlanillaBruto = 0.0;
         double totalPlanillaNeto = 0.0;
         List<PlanillaDetalle> detalles = empleadosActivos.stream()
-            .map(empleado -> calcularDetallePlanilla(empleado, solicitud.fechaInicioPeriodo(),
-                solicitud.fechaFinPeriodo(), fechasFeriados, tramosRenta, encabezadoGuardado))
+            .map(empleado -> calcularDetallePlanilla(empleado, fechaInicioPeriodo,
+                fechaFinPeriodo, fechasFeriados, tramosRenta, encabezadoGuardado))
             .toList();
 
         planillaDetalleRepo.saveAll(detalles);
@@ -255,8 +267,8 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
 
         log.info("Se generó la planilla {} para el periodo {} a {} con {} detalles",
             encabezadoActualizado.getId(),
-            solicitud.fechaInicioPeriodo(),
-            solicitud.fechaFinPeriodo(),
+            fechaInicioPeriodo,
+            fechaFinPeriodo,
             detalles.size());
         return deEntidadDtoARespuesta(encabezadoActualizado);
         }
@@ -270,6 +282,10 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         planillaExistente.setFechaInicioPeriodo(entidad.getFechaInicioPeriodo());
         planillaExistente.setFechaFinPeriodo(entidad.getFechaFinPeriodo());
         planillaExistente.setFechaPago(entidad.getFechaPago());
+        TipoQuincena tipoQuincena = obtenerTipoQuincena(entidad.getTipoQuincena());
+        if (tipoQuincena != null) {
+            planillaExistente.setTipoQuincena(tipoQuincena);
+        }
         planillaExistente.setTotalPlanillaBruto(entidad.getTotalPlanillaBruto());
         planillaExistente.setTotalPlanillaNeto(entidad.getTotalPlanillaNeto());
         
@@ -300,11 +316,18 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             return null;
         }
         
+        TipoQuincena tipoQuincena = obtenerTipoQuincena(solicitud.tipoQuincena);
+        if (tipoQuincena == null) {
+            log.warn("No se ha encontrado el tipo de quincena: " + solicitud.tipoQuincena);
+            return null;
+        }
+
         PlanillaEncabezado planilla = PlanillaEncabezado.builder()
                     .id(solicitud.getId())
                     .fechaInicioPeriodo(solicitud.getFechaInicioPeriodo())
                     .fechaFinPeriodo(solicitud.getFechaFinPeriodo())
                     .fechaPago(solicitud.getFechaPago())
+                    .tipoQuincena(tipoQuincena)
                     .totalPlanillaBruto(solicitud.getTotalPlanillaBruto())
                     .totalPlanillaNeto(solicitud.getTotalPlanillaNeto())
                     .estadoPlanilla(estadoPlanilla)
@@ -323,6 +346,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         respuesta.fechaInicioPeriodo = entidad.getFechaInicioPeriodo();
         respuesta.fechaFinPeriodo = entidad.getFechaFinPeriodo();
         respuesta.fechaPago = entidad.getFechaPago();
+        if (entidad.getTipoQuincena() != null) {
+            respuesta.tipoQuincena = entidad.getTipoQuincena().name();
+        }
         respuesta.totalPlanillaBruto = entidad.getTotalPlanillaBruto();
         respuesta.totalPlanillaNeto = entidad.getTotalPlanillaNeto();
         
@@ -346,6 +372,34 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private TipoQuincena obtenerTipoQuincena(String tipoQuincena) {
+        try {
+            return TipoQuincena.valueOf(tipoQuincena.toUpperCase());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private LocalDate calcularFechaInicioPeriodo(int anio, int mes, TipoQuincena tipoQuincena) {
+        if (tipoQuincena == TipoQuincena.PRIMERA) {
+            return LocalDate.of(anio, mes, 1);
+        }
+        return LocalDate.of(anio, mes, 16);
+    }
+
+    private LocalDate calcularFechaFinPeriodo(int anio, int mes, TipoQuincena tipoQuincena) {
+        if (tipoQuincena == TipoQuincena.PRIMERA) {
+            return LocalDate.of(anio, mes, 15);
+        }
+        YearMonth yearMonth = YearMonth.of(anio, mes);
+        return LocalDate.of(anio, mes, yearMonth.lengthOfMonth());
+    }
+
+    private LocalDate calcularFechaPago(int anio, int mes) {
+        YearMonth yearMonth = YearMonth.of(anio, mes);
+        return LocalDate.of(anio, mes, yearMonth.lengthOfMonth());
     }
 
     private PlanillaDetalle calcularDetallePlanilla(Empleados empleado,

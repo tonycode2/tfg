@@ -12,6 +12,7 @@ public class RespuestaPlanillaEncabezadoDTO {
     public LocalDate fechaFinPeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate fechaPago;
+    public String tipoQuincena;
     public Double totalPlanillaBruto;
     public Double totalPlanillaNeto;
     public String estadoPlanilla;

@@ -2,7 +2,14 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { DatePicker } from '@/components/ui/date-picker';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { planillasService, type PlanillaEncabezado, type PlanillaDetalleGeneral } from '@/services/apiService';
 import { toast } from 'sonner';
@@ -25,31 +32,24 @@ const InfoIcon = () => (
   </svg>
 );
 
-const addDays = (dateString: string, days: number): string => {
-  const date = new Date(dateString);
-  date.setDate(date.getDate() + days);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
+const buildDateString = (year: number, month: number, day: number): string => {
+  const monthValue = String(month).padStart(2, '0');
+  const dayValue = String(day).padStart(2, '0');
+  return `${year}-${monthValue}-${dayValue}`;
 };
 
-const getNextMonday = (dateString: string): string => {
-  const date = new Date(dateString);
-  const dayOfWeek = date.getDay(); // 0 = Domingo, 1 = Lunes, ..., 6 = Sábado
-  
-  // Si es lunes (1), agregar 7 días para el siguiente lunes
-  // Si no es lunes, calcular días hasta el siguiente lunes
-  let daysToAdd;
-  if (dayOfWeek === 0) { // Domingo
-    daysToAdd = 1;
-  } else if (dayOfWeek === 1) { // Lunes
-    daysToAdd = 7;
-  } else { // Martes a Sábado
-    daysToAdd = 8 - dayOfWeek;
+const getLastDayOfMonth = (year: number, month: number): number => {
+  return new Date(year, month, 0).getDate();
+};
+
+const getQuincenaLabel = (tipoQuincena: string | undefined): string => {
+  if (tipoQuincena === 'PRIMERA') {
+    return 'Primera quincena (1 al 15)';
   }
-  
-  return addDays(dateString, daysToAdd);
+  if (tipoQuincena === 'SEGUNDA') {
+    return 'Segunda quincena (16 al último día)';
+  }
+  return 'Sin definir';
 };
 
 const formatDate = (dateString: string | undefined): string => {
@@ -64,7 +64,7 @@ const formatDate = (dateString: string | undefined): string => {
 
 const formatCurrency = (value: number | undefined): string => {
   const amount = typeof value === 'number' && !Number.isNaN(value) ? value : 0;
-  return `₡${amount.toLocaleString('es-CR')}`;
+  return `₡${amount.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
 
 const getEstadoBadge = (estado: string | undefined): string => {
@@ -96,6 +96,10 @@ const getEstadoLabel = (estado: string | undefined): string => {
 };
 
 export function PlanillaGeneralView() {
+  const currentYear = new Date().getFullYear();
+  const [mes, setMes] = useState<string>('');
+  const [anio, setAnio] = useState<number>(currentYear);
+  const [tipoQuincena, setTipoQuincena] = useState<string>('');
   const [fechaInicio, setFechaInicio] = useState<string>('');
   const [fechaFin, setFechaFin] = useState<string>('');
   const [fechaPago, setFechaPago] = useState<string>('');
@@ -110,6 +114,24 @@ export function PlanillaGeneralView() {
   useEffect(() => {
     cargarPlanillas();
   }, []);
+
+  useEffect(() => {
+    if (!mes || !tipoQuincena || !anio) {
+      setFechaInicio('');
+      setFechaFin('');
+      setFechaPago('');
+      return;
+    }
+
+    const monthValue = Number(mes);
+    const lastDay = getLastDayOfMonth(anio, monthValue);
+    const inicio = tipoQuincena === 'PRIMERA' ? 1 : 16;
+    const fin = tipoQuincena === 'PRIMERA' ? 15 : lastDay;
+
+    setFechaInicio(buildDateString(anio, monthValue, inicio));
+    setFechaFin(buildDateString(anio, monthValue, fin));
+    setFechaPago(buildDateString(anio, monthValue, lastDay));
+  }, [mes, tipoQuincena, anio]);
 
   useEffect(() => {
     if (!selectedPlanilla?.id) {
@@ -166,25 +188,9 @@ export function PlanillaGeneralView() {
     }
   };
 
-  const handleFechaInicioChange = (date: string) => {
-    setFechaInicio(date);
-    if (date) {
-      // Calcular fecha fin automáticamente (15 días después)
-      const calculatedFechaFin = addDays(date, 15);
-      setFechaFin(calculatedFechaFin);
-      
-      // Sugerir fecha de pago (siguiente lunes después de la fecha fin)
-      const suggestedFechaPago = getNextMonday(calculatedFechaFin);
-      setFechaPago(suggestedFechaPago);
-    } else {
-      setFechaFin('');
-      setFechaPago('');
-    }
-  };
-
   const handleCrearPlanilla = async () => {
-    if (!fechaInicio || !fechaFin || !fechaPago) {
-      toast.error('Por favor selecciona todas las fechas');
+    if (!mes || !tipoQuincena || !anio) {
+      toast.error('Por favor selecciona el mes, la quincena y el año');
       return;
     }
 
@@ -192,9 +198,9 @@ export function PlanillaGeneralView() {
       setLoading(true);
 
       const planillaData = {
-        fechaInicioPeriodo: fechaInicio,
-        fechaFinPeriodo: fechaFin,
-        fechaPago: fechaPago,
+        mes: Number(mes),
+        anio,
+        tipoQuincena,
       };
 
       await planillasService.generarPlanilla(planillaData);
@@ -204,9 +210,8 @@ export function PlanillaGeneralView() {
       });
 
       // Limpiar formulario
-      setFechaInicio('');
-      setFechaFin('');
-      setFechaPago('');
+      setMes('');
+      setTipoQuincena('');
 
       await cargarPlanillas();
     } catch (error: any) {
@@ -219,7 +224,7 @@ export function PlanillaGeneralView() {
     }
   };
 
-  const canCreatePlanilla = fechaInicio && fechaFin && fechaPago && !loading;
+  const canCreatePlanilla = mes && tipoQuincena && anio && !loading;
 
   return (
     <div className="space-y-6">
@@ -243,65 +248,69 @@ export function PlanillaGeneralView() {
         <CardHeader>
           <CardTitle>Crear Nueva Planilla</CardTitle>
           <CardDescription>
-            Selecciona la fecha de inicio del periodo de planilla
+            Selecciona el mes y la quincena para generar la planilla
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Fecha de Inicio */}
+            {/* Mes */}
             <div className="space-y-2">
-              <Label htmlFor="fechaInicio" className="flex items-center gap-2">
+              <Label htmlFor="mes" className="flex items-center gap-2">
                 <CalendarIcon />
-                Fecha de Inicio del Periodo
+                Mes
               </Label>
-              <DatePicker
-                value={fechaInicio}
-                onChange={handleFechaInicioChange}
-                placeholder="Seleccionar fecha"
-              />
-              {fechaInicio && (
-                <p className="text-sm text-muted-foreground">
-                  {formatDate(fechaInicio)}
-                </p>
-              )}
+              <Select value={mes} onValueChange={setMes}>
+                <SelectTrigger id="mes">
+                  <SelectValue placeholder="Seleccionar mes" />
+                </SelectTrigger>
+                <SelectContent className="max-h-56 overflow-y-auto">
+                  <SelectItem value="1">Enero</SelectItem>
+                  <SelectItem value="2">Febrero</SelectItem>
+                  <SelectItem value="3">Marzo</SelectItem>
+                  <SelectItem value="4">Abril</SelectItem>
+                  <SelectItem value="5">Mayo</SelectItem>
+                  <SelectItem value="6">Junio</SelectItem>
+                  <SelectItem value="7">Julio</SelectItem>
+                  <SelectItem value="8">Agosto</SelectItem>
+                  <SelectItem value="9">Septiembre</SelectItem>
+                  <SelectItem value="10">Octubre</SelectItem>
+                  <SelectItem value="11">Noviembre</SelectItem>
+                  <SelectItem value="12">Diciembre</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
-            {/* Fecha de Fin (calculada automáticamente) */}
+            {/* Quincena */}
             <div className="space-y-2">
               <Label className="flex items-center gap-2">
                 <CalendarIcon />
-                Fecha de Fin del Periodo
+                Quincena
               </Label>
-              <DatePicker
-                value={fechaFin}
-                onChange={setFechaFin}
-                placeholder="Calculada automáticamente"
-                disabled={true}
-              />
-              {fechaFin && (
-                <p className="text-sm text-muted-foreground">
-                  {formatDate(fechaFin)}
-                </p>
-              )}
+              <Select value={tipoQuincena} onValueChange={setTipoQuincena}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Seleccionar quincena" />
+                </SelectTrigger>
+                <SelectContent className="max-h-56 overflow-y-auto">
+                  <SelectItem value="PRIMERA">Primera quincena (1 al 15)</SelectItem>
+                  <SelectItem value="SEGUNDA">Segunda quincena (16 al último día)</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
-            {/* Fecha de Pago */}
+            {/* Año */}
             <div className="space-y-2">
-              <Label htmlFor="fechaPago" className="flex items-center gap-2">
+              <Label htmlFor="anio" className="flex items-center gap-2">
                 <CalendarIcon />
-                Fecha de Pago
+                Año
               </Label>
-              <DatePicker
-                value={fechaPago}
-                onChange={setFechaPago}
-                placeholder="Fecha de pago"
-                disabled={!fechaInicio}
+              <Input
+                id="anio"
+                type="number"
+                min={2000}
+                max={2100}
+                value={anio}
+                onChange={(event) => setAnio(Number(event.target.value))}
               />
-              {fechaPago && (
-                <p className="text-sm text-muted-foreground">
-                  {formatDate(fechaPago)}
-                </p>
-              )}
             </div>
           </div>
 
@@ -318,7 +327,7 @@ export function PlanillaGeneralView() {
                 </div>
                 <div>
                   <span className="text-muted-foreground">Duración:</span>
-                  <p className="font-medium">15 días</p>
+                  <p className="font-medium">{getQuincenaLabel(tipoQuincena)}</p>
                 </div>
                 <div>
                   <span className="text-muted-foreground">Fecha de Pago:</span>
@@ -332,11 +341,10 @@ export function PlanillaGeneralView() {
             <Button
               variant="outline"
               onClick={() => {
-                setFechaInicio('');
-                setFechaFin('');
-                setFechaPago('');
+                setMes('');
+                setTipoQuincena('');
               }}
-              disabled={!fechaInicio && !fechaFin}
+              disabled={!mes && !tipoQuincena}
             >
               Limpiar
             </Button>
@@ -393,10 +401,11 @@ export function PlanillaGeneralView() {
                       <td className="px-4 py-3">
                         <div className="font-medium">{formatDate(planilla.fechaInicioPeriodo)}</div>
                         <div className="text-sm text-muted-foreground">al {formatDate(planilla.fechaFinPeriodo)}</div>
+                        <div className="text-xs text-muted-foreground">{getQuincenaLabel(planilla.tipoQuincena)}</div>
                       </td>
                       <td className="px-4 py-3">{formatDate(planilla.fechaPago)}</td>
-                      <td className="px-4 py-3 font-semibold">₡{planilla.totalPlanillaBruto?.toLocaleString('es-CR') || '0.00'}</td>
-                      <td className="px-4 py-3 font-semibold text-green-600">₡{planilla.totalPlanillaNeto?.toLocaleString('es-CR') || '0.00'}</td>
+                      <td className="px-4 py-3 font-semibold">{formatCurrency(planilla.totalPlanillaBruto)}</td>
+                      <td className="px-4 py-3 font-semibold text-green-600">{formatCurrency(planilla.totalPlanillaNeto)}</td>
                       <td className="px-4 py-3">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoBadge(planilla.estadoPlanilla)}`}>
                           {getEstadoLabel(planilla.estadoPlanilla)}
@@ -448,6 +457,10 @@ export function PlanillaGeneralView() {
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Fecha de Pago:</span>
                     <span className="font-medium">{formatDate(selectedPlanilla.fechaPago)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Quincena:</span>
+                    <span className="font-medium">{getQuincenaLabel(selectedPlanilla.tipoQuincena)}</span>
                   </div>
                   <div className="flex justify-between pt-2 border-t">
                     <span className="text-muted-foreground">Estado:</span>

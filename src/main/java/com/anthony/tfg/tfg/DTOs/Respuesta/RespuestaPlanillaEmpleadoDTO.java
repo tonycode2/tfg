@@ -17,6 +17,7 @@ public class RespuestaPlanillaEmpleadoDTO {
     public LocalDate fechaFinPeriodo;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate fechaPago;
+    public String tipoQuincena;
     public String estadoPlanilla;
     
     // Datos del detalle
