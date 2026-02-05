@@ -10,6 +10,7 @@ public class RespuestaPlanillaDetalleDTO {
     public Double deduccionCcssSem;
     public Double impuestoDeRenta;
     public Double otrasDeducciones;
+    public String urlPdf;
     public String nombreEmpleado;
     public String primerApellidoEmpleado;
     public String segundoApellidoEmpleado;

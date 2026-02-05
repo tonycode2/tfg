@@ -1,10 +1,14 @@
 package com.anthony.tfg.tfg.Modulos.Planilla.Controlador;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaDetalleDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO;
+import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaPdfDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudGenerarPlanillaDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO;
 import com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla;
@@ -62,6 +67,22 @@ public class ControladorPlanilla {
     public ResponseEntity<List<RespuestaPlanillaDetalleDTO>> obtenerDetallesPorPlanilla(@PathVariable Long id) {
         List<RespuestaPlanillaDetalleDTO> detalles = servicio.obtenerDetallesPorPlanilla(id);
         return ResponseEntity.ok(detalles);
+    }
+
+    @PostMapping(value = "/detalles/{detalleId}/pdf", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<RespuestaPlanillaPdfDTO> subirPdfPlanilla(
+            @PathVariable Long detalleId,
+            @org.springframework.web.bind.annotation.RequestPart("archivo") org.springframework.web.multipart.MultipartFile archivo,
+            Authentication authentication) {
+        RespuestaPlanillaPdfDTO respuesta = servicio.guardarPdfPlanilla(detalleId, archivo, authentication);
+        return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+    }
+
+    @GetMapping("/detalles/{detalleId}/pdf")
+    public ResponseEntity<Resource> descargarPdfPlanilla(
+            @PathVariable Long detalleId,
+            Authentication authentication) throws UnsupportedEncodingException {
+        return servicio.descargarPdfPlanilla(detalleId, authentication);
     }
 
     @PostMapping

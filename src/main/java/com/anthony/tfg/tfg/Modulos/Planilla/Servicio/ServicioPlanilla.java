@@ -1,5 +1,6 @@
 package com.anthony.tfg.tfg.Modulos.Planilla.Servicio;
 
+import java.io.UnsupportedEncodingException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -10,12 +11,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaDetalleDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEncabezadoDTO;
+import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaPdfDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudGenerarPlanillaDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudPlanillaEncabezadoDTO;
 import com.anthony.tfg.tfg.Entidades.ConfiguracionRenta;
@@ -29,15 +37,18 @@ import com.anthony.tfg.tfg.Entidades.Enums.TipoQuincena;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoEntidadEmisora;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
 import com.anthony.tfg.tfg.Exceptions.BadRequestException;
+import com.anthony.tfg.tfg.Exceptions.ForbiddenException;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasConfiguracionRentas;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPlanillaEncabezado;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPlanillaEncabezados;
+import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 import com.anthony.tfg.tfg.Repositorios.DiasFeriadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.JornadaDiariaRepositorio;
 import com.anthony.tfg.tfg.Repositorios.PlanillaDetalleRepositorio;
+import com.anthony.tfg.tfg.Util.PlanillaPdfStorageService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,6 +65,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
     private final JornadaDiariaRepositorio jornadaDiariaRepositorio;
     private final DiasFeriadosRepositorio diasFeriadosRepositorio;
     private final ConsultasConfiguracionRentas consultasConfiguracionRentas;
+    private final PlanillaPdfStorageService planillaPdfStorageService;
 
     public ServicioPlanilla(ConsultasPlanillaEncabezado consulta, 
                            MantenimientosPlanillaEncabezados mantenimiento,
@@ -61,7 +73,8 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                            EmpleadosRepositorio empleadosRepositorio,
                            JornadaDiariaRepositorio jornadaDiariaRepositorio,
                            DiasFeriadosRepositorio diasFeriadosRepositorio,
-                           ConsultasConfiguracionRentas consultasConfiguracionRentas) {
+                           ConsultasConfiguracionRentas consultasConfiguracionRentas,
+                           PlanillaPdfStorageService planillaPdfStorageService) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.planillaDetalleRepo = planillaDetalleRepo;
@@ -69,6 +82,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         this.jornadaDiariaRepositorio = jornadaDiariaRepositorio;
         this.diasFeriadosRepositorio = diasFeriadosRepositorio;
         this.consultasConfiguracionRentas = consultasConfiguracionRentas;
+        this.planillaPdfStorageService = planillaPdfStorageService;
     }
 
     /**
@@ -137,6 +151,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         dto.deduccionCcssSem = detalle.getDeduccionCcssSem() != null ? detalle.getDeduccionCcssSem() : 0.0;
         dto.impuestoDeRenta = detalle.getImpuestoDeRenta() != null ? detalle.getImpuestoDeRenta() : 0.0;
         dto.otrasDeducciones = detalle.getOtrasDeducciones() != null ? detalle.getOtrasDeducciones() : 0.0;
+        dto.urlPdf = detalle.getUrlPdf() != null
+            ? "/api/planillas/detalles/" + detalle.getId() + "/pdf"
+            : null;
         
         // Calcular totales
         dto.totalDevengado = dto.salarioBasePeriodo + dto.montoHorasExtra + dto.montoIncapacidad;
@@ -161,6 +178,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         dto.deduccionCcssSem = detalle.getDeduccionCcssSem() != null ? detalle.getDeduccionCcssSem() : 0.0;
         dto.impuestoDeRenta = detalle.getImpuestoDeRenta() != null ? detalle.getImpuestoDeRenta() : 0.0;
         dto.otrasDeducciones = detalle.getOtrasDeducciones() != null ? detalle.getOtrasDeducciones() : 0.0;
+        dto.urlPdf = detalle.getUrlPdf() != null
+            ? "/api/planillas/detalles/" + detalle.getId() + "/pdf"
+            : null;
 
         if (detalle.getEmpleado() != null) {
             dto.nombreEmpleado = detalle.getEmpleado().getNombre();
@@ -169,6 +189,82 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         }
 
         return dto;
+    }
+
+    @Transactional
+    public RespuestaPlanillaPdfDTO guardarPdfPlanilla(Long detalleId, MultipartFile archivo, Authentication auth) {
+        PlanillaDetalle detalle = planillaDetalleRepo.findById(detalleId)
+                .orElseThrow(() -> new ResourceNotFoundException("PlanillaDetalle", "id", detalleId));
+        validarAccesoDetalle(detalle, auth);
+
+        if (detalle.getUrlPdf() != null) {
+            planillaPdfStorageService.deleteFile(detalle.getUrlPdf());
+        }
+
+        String fileName = planillaPdfStorageService.storePdf(archivo, detalleId);
+        detalle.setUrlPdf(fileName);
+        planillaDetalleRepo.save(detalle);
+
+        String urlPdf = "/api/planillas/detalles/" + detalleId + "/pdf";
+        return new RespuestaPlanillaPdfDTO(urlPdf);
+    }
+
+    public ResponseEntity<Resource> descargarPdfPlanilla(Long detalleId, Authentication auth) throws UnsupportedEncodingException {
+        PlanillaDetalle detalle = planillaDetalleRepo.findById(detalleId)
+                .orElseThrow(() -> new ResourceNotFoundException("PlanillaDetalle", "id", detalleId));
+        validarAccesoDetalle(detalle, auth);
+
+        if (detalle.getUrlPdf() == null) {
+            throw new BadRequestException("No existe un PDF generado para esta planilla");
+        }
+
+        Resource recurso = planillaPdfStorageService.loadFileAsResource(detalle.getUrlPdf());
+        String contentType = java.net.URLConnection.guessContentTypeFromName(recurso.getFilename());
+        if (contentType == null) {
+            contentType = MediaType.APPLICATION_PDF_VALUE;
+        }
+
+        String originalFilename = recurso.getFilename();
+        String extension = "";
+        if (originalFilename != null) {
+            int dot = originalFilename.lastIndexOf('.');
+            if (dot > -1) {
+                extension = originalFilename.substring(dot);
+            }
+        }
+
+        String empleadoNombre = detalle.getEmpleado() != null && detalle.getEmpleado().getNombre() != null
+                ? detalle.getEmpleado().getNombre()
+                : "";
+        String empleadoApellido = detalle.getEmpleado() != null && detalle.getEmpleado().getPrimerApellido() != null
+                ? detalle.getEmpleado().getPrimerApellido()
+                : "";
+        String suggested = "Planilla " + detalle.getId() + " " + empleadoNombre + " " + empleadoApellido;
+        String safe = suggested.replaceAll("[^\\p{L}\\p{N} _.-]", "").replaceAll("\\s+", " ").trim();
+        String filename = (safe.isEmpty() ? "Planilla_" + detalle.getId() : safe) + extension;
+        String encodedFilename = java.net.URLEncoder.encode(filename, java.nio.charset.StandardCharsets.UTF_8.toString())
+                .replaceAll("\\+", "%20");
+        String contentDisposition = "attachment; filename=\"" + filename + "\"; filename*=UTF-8''" + encodedFilename;
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
+                .body(recurso);
+    }
+
+    private void validarAccesoDetalle(PlanillaDetalle detalle, Authentication auth) {
+        Object principal = auth.getPrincipal();
+        User user = (User) principal;
+        String role = user.getRole().name();
+
+        if ("ADMIN".equals(role) || "HR".equals(role)) {
+            return;
+        }
+
+        Empleados empleado = user.getEmpleado();
+        if (empleado == null || detalle.getEmpleado() == null || !empleado.getId().equals(detalle.getEmpleado().getId())) {
+            throw new ForbiddenException("No tiene permisos para acceder a esta planilla");
+        }
     }
 
     public RespuestaPlanillaEncabezadoDTO obtenerPorId(Long id) {

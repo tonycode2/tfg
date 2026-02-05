@@ -41,6 +41,8 @@ public class PlanillaDetalle {
     Double impuestoDeRenta;
     @Column(name = "otras_deducciones")
     Double otrasDeducciones;
+    @Column(name = "url_pdf")
+    String urlPdf;
     
     @ManyToOne
     @JoinColumn(name = "id_empleado")

@@ -323,11 +323,16 @@ export interface PlanillaEmpleado {
   deduccionCcssSem: number;
   impuestoDeRenta: number;
   otrasDeducciones: number;
+  urlPdf?: string;
   
   // Totales calculados
   totalDevengado: number;
   totalDeducciones: number;
   salarioNeto: number;
+}
+
+export interface PlanillaPdfResponse {
+  urlPdf: string;
 }
 
 export interface PlanillaDetalleGeneral {
@@ -408,6 +413,13 @@ export class EmpleadosService extends ApiService<Empleado> {
 
 // Extender ApiService para Planillas con método específico
 export class PlanillasService extends ApiService<PlanillaEncabezado> {
+  private resolveApiUrl(url: string): string {
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    const baseUrl = API_URL.replace(/\/api$/, '');
+    if (url.startsWith('/')) return `${baseUrl}${url}`;
+    return `${baseUrl}/${url}`;
+  }
+
   async getPlanillasPorEmpleado(empleadoId: number, signal?: AbortSignal): Promise<PlanillaEmpleado[]> {
     const token = localStorage.getItem('token');
     const response = await fetch(
@@ -433,6 +445,71 @@ export class PlanillasService extends ApiService<PlanillaEncabezado> {
       throw new Error(errorData.message || 'Error al obtener planillas');
     }
     
+    return response.json();
+  }
+
+  getPlanillaPdfUrl(detalleId: number): string {
+    return `${API_URL}/${this.endpoint}/detalles/${detalleId}/pdf`;
+  }
+
+  async downloadPlanillaPdf(detalleId: number, url?: string): Promise<Blob> {
+    const token = localStorage.getItem('token');
+    const downloadUrl = url ? this.resolveApiUrl(url) : this.getPlanillaPdfUrl(detalleId);
+    const response = await fetch(downloadUrl, {
+      method: 'GET',
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+        throw new Error('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      }
+
+      try {
+        const errorData: ErrorResponse = await response.json();
+        throw new Error(errorData.message || 'Error al descargar el PDF de la planilla');
+      } catch (error) {
+        if (error instanceof Error && error.message !== 'Error al descargar el PDF de la planilla') {
+          throw error;
+        }
+        throw new Error(`Error HTTP ${response.status}: ${response.statusText}`);
+      }
+    }
+
+    return response.blob();
+  }
+
+  async uploadPlanillaPdf(detalleId: number, file: Blob): Promise<PlanillaPdfResponse> {
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append('archivo', file, `colilla-planilla-${detalleId}.pdf`);
+
+    const response = await fetch(
+      `${API_URL}/${this.endpoint}/detalles/${detalleId}/pdf`,
+      {
+        method: 'POST',
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+        throw new Error('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      }
+
+      const errorData: ErrorResponse = await response.json();
+      throw new Error(errorData.message || 'Error al subir el PDF de la planilla');
+    }
+
     return response.json();
   }
 

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+import { jsPDF } from 'jspdf';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { authService } from '@/services/authService';
-import { planillasService, type PlanillaEmpleado } from '@/services/apiService';
+import {  planillasService, type PlanillaEmpleado } from '@/services/apiService';
 import { toast } from 'sonner';
 
 const MoneyIcon = () => (
@@ -27,6 +28,17 @@ const formatCurrency = (value: number | undefined): string => {
     currency: 'CRC',
     minimumFractionDigits: 2,
   }).format(value);
+};
+
+const formatCurrencyForPdf = (value: number | undefined): string => {
+  if (value === undefined || value === null) return 'CRC 0.00';
+  const formatted = new Intl.NumberFormat('es-CR', {
+    style: 'currency',
+    currency: 'CRC',
+    currencyDisplay: 'code',
+    minimumFractionDigits: 2,
+  }).format(value);
+  return formatted.replace(/\u00A0/g, ' ');
 };
 
 const parseLocalDate = (dateString: string | undefined): Date | null => {
@@ -55,12 +67,21 @@ const formatDate = (dateString: string | undefined): string => {
   });
 };
 
+const formatNumber = (value: number | undefined): string => {
+  if (value === undefined || value === null) return '0';
+  return new Intl.NumberFormat('es-CR', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  }).format(value);
+};
+
 export function MiPlanillaView() {
   const [planillas, setPlanillas] = useState<PlanillaEmpleado[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedPlanilla, setSelectedPlanilla] = useState<PlanillaEmpleado | null>(null);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
+  const [pdfGeneratingId, setPdfGeneratingId] = useState<number | null>(null);
 
   const userInfo = authService.getUserInfo();
 
@@ -111,6 +132,121 @@ export function MiPlanillaView() {
   const handlePageSizeChange = (newSize: string) => {
     setPageSize(Number(newSize));
     setPage(0);
+  };
+
+  const openPdfBlob = (blob: Blob, filename: string) => {
+    const objectUrl = URL.createObjectURL(blob);
+    const newWindow = window.open(objectUrl, '_blank', 'noopener,noreferrer');
+    if (!newWindow) {
+      const link = document.createElement('a');
+      link.href = objectUrl;
+      link.download = filename;
+      link.click();
+    }
+    window.setTimeout(() => URL.revokeObjectURL(objectUrl), 60000);
+  };
+
+  const handlePdf = async (planilla: PlanillaEmpleado) => {
+    const detalleId = planilla.idDetalle ?? planilla.id;
+    const filename = `colilla-planilla-${detalleId}.pdf`;
+
+    setPdfGeneratingId(planilla.id);
+
+    try {
+      if (planilla.urlPdf) {
+        const pdfBlob = await planillasService.downloadPlanillaPdf(detalleId, planilla.urlPdf);
+        openPdfBlob(pdfBlob, filename);
+        return;
+      }
+
+      const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+
+      let y = 14;
+
+      const ensureSpace = (required: number) => {
+        if (y + required > pageHeight - 12) {
+          doc.addPage();
+          y = 14;
+        }
+      };
+
+      const addSectionTitle = (title: string) => {
+        ensureSpace(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        doc.text(title, 12, y);
+        y += 5;
+        doc.setDrawColor(220);
+        doc.line(12, y, pageWidth - 12, y);
+        y += 4;
+      };
+
+      const addKeyValue = (label: string, value: string) => {
+        ensureSpace(6);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.text(label, 12, y);
+        doc.setFont('helvetica', 'bold');
+        doc.text(value, pageWidth - 12, y, { align: 'right' });
+        y += 5;
+      };
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.text('Colilla de Pago', pageWidth / 2, y, { align: 'center' });
+      y += 8;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.text('Sastrería Gerson Andre', 12, y);
+      doc.text(`Fecha de emisión: ${formatDate(new Date().toISOString())}`, pageWidth - 12, y, { align: 'right' });
+      y += 6;
+
+      addSectionTitle('Información del empleado');
+      addKeyValue('Empleado', userInfo.nombreCompleto || userInfo.username || 'N/A');
+      addKeyValue('ID Empleado', userInfo.idEmpleado ? String(userInfo.idEmpleado) : 'N/A');
+
+      addSectionTitle('Periodo de planilla');
+      addKeyValue('Periodo', `${formatDate(planilla.fechaInicioPeriodo)} al ${formatDate(planilla.fechaFinPeriodo)}`);
+      addKeyValue('Fecha de pago', formatDate(planilla.fechaPago));
+      addKeyValue('Tipo de quincena', planilla.tipoQuincena || 'N/A');
+
+      addSectionTitle('Devengado');
+      addKeyValue('Salario base', formatCurrencyForPdf(planilla.salarioBasePeriodo));
+      addKeyValue('Horas extra (monto)', formatCurrencyForPdf(planilla.montoHorasExtra));
+      addKeyValue('Incapacidad (monto)', formatCurrencyForPdf(planilla.montoIncapacidad));
+      addKeyValue('Total devengado', formatCurrencyForPdf(planilla.totalDevengado));
+
+
+      addSectionTitle('Deducciones y rebajos');
+      addKeyValue('CCSS IVM', formatCurrencyForPdf(planilla.deduccionCcssIvm));
+      addKeyValue('CCSS SEM', formatCurrencyForPdf(planilla.deduccionCcssSem));
+      addKeyValue('Impuesto de renta', formatCurrencyForPdf(planilla.impuestoDeRenta));
+      addKeyValue('Otras deducciones', formatCurrencyForPdf(planilla.otrasDeducciones));
+      addKeyValue('Total deducciones', formatCurrencyForPdf(planilla.totalDeducciones));
+
+      addSectionTitle('Resumen');
+      addKeyValue('Salario neto a recibir', formatCurrencyForPdf(planilla.salarioNeto));
+      addKeyValue('Días feriados en el periodo', formatNumber(planilla.cantidadDiasFeriados));
+
+      const pdfBlob = doc.output('blob');
+      const uploadResponse = await planillasService.uploadPlanillaPdf(detalleId, pdfBlob);
+
+      setPlanillas((prev) => prev.map(item =>
+        item.id === planilla.id ? { ...item, urlPdf: uploadResponse.urlPdf } : item
+      ));
+
+      openPdfBlob(pdfBlob, filename);
+    } catch (error: any) {
+      console.error('Error al generar PDF:', error);
+      toast.error('Error al generar PDF', {
+        description: error?.message || 'No se pudo generar la colilla de pago',
+      });
+    } finally {
+      setPdfGeneratingId(null);
+    }
   };
 
   if (loading) {
@@ -176,17 +312,27 @@ export function MiPlanillaView() {
                           </span>
                         </td>
                         <td className="px-4 py-3">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() =>
-                              setSelectedPlanilla((current) =>
-                                current?.id === planilla.id ? null : planilla,
-                              )
-                            }
-                          >
-                            {selectedPlanilla?.id === planilla.id ? 'Ocultar detalle' : 'Ver detalle'}
-                          </Button>
+                          <div className="flex flex-col gap-2 sm:flex-row">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() =>
+                                setSelectedPlanilla((current) =>
+                                  current?.id === planilla.id ? null : planilla,
+                                )
+                              }
+                            >
+                              {selectedPlanilla?.id === planilla.id ? 'Ocultar detalle' : 'Ver detalle'}
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              onClick={() => handlePdf(planilla)}
+                              disabled={pdfGeneratingId === planilla.id}
+                            >
+                              {pdfGeneratingId === planilla.id ? 'Generando PDF...' : 'PDF'}
+                            </Button>
+                          </div>
                         </td>
                       </tr>
                     ))}

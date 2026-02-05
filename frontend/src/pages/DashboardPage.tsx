@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, memo } from 'react';
+import { useState, useCallback, useMemo, memo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TopNavbar } from '../components/TopNavbar';
 import { EmpleadosView } from '../components/dashboard/EmpleadosView';
@@ -57,6 +57,45 @@ export default function DashboardPage() {
     authService.logout();
     navigate('/login');
   }, [navigate]);
+
+  const viewTitles = useMemo<Record<string, string>>(
+    () => ({
+      inicio: 'Inicio',
+      empleados: 'Empleados',
+      mantenimientos: 'Mantenimientos y Consultas',
+      'mi-planilla': 'Mi Planilla',
+      'mis-solicitudes': 'Mis Solicitudes',
+      'mis-permisos': 'Mis Solicitudes',
+      'solicitudes-pendientes-permisos': 'Solicitudes Pendientes',
+      'gestion-permisos': 'Gestión de Permisos',
+      'mis-incapacidades': 'Mis Incapacidades',
+      'solicitudes-pendientes-incapacidades': 'Incapacidades Pendientes',
+      'gestion-incapacidades': 'Gestión de Incapacidades',
+      'dias-feriados': 'Días Feriados',
+      'jornada-diaria': 'Jornada Diaria',
+      asistencia: 'Asistencia',
+      evaluaciones: 'Evaluaciones',
+      'horas-extra': 'Horas Extra',
+      'mis-horas-extra': 'Mis Horas Extra',
+      'horas-extra-pendientes': 'Horas Extra Pendientes',
+      'solicitudes-pendientes': 'Solicitudes Pendientes',
+      'planilla-general': 'Planilla General',
+      'configuracion-renta': 'Configuración de Renta',
+      liquidaciones: 'Liquidaciones',
+      aguinaldo: 'Aguinaldo',
+      reportes: 'Reportes',
+    }),
+    []
+  );
+
+  useEffect(() => {
+    const baseTitle = 'Sistema de RH';
+    const resolvedTitle =
+      userInfo.role === 'ADMIN'
+        ? 'Mantenimientos y Consultas'
+        : viewTitles[activeView] || 'Panel de Control';
+    document.title = `${resolvedTitle} - ${baseTitle}`;
+  }, [activeView, userInfo.role, viewTitles]);
 
   // Render the appropriate view based on active menu item
   const renderView = useCallback(() => {

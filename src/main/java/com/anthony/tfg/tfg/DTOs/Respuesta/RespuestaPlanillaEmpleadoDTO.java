@@ -30,6 +30,7 @@ public class RespuestaPlanillaEmpleadoDTO {
     public Double deduccionCcssSem;
     public Double impuestoDeRenta;
     public Double otrasDeducciones;
+    public String urlPdf;
     
     // Totales calculados
     public Double totalDevengado;
