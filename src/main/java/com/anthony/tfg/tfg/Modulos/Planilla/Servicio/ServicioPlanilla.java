@@ -566,12 +566,16 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                     double factorPago = entidad == TipoEntidadEmisora.CCSS ? 0.5
                             : entidad == TipoEntidadEmisora.INS ? 1.0
                             : 0.0;
+                    // El patrono solo paga el porcentaje del salario diario en los primeros 3 días.
                     montoIncapacidad += salarioDiario * factorPago;
                 }
             }
 
-            if (!esFinSemana && !esFeriado && !esVacaciones && !esIncapacidad) {
-                if (horasRegulares < 8.0) {
+            if (!esFinSemana && !esFeriado && !esVacaciones) {
+                if (esIncapacidad) {
+                    // La incapacidad no paga el salario base del día; se descuenta y se paga aparte según entidad.
+                    horasFaltantes += 8.0;
+                } else if (horasRegulares < 8.0) {
                     horasFaltantes += (8.0 - horasRegulares);
                 }
             }

@@ -1,9 +1,10 @@
 package com.anthony.tfg.tfg.Modulos.JornadaDiaria.Servicio;
 
-import java.time.Duration;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -168,6 +169,11 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         LocalDate fecha = fechaInicio;
         int diaPermiso = diaInicial;
         while (!fecha.isAfter(fechaFin)) {
+            // No crear jornadas en fines de semana
+            if (fecha.getDayOfWeek() == DayOfWeek.SATURDAY || fecha.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                fecha = fecha.plusDays(1);
+                continue;
+            }
             crearOActualizarJornadaEnCero(empleado, fecha, permiso, incapacidad, diaPermiso, observacionBase);
             fecha = fecha.plusDays(1);
             diaPermiso++;
