@@ -1,6 +1,10 @@
 package com.anthony.tfg.tfg.Modulos.Aguinaldo.Servicio;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
+import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaCalculoAguinaldoDTO;
 
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,9 @@ import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasAguinaldos;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosAguinaldo;
+import com.anthony.tfg.tfg.Repositorios.AguinaldosRepositorio;
+import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
+import com.anthony.tfg.tfg.Repositorios.PlanillaDetalleRepositorio;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,11 +32,22 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
     private final ConsultasAguinaldos consulta;
     private final MantenimientosAguinaldo mantenimiento;
     private final ConsultasEmpleados consultasEmpleados;
+    private final EmpleadosRepositorio empleadosRepositorio;
+    private final PlanillaDetalleRepositorio planillaDetalleRepositorio;
+    private final AguinaldosRepositorio aguinaldosRepositorio;
 
-    public ServicioAguinaldo(ConsultasAguinaldos consulta, MantenimientosAguinaldo mantenimiento, ConsultasEmpleados consultasEmpleados) {
+    public ServicioAguinaldo(ConsultasAguinaldos consulta,
+                             MantenimientosAguinaldo mantenimiento,
+                             ConsultasEmpleados consultasEmpleados,
+                             EmpleadosRepositorio empleadosRepositorio,
+                             PlanillaDetalleRepositorio planillaDetalleRepositorio,
+                             AguinaldosRepositorio aguinaldosRepositorio) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
+        this.empleadosRepositorio = empleadosRepositorio;
+        this.planillaDetalleRepositorio = planillaDetalleRepositorio;
+        this.aguinaldosRepositorio = aguinaldosRepositorio;
     }
 
     public RespuestaAguinaldosDTO obtenerPorId(Long id) {
@@ -83,6 +101,63 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado el aguinaldo con ID: " + id);
     }
+
+        @Transactional
+        public List<RespuestaCalculoAguinaldoDTO> calcularAguinaldos() {
+        LocalDate fechaCalculo = LocalDate.now();
+        int anio = fechaCalculo.getYear();
+        LocalDate fechaInicio = LocalDate.of(anio - 1, 12, 1);
+        LocalDate fechaFin = LocalDate.of(anio, 11, 30);
+
+        List<Empleados> empleadosActivos = empleadosRepositorio.findByEstaActivoTrue();
+        if (empleadosActivos.isEmpty()) {
+            log.info("No hay empleados activos para calcular aguinaldo");
+            return List.of();
+        }
+
+        Date fechaInicioSql = Date.valueOf(fechaInicio);
+        Date fechaFinSql = Date.valueOf(fechaFin);
+        Date fechaCalculoSql = Date.valueOf(fechaCalculo);
+
+        log.info("Calculando aguinaldo para {} empleados en el periodo {} - {}",
+            empleadosActivos.size(), fechaInicio, fechaFin);
+
+        return empleadosActivos.stream()
+            .map(empleado -> {
+                Double totalDevengado = planillaDetalleRepositorio
+                    .sumDevengadoByEmpleadoAndFechaPagoBetween(empleado.getId(), fechaInicio, fechaFin);
+                double totalSalarios = totalDevengado != null ? totalDevengado : 0.0;
+                double montoAguinaldo = totalSalarios / 12.0;
+
+                Aguinaldos aguinaldo = aguinaldosRepositorio
+                    .findByEmpleadoIdAndAnio(empleado.getId(), anio)
+                    .orElseGet(() -> Aguinaldos.builder().empleado(empleado).build());
+
+                aguinaldo.setAnio(anio);
+                aguinaldo.setFechaInicioPeriodo(fechaInicioSql);
+                aguinaldo.setFechaFinPeriodo(fechaFinSql);
+                aguinaldo.setTotalSalariosDevengados(totalSalarios);
+                aguinaldo.setMontoAguinaldo(montoAguinaldo);
+                aguinaldo.setFechaCalculo(fechaCalculoSql);
+
+                Aguinaldos guardado = mantenimiento.actualizar(aguinaldo);
+
+                return new RespuestaCalculoAguinaldoDTO(
+                    guardado.getId(),
+                    empleado.getId(),
+                    empleado.getNombre(),
+                    empleado.getPrimerApellido(),
+                    empleado.getSegundoApellido(),
+                    guardado.getAnio(),
+                    guardado.getFechaInicioPeriodo(),
+                    guardado.getFechaFinPeriodo(),
+                    guardado.getTotalSalariosDevengados(),
+                    guardado.getMontoAguinaldo(),
+                    guardado.getFechaCalculo(),
+                    guardado.getFechaPago());
+            })
+            .toList();
+        }
 
     public Aguinaldos deSolicitudDtoAEntidad(SolicitudAguinaldosDTO solicitud) {
         if(solicitud == null){

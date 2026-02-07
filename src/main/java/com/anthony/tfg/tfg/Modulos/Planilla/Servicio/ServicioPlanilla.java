@@ -37,6 +37,7 @@ import com.anthony.tfg.tfg.Entidades.Enums.TipoQuincena;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoEntidadEmisora;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
 import com.anthony.tfg.tfg.Exceptions.BadRequestException;
+import com.anthony.tfg.tfg.Exceptions.ConflictException;
 import com.anthony.tfg.tfg.Exceptions.ForbiddenException;
 import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasConfiguracionRentas;
@@ -307,6 +308,10 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         LocalDate fechaFinPeriodo = calcularFechaFinPeriodo(solicitud.anio(), solicitud.mes(),
             solicitud.tipoQuincena());
         LocalDate fechaPago = calcularFechaPago(solicitud.anio(), solicitud.mes(), solicitud.tipoQuincena());
+
+        if (consulta.existePlanillaParaPeriodo(fechaInicioPeriodo, fechaFinPeriodo, solicitud.tipoQuincena())) {
+            throw new ConflictException("Ya existe una planilla generada para el periodo seleccionado");
+        }
 
         List<Empleados> empleadosActivos = empleadosRepositorio.findByEstaActivoTrue();
         if (empleadosActivos.isEmpty()) {

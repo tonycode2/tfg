@@ -1,11 +1,13 @@
 package com.anthony.tfg.tfg.Modulos.Consultas;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.Entidades.PlanillaEncabezado;
+import com.anthony.tfg.tfg.Entidades.Enums.TipoQuincena;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ConsultaInterface;
 import com.anthony.tfg.tfg.Repositorios.PlanillaEncabezadoRepositorio;
 
@@ -25,6 +27,15 @@ public class ConsultasPlanillaEncabezado implements ConsultaInterface<PlanillaEn
 
     public List<PlanillaEncabezado> obtenerTodos() {
         return repo.findAll();
+    }
+
+    public boolean existePlanillaParaPeriodo(LocalDate fechaInicioPeriodo,
+                                            LocalDate fechaFinPeriodo,
+                                            TipoQuincena tipoQuincena) {
+        return repo.existsByFechaInicioPeriodoAndFechaFinPeriodoAndTipoQuincena(
+            fechaInicioPeriodo,
+            fechaFinPeriodo,
+            tipoQuincena);
     }
 
 }
