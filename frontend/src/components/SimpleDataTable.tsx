@@ -33,20 +33,21 @@ export function SimpleDataTable<T extends { id: number | string }>({
   };
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full">
+    <div className="overflow-x-auto pb-4">
+      <table className="w-full min-w-full table-auto">
         <thead className="bg-muted">
           <tr>
             {columns.map((column) => (
               <th
                 key={String(column.key)}
-                className="px-4 py-3 text-left text-sm font-medium text-muted-foreground"
+                className="px-4 py-4 text-left text-sm font-medium text-muted-foreground align-middle"
+                title={column.label}
               >
-                {column.label}
+                <span className="inline-block align-middle truncate max-w-[180px]">{column.label}</span>
               </th>
             ))}
-            <th className="px-4 py-3 text-right text-sm font-medium text-muted-foreground">
-              Acciones
+            <th className="px-4 py-4 text-right text-sm font-medium text-muted-foreground align-middle" title="Acciones">
+              <span className="inline-block align-middle truncate max-w-[180px]">Acciones</span>
             </th>
           </tr>
         </thead>
@@ -66,18 +67,18 @@ export function SimpleDataTable<T extends { id: number | string }>({
                 {columns.map((column) => (
                   <td
                     key={`${item.id}-${String(column.key)}`}
-                    className="px-4 py-3 text-sm text-foreground align-middle"
+                    className="px-4 py-3 text-sm text-foreground align-middle whitespace-nowrap"
                   >
-                    {column.render
-                      ? column.render(getCellValue(item, column), item)
-                      : String(getCellValue(item, column) ?? '')}
+                    <div className="max-w-[280px] truncate">
+                      {column.render
+                        ? column.render(getCellValue(item, column), item)
+                        : String(getCellValue(item, column) ?? '')}
+                    </div>
                   </td>
                 ))}
                 <td className="px-4 py-3 text-right align-middle">
                   <div className="inline-flex items-center justify-end gap-2">
                     {customActions && customActions(item)}
-                    
-                    
                   </div>
                   {onEdit && (
                     <Button

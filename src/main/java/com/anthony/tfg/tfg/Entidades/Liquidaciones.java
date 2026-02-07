@@ -1,6 +1,6 @@
 package com.anthony.tfg.tfg.Entidades;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import com.anthony.tfg.tfg.Entidades.Enums.MotivoSalida;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -32,25 +32,47 @@ public class Liquidaciones {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(name = "fecha_entrada")
+
+    @Column(name = "fecha_salida")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    Date fechaSalida;
+    LocalDate fechaSalida;
+
     @Column(name = "monto_preaviso")
     Double montoPreaviso;
+
     @Column(name = "monto_cesantia")
     Double montoCesantia;
+
     @Column(name = "monto_vacaciones_pendientes")
     Double montoVacacionesPendientes;
+
     @Column(name = "monto_aguinaldo_pendiente")
     Double montoAguinaldoPendiente;
+
+    @Column(name = "monto_salario_proporcional")
+    Double montoSalarioProporcional;
+
     @Column(name = "total_liquidacion")
     Double totalLiquidacion;
+
+    @Column(name = "salario_promedio_diario")
+    Double salarioPromedioDiario;
+
+    @Column(name = "dias_trabajados_total")
+    Long diasTrabajadosTotal;
+
+    @Column(name = "preaviso_pagado")
+    Boolean preaviso_pagado;
+
+    @Column(name = "descripcion", columnDefinition = "TEXT")
+    String descripcion;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "motivo_salida")
     MotivoSalida motivoSalida;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_empleado")
     Empleados empleado;
 }
+

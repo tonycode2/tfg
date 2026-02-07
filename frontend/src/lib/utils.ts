@@ -195,3 +195,17 @@ export function buildIncapacidadFilename(id?: number | string | null, nombre?: s
   const ext = extension && extension.startsWith('.') ? extension : (extension ? `.${extension}` : '');
   return `${base}${ext}`;
 }
+
+/**
+ * Formatea un número como moneda local (por defecto Costa Rica - CRC).
+ * Devuelve una cadena legible con símbolo de moneda.
+ */
+export function formatCurrency(value: number | null | undefined, currency = 'CRC', locale = 'es-CR'): string {
+  const numero = typeof value === 'number' && !Number.isNaN(value) ? value : 0;
+  try {
+    return new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 2 }).format(numero);
+  } catch (e) {
+    // Fallback simple
+    return `${numero.toFixed(2)}`;
+  }
+}

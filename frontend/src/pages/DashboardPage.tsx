@@ -22,6 +22,7 @@ import { MiPlanillaView } from '../components/dashboard/MiPlanillaView';
 import { PlanillaGeneralView } from '../components/dashboard/PlanillaGeneralView';
 import { ConfiguracionRentaView } from '../components/dashboard/ConfiguracionRentaView';
 import { AguinaldoView } from '../components/dashboard/AguinaldoView';
+import { LiquidacionesView } from '../components/dashboard/LiquidacionesView';
 import { authService } from '../services/authService';
 
 // Memoized view components to prevent unnecessary re-renders
@@ -46,6 +47,7 @@ const MemoizedMiPlanillaView = memo(MiPlanillaView);
 const MemoizedPlanillaGeneralView = memo(PlanillaGeneralView);
 const MemoizedConfiguracionRentaView = memo(ConfiguracionRentaView);
 const MemoizedAguinaldoView = memo(AguinaldoView);
+const MemoizedLiquidacionesView = memo(LiquidacionesView);
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -150,7 +152,7 @@ export default function DashboardPage() {
       case 'configuracion-renta':
         return <MemoizedConfiguracionRentaView />;
       case 'liquidaciones':
-        return <MemoizedPlaceholderView title="Liquidaciones" description="Cálculo y gestión de liquidaciones" />;
+        return <MemoizedLiquidacionesView />;
       case 'aguinaldo':
         return <MemoizedAguinaldoView />;
       case 'reportes':
