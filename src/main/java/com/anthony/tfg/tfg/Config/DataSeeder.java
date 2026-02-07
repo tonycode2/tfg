@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,6 @@ import com.anthony.tfg.tfg.Entidades.Direccion;
 import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.HorasExtra;
 import com.anthony.tfg.tfg.Entidades.Incapacidades;
-import com.anthony.tfg.tfg.Entidades.JornadaDiaria;
 import com.anthony.tfg.tfg.Entidades.Permisos;
 import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoEntidadEmisora;
@@ -37,6 +35,7 @@ import com.anthony.tfg.tfg.Entidades.Puestos;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.Role;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.UserRepository;
+import com.anthony.tfg.tfg.Modulos.JornadaDiaria.Servicio.ServicioJornadaDiaria;
 import com.anthony.tfg.tfg.Repositorios.AsistenciaRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DepartamentoRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DiasFeriadosRepositorio;
@@ -45,7 +44,6 @@ import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.HorasExtraRepositorio;
 import com.anthony.tfg.tfg.Repositorios.IncapacidadesRepositorio;
 import com.anthony.tfg.tfg.Repositorios.JefesDepartamentoRepositorio;
-import com.anthony.tfg.tfg.Repositorios.JornadaDiariaRepositorio;
 import com.anthony.tfg.tfg.Repositorios.PermisosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.PuestosRepositorio;
 
@@ -59,8 +57,9 @@ import lombok.RequiredArgsConstructor;
  * - 1 RH user  
  * - 1 JEFE for Sastrería department
  * - 3 EMPLEADO users for Sastrería
- * - Attendance records from Jan 1, 2026 to Mar 16, 2026
- * - Random overtime, vacations, incapacities, and occasional permits
+ * - Attendance records from Dec 1, 2024 to Apr 16, 2026 (punctual)
+ * - April 2026: approved vacations, incapacities, permit without pay, and approved overtime
+ * - JornadaDiaria generated after all records are saved
  */
 @Component
 @RequiredArgsConstructor
@@ -68,7 +67,7 @@ public class DataSeeder implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(DataSeeder.class);
     private static final String DEFAULT_PASSWORD = "TestPass123!";
-    private static final LocalDate ATTENDANCE_START = LocalDate.of(2026, 1, 1);
+    private static final LocalDate ATTENDANCE_START = LocalDate.of(2024, 12, 1);
     private static final LocalDate ATTENDANCE_END = LocalDate.of(2026, 4, 16);
 
     private final DepartamentoRepositorio departamentoRepositorio;
@@ -79,20 +78,20 @@ public class DataSeeder implements CommandLineRunner {
     private final DiasFeriadosRepositorio diasFeriadosRepositorio;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepositorio;
     private final AsistenciaRepositorio asistenciaRepositorio;
-    private final JornadaDiariaRepositorio jornadaDiariaRepositorio;
     private final HorasExtraRepositorio horasExtraRepositorio;
     private final PermisosRepositorio permisosRepositorio;
     private final IncapacidadesRepositorio incapacidadesRepositorio;
     private final PasswordEncoder passwordEncoder;
-
-    private final Random random = new Random(42); // Fixed seed for reproducibility
+    private final ServicioJornadaDiaria servicioJornadaDiaria;
 
     @Override
     @Transactional
     public void run(String... args) {
-        int holidaysSeeded = seedHolidays2026();
-        if (holidaysSeeded > 0) {
-            logger.info("Seeded {} holidays for 2026", holidaysSeeded);
+        int holidays2025 = seedHolidays2025();
+        int holidays2026 = seedHolidays2026();
+        int totalHolidays = holidays2025 + holidays2026;
+        if (totalHolidays > 0) {
+            logger.info("Seeded {} holidays (2025: {}, 2026: {})", totalHolidays, holidays2025, holidays2026);
         }
 
         if (empleadosRepositorio.count() > 0) {
@@ -127,7 +126,7 @@ public class DataSeeder implements CommandLineRunner {
             List<Puestos> puestos = createPositions(admin, sastreria);
             logger.info("Created {} positions for Admin and Sastrería", puestos.size());
 
-            // Step 3: Create addresses for 5 employees
+            // Step 3: Create addresses for 6 employees
             List<Direccion> direcciones = createAddresses();
             logger.info("Created {} addresses", direcciones.size());
 
@@ -135,7 +134,7 @@ public class DataSeeder implements CommandLineRunner {
             List<User> users = createUsers();
             logger.info("Created {} users", users.size());
 
-            // Step 5: Create 5 employees
+            // Step 5: Create 6 employees
             List<Empleados> empleados = createEmployees(puestos, direcciones, users);
             logger.info("Created {} employees", empleados.size());
 
@@ -143,25 +142,22 @@ public class DataSeeder implements CommandLineRunner {
             assignDepartmentHead(empleados.get(2), sastreria); // El jefe es el 3er empleado
             logger.info("Assigned department head");
 
-            // Step 7: Generate attendance records (Jan 1 - Mar 16, 2026)
+            // Step 7: Generate attendance records (Dec 1, 2024 - Apr 16, 2026)
             int attendanceCount = generateAttendanceRecords(empleados);
             logger.info("Generated {} attendance records", attendanceCount);
 
-            // Step 8: Generate random overtime hours
-            int overtimeCount = generateOvertimeRecords(empleados);
-            logger.info("Generated {} overtime records", overtimeCount);
+            // Step 8: Generate April 2026 events (vacations, incapacities, permit without pay, overtime approvals)
+            AprilEvents aprilEvents = createApril2026Events(empleados);
+            logger.info("Generated April 2026 events: {} permisos, {} incapacidades, {} horas extra", 
+                aprilEvents.permisos().size(),
+                aprilEvents.incapacidades().size(),
+                aprilEvents.horasExtra().size());
 
-            // Step 9: Generate random vacations
-            int vacationCount = generateVacationRecords(empleados);
-            logger.info("Generated {} vacation records", vacationCount);
+            // Step 9: Generate jornada diaria for all employees after data is saved
+            int jornadasGeneradas = generateJornadasFromAttendance(empleados);
+            logger.info("Generated {} jornada diaria records", jornadasGeneradas);
 
-            // Step 10: Generate random incapacities
-            int incapacityCount = generateIncapacityRecords(empleados);
-            logger.info("Generated {} incapacity records", incapacityCount);
-
-            // Step 11: Generate occasional permits
-            int permitCount = generatePermitRecords(empleados);
-            logger.info("Generated {} permit records", permitCount);
+            applyLeaveJornadas(aprilEvents);
 
             logger.info("=== Database seeding completed successfully ===");
             logger.info("Summary: {} employees, {} addresses, {} users",
@@ -176,6 +172,72 @@ public class DataSeeder implements CommandLineRunner {
     /**
      * Seeds Costa Rica national holidays for 2026.
      */
+    private int seedHolidays2025() {
+        List<DiasFeriados> holidays = List.of(
+            DiasFeriados.builder()
+                .nombre("Año Nuevo")
+                .fecha(LocalDate.of(2025, 1, 1))
+                .descripcion("Celebración de Año Nuevo")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Jueves Santo")
+                .fecha(LocalDate.of(2025, 4, 17))
+                .descripcion("Semana Santa - Jueves Santo")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Viernes Santo")
+                .fecha(LocalDate.of(2025, 4, 18))
+                .descripcion("Semana Santa - Viernes Santo")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Día de Juan Santamaría")
+                .fecha(LocalDate.of(2025, 4, 11))
+                .descripcion("Conmemoración de la Batalla de Rivas")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Día Internacional del Trabajo")
+                .fecha(LocalDate.of(2025, 5, 1))
+                .descripcion("Celebración del Día del Trabajo")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Anexión del Partido de Nicoya a Costa Rica")
+                .fecha(LocalDate.of(2025, 7, 25))
+                .descripcion("Anexión del Partido de Nicoya")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Día de Nuestra Señora de los Ángeles")
+                .fecha(LocalDate.of(2025, 8, 2))
+                .descripcion("Festividad de Nuestra Señora de los Ángeles")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Independencia de Costa Rica")
+                .fecha(LocalDate.of(2025, 9, 15))
+                .descripcion("Conmemoración de la Independencia")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Día de Abolición del Ejército")
+                .fecha(LocalDate.of(2025, 12, 1))
+                .descripcion("Abolición del Ejército en Costa Rica")
+                .build(),
+            DiasFeriados.builder()
+                .nombre("Navidad")
+                .fecha(LocalDate.of(2025, 12, 25))
+                .descripcion("Celebración de Navidad")
+                .build()
+        );
+
+        List<DiasFeriados> toCreate = holidays.stream()
+            .filter(holiday -> !diasFeriadosRepositorio.existsByFecha(holiday.getFecha()))
+            .toList();
+
+        if (toCreate.isEmpty()) {
+            return 0;
+        }
+
+        diasFeriadosRepositorio.saveAll(toCreate);
+        return toCreate.size();
+    }
+
     private int seedHolidays2026() {
         List<DiasFeriados> holidays = List.of(
             DiasFeriados.builder()
@@ -439,15 +501,13 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     /**
-     * Generates attendance records from Jan 1, 2026 to Mar 16, 2026.
+     * Generates attendance records from Dec 1, 2024 to Apr 16, 2026.
      * - Weekdays only (Monday-Friday)
-     * - ENTRADA around 08:00 with slight variance
-     * - SALIDA around 17:00 with variance for some overtime
-     * - Creates JornadaDiaria records for payroll calculations
+     * - Skips holidays
+     * - Punctual ENTRADA and SALIDA (no overtime)
      */
     private int generateAttendanceRecords(List<Empleados> empleados) {
         List<Asistencia> attendanceRecords = new ArrayList<>();
-        List<JornadaDiaria> jornadaRecords = new ArrayList<>();
 
         for (Empleados empleado : empleados) {
             if (!empleado.getEstaActivo()) continue;
@@ -460,65 +520,25 @@ public class DataSeeder implements CommandLineRunner {
 
             LocalDate currentDate = ATTENDANCE_START;
             while (!currentDate.isAfter(ATTENDANCE_END)) {
-                DayOfWeek dayOfWeek = currentDate.getDayOfWeek();
-                
-                // Skip weekends
-                if (dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
-                    // Randomly skip some days (vacations/sick days will be handled separately)
-                    if (random.nextInt(100) < 95) { // 95% attendance rate
-                        // ENTRADA with small variance (-5 to +10 minutes)
-                        int entradaVariance = random.nextInt(16) - 5;
-                        LocalTime entradaTime = baseEntrada.plusMinutes(entradaVariance);
-                        LocalDateTime entradaDateTime = LocalDateTime.of(currentDate, entradaTime);
-                        
-                        String observacionesEntrada = null;
-                        if (entradaVariance > 5) {
-                            observacionesEntrada = "Llegada tardía: " + entradaVariance + " minutos";
-                        }
-                        
-                        Asistencia entrada = Asistencia.builder()
-                            .tipoEvento(TipoEvento.ENTRADA)
-                            .fechaHora(entradaDateTime)
-                            .observaciones(observacionesEntrada)
-                            .empleado(empleado)
-                            .build();
-                        attendanceRecords.add(entrada);
+                if (isLaborable(currentDate)) {
+                    LocalDateTime entradaDateTime = LocalDateTime.of(currentDate, baseEntrada);
+                    LocalDateTime salidaDateTime = LocalDateTime.of(currentDate, baseSalida);
 
-                        // SALIDA with variance for possible overtime
-                        int salidaVariance = random.nextInt(100) < 30 ? random.nextInt(61) : random.nextInt(26) - 10;
-                        LocalTime salidaTime = baseSalida.plusMinutes(salidaVariance);
-                        LocalDateTime salidaDateTime = LocalDateTime.of(currentDate, salidaTime);
-                        
-                        String observacionesSalida = null;
-                        if (salidaVariance > 30) {
-                            observacionesSalida = "Tiempo extra trabajado";
-                        }
-                        
-                        Asistencia salida = Asistencia.builder()
-                            .tipoEvento(TipoEvento.SALIDA)
-                            .fechaHora(salidaDateTime)
-                            .observaciones(observacionesSalida)
-                            .empleado(empleado)
-                            .build();
-                        attendanceRecords.add(salida);
+                    Asistencia entrada = Asistencia.builder()
+                        .tipoEvento(TipoEvento.ENTRADA)
+                        .fechaHora(entradaDateTime)
+                        .observaciones(null)
+                        .empleado(empleado)
+                        .build();
+                    attendanceRecords.add(entrada);
 
-                        // Calculate hours worked
-                        double hoursWorked = ChronoUnit.MINUTES.between(entradaTime, salidaTime) / 60.0;
-                        double regularHours = Math.min(hoursWorked, 8.0);
-                        double extraHours = Math.max(0, hoursWorked - 8.0);
-
-                        // Create JornadaDiaria record
-                        JornadaDiaria jornada = JornadaDiaria.builder()
-                            .fecha(currentDate)
-                            .horaEntrada(entradaTime)
-                            .horaSalida(salidaTime)
-                            .horasRegulares(regularHours)
-                            .horasExtra(extraHours)
-                            .observaciones(extraHours > 0 ? "Horas extra trabajadas" : null)
-                            .empleado(empleado)
-                            .build();
-                        jornadaRecords.add(jornada);
-                    }
+                    Asistencia salida = Asistencia.builder()
+                        .tipoEvento(TipoEvento.SALIDA)
+                        .fechaHora(salidaDateTime)
+                        .observaciones(null)
+                        .empleado(empleado)
+                        .build();
+                    attendanceRecords.add(salida);
                 }
                 
                 currentDate = currentDate.plusDays(1);
@@ -526,193 +546,163 @@ public class DataSeeder implements CommandLineRunner {
         }
 
         asistenciaRepositorio.saveAll(attendanceRecords);
-        jornadaDiariaRepositorio.saveAll(jornadaRecords);
         return attendanceRecords.size();
     }
 
     /**
-     * Generates random overtime requests for employees.
-     * Each employee has 20% chance of 1-2 overtime requests.
+     * Creates the required April 2026 events.
      */
-    private int generateOvertimeRecords(List<Empleados> empleados) {
-        List<HorasExtra> overtimeRecords = new ArrayList<>();
+    private AprilEvents createApril2026Events(List<Empleados> empleados) {
+        if (empleados.size() < 6) {
+            throw new IllegalStateException("Se requieren al menos 6 empleados para crear los eventos de abril 2026");
+        }
+
+        Empleados empleadoVacaciones = empleados.get(3);
+        Empleados empleadoIncapacidadIns = empleados.get(4);
+        Empleados empleadoIncapacidadCcss = empleados.get(5);
+        Empleados empleadoPermisoSinGoce = empleados.get(2);
+        Empleados empleadoHorasExtra = empleados.get(1);
+
+        List<Permisos> permisos = new ArrayList<>();
+        List<Incapacidades> incapacidades = new ArrayList<>();
+        List<HorasExtra> horasExtra = new ArrayList<>();
+
+        LocalDate vacacionesInicio = LocalDate.of(2026, 4, 6);
+        LocalDate vacacionesFin = LocalDate.of(2026, 4, 8);
+        Permisos vacaciones = Permisos.builder()
+            .fechaInicio(vacacionesInicio)
+            .fechaFin(vacacionesFin)
+            .diasTotales(3)
+            .tipoPermiso(TipoPermiso.VACACIONES)
+            .motivo("Vacaciones aprobadas (abril 2026)")
+            .estadoSolicitud(EstadoSolicitud.APROBADA)
+            .fechaSolicitud(LocalDate.of(2026, 3, 20))
+            .fechaAprobacionJefe(LocalDate.of(2026, 3, 23))
+            .fechaAprobacionRH(LocalDate.of(2026, 3, 25))
+            .empleado(empleadoVacaciones)
+            .build();
+        permisos.add(permisosRepositorio.save(vacaciones));
+
+        LocalDate incapacidadInsInicio = LocalDate.of(2026, 4, 13);
+        LocalDate incapacidadInsFin = LocalDate.of(2026, 4, 16);
+        Incapacidades incapacidadIns = Incapacidades.builder()
+            .fechaInicio(incapacidadInsInicio)
+            .fechaFin(incapacidadInsFin)
+            .diasTotales(4)
+            .tipoIncapacidad(TipoIncapacidad.ACCIDENTE_LABORAL)
+            .estadoSolicitud(EstadoSolicitud.APROBADA)
+            .porcentajePago(100.0)
+            .entidadEmisora(TipoEntidadEmisora.INS)
+            .numeroDocumento("INS-2026-0001")
+            .observaciones("Incapacidad por accidente laboral (INS)")
+            .fechaSolicitud(LocalDate.of(2026, 4, 12))
+            .fechaAprobacionJefe(LocalDate.of(2026, 4, 12))
+            .fechaAprobacionRH(LocalDate.of(2026, 4, 13))
+            .esExtension(false)
+            .empleado(empleadoIncapacidadIns)
+            .build();
+        incapacidades.add(incapacidadesRepositorio.save(incapacidadIns));
+
+        LocalDate incapacidadCcssInicio = LocalDate.of(2026, 4, 7);
+        LocalDate incapacidadCcssFin = LocalDate.of(2026, 4, 10);
+        Incapacidades incapacidadCcss = Incapacidades.builder()
+            .fechaInicio(incapacidadCcssInicio)
+            .fechaFin(incapacidadCcssFin)
+            .diasTotales(4)
+            .tipoIncapacidad(TipoIncapacidad.ENFERMEDAD_COMUN)
+            .estadoSolicitud(EstadoSolicitud.APROBADA)
+            .porcentajePago(60.0)
+            .entidadEmisora(TipoEntidadEmisora.CCSS)
+            .numeroDocumento("CCSS-2026-0001")
+            .observaciones("Incapacidad por enfermedad comun (CCSS)")
+            .fechaSolicitud(LocalDate.of(2026, 4, 6))
+            .fechaAprobacionJefe(LocalDate.of(2026, 4, 6))
+            .fechaAprobacionRH(LocalDate.of(2026, 4, 7))
+            .esExtension(false)
+            .empleado(empleadoIncapacidadCcss)
+            .build();
+        incapacidades.add(incapacidadesRepositorio.save(incapacidadCcss));
+
+        LocalDate permisoSinGoceFecha = LocalDate.of(2026, 4, 15);
+        Permisos permisoSinGoce = Permisos.builder()
+            .fechaInicio(permisoSinGoceFecha)
+            .fechaFin(permisoSinGoceFecha)
+            .diasTotales(1)
+            .tipoPermiso(TipoPermiso.SIN_GOCE_SALARIO)
+            .motivo("Permiso sin goce salarial (abril 2026)")
+            .estadoSolicitud(EstadoSolicitud.APROBADA)
+            .fechaSolicitud(LocalDate.of(2026, 4, 8))
+            .fechaAprobacionJefe(LocalDate.of(2026, 4, 9))
+            .fechaAprobacionRH(LocalDate.of(2026, 4, 10))
+            .empleado(empleadoPermisoSinGoce)
+            .build();
+        permisos.add(permisosRepositorio.save(permisoSinGoce));
+
+        LocalDate horasExtraInicio = LocalDate.of(2026, 4, 6);
+        for (int i = 0; i < 5; i++) {
+            LocalDate fecha = horasExtraInicio.plusDays(i);
+            HorasExtra extra = HorasExtra.builder()
+                .fechaSolicitud(fecha)
+                .cantidadDeHoras(2)
+                .motivo("Horas extra aprobadas (abril 2026)")
+                .tipoTarifa(TipoTarifa.SIMPLE)
+                .estadoSolicitud(EstadoSolicitud.APROBADA)
+                .aprobado(true)
+                .procesado(false)
+                .empleado(empleadoHorasExtra)
+                .build();
+            horasExtra.add(extra);
+        }
+        horasExtraRepositorio.saveAll(horasExtra);
+
+        return new AprilEvents(permisos, incapacidades, horasExtra);
+    }
+
+    private int generateJornadasFromAttendance(List<Empleados> empleados) {
+        int jornadasCreadas = 0;
 
         for (Empleados empleado : empleados) {
-            // Skip ADMIN and RH users from overtime
-            if (empleado.getUsuario().getRole() == Role.ADMIN || 
-                empleado.getUsuario().getRole() == Role.HR) {
-                continue;
-            }
+            if (!empleado.getEstaActivo()) continue;
 
-            // 20% chance of having overtime requests
-            if (random.nextInt(100) < 20) {
-                int numRequests = random.nextInt(2) + 1; // 1-2 requests
-                
-                for (int i = 0; i < numRequests; i++) {
-                    // Random date between Jan 1 and Apr 16, 2026
-                    LocalDate requestDate = ATTENDANCE_START.plusDays(random.nextInt(107));
-                    
-                    // Random hours: 2-5 hours
-                    int hours = random.nextInt(4) + 2;
-                    
-                    TipoTarifa tarifa = random.nextBoolean() ? TipoTarifa.SIMPLE : TipoTarifa.DOBLE;
-                    
-                    HorasExtra horasExtra = HorasExtra.builder()
-                        .fechaSolicitud(requestDate)
-                        .cantidadDeHoras(hours)
-                        .motivo("Trabajo adicional en proyecto urgente")
-                        .tipoTarifa(tarifa)
-                        .estadoSolicitud(EstadoSolicitud.APROBADA)
-                        .aprobado(true)
-                        .procesado(false)
-                        .empleado(empleado)
-                        .build();
-                    
-                    overtimeRecords.add(horasExtra);
+            Time horaSalida = empleado.getPuesto().getHoraSalida();
+            LocalTime baseSalida = horaSalida.toLocalTime();
+
+            LocalDate currentDate = ATTENDANCE_START;
+            while (!currentDate.isAfter(ATTENDANCE_END)) {
+                if (isLaborable(currentDate)) {
+                    LocalDateTime salidaDateTime = LocalDateTime.of(currentDate, baseSalida);
+                    if (servicioJornadaDiaria.registrarJornadaPorClockOut(empleado.getId(), salidaDateTime) != null) {
+                        jornadasCreadas++;
+                    }
                 }
+                currentDate = currentDate.plusDays(1);
             }
         }
 
-        horasExtraRepositorio.saveAll(overtimeRecords);
-        return overtimeRecords.size();
+        return jornadasCreadas;
     }
 
-    /**
-     * Generates random vacation requests (using Permisos with TipoPermiso.VACACIONES).
-     * Each employee has 30% chance of 1 vacation request.
-     */
-    private int generateVacationRecords(List<Empleados> empleados) {
-        List<Permisos> vacationRecords = new ArrayList<>();
-
-        for (Empleados empleado : empleados) {
-            // 30% chance of vacation
-            if (random.nextInt(100) < 30) {
-                // Random start date between Jan 15 and Apr 10, 2026
-                LocalDate startDate = ATTENDANCE_START.plusDays(random.nextInt(87) + 15);
-                
-                // Random duration: 3-7 days
-                int days = random.nextInt(5) + 3;
-                LocalDate endDate = startDate.plusDays(days - 1);
-                
-                Permisos vacation = Permisos.builder()
-                    .fechaInicio(startDate)
-                    .fechaFin(endDate)
-                    .diasTotales(days)
-                    .tipoPermiso(TipoPermiso.VACACIONES)
-                    .motivo("Vacaciones planificadas")
-                    .estadoSolicitud(EstadoSolicitud.APROBADA)
-                    .fechaSolicitud(startDate.minusDays(10))
-                    .fechaAprobacionJefe(startDate.minusDays(7))
-                    .fechaAprobacionRH(startDate.minusDays(5))
-                    .empleado(empleado)
-                    .build();
-                
-                vacationRecords.add(vacation);
-            }
+    private void applyLeaveJornadas(AprilEvents aprilEvents) {
+        for (Permisos permiso : aprilEvents.permisos()) {
+            servicioJornadaDiaria.generarJornadasParaPermiso(permiso);
         }
 
-        permisosRepositorio.saveAll(vacationRecords);
-        return vacationRecords.size();
-    }
-
-    /**
-     * Generates random incapacity records.
-     * Each employee has 15% chance of 1 incapacity.
-     */
-    private int generateIncapacityRecords(List<Empleados> empleados) {
-        List<Incapacidades> incapacityRecords = new ArrayList<>();
-
-        for (Empleados empleado : empleados) {
-            // 15% chance of incapacity
-            if (random.nextInt(100) < 15) {
-                // Random start date between Jan 1 and Apr 10, 2026
-                LocalDate startDate = ATTENDANCE_START.plusDays(random.nextInt(101));
-                
-                // Random duration: 2-5 days
-                int days = random.nextInt(4) + 2;
-                LocalDate endDate = startDate.plusDays(days - 1);
-                
-                TipoIncapacidad tipo = random.nextBoolean() ? 
-                    TipoIncapacidad.ENFERMEDAD_COMUN : TipoIncapacidad.ACCIDENTE_LABORAL;
-                
-                Incapacidades incapacidad = Incapacidades.builder()
-                    .fechaInicio(startDate)
-                    .fechaFin(endDate)
-                    .diasTotales(days)
-                    .tipoIncapacidad(tipo)
-                    .estadoSolicitud(EstadoSolicitud.APROBADA)
-                    .porcentajePago(tipo == TipoIncapacidad.ENFERMEDAD_COMUN ? 60.0 : 100.0)
-                    .entidadEmisora(TipoEntidadEmisora.CCSS)
-                    .numeroDocumento("INC-" + random.nextInt(100000))
-                    .observaciones("Incapacidad médica por " + tipo.name().toLowerCase().replace("_", " "))
-                    .fechaSolicitud(startDate)
-                    .fechaAprobacionJefe(startDate)
-                    .fechaAprobacionRH(startDate.plusDays(1))
-                    .esExtension(false)
-                    .empleado(empleado)
-                    .build();
-                
-                incapacityRecords.add(incapacidad);
-            }
+        for (Incapacidades incapacidad : aprilEvents.incapacidades()) {
+            servicioJornadaDiaria.generarJornadasParaIncapacidad(incapacidad, null, null);
         }
-
-        incapacidadesRepositorio.saveAll(incapacityRecords);
-        return incapacityRecords.size();
     }
 
-    /**
-     * Generates occasional permit requests.
-     * Each employee has 25% chance of 1 permit.
-     */
-    private int generatePermitRecords(List<Empleados> empleados) {
-        List<Permisos> permitRecords = new ArrayList<>();
-
-        for (Empleados empleado : empleados) {
-            // 25% chance of permit
-            if (random.nextInt(100) < 25) {
-                // Random date between Jan 1 and Apr 15, 2026
-                LocalDate permitDate = ATTENDANCE_START.plusDays(random.nextInt(106));
-                
-                // Random permit type (excluding VACACIONES)
-                TipoPermiso[] tiposPermiso = {
-                    TipoPermiso.PERSONAL, 
-                    TipoPermiso.MEDICO, 
-                    TipoPermiso.ESTUDIO
-                };
-                TipoPermiso tipo = tiposPermiso[random.nextInt(tiposPermiso.length)];
-                
-                // Most permits are for 1 day, some for hours
-                boolean isHourly = random.nextBoolean();
-                
-                Permisos.PermisosBuilder permitBuilder = Permisos.builder()
-                    .fechaInicio(permitDate)
-                    .tipoPermiso(tipo)
-                    .estadoSolicitud(EstadoSolicitud.APROBADA)
-                    .fechaSolicitud(permitDate.minusDays(3))
-                    .fechaAprobacionJefe(permitDate.minusDays(2))
-                    .fechaAprobacionRH(permitDate.minusDays(1))
-                    .empleado(empleado);
-                
-                if (isHourly) {
-                    permitBuilder
-                        .fechaFin(permitDate)
-                        .diasTotales(0)
-                        .horaInicio("09:00")
-                        .horaFin("12:00")
-                        .totalHoras(3.0)
-                        .motivo("Trámite personal - 3 horas");
-                } else {
-                    permitBuilder
-                        .fechaFin(permitDate)
-                        .diasTotales(1)
-                        .motivo("Permiso de " + tipo.name().toLowerCase());
-                }
-                
-                permitRecords.add(permitBuilder.build());
-            }
+    private boolean isLaborable(LocalDate date) {
+        DayOfWeek dayOfWeek = date.getDayOfWeek();
+        if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+            return false;
         }
-
-        permisosRepositorio.saveAll(permitRecords);
-        return permitRecords.size();
+        return !diasFeriadosRepositorio.existsByFecha(date);
     }
+
+    private record AprilEvents(
+        List<Permisos> permisos,
+        List<Incapacidades> incapacidades,
+        List<HorasExtra> horasExtra
+    ) {}
 }

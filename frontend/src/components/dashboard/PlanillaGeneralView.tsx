@@ -10,6 +10,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { planillasService, type PlanillaEncabezado, type PlanillaDetalleGeneral } from '@/services/apiService';
 import { toast } from 'sonner';
@@ -119,10 +127,24 @@ export function PlanillaGeneralView() {
   const [detallesPlanilla, setDetallesPlanilla] = useState<PlanillaDetalleGeneral[]>([]);
   const [loadingDetalles, setLoadingDetalles] = useState(false);
   const [detallesError, setDetallesError] = useState<string | null>(null);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [paginatedPlanillas, setPaginatedPlanillas] = useState<PlanillaEncabezado[]>([]);
 
   useEffect(() => {
     cargarPlanillas();
   }, []);
+
+  useEffect(() => {
+    const totalPagesCalc = Math.ceil(planillas.length / pageSize);
+    const startIndex = page * pageSize;
+    const endIndex = startIndex + pageSize;
+    setPaginatedPlanillas(planillas.slice(startIndex, endIndex));
+
+    if (page >= totalPagesCalc && totalPagesCalc > 0) {
+      setPage(0);
+    }
+  }, [planillas, page, pageSize]);
 
   useEffect(() => {
     if (!mes || !tipoQuincena || !anio) {
@@ -200,6 +222,7 @@ export function PlanillaGeneralView() {
         return dateB.getTime() - dateA.getTime();
       });
       setPlanillas(planillasArray);
+      setPage(0);
     } catch (error: any) {
       console.error('Error al cargar planillas:', error);
       toast.error('Error al cargar las planillas', {
@@ -247,6 +270,12 @@ export function PlanillaGeneralView() {
   };
 
   const canCreatePlanilla = mes && tipoQuincena && anio && !loading;
+  const totalPages = Math.ceil(planillas.length / pageSize);
+
+  const handlePageSizeChange = (newSize: string) => {
+    setPageSize(Number(newSize));
+    setPage(0);
+  };
 
   return (
     <div className="space-y-6">
@@ -398,54 +427,105 @@ export function PlanillaGeneralView() {
               </AlertDescription>
             </Alert>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-muted">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">ID</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Periodo</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Fecha de Pago</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Bruto</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Neto</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Estado</th>
-                    <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-card divide-y divide-border">
-                  {planillas.map((planilla) => (
-                    <tr
-                      key={planilla.id}
-                      className={`hover:bg-muted/50 transition-colors ${
-                        selectedPlanilla?.id === planilla.id ? 'bg-primary/10' : ''
-                      }`}
-                    >
-                      <td className="px-4 py-3 font-mono text-sm">{planilla.id}</td>
-                      <td className="px-4 py-3">
-                        <div className="font-medium">{formatDate(planilla.fechaInicioPeriodo)}</div>
-                        <div className="text-sm text-muted-foreground">al {formatDate(planilla.fechaFinPeriodo)}</div>
-                        <div className="text-xs text-muted-foreground">{getQuincenaLabel(planilla.tipoQuincena)}</div>
-                      </td>
-                      <td className="px-4 py-3">{formatDate(planilla.fechaPago)}</td>
-                      <td className="px-4 py-3 font-semibold">{formatCurrency(planilla.totalPlanillaBruto)}</td>
-                      <td className="px-4 py-3 font-semibold text-green-600">{formatCurrency(planilla.totalPlanillaNeto)}</td>
-                      <td className="px-4 py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoBadge(planilla.estadoPlanilla)}`}>
-                          {getEstadoLabel(planilla.estadoPlanilla)}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setSelectedPlanilla(selectedPlanilla?.id === planilla.id ? null : planilla)}
-                        >
-                          {selectedPlanilla?.id === planilla.id ? 'Ocultar' : 'Ver Detalle'}
-                        </Button>
-                      </td>
+            <div className="space-y-4">
+              <div className="flex items-center justify-end gap-2">
+                <span className="text-sm text-muted-foreground">Mostrar:</span>
+                <Select value={String(pageSize)} onValueChange={handlePageSizeChange}>
+                  <SelectTrigger className="w-[100px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-muted">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">ID</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Periodo</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Fecha de Pago</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Bruto</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Neto</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Estado</th>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Acciones</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody className="bg-card divide-y divide-border">
+                    {paginatedPlanillas.map((planilla) => (
+                      <tr
+                        key={planilla.id}
+                        className={`hover:bg-muted/50 transition-colors ${
+                          selectedPlanilla?.id === planilla.id ? 'bg-primary/10' : ''
+                        }`}
+                      >
+                        <td className="px-4 py-3 font-mono text-sm">{planilla.id}</td>
+                        <td className="px-4 py-3">
+                          <div className="font-medium">{formatDate(planilla.fechaInicioPeriodo)}</div>
+                          <div className="text-sm text-muted-foreground">al {formatDate(planilla.fechaFinPeriodo)}</div>
+                          <div className="text-xs text-muted-foreground">{getQuincenaLabel(planilla.tipoQuincena)}</div>
+                        </td>
+                        <td className="px-4 py-3">{formatDate(planilla.fechaPago)}</td>
+                        <td className="px-4 py-3 font-semibold">{formatCurrency(planilla.totalPlanillaBruto)}</td>
+                        <td className="px-4 py-3 font-semibold text-green-600">{formatCurrency(planilla.totalPlanillaNeto)}</td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoBadge(planilla.estadoPlanilla)}`}>
+                            {getEstadoLabel(planilla.estadoPlanilla)}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setSelectedPlanilla(selectedPlanilla?.id === planilla.id ? null : planilla)}
+                          >
+                            {selectedPlanilla?.id === planilla.id ? 'Ocultar' : 'Ver Detalle'}
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {totalPages > 1 && (
+                <div className="flex items-center justify-between px-1">
+                  <div className="text-sm text-muted-foreground">
+                    Mostrando {page * pageSize + 1} a {Math.min((page + 1) * pageSize, planillas.length)} de{' '}
+                    {planillas.length} registros
+                  </div>
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() => setPage(Math.max(0, page - 1))}
+                          className={page === 0 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+                      </PaginationItem>
+                      {Array.from({ length: totalPages }, (_, i) => (
+                        <PaginationItem key={i}>
+                          <PaginationLink
+                            onClick={() => setPage(i)}
+                            isActive={page === i}
+                            className="cursor-pointer"
+                          >
+                            {i + 1}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() => setPage(Math.min(totalPages - 1, page + 1))}
+                          className={page >= totalPages - 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
             </div>
           )}
         </CardContent>
