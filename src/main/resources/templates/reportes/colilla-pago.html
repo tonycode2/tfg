@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="css/reportes.css"/>
+    <style>@page { size: A4 portrait; }</style>
+    <title>Colilla de Pago</title>
+</head>
+<body>
+    <div class="colilla-container">
+        <div class="reporte-header">
+            <div class="header-logo">
+                <img src="logo.png" alt="Logo"/>
+            </div>
+            <div class="header-info">
+                <div class="empresa-nombre" th:text="${dto.nombreEmpresa}">Empresa</div>
+                <div class="reporte-titulo" th:text="${dto.tituloReporte}">Colilla de Pago</div>
+                <div class="reporte-periodo">
+                    Período: <span th:text="${dto.fechaInicioPeriodo}"/> — <span th:text="${dto.fechaFinPeriodo}"/>
+                </div>
+            </div>
+            <div class="header-fecha">
+                Fecha pago: <span th:text="${dto.fechaPago}"/>
+            </div>
+        </div>
+
+        <div class="colilla-section">
+            <h3>Datos del Empleado</h3>
+            <div class="colilla-grid">
+                <div class="colilla-grid-row">
+                    <div class="colilla-grid-cell colilla-grid-label">Cédula:</div>
+                    <div class="colilla-grid-cell" th:text="${dto.cedula}"></div>
+                    <div class="colilla-grid-cell colilla-grid-label">Nombre:</div>
+                    <div class="colilla-grid-cell" th:text="${dto.nombreCompleto}"></div>
+                </div>
+                <div class="colilla-grid-row">
+                    <div class="colilla-grid-cell colilla-grid-label">Puesto:</div>
+                    <div class="colilla-grid-cell" th:text="${dto.puesto}"></div>
+                    <div class="colilla-grid-cell colilla-grid-label">Departamento:</div>
+                    <div class="colilla-grid-cell" th:text="${dto.departamento}"></div>
+                </div>
+                <div class="colilla-grid-row">
+                    <div class="colilla-grid-cell colilla-grid-label">Quincena:</div>
+                    <div class="colilla-grid-cell" th:text="${dto.tipoQuincena}"></div>
+                    <div class="colilla-grid-cell colilla-grid-label">IBAN:</div>
+                    <div class="colilla-grid-cell" th:text="${dto.cuentaIban}"></div>
+                </div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2">Ingresos</th>
+                    <th colspan="2">Deducciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Salario Base</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.salarioBase, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td>CCSS IVM (4.33%)</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.deduccionCcssIvm, 1, 'COMMA', 2, 'POINT')}"></td>
+                </tr>
+                <tr>
+                    <td>Horas Extra</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.montoHorasExtra, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td>CCSS SEM (5.50%)</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.deduccionCcssSem, 1, 'COMMA', 2, 'POINT')}"></td>
+                </tr>
+                <tr>
+                    <td>Subsidio Incapacidad</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.montoIncapacidad, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td>Impuesto Renta</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.impuestoDeRenta, 1, 'COMMA', 2, 'POINT')}"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Otras Deducciones</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.otrasDeducciones, 1, 'COMMA', 2, 'POINT')}"></td>
+                </tr>
+                <tr style="border-top: 2px solid #003366; font-weight: bold;">
+                    <td>Total Devengado</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.totalDevengado, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td>Total Deducciones</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.totalDeducciones, 1, 'COMMA', 2, 'POINT')}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="colilla-total-row">
+            SALARIO NETO: ₡<span th:text="${#numbers.formatDecimal(dto.salarioNeto, 1, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+
+        <div class="reporte-footer">
+            Generado: <span th:text="${dto.fechaGeneracion}"/> — <span th:text="${dto.nombreEmpresa}"/>
+        </div>
+    </div>
+</body>
+</html>

@@ -199,8 +199,11 @@ public class LiquidacionesCalculoServicio {
 
         double salarioDiario = calcularSalarioPromedioPorDia(empleadoId, fechaSalida, 6);
 
-        if (salarioDiario <= 0 && empleado.getSalarioBase() != null && empleado.getSalarioBase() > 0) {
-            salarioDiario = empleado.getSalarioBase() / 30.0;
+        if (salarioDiario <= 0
+                && empleado.getPuesto() != null
+                && empleado.getPuesto().getSalarioMinimo() != null
+                && empleado.getPuesto().getSalarioMinimo() > 0) {
+            salarioDiario = empleado.getPuesto().getSalarioMinimo() / 30.0;
         }
 
         int diasPreaviso = calcularDiasPreaviso(diasTotales);

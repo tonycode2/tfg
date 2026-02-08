@@ -148,7 +148,6 @@ export interface Empleado {
   correoPersonal: string;
   fechaNacimiento: string;
   fechaIngreso: string;
-  salarioBase: number;
   cantidadDeHijos: number;
   saldoVacaciones: number;
   cuentaIban?: string;

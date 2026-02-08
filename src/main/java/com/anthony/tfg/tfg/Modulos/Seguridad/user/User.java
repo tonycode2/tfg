@@ -49,7 +49,10 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        // Spring Security's `hasRole`/`hasAnyRole` checks for authorities with the
+        // `ROLE_` prefix, so expose authorities using that convention.
+        String roleName = role != null ? role.name() : "";
+        return List.of(new SimpleGrantedAuthority("ROLE_" + roleName));
     }
 
     @Override

@@ -23,6 +23,7 @@ import { PlanillaGeneralView } from '../components/dashboard/PlanillaGeneralView
 import { ConfiguracionRentaView } from '../components/dashboard/ConfiguracionRentaView';
 import { AguinaldoView } from '../components/dashboard/AguinaldoView';
 import { LiquidacionesView } from '../components/dashboard/LiquidacionesView';
+import { ReportesView } from '../components/dashboard/ReportesView';
 import { authService } from '../services/authService';
 
 // Memoized view components to prevent unnecessary re-renders
@@ -48,6 +49,7 @@ const MemoizedPlanillaGeneralView = memo(PlanillaGeneralView);
 const MemoizedConfiguracionRentaView = memo(ConfiguracionRentaView);
 const MemoizedAguinaldoView = memo(AguinaldoView);
 const MemoizedLiquidacionesView = memo(LiquidacionesView);
+const MemoizedReportesView = memo(ReportesView);
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -156,7 +158,7 @@ export default function DashboardPage() {
       case 'aguinaldo':
         return <MemoizedAguinaldoView />;
       case 'reportes':
-        return <MemoizedPlaceholderView title="Reportes" description="Generación de reportes del sistema" />;
+        return <MemoizedReportesView />;
       default:
         return <MemoizedInicioView userRole={userInfo.role} />;
     }

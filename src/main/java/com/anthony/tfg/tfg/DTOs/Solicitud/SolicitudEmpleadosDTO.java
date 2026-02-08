@@ -55,10 +55,6 @@ public class SolicitudEmpleadosDTO {
 
     @NotNull
     @Positive
-    public Double salarioBase;
-
-    @NotNull
-    @Positive
     public Integer cantidadDeHijos;
 
     @NotNull

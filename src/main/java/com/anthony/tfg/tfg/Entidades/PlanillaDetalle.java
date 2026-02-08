@@ -29,6 +29,8 @@ public class PlanillaDetalle {
     Double salarioBasePeriodo;
     @Column(name = "cantidad_dias_feriados")
     Integer cantidadDiasFeriados;
+    @Column(name = "cantidad_dias_no_trabajados_quincena")
+    Integer cantidadDiasNoTrabajadosEnQuincena;
     @Column(name = "monto_horas_extra")
     Double montoHorasExtra;
     @Column(name = "monto_incapacidad")

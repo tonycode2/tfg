@@ -353,11 +353,6 @@ export function MantenimientosView() {
           { key: 'segundoApellido', label: 'Segundo Apellido' },
           { key: 'correoPersonal', label: 'Correo' },
           {
-            key: 'salarioBase',
-            label: 'Salario',
-            render: (value) => `₡${value?.toLocaleString()}`,
-          },
-          {
             key: 'estaActivo',
             label: 'Estado',
             render: (value) => (value ? '✅ Activo' : '❌ Inactivo'),
@@ -1555,16 +1550,6 @@ export function MantenimientosView() {
                 value={formData.fechaNacimiento || ''}
                 onChange={(date) => setFormData({ ...formData, fechaNacimiento: date })}
                 placeholder="Seleccionar fecha de nacimiento"
-              />
-            </div>
-            <div>
-              <Label htmlFor="salarioBase">Salario Base</Label>
-              <Input
-                id="salarioBase"
-                type="number"
-                step="0.01"
-                value={formData.salarioBase || ''}
-                onChange={(e) => setFormData({ ...formData, salarioBase: parseFloat(e.target.value) })}
               />
             </div>
             <div>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="css/reportes.css"/>
+    <style>@page { size: A4 portrait; }</style>
+    <title>Reporte de Liquidación</title>
+</head>
+<body>
+    <div class="reporte-header">
+        <div class="header-logo"><img src="logo.png" alt="Logo"/></div>
+        <div class="header-info">
+            <div class="empresa-nombre" th:text="${dto.nombreEmpresa}">Empresa</div>
+            <div class="reporte-titulo" th:text="${dto.tituloReporte}">Reporte</div>
+        </div>
+        <div class="header-fecha">Generado: <span th:text="${dto.fechaGeneracion}"/></div>
+    </div>
+
+    <div class="liquidacion-header-panel">
+        <h3>Datos del Empleado</h3>
+        <div class="colilla-grid">
+            <div class="colilla-grid-row">
+                <div class="colilla-grid-cell colilla-grid-label">Cédula:</div>
+                <div class="colilla-grid-cell" th:text="${dto.cedula}"></div>
+                <div class="colilla-grid-cell colilla-grid-label">Nombre:</div>
+                <div class="colilla-grid-cell" th:text="${dto.nombreCompleto}"></div>
+            </div>
+            <div class="colilla-grid-row">
+                <div class="colilla-grid-cell colilla-grid-label">Puesto:</div>
+                <div class="colilla-grid-cell" th:text="${dto.puesto}"></div>
+                <div class="colilla-grid-cell colilla-grid-label">Departamento:</div>
+                <div class="colilla-grid-cell" th:text="${dto.departamento}"></div>
+            </div>
+            <div class="colilla-grid-row">
+                <div class="colilla-grid-cell colilla-grid-label">Fecha Ingreso:</div>
+                <div class="colilla-grid-cell" th:text="${dto.fechaIngreso}"></div>
+                <div class="colilla-grid-cell colilla-grid-label">Fecha Salida:</div>
+                <div class="colilla-grid-cell" th:text="${dto.fechaSalida}"></div>
+            </div>
+            <div class="colilla-grid-row">
+                <div class="colilla-grid-cell colilla-grid-label">Motivo Salida:</div>
+                <div class="colilla-grid-cell" th:text="${dto.motivoSalida}"></div>
+                <div class="colilla-grid-cell colilla-grid-label">Antigüedad:</div>
+                <div class="colilla-grid-cell" th:text="${dto.antiguedadTexto}"></div>
+            </div>
+            <div class="colilla-grid-row">
+                <div class="colilla-grid-cell colilla-grid-label">Salario Promedio Diario:</div>
+                <div class="colilla-grid-cell" th:text="'₡' + ${#numbers.formatDecimal(dto.salarioPromedioDiario, 1, 'COMMA', 2, 'POINT')}"></div>
+            </div>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Concepto</th>
+                <th>Detalle</th>
+                <th class="col-monto">Monto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="rubro : ${dto.rubros}">
+                <td th:text="${rubro.concepto}"></td>
+                <td th:text="${rubro.detalle}"></td>
+                <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(rubro.monto, 1, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="total-liquidacion">
+        TOTAL LIQUIDACIÓN: ₡<span th:text="${#numbers.formatDecimal(dto.totalLiquidacion, 1, 'COMMA', 2, 'POINT')}"></span>
+    </div>
+
+    <div class="reporte-footer">Generado por el Sistema de Gestión de RH — <span th:text="${dto.nombreEmpresa}"/></div>
+</body>
+</html>

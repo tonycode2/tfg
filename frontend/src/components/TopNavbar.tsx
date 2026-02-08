@@ -515,6 +515,15 @@ export const TopNavbar = memo(function TopNavbar({
                         <button
                           onClick={() => {
                             setRhOpen(false);
+                            setTimeout(() => onItemClick('reportes'), 120);
+                          }}
+                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'reportes' && 'bg-primary text-primary-foreground')}
+                        >
+                          Reportes
+                        </button>
+                        <button
+                          onClick={() => {
+                            setRhOpen(false);
                             setTimeout(() => onItemClick('empleados'), 120);
                           }}
                           className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'empleados' && 'bg-primary text-primary-foreground')}

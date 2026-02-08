@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="css/reportes.css"/>
+    <style>@page { size: A4 landscape; }</style>
+    <title>Reporte de Deducciones</title>
+</head>
+<body>
+    <div class="reporte-header">
+        <div class="header-logo"><img src="logo.png" alt="Logo"/></div>
+        <div class="header-info">
+            <div class="empresa-nombre" th:text="${dto.nombreEmpresa}">Empresa</div>
+            <div class="reporte-titulo" th:text="${dto.tituloReporte}">Reporte</div>
+            <div class="reporte-periodo">
+                Período: <span th:text="${dto.fechaInicioPeriodo}"/> — <span th:text="${dto.fechaFinPeriodo}"/>
+            </div>
+        </div>
+        <div class="header-fecha">Generado: <span th:text="${dto.fechaGeneracion}"/></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Departamento</th>
+                <th class="col-monto">Salario Bruto</th>
+                <th class="col-monto">CCSS IVM</th>
+                <th class="col-monto">CCSS SEM</th>
+                <th class="col-monto">Imp. Renta</th>
+                <th class="col-monto">Otras</th>
+                <th class="col-monto">Total Deduc.</th>
+                <th class="col-monto">CCSS patrono</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="emp : ${dto.empleados}">
+                <td th:text="${emp.cedula}"></td>
+                <td th:text="${emp.nombreCompleto}"></td>
+                <td th:text="${emp.departamento}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(emp.salarioBruto, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(emp.deduccionCcssIvm, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(emp.deduccionCcssSem, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(emp.impuestoDeRenta, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(emp.otrasDeducciones, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(emp.totalDeducciones, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(emp.ccssPatrono, 1, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="fila-total">
+                <td colspan="3" style="text-align: right;">TOTALES:</td>
+                <td></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(dto.totalCcssIvm, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(dto.totalCcssSem, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(dto.totalImpuestoRenta, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(dto.totalOtrasDeducciones, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(dto.granTotal, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(dto.totalCcssPatrono, 1, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="reporte-footer">Generado por el Sistema de Gestión de RH — <span th:text="${dto.nombreEmpresa}"/></div>
+</body>
+</html>

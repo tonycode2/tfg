@@ -79,7 +79,6 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         empleadoExistente.setCorreoPersonal(entidad.correoPersonal);
         empleadoExistente.setFechaNacimiento(entidad.fechaNacimiento);
         empleadoExistente.setFechaIngreso(entidad.fechaIngreso);
-        empleadoExistente.setSalarioBase(entidad.salarioBase);
         empleadoExistente.setCantidadDeHijos(entidad.cantidadDeHijos);
         empleadoExistente.setSaldoVacaciones(entidad.saldoVacaciones);
         empleadoExistente.setCuentaIban(entidad.cuentaIban);
@@ -160,7 +159,6 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
                     .correoPersonal(solicitud.correoPersonal)
                     .fechaNacimiento(solicitud.fechaNacimiento)
                     .fechaIngreso(solicitud.fechaIngreso)
-                    .salarioBase(solicitud.salarioBase)
                     .cantidadDeHijos(solicitud.cantidadDeHijos)
                     .saldoVacaciones(solicitud.saldoVacaciones)
                     .cuentaIban(solicitud.cuentaIban)
@@ -189,7 +187,6 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         respuesta.correoPersonal = entidad.getCorreoPersonal();
         respuesta.fechaNacimiento = entidad.getFechaNacimiento();
         respuesta.fechaIngreso = entidad.getFechaIngreso();
-        respuesta.salarioBase = entidad.getSalarioBase();
         respuesta.cantidadDeHijos = entidad.getCantidadDeHijos();
         respuesta.saldoVacaciones = entidad.getSaldoVacaciones();
         respuesta.cuentaIban = entidad.getCuentaIban();

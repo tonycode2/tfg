@@ -15,7 +15,6 @@ public class RespuestaEmpleadosDTO {
     public LocalDate fechaNacimiento;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public LocalDate fechaIngreso;
-    public Double salarioBase;
     public Integer cantidadDeHijos;
     public Integer saldoVacaciones;
     public String cuentaIban;

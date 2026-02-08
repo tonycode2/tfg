@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="css/reportes.css"/>
+    <style>@page { size: A4 portrait; }</style>
+    <title>Reporte de Incapacidades</title>
+</head>
+<body>
+    <div class="reporte-header">
+        <div class="header-logo"><img src="logo.png" alt="Logo"/></div>
+        <div class="header-info">
+            <div class="empresa-nombre" th:text="${dto.nombreEmpresa}">Empresa</div>
+            <div class="reporte-titulo">Reporte de Incapacidades</div>
+        </div>
+        <div class="header-fecha">Generado: <span th:text="${dto.fechaGeneracion}"/></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Empleado</th>
+                <th>Cédula</th>
+                <th>Fecha Inicio</th>
+                <th>Fecha Fin</th>
+                <th>Días</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="inc,iterStat : ${dto.detalles}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${inc.nombreEmpleado}"></td>
+                <td th:text="${inc.cedula}"></td>
+                <td th:text="${inc.fechaInicio}"></td>
+                <td th:text="${inc.fechaFin}"></td>
+                <td th:text="${inc.dias}"></td>
+                <td th:text="${inc.tipo}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="reporte-footer">Total incapacidades: <span th:text="${dto.total}"></span></div>
+</body>
+</html>

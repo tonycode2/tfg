@@ -19,6 +19,9 @@ public class SolicitudPlanillaDetalleDTO {
     public Integer cantidadDiasFeriados;
     @NotBlank
     @Positive
+    public Integer cantidadDiasNoTrabajadosEnQuincena;
+    @NotBlank
+    @Positive
     public Double montoHorasExtra;
     @NotBlank
     @Positive

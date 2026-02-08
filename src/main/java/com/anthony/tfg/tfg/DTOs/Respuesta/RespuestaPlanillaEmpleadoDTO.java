@@ -24,6 +24,7 @@ public class RespuestaPlanillaEmpleadoDTO {
     public Long idDetalle;
     public Double salarioBasePeriodo;
     public Integer cantidadDiasFeriados;
+    public Integer cantidadDiasNoTrabajadosEnQuincena;
     public Double montoHorasExtra;
     public Double montoIncapacidad;
     public Double deduccionCcssIvm;

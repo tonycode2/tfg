@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="css/reportes.css"/>
+    <style>@page { size: A4 landscape; }</style>
+    <title>Reporte de Antigüedad</title>
+</head>
+<body>
+    <div class="reporte-header">
+        <div class="header-logo"><img src="logo.png" alt="Logo"/></div>
+        <div class="header-info">
+            <div class="empresa-nombre" th:text="${dto.nombreEmpresa}">Empresa</div>
+            <div class="reporte-titulo" th:text="${dto.tituloReporte}">Reporte</div>
+        </div>
+        <div class="header-fecha">Generado: <span th:text="${dto.fechaGeneracion}"/></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Puesto</th>
+                <th>Departamento</th>
+                <th>Fecha Ingreso</th>
+                <th class="col-centro">Años</th>
+                <th class="col-centro">Meses</th>
+                <th class="col-centro">Días</th>
+                <th>Clasificación</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="emp : ${dto.empleados}">
+                <td th:text="${emp.cedula}"></td>
+                <td th:text="${emp.nombreCompleto}"></td>
+                <td th:text="${emp.puesto}"></td>
+                <td th:text="${emp.departamento}"></td>
+                <td th:text="${emp.fechaIngreso}"></td>
+                <td class="col-centro" th:text="${emp.anios}"></td>
+                <td class="col-centro" th:text="${emp.meses}"></td>
+                <td class="col-centro" th:text="${emp.dias}"></td>
+                <td>
+                    <span class="badge"
+                          th:classappend="${emp.clasificacion == 'Menos de 1 año' ? 'badge-nuevo' : (emp.clasificacion == '1-5 años' ? 'badge-medio' : (emp.clasificacion == '5-10 años' ? 'badge-senior' : 'badge-veterano'))}"
+                          th:text="${emp.clasificacion}"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="reporte-footer">Generado por el Sistema de Gestión de RH — <span th:text="${dto.nombreEmpresa}"/></div>
+</body>
+</html>

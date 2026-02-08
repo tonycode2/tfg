@@ -146,6 +146,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         dto.idDetalle = detalle.getId();
         dto.salarioBasePeriodo = detalle.getSalarioBasePeriodo() != null ? detalle.getSalarioBasePeriodo() : 0.0;
         dto.cantidadDiasFeriados = detalle.getCantidadDiasFeriados() != null ? detalle.getCantidadDiasFeriados() : 0;
+        dto.cantidadDiasNoTrabajadosEnQuincena = detalle.getCantidadDiasNoTrabajadosEnQuincena() != null
+            ? detalle.getCantidadDiasNoTrabajadosEnQuincena()
+            : 0;
         dto.montoHorasExtra = detalle.getMontoHorasExtra() != null ? detalle.getMontoHorasExtra() : 0.0;
         dto.montoIncapacidad = detalle.getMontoIncapacidad() != null ? detalle.getMontoIncapacidad() : 0.0;
         dto.deduccionCcssIvm = detalle.getDeduccionCcssIvm() != null ? detalle.getDeduccionCcssIvm() : 0.0;
@@ -173,6 +176,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         dto.id = detalle.getId();
         dto.salarioBasePeriodo = detalle.getSalarioBasePeriodo() != null ? detalle.getSalarioBasePeriodo() : 0.0;
         dto.cantidadDiasFeriados = detalle.getCantidadDiasFeriados() != null ? detalle.getCantidadDiasFeriados() : 0;
+        dto.cantidadDiasNoTrabajadosEnQuincena = detalle.getCantidadDiasNoTrabajadosEnQuincena() != null
+            ? detalle.getCantidadDiasNoTrabajadosEnQuincena()
+            : 0;
         dto.montoHorasExtra = detalle.getMontoHorasExtra() != null ? detalle.getMontoHorasExtra() : 0.0;
         dto.montoIncapacidad = detalle.getMontoIncapacidad() != null ? detalle.getMontoIncapacidad() : 0.0;
         dto.deduccionCcssIvm = detalle.getDeduccionCcssIvm() != null ? detalle.getDeduccionCcssIvm() : 0.0;
@@ -526,9 +532,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         double salarioHora = salarioDiario / 8.0;
 
         double basePeriodo = salarioMensual / 2.0;
-        double horasFaltantes = 0.0;
         double totalHorasExtra = 0.0;
         int cantidadDiasFeriados = 0;
+        int cantidadDiasNoTrabajados = 0;
         double montoIncapacidad = 0.0;
 
         TipoQuincena tipoQuincena = encabezado.getTipoQuincena();
@@ -554,6 +560,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             boolean esFeriado = feriados.contains(fecha);
             boolean esFinSemana = esFinDeSemana(fecha);
             boolean tieneHorasTrabajadas = horasRegulares > 0 || horasExtra > 0;
+            boolean esLaborable = !esFinSemana && !esFeriado;
 
             if (esFeriado && tieneHorasTrabajadas) {
                 cantidadDiasFeriados++;
@@ -576,13 +583,8 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                 }
             }
 
-            if (!esFinSemana && !esFeriado && !esVacaciones) {
-                if (esIncapacidad) {
-                    // La incapacidad no paga el salario base del día; se descuenta y se paga aparte según entidad.
-                    horasFaltantes += 8.0;
-                } else if (horasRegulares < 8.0) {
-                    horasFaltantes += (8.0 - horasRegulares);
-                }
+            if (esLaborable && !esVacaciones && (esIncapacidad || !tieneHorasTrabajadas)) {
+                cantidadDiasNoTrabajados++;
             }
 
             fecha = fecha.plusDays(1);
@@ -590,7 +592,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
 
         double montoHorasExtra = totalHorasExtra * salarioHora * 0.5;
         double montoDiasFeriados = cantidadDiasFeriados * salarioDiario;
-        double salarioBasePeriodo = Math.max(0.0, basePeriodo - (horasFaltantes * salarioHora)) + montoDiasFeriados;
+        double salarioBasePeriodo = basePeriodo;
         double totalDevengado = salarioBasePeriodo + montoHorasExtra + montoIncapacidad;
 
         double deduccionCcssSem = totalDevengado * 0.055;
@@ -613,6 +615,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return PlanillaDetalle.builder()
                 .salarioBasePeriodo(salarioBasePeriodo)
                 .cantidadDiasFeriados(cantidadDiasFeriados)
+                .cantidadDiasNoTrabajadosEnQuincena(cantidadDiasNoTrabajados)
                 .montoHorasExtra(montoHorasExtra)
                 .montoIncapacidad(montoIncapacidad)
                 .deduccionCcssIvm(deduccionCcssIvm)
@@ -752,9 +755,6 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         }
         if (empleado.getPuesto() != null && empleado.getPuesto().getSalarioMinimo() != null) {
             return empleado.getPuesto().getSalarioMinimo();
-        }
-        if (empleado.getSalarioBase() != null) {
-            return empleado.getSalarioBase();
         }
         log.warn("El empleado {} no tiene salario mensual definido", empleado.getId());
         return 0.0;

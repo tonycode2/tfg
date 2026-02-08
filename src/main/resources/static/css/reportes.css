@@ -1,0 +1,278 @@
+/* ===== Reportes de RH - Estilos Corporativos ===== */
+
+@page {
+    size: A4 landscape;
+    margin: 20mm 15mm 20mm 15mm;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 10px;
+    color: #333333;
+    line-height: 1.4;
+}
+
+/* ===== Encabezado ===== */
+.reporte-header {
+    display: table;
+    width: 100%;
+    border-bottom: 3px solid #003366;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.header-logo {
+    display: table-cell;
+    width: 80px;
+    vertical-align: middle;
+}
+
+.header-logo img {
+    width: 70px;
+    height: auto;
+}
+
+.header-info {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 15px;
+}
+
+.empresa-nombre {
+    font-size: 16px;
+    font-weight: bold;
+    color: #003366;
+    margin-bottom: 2px;
+}
+
+.reporte-titulo {
+    font-size: 14px;
+    font-weight: bold;
+    color: #DAA520;
+    margin-bottom: 2px;
+}
+
+.reporte-periodo {
+    font-size: 10px;
+    color: #666666;
+}
+
+.header-fecha {
+    display: table-cell;
+    width: 200px;
+    vertical-align: middle;
+    text-align: right;
+    font-size: 9px;
+    color: #666666;
+}
+
+/* ===== Tablas ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 9px;
+}
+
+table thead th {
+    background-color: #003366;
+    color: #FFFFFF;
+    padding: 6px 4px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+table tbody td {
+    padding: 5px 4px;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #F8F9FA;
+}
+
+table tbody tr:hover {
+    background-color: #EBF5FB;
+}
+
+/* ===== Columnas numéricas ===== */
+.col-monto {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+}
+
+.col-centro {
+    text-align: center;
+}
+
+/* ===== Fila de totales ===== */
+table tfoot td,
+.fila-total td {
+    background-color: #003366;
+    color: #FFFFFF;
+    padding: 6px 4px;
+    font-weight: bold;
+}
+
+.fila-total .col-monto {
+    color: #FFFFFF;
+}
+
+/* ===== Alertas ===== */
+.alerta {
+    background-color: #FFF3CD !important;
+    color: #856404;
+}
+
+.alerta-rojo {
+    background-color: #F8D7DA !important;
+    color: #721C24;
+}
+
+/* ===== Badges de clasificación ===== */
+.badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 8px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.badge-nuevo { background-color: #D4EDDA; color: #155724; }
+.badge-medio { background-color: #CCE5FF; color: #004085; }
+.badge-senior { background-color: #DAA520; color: #FFFFFF; }
+.badge-veterano { background-color: #003366; color: #FFFFFF; }
+
+/* ===== Colilla de Pago ===== */
+.colilla-container {
+    max-width: 700px;
+    margin: 0 auto;
+    border: 2px solid #003366;
+    padding: 20px;
+}
+
+.colilla-section {
+    margin-bottom: 15px;
+}
+
+.colilla-section h3 {
+    font-size: 11px;
+    color: #003366;
+    border-bottom: 1px solid #DAA520;
+    padding-bottom: 3px;
+    margin-bottom: 8px;
+}
+
+.colilla-grid {
+    display: table;
+    width: 100%;
+}
+
+.colilla-grid-row {
+    display: table-row;
+}
+
+.colilla-grid-cell {
+    display: table-cell;
+    padding: 3px 5px;
+    font-size: 10px;
+}
+
+.colilla-grid-label {
+    font-weight: bold;
+    color: #003366;
+    width: 35%;
+}
+
+.colilla-total-row {
+    background-color: #003366;
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 12px;
+    padding: 8px;
+    text-align: right;
+    margin-top: 10px;
+}
+
+/* ===== Panel de Liquidación ===== */
+.liquidacion-header-panel {
+    background-color: #F8F9FA;
+    border: 1px solid #DEE2E6;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.liquidacion-header-panel h3 {
+    color: #003366;
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+.total-liquidacion {
+    font-size: 14px;
+    font-weight: bold;
+    color: #003366;
+    background-color: #DAA520;
+    padding: 10px;
+    text-align: right;
+    margin-top: 10px;
+}
+
+/* ===== Resumen boxes ===== */
+.resumen-container {
+    display: table;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.resumen-box {
+    display: table-cell;
+    width: 25%;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #DEE2E6;
+    background-color: #F8F9FA;
+}
+
+.resumen-box .valor {
+    font-size: 16px;
+    font-weight: bold;
+    color: #003366;
+}
+
+.resumen-box .etiqueta {
+    font-size: 8px;
+    color: #666666;
+    text-transform: uppercase;
+}
+
+/* ===== Pie de página ===== */
+.reporte-footer {
+    margin-top: 20px;
+    padding-top: 8px;
+    border-top: 1px solid #DEE2E6;
+    font-size: 8px;
+    color: #999999;
+    text-align: center;
+}
+
+/* ===== Print specifics ===== */
+@media print {
+    body { font-size: 9px; }
+    table { page-break-inside: auto; }
+    tr { page-break-inside: avoid; page-break-after: auto; }
+    thead { display: table-header-group; }
+    tfoot { display: table-footer-group; }
+}

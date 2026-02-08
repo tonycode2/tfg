@@ -20,7 +20,6 @@ interface EmpleadoFormData {
   correoPersonal: string;
   fechaNacimiento: string;
   fechaIngreso: string;
-  salarioBase: string | number;
   cantidadDeHijos: number;
   saldoVacaciones: number;
   cuentaIban: string;
@@ -52,7 +51,6 @@ export function EmpleadosView() {
     correoPersonal: '',
     fechaNacimiento: '',
     fechaIngreso: '',
-    salarioBase: '',
     cantidadDeHijos: 0,
     saldoVacaciones: 0,
     cuentaIban: '',
@@ -111,7 +109,6 @@ export function EmpleadosView() {
       correoPersonal: '',
       fechaNacimiento: '',
       fechaIngreso: '',
-      salarioBase: '',
       cantidadDeHijos: 0,
       saldoVacaciones: 0,
       cuentaIban: '',
@@ -139,7 +136,6 @@ export function EmpleadosView() {
       correoPersonal: empleado.correoPersonal,
       fechaNacimiento: empleado.fechaNacimiento,
       fechaIngreso: empleado.fechaIngreso,
-      salarioBase: empleado.salarioBase.toString(),
       cantidadDeHijos: empleado.cantidadDeHijos,
       saldoVacaciones: empleado.saldoVacaciones,
       cuentaIban: empleado.cuentaIban || '',
@@ -208,12 +204,6 @@ export function EmpleadosView() {
     // Fecha de ingreso: requerida
     if (!formData.fechaIngreso) {
       newErrors.fechaIngreso = 'La fecha de ingreso es requerida';
-    }
-
-    // Salario base: debe ser positivo
-    const salario = typeof formData.salarioBase === 'string' ? parseFloat(formData.salarioBase) : formData.salarioBase;
-    if (!salario || salario <= 0) {
-      newErrors.salarioBase = 'El salario debe ser mayor a 0';
     }
 
     // Cantidad de hijos: debe ser positivo o cero
@@ -294,9 +284,6 @@ export function EmpleadosView() {
         correoPersonal: formData.correoPersonal,
         fechaNacimiento: formData.fechaNacimiento,
         fechaIngreso: formData.fechaIngreso,
-        salarioBase: typeof formData.salarioBase === 'string' 
-          ? parseFloat(formData.salarioBase) 
-          : formData.salarioBase,
         cantidadDeHijos: formData.cantidadDeHijos,
         saldoVacaciones: formData.saldoVacaciones,
         cuentaIban: formData.cuentaIban || undefined, // Opcional
@@ -348,6 +335,9 @@ export function EmpleadosView() {
       render: (value: any) => value || 'Sin usuario'
     },
   ];
+
+  const selectedPuesto = puestos.find((puesto) => puesto.id === formData.idPuesto);
+  const salarioPuesto = selectedPuesto?.salarioMinimo ?? '';
 
   return (
     <div className="space-y-6">
@@ -541,21 +531,15 @@ export function EmpleadosView() {
             {errors.fechaIngreso && <p className="text-xs text-red-500 mt-1">{errors.fechaIngreso}</p>}
           </div>
           <div>
-            <Label htmlFor="salarioBase">Salario Base * (automático del puesto)</Label>
+            <Label htmlFor="salarioPuesto">Salario del Puesto</Label>
             <Input
-              id="salarioBase"
+              id="salarioPuesto"
               type="number"
               step="0.01"
-              value={formData.salarioBase}
-              onChange={(e) => {
-                setFormData({ ...formData, salarioBase: e.target.value });
-                setErrors({ ...errors, salarioBase: '' });
-              }}
-              className={`bg-muted ${errors.salarioBase ? 'border-red-500' : ''}`}
+              value={salarioPuesto}
+              className="bg-muted"
               readOnly
-              required
             />
-            {errors.salarioBase && <p className="text-xs text-red-500 mt-1">{errors.salarioBase}</p>}
           </div>
           <div>
             <Label htmlFor="cantidadDeHijos">Cantidad de Hijos *</Label>
@@ -640,16 +624,7 @@ export function EmpleadosView() {
               value={formData.idPuesto}
               onChange={(e) => {
                 const puestoId = parseInt(e.target.value);
-                const puestoSeleccionado = puestos.find(p => p.id === puestoId);
-                if (puestoSeleccionado) {
-                  setFormData({ 
-                    ...formData, 
-                    idPuesto: puestoId,
-                    salarioBase: puestoSeleccionado.salarioMinimo,
-                  });
-                } else {
-                  setFormData({ ...formData, idPuesto: puestoId });
-                }
+                setFormData({ ...formData, idPuesto: puestoId });
                 setErrors({ ...errors, idPuesto: '' });
               }}
               required

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="css/reportes.css"/>
+    <style>@page { size: A4 landscape; }</style>
+    <title>Reporte de Vacaciones</title>
+</head>
+<body>
+    <div class="reporte-header">
+        <div class="header-logo"><img src="logo.png" alt="Logo"/></div>
+        <div class="header-info">
+            <div class="empresa-nombre" th:text="${dto.nombreEmpresa}">Empresa</div>
+            <div class="reporte-titulo" th:text="${dto.tituloReporte}">Reporte</div>
+        </div>
+        <div class="header-fecha">Generado: <span th:text="${dto.fechaGeneracion}"/></div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Departamento</th>
+                <th>Fecha Ingreso</th>
+                <th class="col-centro">Acumulados</th>
+                <th class="col-centro">Disfrutados</th>
+                <th class="col-centro">Pendientes</th>
+                <th class="col-centro">Vencidos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="emp : ${dto.empleados}" th:classappend="${emp.tieneVencidos ? 'alerta' : ''}">
+                <td th:text="${emp.cedula}"></td>
+                <td th:text="${emp.nombreCompleto}"></td>
+                <td th:text="${emp.departamento}"></td>
+                <td th:text="${emp.fechaIngreso}"></td>
+                <td class="col-centro" th:text="${emp.diasAcumulados}"></td>
+                <td class="col-centro" th:text="${emp.diasDisfrutados}"></td>
+                <td class="col-centro" th:text="${emp.diasPendientes}"></td>
+                <td class="col-centro" th:text="${emp.tieneVencidos ? 'Sí' : 'No'}"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="fila-total">
+                <td colspan="6" style="text-align: right;">Total días pendientes:</td>
+                <td class="col-centro" th:text="${dto.totalDiasPendientes}"></td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="reporte-footer">Generado por el Sistema de Gestión de RH — <span th:text="${dto.nombreEmpresa}"/></div>
+</body>
+</html>

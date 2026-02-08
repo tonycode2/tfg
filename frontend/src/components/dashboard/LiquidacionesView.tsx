@@ -297,7 +297,7 @@ export function LiquidacionesView() {
             <div><strong>Empleado:</strong> {`${selectedResult.nombreEmpleado || ''} ${selectedResult.primerApellidoEmpleado || ''} ${selectedResult.segundoApellidoEmpleado || ''}`}</div>
             <div>
               <strong>Salario mensual:</strong>{' '}
-              {loadingEmpleado ? 'Cargando...' : selectedEmpleado ? formatCurrency(selectedEmpleado.salarioBase || 0) : '—'}
+              {loadingEmpleado ? 'Cargando...' : selectedEmpleado ? formatCurrency(selectedEmpleado.puesto?.salarioMinimo || 0) : '—'}
             </div>
             <div><strong>Motivo salida:</strong> {motivoLabels[selectedResult.motivoSalida] || selectedResult.motivoSalida}</div>
             <div><strong>Total:</strong> {formatCurrency(selectedResult.totalLiquidacion || 0)}</div>

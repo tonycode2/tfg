@@ -5,6 +5,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.anthony.tfg.tfg.Entidades.Asistencia;
+import com.anthony.tfg.tfg.Entidades.ConfiguracionRenta;
 import com.anthony.tfg.tfg.Entidades.Departamento;
 import com.anthony.tfg.tfg.Entidades.DiasFeriados;
 import com.anthony.tfg.tfg.Entidades.Direccion;
@@ -30,13 +32,18 @@ import com.anthony.tfg.tfg.Entidades.Enums.TipoEvento;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoIncapacidad;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoTarifa;
+import com.anthony.tfg.tfg.Entidades.Enums.TipoQuincena;
 import com.anthony.tfg.tfg.Entidades.JefesDepartamento;
 import com.anthony.tfg.tfg.Entidades.Puestos;
+import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudGenerarPlanillaDTO;
+import com.anthony.tfg.tfg.Exceptions.ConflictException;
+import com.anthony.tfg.tfg.Modulos.Planilla.Servicio.ServicioPlanilla;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.Role;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.UserRepository;
 import com.anthony.tfg.tfg.Modulos.JornadaDiaria.Servicio.ServicioJornadaDiaria;
 import com.anthony.tfg.tfg.Repositorios.AsistenciaRepositorio;
+import com.anthony.tfg.tfg.Repositorios.ConfiguracionRentaRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DepartamentoRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DiasFeriadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DireccionRepositorio;
@@ -75,6 +82,7 @@ public class DataSeeder implements CommandLineRunner {
     private final DireccionRepositorio direccionRepositorio;
     private final UserRepository userRepository;
     private final EmpleadosRepositorio empleadosRepositorio;
+    private final ConfiguracionRentaRepositorio configuracionRentaRepositorio;
     private final DiasFeriadosRepositorio diasFeriadosRepositorio;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepositorio;
     private final AsistenciaRepositorio asistenciaRepositorio;
@@ -83,10 +91,16 @@ public class DataSeeder implements CommandLineRunner {
     private final IncapacidadesRepositorio incapacidadesRepositorio;
     private final PasswordEncoder passwordEncoder;
     private final ServicioJornadaDiaria servicioJornadaDiaria;
+    private final ServicioPlanilla servicioPlanilla;
 
     @Override
     @Transactional
     public void run(String... args) {
+        int tramosRenta = seedRentaConfig();
+        if (tramosRenta > 0) {
+            logger.info("Seeded {} renta tax brackets", tramosRenta);
+        }
+
         int holidays2025 = seedHolidays2025();
         int holidays2026 = seedHolidays2026();
         int totalHolidays = holidays2025 + holidays2026;
@@ -158,6 +172,8 @@ public class DataSeeder implements CommandLineRunner {
             logger.info("Generated {} jornada diaria records", jornadasGeneradas);
 
             applyLeaveJornadas(aprilEvents);
+
+            generarPlanillasHistoricas();
 
             logger.info("=== Database seeding completed successfully ===");
             logger.info("Summary: {} employees, {} addresses, {} users",
@@ -305,6 +321,46 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     /**
+     * Seeds Costa Rica income tax brackets (monthly gross salary).
+     */
+    private int seedRentaConfig() {
+        if (configuracionRentaRepositorio.count() > 0) {
+            return 0;
+        }
+
+        List<ConfiguracionRenta> tramos = List.of(
+            ConfiguracionRenta.builder()
+                .montoMinimo(0.0)
+                .montoMaximo(922000.0)
+                .porcentaje(0.0)
+                .build(),
+            ConfiguracionRenta.builder()
+                .montoMinimo(922000.0)
+                .montoMaximo(1352000.0)
+                .porcentaje(10.0)
+                .build(),
+            ConfiguracionRenta.builder()
+                .montoMinimo(1352000.0)
+                .montoMaximo(2373000.0)
+                .porcentaje(15.0)
+                .build(),
+            ConfiguracionRenta.builder()
+                .montoMinimo(2373000.0)
+                .montoMaximo(4745000.0)
+                .porcentaje(20.0)
+                .build(),
+            ConfiguracionRenta.builder()
+                .montoMinimo(4745000.0)
+                .montoMaximo(999_999_999.0)
+                .porcentaje(25.0)
+                .build()
+        );
+
+        configuracionRentaRepositorio.saveAll(tramos);
+        return tramos.size();
+    }
+
+    /**
      * Creates positions for Admin and Sastrería departments.
      */
     private List<Puestos> createPositions(Departamento admin, Departamento sastreria) {
@@ -436,15 +492,15 @@ public class DataSeeder implements CommandLineRunner {
     private List<Empleados> createEmployees(List<Puestos> puestos, List<Direccion> direcciones, List<User> users) {
         List<Empleados> empleados = new ArrayList<>();
 
-        // {nombre, primerApellido, segundoApellido, birthDate, startDate, positionIndex, userIndex, salary, cedula}
+        // {nombre, primerApellido, segundoApellido, birthDate, startDate, positionIndex, userIndex, cedula}
         // positionIndex: 0=Administrador(Admin), 1=GerenteRH(Admin), 2=Sastre(Sastrería), 3=SastreJr, 4=SastreJr, 5=Cortador
         Object[][] employeeData = {
-            {"Carlos", "Administrador", "Vargas", "1985-03-15", "2020-01-10", 0, 0, 800000.0, "101230456"},   // ADMIN (Administrador/Admin dept)
-            {"María", "González", "Solano", "1988-07-22", "2021-06-15", 1, 1, 1100000.0, "102340567"},        // RH (Gerente RH/Admin dept)
-            {"José", "Fernández", "Castro", "1980-11-08", "2019-03-20", 2, 2, 600000.0, "103450678"},         // JEFE (Sastre/Sastrería)
-            {"Ana", "López", "Mora", "1992-05-12", "2023-02-01", 3, 3, 380000.0, "104560789"},                // EMPLEADO (Sastre Jr/Sastrería)
-            {"Pedro", "Álvarez", "Jiménez", "1995-09-30", "2024-01-15", 3, 4, 370000.0, "105670890"},         // EMPLEADO (Sastre Jr/Sastrería)
-            {"Laura", "Rodríguez", "Pérez", "1993-04-18", "2023-08-10", 4, 5, 420000.0, "106780901"}          // EMPLEADO (Cortador/Sastrería)
+            {"Carlos", "Administrador", "Vargas", "1985-03-15", "2020-01-10", 0, 0, "101230456"},   // ADMIN (Administrador/Admin dept)
+            {"María", "González", "Solano", "1988-07-22", "2021-06-15", 1, 1, "102340567"},        // RH (Gerente RH/Admin dept)
+            {"José", "Fernández", "Castro", "1980-11-08", "2019-03-20", 2, 2, "103450678"},         // JEFE (Sastre/Sastrería)
+            {"Ana", "López", "Mora", "1992-05-12", "2023-02-01", 3, 3, "104560789"},                // EMPLEADO (Sastre Jr/Sastrería)
+            {"Pedro", "Álvarez", "Jiménez", "1995-09-30", "2024-01-15", 3, 4, "105670890"},         // EMPLEADO (Sastre Jr/Sastrería)
+            {"Laura", "Rodríguez", "Pérez", "1993-04-18", "2023-08-10", 4, 5, "106780901"}          // EMPLEADO (Cortador/Sastrería)
         };
 
         for (int i = 0; i < employeeData.length; i++) {
@@ -457,8 +513,7 @@ public class DataSeeder implements CommandLineRunner {
             LocalDate fechaIngreso = LocalDate.parse((String) data[4]);
             int puestoIndex = (Integer) data[5];
             int userIndex = (Integer) data[6];
-            Double salario = (Double) data[7];
-            String cedula = (String) data[8];
+            String cedula = (String) data[7];
             
             // Calculate vacation balance based on years worked (14 days per year, max 30)
             long yearsWorked = ChronoUnit.YEARS.between(fechaIngreso, LocalDate.now());
@@ -471,7 +526,6 @@ public class DataSeeder implements CommandLineRunner {
                 .cedula(cedula)
                 .fechaNacimiento(fechaNacimiento)
                 .fechaIngreso(fechaIngreso)
-                .salarioBase(salario)
                 .puesto(puestos.get(puestoIndex))
                 .usuario(users.get(userIndex))
                 .direccion(direcciones.get(i))
@@ -501,10 +555,10 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     /**
-     * Generates attendance records from Dec 1, 2024 to Apr 16, 2026.
-     * - Weekdays only (Monday-Friday)
-     * - Skips holidays
-     * - Punctual ENTRADA and SALIDA (no overtime)
+    * Generates attendance records from Dec 1, 2024 to Apr 16, 2026.
+    * - Weekdays only (Monday-Friday)
+    * - Includes holidays to simulate worked feriados
+    * - Punctual ENTRADA and SALIDA (no overtime)
      */
     private int generateAttendanceRecords(List<Empleados> empleados) {
         List<Asistencia> attendanceRecords = new ArrayList<>();
@@ -692,12 +746,36 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
+    private void generarPlanillasHistoricas() {
+        YearMonth current = YearMonth.of(2024, 12);
+        YearMonth end = YearMonth.of(2026, 1);
+
+        while (!current.isAfter(end)) {
+            generarPlanillaParaPeriodo(current, TipoQuincena.PRIMERA);
+            generarPlanillaParaPeriodo(current, TipoQuincena.SEGUNDA);
+            current = current.plusMonths(1);
+        }
+    }
+
+    private void generarPlanillaParaPeriodo(YearMonth periodo, TipoQuincena tipoQuincena) {
+        try {
+            SolicitudGenerarPlanillaDTO solicitud = new SolicitudGenerarPlanillaDTO(
+                periodo.getMonthValue(),
+                periodo.getYear(),
+                tipoQuincena);
+            servicioPlanilla.generarPlanilla(solicitud);
+            logger.info("Planilla generada: {} {}", tipoQuincena, periodo);
+        } catch (ConflictException ex) {
+            logger.info("Planilla ya existe: {} {}", tipoQuincena, periodo);
+        }
+    }
+
     private boolean isLaborable(LocalDate date) {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
             return false;
         }
-        return !diasFeriadosRepositorio.existsByFecha(date);
+        return true;
     }
 
     private record AprilEvents(

@@ -48,8 +48,6 @@ public class Empleados {
     LocalDate fechaNacimiento;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDate fechaIngreso;
-    @Column(name = "salario_base")
-    Double salarioBase;
     @Column(name = "cantidad_de_hijos")
     Integer cantidadDeHijos;
     @Column(name = "saldo_vacaciones")

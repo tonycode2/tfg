@@ -159,86 +159,8 @@ export function MiPlanillaView() {
         return;
       }
 
-      const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
-
-      let y = 14;
-
-      const ensureSpace = (required: number) => {
-        if (y + required > pageHeight - 12) {
-          doc.addPage();
-          y = 14;
-        }
-      };
-
-      const addSectionTitle = (title: string) => {
-        ensureSpace(10);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(12);
-        doc.text(title, 12, y);
-        y += 5;
-        doc.setDrawColor(220);
-        doc.line(12, y, pageWidth - 12, y);
-        y += 4;
-      };
-
-      const addKeyValue = (label: string, value: string) => {
-        ensureSpace(6);
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
-        doc.text(label, 12, y);
-        doc.setFont('helvetica', 'bold');
-        doc.text(value, pageWidth - 12, y, { align: 'right' });
-        y += 5;
-      };
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(16);
-      doc.text('Colilla de Pago', pageWidth / 2, y, { align: 'center' });
-      y += 8;
-
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(10);
-      doc.text('Sastrería Gerson Andre', 12, y);
-      doc.text(`Fecha de emisión: ${formatDate(new Date().toISOString())}`, pageWidth - 12, y, { align: 'right' });
-      y += 6;
-
-      addSectionTitle('Información del empleado');
-      addKeyValue('Empleado', userInfo.nombreCompleto || userInfo.username || 'N/A');
-      addKeyValue('ID Empleado', userInfo.idEmpleado ? String(userInfo.idEmpleado) : 'N/A');
-
-      addSectionTitle('Periodo de planilla');
-      addKeyValue('Periodo', `${formatDate(planilla.fechaInicioPeriodo)} al ${formatDate(planilla.fechaFinPeriodo)}`);
-      addKeyValue('Fecha de pago', formatDate(planilla.fechaPago));
-      addKeyValue('Tipo de quincena', planilla.tipoQuincena || 'N/A');
-
-      addSectionTitle('Devengado');
-      addKeyValue('Salario base', formatCurrencyForPdf(planilla.salarioBasePeriodo));
-      addKeyValue('Horas extra (monto)', formatCurrencyForPdf(planilla.montoHorasExtra));
-      addKeyValue('Incapacidad (monto)', formatCurrencyForPdf(planilla.montoIncapacidad));
-      addKeyValue('Total devengado', formatCurrencyForPdf(planilla.totalDevengado));
-
-
-      addSectionTitle('Deducciones y rebajos');
-      addKeyValue('CCSS IVM', formatCurrencyForPdf(planilla.deduccionCcssIvm));
-      addKeyValue('CCSS SEM', formatCurrencyForPdf(planilla.deduccionCcssSem));
-      addKeyValue('Impuesto de renta', formatCurrencyForPdf(planilla.impuestoDeRenta));
-      addKeyValue('Otras deducciones', formatCurrencyForPdf(planilla.otrasDeducciones));
-      addKeyValue('Total deducciones', formatCurrencyForPdf(planilla.totalDeducciones));
-
-      addSectionTitle('Resumen');
-      addKeyValue('Salario neto a recibir', formatCurrencyForPdf(planilla.salarioNeto));
-      addKeyValue('Días feriados en el periodo', formatNumber(planilla.cantidadDiasFeriados));
-
-      const pdfBlob = doc.output('blob');
-      const uploadResponse = await planillasService.uploadPlanillaPdf(detalleId, pdfBlob);
-
-      setPlanillas((prev) => prev.map(item =>
-        item.id === planilla.id ? { ...item, urlPdf: uploadResponse.urlPdf } : item
-      ));
-
-      openPdfBlob(pdfBlob, filename);
+      // Use backend-generated colilla PDF (secure, server-side rendering)
+      await import('@/services/reportesService').then(m => m.reportesService.colilla(detalleId));
     } catch (error: any) {
       console.error('Error al generar PDF:', error);
       toast.error('Error al generar PDF', {
