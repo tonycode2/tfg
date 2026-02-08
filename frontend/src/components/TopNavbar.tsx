@@ -200,7 +200,7 @@ const menuItems: MenuItem[] = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     ),
-    roles: ['HR', 'JEFE'],
+    roles: ['HR'],
   },
   {
     id: 'empleados',
@@ -583,15 +583,6 @@ export const TopNavbar = memo(function TopNavbar({
                           className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'evaluaciones' && 'bg-primary text-primary-foreground')}
                         >
                           Evaluaciones
-                        </button>
-                        <button
-                          onClick={() => {
-                            setAdministrativoOpen(false);
-                            setTimeout(() => onItemClick('reportes'), 120);
-                          }}
-                          className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'reportes' && 'bg-primary text-primary-foreground')}
-                        >
-                          Reportes
                         </button>
                       </div>
                     </PopoverContent>

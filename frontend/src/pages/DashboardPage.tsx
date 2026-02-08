@@ -158,7 +158,7 @@ export default function DashboardPage() {
       case 'aguinaldo':
         return <MemoizedAguinaldoView />;
       case 'reportes':
-        return <MemoizedReportesView />;
+        return userInfo.role === 'HR' ? <MemoizedReportesView /> : <MemoizedInicioView userRole={userInfo.role} />;
       default:
         return <MemoizedInicioView userRole={userInfo.role} />;
     }
