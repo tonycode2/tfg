@@ -124,6 +124,9 @@ public class ServicioEvaluacionTest {
         User user = new User();
         user.setId(200L);
         user.setRole(Role.JEFE);
+        Empleados empleadoJefe = new Empleados();
+        empleadoJefe.setId(2000L);
+        user.setEmpleado(empleadoJefe);
 
         when(auth.isAuthenticated()).thenReturn(true);
         when(auth.getPrincipal()).thenReturn(user);
