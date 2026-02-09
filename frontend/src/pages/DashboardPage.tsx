@@ -112,7 +112,7 @@ export default function DashboardPage() {
 
     switch (activeView) {
       case 'inicio':
-        return <MemoizedInicioView userRole={userInfo.role} />;
+        return <MemoizedInicioView username={userInfo.nombreCompleto || userInfo.username} employeeId={userInfo.idEmpleado} />;
       case 'empleados':
         return <MemoizedEmpleadosView />;
       case 'mantenimientos':
@@ -158,11 +158,11 @@ export default function DashboardPage() {
       case 'aguinaldo':
         return <MemoizedAguinaldoView />;
       case 'reportes':
-        return userInfo.role === 'HR' ? <MemoizedReportesView /> : <MemoizedInicioView userRole={userInfo.role} />;
+        return userInfo.role === 'HR' ? <MemoizedReportesView /> : <MemoizedInicioView username={userInfo.nombreCompleto || userInfo.username} employeeId={userInfo.idEmpleado} />;
       default:
-        return <MemoizedInicioView userRole={userInfo.role} />;
+        return <MemoizedInicioView username={userInfo.nombreCompleto || userInfo.username} employeeId={userInfo.idEmpleado} />;
     }
-  }, [activeView, userInfo.role]);
+  }, [activeView, userInfo.idEmpleado, userInfo.nombreCompleto, userInfo.role, userInfo.username]);
 
   // Intercept view changes to animate content transition
   const handleSetActiveView = useCallback((view: string) => {
