@@ -361,6 +361,10 @@ export function MiPlanillaView() {
                     <span className="font-medium">{formatCurrency(selectedPlanilla.montoHorasExtra)}</span>
                   </div>
                   <div className="flex justify-between">
+                    <span className="text-muted-foreground">Feriados Trabajados:</span>
+                    <span className="font-medium">{formatCurrency(selectedPlanilla.montoFeriadosTrabajados)}</span>
+                  </div>
+                  <div className="flex justify-between">
                     <span className="text-muted-foreground">Incapacidad:</span>
                     <span className="font-medium">{formatCurrency(selectedPlanilla.montoIncapacidad)}</span>
                   </div>

@@ -317,6 +317,7 @@ export interface PlanillaEmpleado {
   salarioBasePeriodo: number;
   cantidadDiasFeriados: number;
   montoHorasExtra: number;
+  montoFeriadosTrabajados: number;
   montoIncapacidad: number;
   deduccionCcssIvm: number;
   deduccionCcssSem: number;
@@ -339,6 +340,7 @@ export interface PlanillaDetalleGeneral {
   salarioBasePeriodo: number;
   cantidadDiasFeriados: number;
   montoHorasExtra: number;
+  montoFeriadosTrabajados: number;
   montoIncapacidad: number;
   deduccionCcssIvm: number;
   deduccionCcssSem: number;

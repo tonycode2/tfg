@@ -52,6 +52,7 @@ public class ReportePlanillaDTO {
         private String departamento;
         private Double salarioBase;
         private Double montoHorasExtra;
+        private Double montoFeriadosTrabajados;
         private Double montoIncapacidad;
         private Double totalDevengado;
         private Double deduccionCcssIvm;

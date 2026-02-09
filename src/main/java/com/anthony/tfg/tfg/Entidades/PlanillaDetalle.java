@@ -33,6 +33,8 @@ public class PlanillaDetalle {
     Integer cantidadDiasNoTrabajadosEnQuincena;
     @Column(name = "monto_horas_extra")
     Double montoHorasExtra;
+    @Column(name = "monto_feriados_trabajados")
+    Double montoFeriadosTrabajados;
     @Column(name = "monto_incapacidad")
     Double montoIncapacidad;
     @Column(name = "deducciones_ccss_ivm")

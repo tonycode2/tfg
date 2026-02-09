@@ -95,8 +95,9 @@ public class ServicioReportes {
 
 	    double salarioBase = safe(detalle.getSalarioBasePeriodo());
 	    double horasExtra = safe(detalle.getMontoHorasExtra());
+	    double feriadosTrabajados = safe(detalle.getMontoFeriadosTrabajados());
 	    double incapacidad = safe(detalle.getMontoIncapacidad());
-	    double devengado = salarioBase + horasExtra + incapacidad;
+	    double devengado = salarioBase + horasExtra + feriadosTrabajados + incapacidad;
 
 	    double ccssIvm = safe(detalle.getDeduccionCcssIvm());
 	    double ccssSem = safe(detalle.getDeduccionCcssSem());
@@ -117,6 +118,7 @@ public class ServicioReportes {
 		    .departamento(obtenerNombreDepartamento(emp))
 		    .salarioBase(salarioBase)
 		    .montoHorasExtra(horasExtra)
+		    .montoFeriadosTrabajados(feriadosTrabajados)
 		    .montoIncapacidad(incapacidad)
 		    .totalDevengado(devengado)
 		    .deduccionCcssIvm(ccssIvm)
@@ -163,8 +165,9 @@ public class ServicioReportes {
 
 	double salarioBase = safe(detalle.getSalarioBasePeriodo());
 	double horasExtra = safe(detalle.getMontoHorasExtra());
+	double feriadosTrabajados = safe(detalle.getMontoFeriadosTrabajados());
 	double incapacidad = safe(detalle.getMontoIncapacidad());
-	double devengado = salarioBase + horasExtra + incapacidad;
+	double devengado = salarioBase + horasExtra + feriadosTrabajados + incapacidad;
 
 	double ccssIvm = safe(detalle.getDeduccionCcssIvm());
 	double ccssSem = safe(detalle.getDeduccionCcssSem());
@@ -189,6 +192,7 @@ public class ServicioReportes {
 		.tipoQuincena(encabezado.getTipoQuincena() != null ? encabezado.getTipoQuincena().name() : "")
 		.salarioBase(salarioBase)
 		.montoHorasExtra(horasExtra)
+		.montoFeriadosTrabajados(feriadosTrabajados)
 		.montoIncapacidad(incapacidad)
 		.totalDevengado(devengado)
 		.deduccionCcssIvm(ccssIvm)

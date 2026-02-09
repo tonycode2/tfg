@@ -33,6 +33,7 @@
                 <th class="col-monto">Sal. Base</th>
                 <th class="col-monto">H. Extra</th>
                 <th class="col-monto">Incap.</th>
+                <th class="col-monto">Feriados</th>
                 <th class="col-monto">Devengado</th>
                 <th class="col-monto">CCSS IVM</th>
                 <th class="col-monto">CCSS SEM</th>
@@ -51,6 +52,7 @@
                 <td class="col-monto" th:text="${#numbers.formatDecimal(emp.salarioBase, 1, 'COMMA', 2, 'POINT')}"></td>
                 <td class="col-monto" th:text="${#numbers.formatDecimal(emp.montoHorasExtra, 1, 'COMMA', 2, 'POINT')}"></td>
                 <td class="col-monto" th:text="${#numbers.formatDecimal(emp.montoIncapacidad, 1, 'COMMA', 2, 'POINT')}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(emp.montoFeriadosTrabajados, 1, 'COMMA', 2, 'POINT')}"></td>
                 <td class="col-monto" th:text="${#numbers.formatDecimal(emp.totalDevengado, 1, 'COMMA', 2, 'POINT')}"></td>
                 <td class="col-monto" th:text="${#numbers.formatDecimal(emp.deduccionCcssIvm, 1, 'COMMA', 2, 'POINT')}"></td>
                 <td class="col-monto" th:text="${#numbers.formatDecimal(emp.deduccionCcssSem, 1, 'COMMA', 2, 'POINT')}"></td>
@@ -62,7 +64,7 @@
         </tbody>
         <tfoot>
             <tr class="fila-total">
-                <td colspan="7" style="text-align: right;">TOTALES:</td>
+                <td colspan="8" style="text-align: right;">TOTALES:</td>
                 <td class="col-monto" th:text="${#numbers.formatDecimal(dto.totalBruto, 1, 'COMMA', 2, 'POINT')}"></td>
                 <td colspan="4"></td>
                 <td class="col-monto" th:text="${#numbers.formatDecimal(dto.totalDeducciones, 1, 'COMMA', 2, 'POINT')}"></td>

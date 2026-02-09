@@ -617,6 +617,7 @@ export function PlanillaGeneralView() {
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Base</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Horas Extra</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Incapacidad</th>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Feriados</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Devengado</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Deducciones</th>
                         <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Impuesto Renta</th>
@@ -628,6 +629,7 @@ export function PlanillaGeneralView() {
                         const totalDevengado =
                           (detalle.salarioBasePeriodo || 0) +
                           (detalle.montoHorasExtra || 0) +
+                          (detalle.montoFeriadosTrabajados || 0) +
                           (detalle.montoIncapacidad || 0);
                         const totalDeducciones =
                           (detalle.deduccionCcssIvm || 0) +
@@ -652,6 +654,7 @@ export function PlanillaGeneralView() {
                             <td className="px-4 py-3">{formatCurrency(detalle.salarioBasePeriodo)}</td>
                             <td className="px-4 py-3">{formatCurrency(detalle.montoHorasExtra)}</td>
                             <td className="px-4 py-3">{formatCurrency(detalle.montoIncapacidad)}</td>
+                            <td className="px-4 py-3">{formatCurrency(detalle.montoFeriadosTrabajados)}</td>
                             <td className="px-4 py-3 font-semibold">{formatCurrency(totalDevengado)}</td>
                             <td className="px-4 py-3">{formatCurrency(totalDeducciones)}</td>
                             <td className="px-4 py-3">{formatCurrency(detalle.impuestoDeRenta)}</td>

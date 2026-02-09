@@ -59,6 +59,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                                                         SolicitudPlanillaEncabezadoDTO, 
                                                         PlanillaEncabezado>{
 
+    private static final double CREDITO_POR_HIJO = 1720.0;
+    private static final double CREDITO_POR_CASADO = 2600.0;
+
     private final ConsultasPlanillaEncabezado consulta;
     private final MantenimientosPlanillaEncabezados mantenimiento;
     private final PlanillaDetalleRepositorio planillaDetalleRepo;
@@ -150,6 +153,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             ? detalle.getCantidadDiasNoTrabajadosEnQuincena()
             : 0;
         dto.montoHorasExtra = detalle.getMontoHorasExtra() != null ? detalle.getMontoHorasExtra() : 0.0;
+        dto.montoFeriadosTrabajados = detalle.getMontoFeriadosTrabajados() != null
+            ? detalle.getMontoFeriadosTrabajados()
+            : 0.0;
         dto.montoIncapacidad = detalle.getMontoIncapacidad() != null ? detalle.getMontoIncapacidad() : 0.0;
         dto.deduccionCcssIvm = detalle.getDeduccionCcssIvm() != null ? detalle.getDeduccionCcssIvm() : 0.0;
         dto.deduccionCcssSem = detalle.getDeduccionCcssSem() != null ? detalle.getDeduccionCcssSem() : 0.0;
@@ -160,7 +166,8 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             : null;
         
         // Calcular totales
-        dto.totalDevengado = dto.salarioBasePeriodo + dto.montoHorasExtra + dto.montoIncapacidad;
+        dto.totalDevengado = dto.salarioBasePeriodo + dto.montoHorasExtra + dto.montoFeriadosTrabajados
+            + dto.montoIncapacidad;
         dto.totalDeducciones = dto.deduccionCcssIvm + dto.deduccionCcssSem + 
                               dto.impuestoDeRenta + dto.otrasDeducciones;
         dto.salarioNeto = dto.totalDevengado - dto.totalDeducciones;
@@ -180,6 +187,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             ? detalle.getCantidadDiasNoTrabajadosEnQuincena()
             : 0;
         dto.montoHorasExtra = detalle.getMontoHorasExtra() != null ? detalle.getMontoHorasExtra() : 0.0;
+        dto.montoFeriadosTrabajados = detalle.getMontoFeriadosTrabajados() != null
+            ? detalle.getMontoFeriadosTrabajados()
+            : 0.0;
         dto.montoIncapacidad = detalle.getMontoIncapacidad() != null ? detalle.getMontoIncapacidad() : 0.0;
         dto.deduccionCcssIvm = detalle.getDeduccionCcssIvm() != null ? detalle.getDeduccionCcssIvm() : 0.0;
         dto.deduccionCcssSem = detalle.getDeduccionCcssSem() != null ? detalle.getDeduccionCcssSem() : 0.0;
@@ -367,6 +377,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         for (PlanillaDetalle detalle : detalles) {
             double totalDevengado = safe(detalle.getSalarioBasePeriodo())
                 + safe(detalle.getMontoHorasExtra())
+                + safe(detalle.getMontoFeriadosTrabajados())
                 + safe(detalle.getMontoIncapacidad());
             double totalDeducciones = safe(detalle.getDeduccionCcssIvm())
                 + safe(detalle.getDeduccionCcssSem())
@@ -591,20 +602,19 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         }
 
         double montoHorasExtra = totalHorasExtra * salarioHora * 0.5;
-        double montoDiasFeriados = cantidadDiasFeriados * salarioDiario;
+        double montoFeriadosTrabajados = cantidadDiasFeriados * salarioDiario;
         double salarioBasePeriodo = basePeriodo;
-        double totalDevengado = salarioBasePeriodo + montoHorasExtra + montoIncapacidad;
+        double totalDevengado = salarioBasePeriodo + montoHorasExtra + montoFeriadosTrabajados + montoIncapacidad;
 
         double deduccionCcssSem = totalDevengado * 0.055;
         double deduccionCcssIvm = totalDevengado * 0.0433;
         double otrasDeducciones = totalDevengado * 0.01;
         double ccssMensual = salarioMensual * 0.055 + salarioMensual * 0.0433;
         double impuestoRenta = calcularImpuestoRentaQuincena(tipoQuincena,
+            empleado,
             salarioMensual,
             salarioDiario,
             salarioHora,
-            montoHorasExtra,
-            montoDiasFeriados,
             inicioMes,
             finMes,
             jornadasPorFecha,
@@ -617,6 +627,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                 .cantidadDiasFeriados(cantidadDiasFeriados)
                 .cantidadDiasNoTrabajadosEnQuincena(cantidadDiasNoTrabajados)
                 .montoHorasExtra(montoHorasExtra)
+                .montoFeriadosTrabajados(montoFeriadosTrabajados)
                 .montoIncapacidad(montoIncapacidad)
                 .deduccionCcssIvm(deduccionCcssIvm)
                 .deduccionCcssSem(deduccionCcssSem)
@@ -628,45 +639,42 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
     }
 
     private double calcularImpuestoRentaQuincena(TipoQuincena tipoQuincena,
+                                                 Empleados empleado,
                                                  double salarioMensual,
                                                  double salarioDiario,
                                                  double salarioHora,
-                                                 double montoHorasExtraPeriodo,
-                                                 double montoDiasFeriadosPeriodo,
                                                  LocalDate inicioMes,
                                                  LocalDate finMes,
                                                  Map<LocalDate, JornadaDiaria> jornadasPorFechaMes,
                                                  Set<LocalDate> feriadosMes,
                                                  double ccssMensual,
                                                  List<ConfiguracionRenta> tramosRenta) {
-        double baseRentaQuincena = salarioMensual + montoHorasExtraPeriodo + montoDiasFeriadosPeriodo - ccssMensual;
-        double impuestoMensualConQuincena = calcularImpuestoRenta(baseRentaQuincena, tramosRenta);
-
         if (tipoQuincena == TipoQuincena.PRIMERA) {
-            return Math.max(0.0, impuestoMensualConQuincena * 0.5);
+            return 0.0;
         }
 
         if (tipoQuincena == TipoQuincena.SEGUNDA) {
             ResumenRenta resumenMes = calcularResumenRenta(inicioMes, finMes, jornadasPorFechaMes, feriadosMes);
-            LocalDate finQuincenaUno = inicioMes.plusDays(13);
-            ResumenRenta resumenQuincenaUno = calcularResumenRenta(inicioMes, finQuincenaUno, jornadasPorFechaMes,
-                    feriadosMes);
-
             double montoHorasExtraMes = resumenMes.totalHorasExtra() * salarioHora * 0.5;
             double montoFeriadosMes = resumenMes.cantidadDiasFeriados() * salarioDiario;
             double baseRentaMes = salarioMensual + montoHorasExtraMes + montoFeriadosMes - ccssMensual;
             double impuestoMensual = calcularImpuestoRenta(baseRentaMes, tramosRenta);
-
-            double montoHorasExtraQuincenaUno = resumenQuincenaUno.totalHorasExtra() * salarioHora * 0.5;
-            double montoFeriadosQuincenaUno = resumenQuincenaUno.cantidadDiasFeriados() * salarioDiario;
-            double baseRentaQuincenaUno = salarioMensual + montoHorasExtraQuincenaUno + montoFeriadosQuincenaUno
-                    - ccssMensual;
-            double impuestoQuincenaUno = calcularImpuestoRenta(baseRentaQuincenaUno, tramosRenta) * 0.5;
-
-            return Math.max(0.0, impuestoMensual - impuestoQuincenaUno);
+            double creditos = calcularCreditosFiscales(empleado);
+            return Math.max(0.0, impuestoMensual - creditos);
         }
 
         return 0.0;
+    }
+
+    private double calcularCreditosFiscales(Empleados empleado) {
+        int cantidadHijos = empleado != null && empleado.getCantidadDeHijos() != null
+                ? Math.max(0, empleado.getCantidadDeHijos())
+                : 0;
+        double creditos = cantidadHijos * CREDITO_POR_HIJO;
+        if (empleado != null && Boolean.TRUE.equals(empleado.getEstaCasado())) {
+            creditos += CREDITO_POR_CASADO;
+        }
+        return creditos;
     }
 
     private double calcularImpuestoRenta(double salario, List<ConfiguracionRenta> tramosRenta) {

@@ -6,6 +6,7 @@ public class RespuestaPlanillaDetalleDTO {
     public Integer cantidadDiasFeriados;
     public Integer cantidadDiasNoTrabajadosEnQuincena;
     public Double montoHorasExtra;
+    public Double montoFeriadosTrabajados;
     public Double montoIncapacidad;
     public Double deduccionCcssIvm;
     public Double deduccionCcssSem;

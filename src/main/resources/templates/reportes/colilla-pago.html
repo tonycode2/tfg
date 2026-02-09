@@ -69,14 +69,14 @@
                     <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.deduccionCcssSem, 1, 'COMMA', 2, 'POINT')}"></td>
                 </tr>
                 <tr>
-                    <td>Subsidio Incapacidad</td>
-                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.montoIncapacidad, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td>Feriados Trabajados</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.montoFeriadosTrabajados, 1, 'COMMA', 2, 'POINT')}"></td>
                     <td>Impuesto Renta</td>
                     <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.impuestoDeRenta, 1, 'COMMA', 2, 'POINT')}"></td>
                 </tr>
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td>Subsidio Incapacidad</td>
+                    <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.montoIncapacidad, 1, 'COMMA', 2, 'POINT')}"></td>
                     <td>Otras Deducciones</td>
                     <td class="col-monto" th:text="'₡' + ${#numbers.formatDecimal(dto.otrasDeducciones, 1, 'COMMA', 2, 'POINT')}"></td>
                 </tr>

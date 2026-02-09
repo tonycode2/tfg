@@ -47,6 +47,7 @@ public class ColillaPagoDTO {
     // Ingresos
     private Double salarioBase;
     private Double montoHorasExtra;
+    private Double montoFeriadosTrabajados;
     private Double montoIncapacidad;
     private Double totalDevengado;
 
