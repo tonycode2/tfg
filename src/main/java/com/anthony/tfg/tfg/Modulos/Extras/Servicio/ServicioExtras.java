@@ -65,9 +65,6 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     }
 
     public RespuestaHorasExtraDTO guardar(SolicitudHorasExtraDTO entidad) {
-        // validar datos básicos y límite diario
-        validarSolicitudBasica(entidad);
-
         HorasExtra nuevaHoraExtra = deSolicitudDtoAEntidad(entidad);
         HorasExtra horaExtraGuardada = mantenimiento.crear(nuevaHoraExtra);
         log.info("Se ha guardado una nueva hora extra con ID: " + horaExtraGuardada.getId());

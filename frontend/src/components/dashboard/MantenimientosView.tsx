@@ -174,6 +174,9 @@ export function MantenimientosView() {
     setEditingItem(null);
     const initial = {} as any;
     if (selectedEntity === 'horas-extra') {
+      initial.aprobado = false;
+      initial.procesado = false;
+      initial.estadoSolicitud = 'PENDIENTE';
       initial.tipoTarifa = 'SIMPLE';
     }
     setFormData(initial);
@@ -240,6 +243,33 @@ export function MantenimientosView() {
     return `${timeValue}:00`;
   };
 
+  const formatDateTimeForBackend = (dateTimeValue: string): string => {
+    if (!dateTimeValue) return dateTimeValue;
+
+    const normalized = dateTimeValue.includes('T')
+      ? dateTimeValue.replace('T', ' ')
+      : dateTimeValue;
+
+    const [datePart, timePart] = normalized.split(' ');
+    if (!datePart || !timePart) return normalized;
+
+    if (timePart.split(':').length === 2) {
+      return `${datePart} ${timePart}:00`;
+    }
+
+    return `${datePart} ${timePart}`;
+  };
+
+  const formatDateTimeForInput = (dateTimeValue: string): string => {
+    if (!dateTimeValue) return '';
+
+    const normalized = dateTimeValue.includes(' ')
+      ? dateTimeValue.replace(' ', 'T')
+      : dateTimeValue;
+
+    return normalized.length >= 16 ? normalized.substring(0, 16) : normalized;
+  };
+
   const handleSubmit = async () => {
     if (!selectedEntity) return;
 
@@ -256,6 +286,17 @@ export function MantenimientosView() {
       }
       if (preparedData.horaSalida) {
         preparedData.horaSalida = formatTimeForBackend(preparedData.horaSalida);
+      }
+
+      if (selectedEntity === 'asistencias' && preparedData.fechaHora) {
+        preparedData.fechaHora = formatDateTimeForBackend(preparedData.fechaHora);
+      }
+
+      if (selectedEntity === 'horas-extra') {
+        preparedData.aprobado = preparedData.aprobado ?? false;
+        preparedData.procesado = preparedData.procesado ?? false;
+        preparedData.estadoSolicitud = preparedData.estadoSolicitud || 'PENDIENTE';
+        preparedData.tipoTarifa = preparedData.tipoTarifa || 'SIMPLE';
       }
 
       // Manejo especial para empleados con dirección en cascada
@@ -820,9 +861,9 @@ export function MantenimientosView() {
               <Input
                 id="fechaHora"
                 type="datetime-local"
-                value={formData.fechaHora ? formData.fechaHora.substring(0, 16) : ''}
+                value={formatDateTimeForInput(formData.fechaHora || '')}
                 onChange={(e) =>
-                  setFormData({ ...formData, fechaHora: e.target.value })
+                  setFormData({ ...formData, fechaHora: formatDateTimeForBackend(e.target.value) })
                 }
               />
             </div>
