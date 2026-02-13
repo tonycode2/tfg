@@ -23,15 +23,7 @@ import com.anthony.tfg.tfg.Entidades.Departamento;
 import com.anthony.tfg.tfg.Entidades.DiasFeriados;
 import com.anthony.tfg.tfg.Entidades.Direccion;
 import com.anthony.tfg.tfg.Entidades.Empleados;
-import com.anthony.tfg.tfg.Entidades.HorasExtra;
-import com.anthony.tfg.tfg.Entidades.Incapacidades;
-import com.anthony.tfg.tfg.Entidades.Permisos;
-import com.anthony.tfg.tfg.Entidades.Enums.EstadoSolicitud;
-import com.anthony.tfg.tfg.Entidades.Enums.TipoEntidadEmisora;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoEvento;
-import com.anthony.tfg.tfg.Entidades.Enums.TipoIncapacidad;
-import com.anthony.tfg.tfg.Entidades.Enums.TipoPermiso;
-import com.anthony.tfg.tfg.Entidades.Enums.TipoTarifa;
 import com.anthony.tfg.tfg.Entidades.Enums.TipoQuincena;
 import com.anthony.tfg.tfg.Entidades.JefesDepartamento;
 import com.anthony.tfg.tfg.Entidades.Puestos;
@@ -48,10 +40,7 @@ import com.anthony.tfg.tfg.Repositorios.DepartamentoRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DiasFeriadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.DireccionRepositorio;
 import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
-import com.anthony.tfg.tfg.Repositorios.HorasExtraRepositorio;
-import com.anthony.tfg.tfg.Repositorios.IncapacidadesRepositorio;
 import com.anthony.tfg.tfg.Repositorios.JefesDepartamentoRepositorio;
-import com.anthony.tfg.tfg.Repositorios.PermisosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.PuestosRepositorio;
 
 import lombok.RequiredArgsConstructor;
@@ -64,8 +53,8 @@ import lombok.RequiredArgsConstructor;
  * - 1 RH user  
  * - 1 JEFE for Sastrería department
  * - 3 EMPLEADO users for Sastrería
- * - Attendance records from Dec 1, 2024 to Apr 16, 2026 (punctual)
- * - April 2026: approved vacations, incapacities, permit without pay, and approved overtime
+ * - Attendance records from Dec 1, 2024 to Mar 31, 2026 (punctual)
+ * - March 2026: approved vacations, incapacities, permit without pay, and approved overtime
  * - JornadaDiaria generated after all records are saved
  */
 @Component
@@ -75,7 +64,10 @@ public class DataSeeder implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(DataSeeder.class);
     private static final String DEFAULT_PASSWORD = "TestPass123!";
     private static final LocalDate ATTENDANCE_START = LocalDate.of(2024, 12, 1);
-    private static final LocalDate ATTENDANCE_END = LocalDate.of(2026, 4, 16);
+    // Default end date for non-employee users (ADMIN, RH, JEFE, etc.)
+    private static final LocalDate ATTENDANCE_END_DEFAULT = LocalDate.of(2026, 4, 15);
+    // End date for seeded EMPLEADO users (three empleados) — last day of March
+    private static final LocalDate ATTENDANCE_END_EMPLEADO = LocalDate.of(2026, 3, 31);
 
     private final DepartamentoRepositorio departamentoRepositorio;
     private final PuestosRepositorio puestosRepositorio;
@@ -86,9 +78,6 @@ public class DataSeeder implements CommandLineRunner {
     private final DiasFeriadosRepositorio diasFeriadosRepositorio;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepositorio;
     private final AsistenciaRepositorio asistenciaRepositorio;
-    private final HorasExtraRepositorio horasExtraRepositorio;
-    private final PermisosRepositorio permisosRepositorio;
-    private final IncapacidadesRepositorio incapacidadesRepositorio;
     private final PasswordEncoder passwordEncoder;
     private final ServicioJornadaDiaria servicioJornadaDiaria;
     private final ServicioPlanilla servicioPlanilla;
@@ -156,22 +145,15 @@ public class DataSeeder implements CommandLineRunner {
             assignDepartmentHead(empleados.get(2), sastreria); // El jefe es el 3er empleado
             logger.info("Assigned department head");
 
-            // Step 7: Generate attendance records (Dec 1, 2024 - Apr 16, 2026)
+            // Step 7: Generate attendance records (Dec 1, 2024 - Mar 31, 2026)
             int attendanceCount = generateAttendanceRecords(empleados);
             logger.info("Generated {} attendance records", attendanceCount);
-
-            // Step 8: Generate April 2026 events (vacations, incapacities, permit without pay, overtime approvals)
-            AprilEvents aprilEvents = createApril2026Events(empleados);
-            logger.info("Generated April 2026 events: {} permisos, {} incapacidades, {} horas extra", 
-                aprilEvents.permisos().size(),
-                aprilEvents.incapacidades().size(),
-                aprilEvents.horasExtra().size());
 
             // Step 9: Generate jornada diaria for all employees after data is saved
             int jornadasGeneradas = generateJornadasFromAttendance(empleados);
             logger.info("Generated {} jornada diaria records", jornadasGeneradas);
 
-            applyLeaveJornadas(aprilEvents);
+                // No special monthly events: keep months uniform (no leave/jornada injections)
 
             generarPlanillasHistoricas();
 
@@ -555,9 +537,10 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     /**
-    * Generates attendance records from Dec 1, 2024 to Apr 16, 2026.
+    * Generates attendance records per-employee:
+    * - Seeded `EMPLEADO` users: from Dec 1, 2024 to 2026-03-31 (inclusive)
+    * - Other users (ADMIN, RH, JEFE): from Dec 1, 2024 to 2026-04-15 (inclusive)
     * - Weekdays only (Monday-Friday)
-    * - Includes holidays to simulate worked feriados
     * - Punctual ENTRADA and SALIDA (no overtime)
      */
     private int generateAttendanceRecords(List<Empleados> empleados) {
@@ -572,8 +555,14 @@ public class DataSeeder implements CommandLineRunner {
             LocalTime baseEntrada = horaEntrada.toLocalTime();
             LocalTime baseSalida = horaSalida.toLocalTime();
 
+            // Determine end date depending on role: seeded EMPLEADO users stop on ATTENDANCE_END_EMPLEADO
+            LocalDate endDate = ATTENDANCE_END_DEFAULT;
+            if (empleado.getUsuario() != null && empleado.getUsuario().getRole() == Role.EMPLEADO) {
+                endDate = ATTENDANCE_END_EMPLEADO;
+            }
+
             LocalDate currentDate = ATTENDANCE_START;
-            while (!currentDate.isAfter(ATTENDANCE_END)) {
+            while (!currentDate.isAfter(endDate)) {
                 if (isLaborable(currentDate)) {
                     LocalDateTime entradaDateTime = LocalDateTime.of(currentDate, baseEntrada);
                     LocalDateTime salidaDateTime = LocalDateTime.of(currentDate, baseSalida);
@@ -603,114 +592,7 @@ public class DataSeeder implements CommandLineRunner {
         return attendanceRecords.size();
     }
 
-    /**
-     * Creates the required April 2026 events.
-     */
-    private AprilEvents createApril2026Events(List<Empleados> empleados) {
-        if (empleados.size() < 6) {
-            throw new IllegalStateException("Se requieren al menos 6 empleados para crear los eventos de abril 2026");
-        }
-
-        Empleados empleadoVacaciones = empleados.get(3);
-        Empleados empleadoIncapacidadIns = empleados.get(4);
-        Empleados empleadoIncapacidadCcss = empleados.get(5);
-        Empleados empleadoPermisoSinGoce = empleados.get(2);
-        Empleados empleadoHorasExtra = empleados.get(1);
-
-        List<Permisos> permisos = new ArrayList<>();
-        List<Incapacidades> incapacidades = new ArrayList<>();
-        List<HorasExtra> horasExtra = new ArrayList<>();
-
-        LocalDate vacacionesInicio = LocalDate.of(2026, 4, 6);
-        LocalDate vacacionesFin = LocalDate.of(2026, 4, 8);
-        Permisos vacaciones = Permisos.builder()
-            .fechaInicio(vacacionesInicio)
-            .fechaFin(vacacionesFin)
-            .diasTotales(3)
-            .tipoPermiso(TipoPermiso.VACACIONES)
-            .motivo("Vacaciones aprobadas (abril 2026)")
-            .estadoSolicitud(EstadoSolicitud.APROBADA)
-            .fechaSolicitud(LocalDate.of(2026, 3, 20))
-            .fechaAprobacionJefe(LocalDate.of(2026, 3, 23))
-            .fechaAprobacionRH(LocalDate.of(2026, 3, 25))
-            .empleado(empleadoVacaciones)
-            .build();
-        permisos.add(permisosRepositorio.save(vacaciones));
-
-        LocalDate incapacidadInsInicio = LocalDate.of(2026, 4, 13);
-        LocalDate incapacidadInsFin = LocalDate.of(2026, 4, 16);
-        Incapacidades incapacidadIns = Incapacidades.builder()
-            .fechaInicio(incapacidadInsInicio)
-            .fechaFin(incapacidadInsFin)
-            .diasTotales(4)
-            .tipoIncapacidad(TipoIncapacidad.ACCIDENTE_LABORAL)
-            .estadoSolicitud(EstadoSolicitud.APROBADA)
-            .porcentajePago(100.0)
-            .entidadEmisora(TipoEntidadEmisora.INS)
-            .numeroDocumento("INS-2026-0001")
-            .observaciones("Incapacidad por accidente laboral (INS)")
-            .fechaSolicitud(LocalDate.of(2026, 4, 12))
-            .fechaAprobacionJefe(LocalDate.of(2026, 4, 12))
-            .fechaAprobacionRH(LocalDate.of(2026, 4, 13))
-            .esExtension(false)
-            .empleado(empleadoIncapacidadIns)
-            .build();
-        incapacidades.add(incapacidadesRepositorio.save(incapacidadIns));
-
-        LocalDate incapacidadCcssInicio = LocalDate.of(2026, 4, 7);
-        LocalDate incapacidadCcssFin = LocalDate.of(2026, 4, 10);
-        Incapacidades incapacidadCcss = Incapacidades.builder()
-            .fechaInicio(incapacidadCcssInicio)
-            .fechaFin(incapacidadCcssFin)
-            .diasTotales(4)
-            .tipoIncapacidad(TipoIncapacidad.ENFERMEDAD_COMUN)
-            .estadoSolicitud(EstadoSolicitud.APROBADA)
-            .porcentajePago(60.0)
-            .entidadEmisora(TipoEntidadEmisora.CCSS)
-            .numeroDocumento("CCSS-2026-0001")
-            .observaciones("Incapacidad por enfermedad comun (CCSS)")
-            .fechaSolicitud(LocalDate.of(2026, 4, 6))
-            .fechaAprobacionJefe(LocalDate.of(2026, 4, 6))
-            .fechaAprobacionRH(LocalDate.of(2026, 4, 7))
-            .esExtension(false)
-            .empleado(empleadoIncapacidadCcss)
-            .build();
-        incapacidades.add(incapacidadesRepositorio.save(incapacidadCcss));
-
-        LocalDate permisoSinGoceFecha = LocalDate.of(2026, 4, 15);
-        Permisos permisoSinGoce = Permisos.builder()
-            .fechaInicio(permisoSinGoceFecha)
-            .fechaFin(permisoSinGoceFecha)
-            .diasTotales(1)
-            .tipoPermiso(TipoPermiso.SIN_GOCE_SALARIO)
-            .motivo("Permiso sin goce salarial (abril 2026)")
-            .estadoSolicitud(EstadoSolicitud.APROBADA)
-            .fechaSolicitud(LocalDate.of(2026, 4, 8))
-            .fechaAprobacionJefe(LocalDate.of(2026, 4, 9))
-            .fechaAprobacionRH(LocalDate.of(2026, 4, 10))
-            .empleado(empleadoPermisoSinGoce)
-            .build();
-        permisos.add(permisosRepositorio.save(permisoSinGoce));
-
-        LocalDate horasExtraInicio = LocalDate.of(2026, 4, 6);
-        for (int i = 0; i < 5; i++) {
-            LocalDate fecha = horasExtraInicio.plusDays(i);
-            HorasExtra extra = HorasExtra.builder()
-                .fechaSolicitud(fecha)
-                .cantidadDeHoras(2)
-                .motivo("Horas extra aprobadas (abril 2026)")
-                .tipoTarifa(TipoTarifa.SIMPLE)
-                .estadoSolicitud(EstadoSolicitud.APROBADA)
-                .aprobado(true)
-                .procesado(false)
-                .empleado(empleadoHorasExtra)
-                .build();
-            horasExtra.add(extra);
-        }
-        horasExtraRepositorio.saveAll(horasExtra);
-
-        return new AprilEvents(permisos, incapacidades, horasExtra);
-    }
+    // No month-specific events: keep all months uniform for seeding.
 
     private int generateJornadasFromAttendance(List<Empleados> empleados) {
         int jornadasCreadas = 0;
@@ -721,8 +603,14 @@ public class DataSeeder implements CommandLineRunner {
             Time horaSalida = empleado.getPuesto().getHoraSalida();
             LocalTime baseSalida = horaSalida.toLocalTime();
 
+            // Use same per-employee end date logic as attendance generation
+            LocalDate endDate = ATTENDANCE_END_DEFAULT;
+            if (empleado.getUsuario() != null && empleado.getUsuario().getRole() == Role.EMPLEADO) {
+                endDate = ATTENDANCE_END_EMPLEADO;
+            }
+
             LocalDate currentDate = ATTENDANCE_START;
-            while (!currentDate.isAfter(ATTENDANCE_END)) {
+            while (!currentDate.isAfter(endDate)) {
                 if (isLaborable(currentDate)) {
                     LocalDateTime salidaDateTime = LocalDateTime.of(currentDate, baseSalida);
                     if (servicioJornadaDiaria.registrarJornadaPorClockOut(empleado.getId(), salidaDateTime) != null) {
@@ -736,15 +624,7 @@ public class DataSeeder implements CommandLineRunner {
         return jornadasCreadas;
     }
 
-    private void applyLeaveJornadas(AprilEvents aprilEvents) {
-        for (Permisos permiso : aprilEvents.permisos()) {
-            servicioJornadaDiaria.generarJornadasParaPermiso(permiso);
-        }
-
-        for (Incapacidades incapacidad : aprilEvents.incapacidades()) {
-            servicioJornadaDiaria.generarJornadasParaIncapacidad(incapacidad, null, null);
-        }
-    }
+    // applyLeaveJornadas removed: no special leave events will be injected into jornadas
 
     private void generarPlanillasHistoricas() {
         YearMonth current = YearMonth.of(2024, 12);
@@ -778,9 +658,5 @@ public class DataSeeder implements CommandLineRunner {
         return true;
     }
 
-    private record AprilEvents(
-        List<Permisos> permisos,
-        List<Incapacidades> incapacidades,
-        List<HorasExtra> horasExtra
-    ) {}
+    // MarchEvents record removed - no month-specific events
 }

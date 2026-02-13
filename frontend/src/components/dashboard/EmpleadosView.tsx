@@ -35,7 +35,7 @@ interface EmpleadoFormData {
 }
 
 export function EmpleadosView() {
-  const [empleados, setEmpleados] = useState<Empleado[]>([]);
+  const [, setEmpleados] = useState<Empleado[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGenerarUsuarioModalOpen, setIsGenerarUsuarioModalOpen] = useState(false);
@@ -149,18 +149,6 @@ export function EmpleadosView() {
       direccionExacta: empleado.direccion?.direccionExacta || '',
     });
     setIsModalOpen(true);
-  };
-
-  const handleDelete = async (id: number | string) => {
-    if (window.confirm('¿Estás seguro de eliminar este empleado?')) {
-      try {
-        await empleadosService.delete(Number(id));
-        loadEmpleados();
-      } catch (error) {
-        console.error('Error eliminando empleado:', error);
-        toast.error('Error al eliminar el empleado');
-      }
-    }
   };
 
   const validateForm = (): boolean => {

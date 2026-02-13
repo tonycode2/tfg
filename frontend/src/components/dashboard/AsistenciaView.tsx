@@ -145,10 +145,36 @@ export function AsistenciaView() {
   const loadHistorial = useCallback(async () => {
     setIsLoadingHistorial(true);
     try {
-      const fechaInicio = historialFechaInicio ? `${historialFechaInicio} 00:00:00` : getStartOfMonthString();
-      const fechaFin = historialFechaFin ? `${historialFechaFin} 23:59:59` : getEndOfMonthString();
+      let fechaInicioStr: string;
+      let fechaFinStr: string;
 
-      const data = await obtenerHistorial(undefined, fechaInicio, fechaFin);
+      if (historialFechaInicio && historialFechaFin) {
+        fechaInicioStr = `${historialFechaInicio} 00:00:00`;
+        fechaFinStr = `${historialFechaFin} 23:59:59`;
+      } else if (historialFechaInicio) {
+        // Only start provided -> search that day
+        fechaInicioStr = `${historialFechaInicio} 00:00:00`;
+        fechaFinStr = `${historialFechaInicio} 23:59:59`;
+      } else if (historialFechaFin) {
+        // Only end provided -> search that day
+        fechaInicioStr = `${historialFechaFin} 00:00:00`;
+        fechaFinStr = `${historialFechaFin} 23:59:59`;
+      } else {
+        // No dates provided -> default to current month
+        fechaInicioStr = getStartOfMonthString();
+        fechaFinStr = getEndOfMonthString();
+      }
+
+      // Safety: if computed range is inverted, swap them
+      const parsedInicio = new Date(fechaInicioStr.replace(' ', 'T'));
+      const parsedFin = new Date(fechaFinStr.replace(' ', 'T'));
+      if (parsedInicio > parsedFin) {
+        const tmp = fechaInicioStr;
+        fechaInicioStr = fechaFinStr;
+        fechaFinStr = tmp;
+      }
+
+      const data = await obtenerHistorial(undefined, fechaInicioStr, fechaFinStr);
       setHistorial(Array.isArray(data) ? data : []);
       setPageHistorial(0);
     } catch (error) {
