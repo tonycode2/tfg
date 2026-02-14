@@ -61,6 +61,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
 
     private static final double CREDITO_POR_HIJO = 1720.0;
     private static final double CREDITO_POR_CASADO = 2600.0;
+    private static final int DIAS_PAGO_PATRONAL_INCAPACIDAD = 3;
 
     private final ConsultasPlanillaEncabezado consulta;
     private final MantenimientosPlanillaEncabezados mantenimiento;
@@ -546,6 +547,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         double totalHorasExtra = 0.0;
         int cantidadDiasFeriados = 0;
         int cantidadDiasNoTrabajados = 0;
+        int cantidadDiasRebajables = 0;
         double montoIncapacidad = 0.0;
 
         TipoQuincena tipoQuincena = encabezado.getTipoQuincena();
@@ -580,11 +582,14 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             boolean esVacaciones = jornada != null
                     && jornada.getPermiso() != null
                     && jornada.getPermiso().getTipoPermiso() == TipoPermiso.VACACIONES;
+            boolean esPermisoSinGoce = jornada != null
+                    && jornada.getPermiso() != null
+                    && jornada.getPermiso().getTipoPermiso() == TipoPermiso.SIN_GOCE_SALARIO;
             boolean esIncapacidad = jornada != null && jornada.getIncapacidad() != null;
 
             if (esIncapacidad) {
                 Integer diaIncapacidad = jornada.getDiaPermiso();
-                if (diaIncapacidad != null && diaIncapacidad <= 3) {
+                if (diaIncapacidad != null && diaIncapacidad <= DIAS_PAGO_PATRONAL_INCAPACIDAD) {
                     TipoEntidadEmisora entidad = jornada.getIncapacidad().getEntidadEmisora();
                     double factorPago = entidad == TipoEntidadEmisora.CCSS ? 0.5
                             : entidad == TipoEntidadEmisora.INS ? 1.0
@@ -594,6 +599,10 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                 }
             }
 
+            if (esLaborable && (esIncapacidad || esPermisoSinGoce)) {
+                cantidadDiasRebajables++;
+            }
+
             if (esLaborable && !esVacaciones && (esIncapacidad || !tieneHorasTrabajadas)) {
                 cantidadDiasNoTrabajados++;
             }
@@ -601,9 +610,10 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             fecha = fecha.plusDays(1);
         }
 
-        double montoHorasExtra = totalHorasExtra * salarioHora * 0.5;
+        double montoHorasExtra = totalHorasExtra * salarioHora * 1.5;
         double montoFeriadosTrabajados = cantidadDiasFeriados * salarioDiario;
-        double salarioBasePeriodo = basePeriodo;
+        double rebajoDiasNoPagados = cantidadDiasRebajables * salarioDiario;
+        double salarioBasePeriodo = Math.max(0.0, basePeriodo - rebajoDiasNoPagados);
         double totalDevengado = salarioBasePeriodo + montoHorasExtra + montoFeriadosTrabajados + montoIncapacidad;
 
         double deduccionCcssSem = totalDevengado * 0.055;
@@ -655,7 +665,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
 
         if (tipoQuincena == TipoQuincena.SEGUNDA) {
             ResumenRenta resumenMes = calcularResumenRenta(inicioMes, finMes, jornadasPorFechaMes, feriadosMes);
-            double montoHorasExtraMes = resumenMes.totalHorasExtra() * salarioHora * 0.5;
+            double montoHorasExtraMes = resumenMes.totalHorasExtra() * salarioHora * 1.5;
             double montoFeriadosMes = resumenMes.cantidadDiasFeriados() * salarioDiario;
             double baseRentaMes = salarioMensual + montoHorasExtraMes + montoFeriadosMes - ccssMensual;
             double impuestoMensual = calcularImpuestoRenta(baseRentaMes, tramosRenta);
