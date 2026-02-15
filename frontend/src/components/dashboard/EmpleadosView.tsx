@@ -10,7 +10,6 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { getProvincias, getCantonesByProvincia, getDistritosByCanton } from '@/data/costaRicaLocations';
 import { empleadosService, puestosService, direccionesService, type Empleado, type Puesto } from '@/services/apiService';
 import { GenerarUsuarioModal } from '@/components/GenerarUsuarioModal';
-import { getDateFilterBirthdate } from '@/lib/utils';
 import { toast } from 'sonner';
 
 interface EmpleadoFormData {
@@ -493,9 +492,11 @@ export function EmpleadosView() {
               }}
               placeholder="Seleccionar fecha de nacimiento"
               className={errors.fechaNacimiento ? 'border-red-500' : ''}
-              filterDate={getDateFilterBirthdate()}
-              fromYear={1940}
-              toYear={new Date().getFullYear()}
+              filterDate={(date) => {
+                const hoy = new Date();
+                const maxDate = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate());
+                return date <= maxDate;
+              }}
             />
             {errors.fechaNacimiento && <p className="text-xs text-red-500 mt-1">{errors.fechaNacimiento}</p>}
           </div>
