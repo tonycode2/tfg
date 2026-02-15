@@ -913,3 +913,708 @@ Caused by: java.io.IOException: Se ha anulado una conexión establecida por el s
 2026-02-15T15:47:47.219-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2026-02-15T15:47:47.220-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
 2026-02-15T15:47:47.222-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:49:54.832-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/permisos/mis-solicitudes
+2026-02-15T15:49:54.833-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/vacaciones/mi-saldo
+2026-02-15T15:49:54.850-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/vacaciones/mi-saldo
+2026-02-15T15:49:54.850-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/permisos/mis-solicitudes
+2026-02-15T15:49:54.850-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/vacaciones/mi-saldo", parameters={}
+2026-02-15T15:49:54.852-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/permisos/mis-solicitudes", parameters={}
+2026-02-15T15:49:54.852-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Vacaciones.Controlador.ControladorVacaciones#obtenerMiSaldo(Authentication)
+2026-02-15T15:49:54.852-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Permisos.Controlador.ControladorPermisos#obtenerMisSolicitudes(Authentication)
+2026-02-15T15:49:54.852-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.V.Servicio.ServicioVacaciones  : Saldo de vacaciones para empleado 4: 30 días
+2026-02-15T15:49:54.854-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:49:54.855-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{diasDisponibles=30}]
+2026-02-15T15:49:54.858-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:49:54.861-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se obtuvieron 0 solicitudes para el empleado 4
+2026-02-15T15:49:54.862-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/vacaciones/mi-saldo
+2026-02-15T15:49:54.862-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:49:54.866-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-15T15:49:54.868-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:49:54.871-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/permisos/mis-solicitudes
+2026-02-15T15:49:54.878-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/vacaciones/mi-saldo
+2026-02-15T15:49:54.879-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/vacaciones/mi-saldo", parameters={}
+2026-02-15T15:49:54.880-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Vacaciones.Controlador.ControladorVacaciones#obtenerMiSaldo(Authentication)
+2026-02-15T15:49:54.882-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.V.Servicio.ServicioVacaciones  : Saldo de vacaciones para empleado 4: 30 días
+2026-02-15T15:49:54.883-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:49:54.883-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{diasDisponibles=30}]
+2026-02-15T15:49:54.885-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:49:54.888-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/permisos/mis-solicitudes
+2026-02-15T15:49:54.889-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/permisos/mis-solicitudes", parameters={}
+2026-02-15T15:49:54.890-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Permisos.Controlador.ControladorPermisos#obtenerMisSolicitudes(Authentication)
+2026-02-15T15:49:54.897-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se obtuvieron 0 solicitudes para el empleado 4
+2026-02-15T15:49:54.899-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:49:54.900-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-15T15:49:54.902-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:21.248-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing POST /auth/login
+2026-02-15T15:50:21.251-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-02-15T15:50:21.251-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured POST /auth/login
+2026-02-15T15:50:21.252-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : POST "/auth/login", parameters={}
+2026-02-15T15:50:21.252-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Seguridad.auth.AuthController#login(LoginRequest)
+2026-02-15T15:50:21.254-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] m.m.a.RequestResponseBodyMethodProcessor : Read "application/json;charset=UTF-8" to [LoginRequest(username=rh_sasteria, password=TestPass123!)]
+2026-02-15T15:50:21.426-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-02-15T15:50:21.435-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:21.436-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [AuthResponse(token=eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjIsImlkRW1wbGVhZG8iOjIsInJvbGUiOiJIUiIsIm5vbWJy (truncated)...]
+2026-02-15T15:50:21.439-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:21.480-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T15:50:21.483-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/2
+2026-02-15T15:50:21.491-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T15:50:21.495-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/2
+2026-02-15T15:50:21.520-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/2
+2026-02-15T15:50:21.521-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T15:50:21.521-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/2", parameters={}
+2026-02-15T15:50:21.525-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T15:50:21.525-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T15:50:21.526-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T15:50:21.526-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T15:50:21.526-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-15T15:50:21.528-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T15:50:21.530-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 2
+2026-02-15T15:50:21.543-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/2
+2026-02-15T15:50:21.545-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/2", parameters={}
+2026-02-15T15:50:21.546-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-15T15:50:21.550-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 2
+2026-02-15T15:50:21.622-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T15:50:21.623-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@3d0bb0dd
+2026-02-15T15:50:21.623-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@2165c934
+2026-02-15T15:50:21.624-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@76477c92
+2026-02-15T15:50:21.624-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@2dd8876a
+2026-02-15T15:50:21.625-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@4db54754
+2026-02-15T15:50:21.625-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@42960bbf
+2026-02-15T15:50:21.626-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T15:50:21.627-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@18722bd6
+2026-02-15T15:50:21.627-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@46854c49
+2026-02-15T15:50:21.628-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@48e2072f
+2026-02-15T15:50:21.629-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:21.629-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@139ac529
+2026-02-15T15:50:21.630-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@3d0bb0dd, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T15:50:21.631-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@1abf7017
+2026-02-15T15:50:21.632-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@76b4900d
+2026-02-15T15:50:21.634-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:21.634-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:21.634-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@18722bd6, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T15:50:21.638-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:21.687-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 2
+2026-02-15T15:50:21.689-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:21.690-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@eb40f7a, com.anthony.tfg.tfg.DTOs.R (truncated)...]
+2026-02-15T15:50:21.695-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.anthony.tfg.tfg.Exceptions.Handler.GlobalExceptionHandler#handleGlobalException(Exception, HttpServletRequest)
+2026-02-15T15:50:21.695-06:00 ERROR 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.E.H.GlobalExceptionHandler       : Error interno del servidor: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+
+org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleHttpServletResponse.handleIOException(StandardServletAsyncWebRequest.java:346) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleServletOutputStream.write(StandardServletAsyncWebRequest.java:404) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.util.StreamUtils$NonClosingOutputStream.write(StreamUtils.java:284) ~[spring-core-6.2.12.jar:6.2.12]
+	at com.fasterxml.jackson.core.json.UTF8JsonGenerator._flushBuffer(UTF8JsonGenerator.java:2261) ~[jackson-core-2.19.2.jar:2.19.2]
+	at com.fasterxml.jackson.core.json.UTF8JsonGenerator.flush(UTF8JsonGenerator.java:1202) ~[jackson-core-2.19.2.jar:2.19.2]
+	at com.fasterxml.jackson.databind.ObjectWriter.writeValue(ObjectWriter.java:1063) ~[jackson-databind-2.19.2.jar:2.19.2]
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.writeInternal(AbstractJackson2HttpMessageConverter.java:485) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.http.converter.AbstractGenericHttpMessageConverter.write(AbstractGenericHttpMessageConverter.java:126) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:345) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor.handleReturnValue(HttpEntityMethodProcessor.java:263) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.ResponseEntityReturnValueHandler.handleReturnValue(ResponseEntityReturnValueHandler.java:79) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite.handleReturnValue(HandlerMethodReturnValueHandlerComposite.java:78) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:136) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at com.anthony.tfg.tfg.Util.DebugMultipartLoggingFilter.doFilterInternal(DebugMultipartLoggingFilter.java:58) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:74) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+Caused by: org.apache.catalina.connector.ClientAbortException: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:340) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.flushByteBuffer(OutputBuffer.java:775) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.append(OutputBuffer.java:672) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.writeBytes(OutputBuffer.java:375) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.write(OutputBuffer.java:353) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteOutputStream.write(CoyoteOutputStream.java:99) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.security.web.util.OnCommittedResponseWrapper$SaveContextServletOutputStream.write(OnCommittedResponseWrapper.java:639) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleServletOutputStream.write(StandardServletAsyncWebRequest.java:401) ~[spring-web-6.2.12.jar:6.2.12]
+	... 117 common frames omitted
+Caused by: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:54) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:137) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:102) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:58) ~[na:na]
+	at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:542) ~[na:na]
+	at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:125) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1413) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.doWrite(SocketWrapperBase.java:732) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.writeBlocking(SocketWrapperBase.java:572) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.write(SocketWrapperBase.java:520) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11OutputBuffer$SocketOutputBuffer.doWrite(Http11OutputBuffer.java:548) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.filters.ChunkedOutputFilter.doWrite(ChunkedOutputFilter.java:109) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11OutputBuffer.doWrite(Http11OutputBuffer.java:193) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.Response.doWrite(Response.java:621) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:328) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	... 124 common frames omitted
+
+2026-02-15T15:50:21.704-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 2
+2026-02-15T15:50:21.706-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Found 'Content-Type:application/json;charset=UTF-8' in response
+2026-02-15T15:50:21.706-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:21.706-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ErrorResponse[timestamp=2026-02-15T15:50:21.705486100, status=500, error=Internal Server Error, mess (truncated)...]
+2026-02-15T15:50:21.707-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@17dae19, com.anthony.tfg.tfg.DTOs.R (truncated)...]
+2026-02-15T15:50:21.708-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.DisconnectedClient         : Looks like the client has gone away: org.apache.catalina.connector.ClientAbortException: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host. (For a full stack trace, set the log category 'org.apache.commons.logging.LogAdapter$Slf4jLocationAwareLog@37fcd2d1' to TRACE level.)
+2026-02-15T15:50:21.710-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.handler.DisconnectedClient       : Looks like the client has gone away: org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host. (For a full stack trace, set the log category 'org.apache.commons.logging.LogAdapter$Slf4jLocationAwareLog@57376604' to TRACE level.)
+2026-02-15T15:50:21.711-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:21.712-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:22.846-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-15T15:50:22.846-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/departamentos-accesibles
+2026-02-15T15:50:22.846-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/mi-estado
+2026-02-15T15:50:22.867-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/mi-estado
+2026-02-15T15:50:22.867-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-15T15:50:22.868-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/mi-estado", parameters={}
+2026-02-15T15:50:22.869-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/departamentos-accesibles
+2026-02-15T15:50:22.870-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/departamentos-accesibles", parameters={}
+2026-02-15T15:50:22.870-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59", parameters={masked}
+2026-02-15T15:50:22.870-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerMiEstado()
+2026-02-15T15:50:22.871-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerHistorial(Long, LocalDateTime, LocalDateTime)
+2026-02-15T15:50:22.871-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerDepartamentosAccesibles()
+2026-02-15T15:50:22.884-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:22.885-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[1, 2]]
+2026-02-15T15:50:22.888-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:22.891-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:22.892-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAsistenciaDTO@57577dbc, com.anthony.tfg.tfg.DTOs.Respue (truncated)...]
+2026-02-15T15:50:22.892-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:22.893-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.EstadoAsistenciaDTO@11a853c5]
+2026-02-15T15:50:22.894-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/departamentos-accesibles
+2026-02-15T15:50:22.894-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:22.894-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:22.901-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/departamentos
+2026-02-15T15:50:22.903-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/mi-estado
+2026-02-15T15:50:22.903-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-15T15:50:22.922-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/departamentos-accesibles
+2026-02-15T15:50:22.922-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-15T15:50:22.923-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/departamentos-accesibles", parameters={}
+2026-02-15T15:50:22.923-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59", parameters={masked}
+2026-02-15T15:50:22.923-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerDepartamentosAccesibles()
+2026-02-15T15:50:22.924-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerHistorial(Long, LocalDateTime, LocalDateTime)
+2026-02-15T15:50:22.924-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/mi-estado
+2026-02-15T15:50:22.925-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/mi-estado", parameters={}
+2026-02-15T15:50:22.925-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/departamentos
+2026-02-15T15:50:22.926-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerMiEstado()
+2026-02-15T15:50:22.926-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/departamentos", parameters={}
+2026-02-15T15:50:22.926-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorDepartamento#obtenerTodos()
+2026-02-15T15:50:22.939-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:22.940-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[1, 2]]
+2026-02-15T15:50:22.941-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.S.ServicioDepartamento       : Se han obtenido todos los departamentos. La cantidad de registros es: 2
+2026-02-15T15:50:22.943-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:22.944-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:22.944-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[RespuestaDepartamentoDTO[id=1, nombre=Admin], RespuestaDepartamentoDTO[id=2, nombre=Sastrería]]]
+2026-02-15T15:50:22.944-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:22.947-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAsistenciaDTO@2e25461, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T15:50:22.952-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:22.952-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:22.954-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.EstadoAsistenciaDTO@b6ccc8b]
+2026-02-15T15:50:22.956-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:22.958-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/departamentos
+2026-02-15T15:50:22.958-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:22.975-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/departamentos
+2026-02-15T15:50:22.976-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/departamentos", parameters={}
+2026-02-15T15:50:22.977-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorDepartamento#obtenerTodos()
+2026-02-15T15:50:22.989-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.A.S.ServicioDepartamento       : Se han obtenido todos los departamentos. La cantidad de registros es: 2
+2026-02-15T15:50:22.991-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:22.992-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[RespuestaDepartamentoDTO[id=1, nombre=Admin], RespuestaDepartamentoDTO[id=2, nombre=Sastrería]]]
+2026-02-15T15:50:22.994-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:23.016-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/mi-estado
+2026-02-15T15:50:23.016-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/departamentos-accesibles
+2026-02-15T15:50:23.016-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-15T15:50:23.016-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/departamento/1?fecha=2026-02-15
+2026-02-15T15:50:23.037-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/departamentos-accesibles
+2026-02-15T15:50:23.037-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/departamento/1?fecha=2026-02-15
+2026-02-15T15:50:23.037-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-15T15:50:23.037-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/mi-estado
+2026-02-15T15:50:23.037-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/departamento/1?fecha=2026-02-15", parameters={masked}
+2026-02-15T15:50:23.038-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59", parameters={masked}
+2026-02-15T15:50:23.037-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/departamentos-accesibles", parameters={}
+2026-02-15T15:50:23.038-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/mi-estado", parameters={}
+2026-02-15T15:50:23.039-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerDepartamentosAccesibles()
+2026-02-15T15:50:23.039-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerHistorial(Long, LocalDateTime, LocalDateTime)
+2026-02-15T15:50:23.039-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerResumenDepartamento(Long, LocalDate)
+2026-02-15T15:50:23.039-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerMiEstado()
+2026-02-15T15:50:23.053-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:23.054-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[1, 2]]
+2026-02-15T15:50:23.056-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:23.059-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:23.059-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAsistenciaDTO@3d614cb2, com.anthony.tfg.tfg.DTOs.Respue (truncated)...]
+2026-02-15T15:50:23.064-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:23.065-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:23.068-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.EstadoAsistenciaDTO@7b6ed436]
+2026-02-15T15:50:23.071-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:23.112-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.S.ServicioRegistroAsistencia : Usuario rh_sasteria consultó resumen del departamento 1 para fecha 2026-02-15
+2026-02-15T15:50:23.114-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:23.115-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.ResumenDepartamentoDTO@1c7be9d6]
+2026-02-15T15:50:23.117-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:23.177-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/departamentos
+2026-02-15T15:50:23.197-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/departamentos
+2026-02-15T15:50:23.199-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/departamentos", parameters={}
+2026-02-15T15:50:23.200-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorDepartamento#obtenerTodos()
+2026-02-15T15:50:23.210-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.A.S.ServicioDepartamento       : Se han obtenido todos los departamentos. La cantidad de registros es: 2
+2026-02-15T15:50:23.212-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:23.212-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[RespuestaDepartamentoDTO[id=1, nombre=Admin], RespuestaDepartamentoDTO[id=2, nombre=Sastrería]]]
+2026-02-15T15:50:23.215-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:24.663-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T15:50:24.668-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-02-15T15:50:24.689-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T15:50:24.689-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-02-15T15:50:24.689-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-02-15T15:50:24.689-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T15:50:24.689-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-02-15T15:50:24.689-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T15:50:24.713-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 5
+2026-02-15T15:50:24.713-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@50eb2841
+2026-02-15T15:50:24.715-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@56685e83
+2026-02-15T15:50:24.716-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@27012cf9
+2026-02-15T15:50:24.716-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@7e75d214
+2026-02-15T15:50:24.717-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@775554bb
+2026-02-15T15:50:24.719-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:24.719-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@50eb2841, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-02-15T15:50:24.724-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:24.726-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-02-15T15:50:24.752-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-02-15T15:50:24.753-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-02-15T15:50:24.755-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-02-15T15:50:24.776-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 5
+2026-02-15T15:50:24.777-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@38c2d76c
+2026-02-15T15:50:24.778-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@cdf3f18
+2026-02-15T15:50:24.778-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@2bdb5e9b
+2026-02-15T15:50:24.779-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@4c71046b
+2026-02-15T15:50:24.779-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@62a6d33e
+2026-02-15T15:50:24.780-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T15:50:24.782-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@7853ef0
+2026-02-15T15:50:24.782-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:24.782-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@7253b3ca
+2026-02-15T15:50:24.783-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5b4edb0a
+2026-02-15T15:50:24.783-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@38c2d76c, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-02-15T15:50:24.784-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@4572db6b
+2026-02-15T15:50:24.784-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@6bae1f8b
+2026-02-15T15:50:24.785-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@48c2cd7
+2026-02-15T15:50:24.785-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:24.787-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:24.788-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@7853ef0, com.anthony.tfg.tfg.DTOs.Respuest (truncated)...]
+2026-02-15T15:50:24.789-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:24.792-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T15:50:24.809-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T15:50:24.809-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T15:50:24.813-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T15:50:24.890-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T15:50:24.891-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@4424a1f
+2026-02-15T15:50:24.892-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@3929a4c6
+2026-02-15T15:50:24.892-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@51051bd6
+2026-02-15T15:50:24.892-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@703485fc
+2026-02-15T15:50:24.893-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@66b02b57
+2026-02-15T15:50:24.893-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@124bacd3
+2026-02-15T15:50:24.894-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:24.895-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@4424a1f, com.anthony.tfg.tfg.DTOs.Respuest (truncated)...]
+2026-02-15T15:50:24.896-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:24.898-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T15:50:24.916-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T15:50:24.917-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T15:50:24.918-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T15:50:24.989-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T15:50:24.990-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@a2bd6bb
+2026-02-15T15:50:24.990-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@66df4db0
+2026-02-15T15:50:24.990-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@ef5809b
+2026-02-15T15:50:24.991-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@237de914
+2026-02-15T15:50:24.991-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@77376dce
+2026-02-15T15:50:24.992-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@6b191c55
+2026-02-15T15:50:24.993-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:24.993-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@a2bd6bb, com.anthony.tfg.tfg.DTOs.Respuest (truncated)...]
+2026-02-15T15:50:24.996-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T15:50:24.998-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T15:50:25.013-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T15:50:25.014-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T15:50:25.016-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T15:50:25.090-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T15:50:25.091-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@54fcb584
+2026-02-15T15:50:25.091-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5c61815b
+2026-02-15T15:50:25.092-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5ca2a19d
+2026-02-15T15:50:25.092-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5ece5e49
+2026-02-15T15:50:25.092-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@6f2f9081
+2026-02-15T15:50:25.093-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@3f14bf66
+2026-02-15T15:50:25.094-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T15:50:25.096-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@54fcb584, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T15:50:25.100-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:05:29.346-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T16:05:29.346-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/2
+2026-02-15T16:05:29.388-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/2
+2026-02-15T16:05:29.388-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T16:05:29.389-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/2", parameters={}
+2026-02-15T16:05:29.389-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T16:05:29.390-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T16:05:29.390-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-15T16:05:29.392-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 2
+2026-02-15T16:05:29.399-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T16:05:29.399-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/2
+2026-02-15T16:05:29.430-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T16:05:29.430-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/2
+2026-02-15T16:05:29.431-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T16:05:29.432-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/2", parameters={}
+2026-02-15T16:05:29.432-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T16:05:29.433-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-15T16:05:29.434-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 2
+2026-02-15T16:05:29.487-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T16:05:29.489-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@7a379c5c
+2026-02-15T16:05:29.489-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@1740ccb7
+2026-02-15T16:05:29.489-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@28114470
+2026-02-15T16:05:29.490-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@c3c1863
+2026-02-15T16:05:29.491-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@4aafb0c4
+2026-02-15T16:05:29.491-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5b1be852
+2026-02-15T16:05:29.493-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:05:29.494-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@7a379c5c, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T16:05:29.498-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:05:29.525-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T16:05:29.526-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@4016525c
+2026-02-15T16:05:29.527-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5eb3152a
+2026-02-15T16:05:29.529-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@bfbf242
+2026-02-15T16:05:29.531-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@6b65e5e3
+2026-02-15T16:05:29.532-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@1993ce61
+2026-02-15T16:05:29.533-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5fcf823c
+2026-02-15T16:05:29.535-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:05:29.535-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@4016525c, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T16:05:29.538-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:05:29.550-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 2
+2026-02-15T16:05:29.552-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:05:29.553-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@d4b440e, com.anthony.tfg.tfg.DTOs.R (truncated)...]
+2026-02-15T16:05:29.557-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.anthony.tfg.tfg.Exceptions.Handler.GlobalExceptionHandler#handleGlobalException(Exception, HttpServletRequest)
+2026-02-15T16:05:29.560-06:00 ERROR 21308 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.E.H.GlobalExceptionHandler       : Error interno del servidor: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+
+org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleHttpServletResponse.handleIOException(StandardServletAsyncWebRequest.java:346) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleServletOutputStream.write(StandardServletAsyncWebRequest.java:404) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.util.StreamUtils$NonClosingOutputStream.write(StreamUtils.java:284) ~[spring-core-6.2.12.jar:6.2.12]
+	at com.fasterxml.jackson.core.json.UTF8JsonGenerator._flushBuffer(UTF8JsonGenerator.java:2261) ~[jackson-core-2.19.2.jar:2.19.2]
+	at com.fasterxml.jackson.core.json.UTF8JsonGenerator.flush(UTF8JsonGenerator.java:1202) ~[jackson-core-2.19.2.jar:2.19.2]
+	at com.fasterxml.jackson.databind.ObjectWriter.writeValue(ObjectWriter.java:1063) ~[jackson-databind-2.19.2.jar:2.19.2]
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.writeInternal(AbstractJackson2HttpMessageConverter.java:485) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.http.converter.AbstractGenericHttpMessageConverter.write(AbstractGenericHttpMessageConverter.java:126) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:345) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor.handleReturnValue(HttpEntityMethodProcessor.java:263) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.ResponseEntityReturnValueHandler.handleReturnValue(ResponseEntityReturnValueHandler.java:79) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite.handleReturnValue(HandlerMethodReturnValueHandlerComposite.java:78) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:136) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at com.anthony.tfg.tfg.Util.DebugMultipartLoggingFilter.doFilterInternal(DebugMultipartLoggingFilter.java:58) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:74) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+Caused by: org.apache.catalina.connector.ClientAbortException: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:340) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.flushByteBuffer(OutputBuffer.java:775) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.append(OutputBuffer.java:672) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.writeBytes(OutputBuffer.java:375) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.write(OutputBuffer.java:353) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteOutputStream.write(CoyoteOutputStream.java:99) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.security.web.util.OnCommittedResponseWrapper$SaveContextServletOutputStream.write(OnCommittedResponseWrapper.java:639) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleServletOutputStream.write(StandardServletAsyncWebRequest.java:401) ~[spring-web-6.2.12.jar:6.2.12]
+	... 117 common frames omitted
+Caused by: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:54) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:137) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:102) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:58) ~[na:na]
+	at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:542) ~[na:na]
+	at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:125) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1413) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.doWrite(SocketWrapperBase.java:732) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.writeBlocking(SocketWrapperBase.java:572) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.write(SocketWrapperBase.java:520) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11OutputBuffer$SocketOutputBuffer.doWrite(Http11OutputBuffer.java:548) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.filters.ChunkedOutputFilter.doWrite(ChunkedOutputFilter.java:109) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11OutputBuffer.doWrite(Http11OutputBuffer.java:193) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.Response.doWrite(Response.java:621) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:328) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	... 124 common frames omitted
+
+2026-02-15T16:05:29.571-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Found 'Content-Type:application/json;charset=UTF-8' in response
+2026-02-15T16:05:29.573-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ErrorResponse[timestamp=2026-02-15T16:05:29.570869100, status=500, error=Internal Server Error, mess (truncated)...]
+2026-02-15T16:05:29.575-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.DisconnectedClient         : Looks like the client has gone away: org.apache.catalina.connector.ClientAbortException: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host. (For a full stack trace, set the log category 'org.apache.commons.logging.LogAdapter$Slf4jLocationAwareLog@37fcd2d1' to TRACE level.)
+2026-02-15T16:05:29.576-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.handler.DisconnectedClient       : Looks like the client has gone away: org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host. (For a full stack trace, set the log category 'org.apache.commons.logging.LogAdapter$Slf4jLocationAwareLog@57376604' to TRACE level.)
+2026-02-15T16:05:29.579-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:05:29.599-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 2
+2026-02-15T16:05:29.600-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:05:29.602-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@c68f109, com.anthony.tfg.tfg.DTOs.R (truncated)...]
+2026-02-15T16:05:29.606-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:05:48.152-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T16:05:48.152-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-02-15T16:05:48.170-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T16:05:48.170-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-02-15T16:05:48.170-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T16:05:48.170-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-02-15T16:05:48.171-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T16:05:48.172-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-02-15T16:05:48.187-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 5
+2026-02-15T16:05:48.188-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@68664832
+2026-02-15T16:05:48.188-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@21ecf721
+2026-02-15T16:05:48.188-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@580de999
+2026-02-15T16:05:48.189-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@55e77868
+2026-02-15T16:05:48.189-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-6] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@f9a9d3e
+2026-02-15T16:05:48.191-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:05:48.191-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@68664832, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-02-15T16:05:48.192-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:05:48.197-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing GET /api/puestos
+2026-02-15T16:05:48.214-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Secured GET /api/puestos
+2026-02-15T16:05:48.214-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : GET "/api/puestos", parameters={}
+2026-02-15T16:05:48.215-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Auxiliares.Controlador.ControladorPuestos#obtenerTodos()
+2026-02-15T16:05:48.231-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se han obtenido todos los puestos. La cantidad de registros es: 5
+2026-02-15T16:05:48.232-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@6bb52aa9
+2026-02-15T16:05:48.232-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@6f5c629e
+2026-02-15T16:05:48.233-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@7ef46f2b
+2026-02-15T16:05:48.233-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@18290d2f
+2026-02-15T16:05:48.233-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-1] c.a.t.t.M.A.Servicio.ServicioPuestos     : Se ha convertido la entidad Puestos a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@5a8b8ce1
+2026-02-15T16:05:48.234-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:05:48.235-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPuestosDTO@6bb52aa9, com.anthony.tfg.tfg.DTOs.Respuesta (truncated)...]
+2026-02-15T16:05:48.237-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:05:48.245-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T16:05:48.246-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@1a0fad1e
+2026-02-15T16:05:48.247-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5862dd09
+2026-02-15T16:05:48.247-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@7f0c55f4
+2026-02-15T16:05:48.247-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@401421a0
+2026-02-15T16:05:48.247-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@279413e1
+2026-02-15T16:05:48.248-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@69d0188f
+2026-02-15T16:05:48.249-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:05:48.249-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@1a0fad1e, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T16:05:48.250-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:05:48.253-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T16:05:48.268-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T16:05:48.269-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T16:05:48.269-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T16:05:48.332-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T16:05:48.333-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@15a76696
+2026-02-15T16:05:48.334-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5d4fe70d
+2026-02-15T16:05:48.334-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@2d9dee98
+2026-02-15T16:05:48.334-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@19d00f7b
+2026-02-15T16:05:48.335-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@376d5901
+2026-02-15T16:05:48.335-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@1538b76e
+2026-02-15T16:05:48.336-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:05:48.337-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@15a76696, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T16:05:48.338-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:06:13.499-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T16:06:13.519-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T16:06:13.520-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T16:06:13.520-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T16:06:13.584-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T16:06:13.584-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@743451bd
+2026-02-15T16:06:13.585-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@7afa2b01
+2026-02-15T16:06:13.585-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@57992012
+2026-02-15T16:06:13.585-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@2f3dc6f2
+2026-02-15T16:06:13.585-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@79d2d311
+2026-02-15T16:06:13.586-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@52db4d09
+2026-02-15T16:06:13.586-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:06:13.587-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@743451bd, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T16:06:13.589-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-15T16:06:13.592-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-15T16:06:13.604-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-15T16:06:13.605-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-15T16:06:13.606-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-15T16:06:13.664-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-15T16:06:13.665-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@4d2854a1
+2026-02-15T16:06:13.665-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@44160545
+2026-02-15T16:06:13.666-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@339042d4
+2026-02-15T16:06:13.666-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@2efdb378
+2026-02-15T16:06:13.666-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@217f675a
+2026-02-15T16:06:13.667-06:00  INFO 21308 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@55b7721d
+2026-02-15T16:06:13.667-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-15T16:06:13.667-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@4d2854a1, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-15T16:06:13.667-06:00 DEBUG 21308 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
