@@ -23,7 +23,8 @@ import {
   calcularDiasHabiles,
   calcularHoras,
   formatearFecha,
-  formatearHoras
+  formatearHoras,
+  getDateFilterNoPassedDates
 } from '../../lib/utils';
 import { Calendar, Plus, Eye, FileText, Clock, CheckCircle, XCircle, Palmtree } from 'lucide-react';
 import { toast } from 'sonner';
@@ -573,6 +574,7 @@ export default function PermisosView() {
                     value={formData.fechaInicio}
                     onChange={(fecha) => handleFechaChange('fechaInicio', fecha)}
                     placeholder="Seleccionar fecha inicio"
+                    filterDate={getDateFilterNoPassedDates()}
                     fromYear={new Date().getFullYear()}
                     toYear={new Date().getFullYear() + 2}
                   />
@@ -583,6 +585,7 @@ export default function PermisosView() {
                     value={formData.fechaFin}
                     onChange={(fecha) => handleFechaChange('fechaFin', fecha)}
                     placeholder="Seleccionar fecha fin"
+                    filterDate={getDateFilterNoPassedDates()}
                     fromYear={new Date().getFullYear()}
                     toYear={new Date().getFullYear() + 2}
                   />

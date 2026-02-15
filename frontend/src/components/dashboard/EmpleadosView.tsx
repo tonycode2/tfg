@@ -10,6 +10,7 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { getProvincias, getCantonesByProvincia, getDistritosByCanton } from '@/data/costaRicaLocations';
 import { empleadosService, puestosService, direccionesService, type Empleado, type Puesto } from '@/services/apiService';
 import { GenerarUsuarioModal } from '@/components/GenerarUsuarioModal';
+import { getDateFilterBirthdate } from '@/lib/utils';
 import { toast } from 'sonner';
 
 interface EmpleadoFormData {
@@ -489,19 +490,12 @@ export function EmpleadosView() {
               onChange={(date) => {
                 setFormData({ ...formData, fechaNacimiento: date });
                 setErrors({ ...errors, fechaNacimiento: '' });
-                
-                if (date) {
-                  const [year, month, day] = date.split('-').map(Number);
-                  const fechaNacimiento = new Date(Date.UTC(year, month - 1, day));
-                  const hoy = new Date();
-                  const edad = Math.floor((hoy.getTime() - fechaNacimiento.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
-                  if (edad < 18) {
-                    setErrors({ ...errors, fechaNacimiento: 'El empleado debe tener al menos 18 años de edad' });
-                  }
-                }
               }}
               placeholder="Seleccionar fecha de nacimiento"
               className={errors.fechaNacimiento ? 'border-red-500' : ''}
+              filterDate={getDateFilterBirthdate()}
+              fromYear={1940}
+              toYear={new Date().getFullYear()}
             />
             {errors.fechaNacimiento && <p className="text-xs text-red-500 mt-1">{errors.fechaNacimiento}</p>}
           </div>

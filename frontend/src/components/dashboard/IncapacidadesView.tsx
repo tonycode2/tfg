@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { DatePicker } from '@/components/ui/date-picker';
+import { getDateFilterIncapacidadInicio, getDateFilterIncapacidadFin } from '@/lib/utils';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Modal } from '@/components/Modal';
 import type { RespuestaIncapacidad } from '../../services/incapacidadesService';
@@ -574,6 +575,7 @@ export default function IncapacidadesView() {
                 value={formData.fechaInicio}
                 onChange={(fecha) => handleFechaChange('fechaInicio', fecha)}
                 placeholder="Seleccionar fecha inicio"
+                filterDate={getDateFilterIncapacidadInicio()}
                 fromYear={new Date().getFullYear() - 1}
                 toYear={new Date().getFullYear() + 1}
               />
@@ -584,6 +586,7 @@ export default function IncapacidadesView() {
                 value={formData.fechaFin}
                 onChange={(fecha) => handleFechaChange('fechaFin', fecha)}
                 placeholder="Seleccionar fecha fin"
+                filterDate={getDateFilterIncapacidadFin(formData.fechaInicio)}
                 fromYear={new Date().getFullYear() - 1}
                 toYear={new Date().getFullYear() + 1}
               />

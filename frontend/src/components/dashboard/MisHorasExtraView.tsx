@@ -8,6 +8,7 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { Textarea } from '@/components/ui/textarea';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { getDateFilterHorasExtra } from '@/lib/utils';
 import { toast } from 'sonner';
 
 type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
@@ -158,6 +159,7 @@ export default function MisHorasExtraView() {
                 value={fecha}
                 onChange={(v: string) => setFecha(v)}
                 placeholder="Seleccionar fecha"
+                filterDate={getDateFilterHorasExtra()}
                 fromYear={new Date().getFullYear() - 1}
                 toYear={new Date().getFullYear()}
               />

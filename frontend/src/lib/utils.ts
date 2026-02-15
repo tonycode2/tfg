@@ -209,3 +209,88 @@ export function formatCurrency(value: number | null | undefined, currency = 'CRC
     return `${numero.toFixed(2)}`;
   }
 }
+// ==================== DATE VALIDATION UTILITIES ====================
+
+/**
+ * Retorna función para validar fechas de nacimiento (mayores de 18 años)
+ * Solo permite fechas de hace 18+ años
+ */
+export function getDateFilterBirthdate(): (date: Date) => boolean {
+  return (date: Date) => {
+    const today = new Date();
+    const age = today.getFullYear() - date.getFullYear();
+    const monthDiff = today.getMonth() - date.getMonth();
+    const dayDiff = today.getDate() - date.getDate();
+    
+    const isAtLeast18 = age > 18 || (age === 18 && monthDiff > 0) || (age === 18 && monthDiff === 0 && dayDiff >= 0);
+    return isAtLeast18;
+  };
+}
+
+/**
+ * Retorna función para validar fechas de horas extra (solo hoy y ayer)
+ */
+export function getDateFilterHorasExtra(): (date: Date) => boolean {
+  return (date: Date) => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    // Normalizar fechas a medianoche para comparación
+    const dateNormalized = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const yesterdayNormalized = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
+    
+    return dateNormalized.getTime() === todayNormalized.getTime() || 
+           dateNormalized.getTime() === yesterdayNormalized.getTime();
+  };
+}
+
+/**
+ * Retorna función para validar fechas de inicio de incapacidades (solo hoy y ayer)
+ */
+export function getDateFilterIncapacidadInicio(): (date: Date) => boolean {
+  return (date: Date) => {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    const dateNormalized = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const yesterdayNormalized = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
+    
+    return dateNormalized.getTime() === todayNormalized.getTime() || 
+           dateNormalized.getTime() === yesterdayNormalized.getTime();
+  };
+}
+
+/**
+ * Retorna función para validar fechas de fin de incapacidades (desde fecha inicio a futuro)
+ * @param fechaInicio - Fecha de inicio en formato yyyy-MM-dd
+ */
+export function getDateFilterIncapacidadFin(fechaInicio: string): (date: Date) => boolean {
+  return (date: Date) => {
+    if (!fechaInicio) return true; // Si no hay fecha inicio, permitir cualquier fecha
+    
+    const inicio = parseDatePreserveLocal(fechaInicio);
+    if (!inicio) return true;
+    
+    const dateNormalized = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const inicioNormalized = new Date(inicio.getFullYear(), inicio.getMonth(), inicio.getDate());
+    
+    return dateNormalized.getTime() >= inicioNormalized.getTime();
+  };
+}
+
+/**
+ * Retorna función para validar fechas sin fechas pasadas (permisos, vacaciones, etc)
+ */
+export function getDateFilterNoPassedDates(): (date: Date) => boolean {
+  return (date: Date) => {
+    const today = new Date();
+    const dateNormalized = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    
+    return dateNormalized.getTime() >= todayNormalized.getTime();
+  };
+}

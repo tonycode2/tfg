@@ -15,6 +15,7 @@ interface DatePickerProps {
   className?: string
   fromYear?: number
   toYear?: number
+  filterDate?: (date: Date) => boolean
 }
 
 function DatePickerComponent({
@@ -25,6 +26,7 @@ function DatePickerComponent({
   className,
   fromYear = 1940,
   toYear = new Date().getFullYear(),
+  filterDate,
 }: DatePickerProps) {
   const parseValueToDate = React.useCallback((dateString: string | undefined): Date | null => {
     if (!dateString) return null
@@ -65,6 +67,7 @@ function DatePickerComponent({
         yearDropdownItemNumber={toYear - fromYear + 1}
         minDate={minDate}
         maxDate={maxDate}
+        filterDate={filterDate}
         scrollableYearDropdown
         className={cn(
           "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm",
