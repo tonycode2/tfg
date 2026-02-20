@@ -101,13 +101,20 @@ export function EmpleadosView() {
   const handleAdd = () => {
     setEditingEmpleado(null);
     setErrors({});
+    // Calcular fecha por defecto: hoy - 18 años
+    const hoy = new Date();
+    const fecha18 = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate());
+    const yyyy = fecha18.getFullYear();
+    const mm = String(fecha18.getMonth() + 1).padStart(2, '0');
+    const dd = String(fecha18.getDate()).padStart(2, '0');
+    const fechaNacimientoDefault = `${yyyy}-${mm}-${dd}`;
     setFormData({
       cedula: '',
       nombre: '',
       primerApellido: '',
       segundoApellido: '',
       correoPersonal: '',
-      fechaNacimiento: '',
+      fechaNacimiento: fechaNacimientoDefault,
       fechaIngreso: '',
       cantidadDeHijos: 0,
       saldoVacaciones: 0,
@@ -521,7 +528,7 @@ export function EmpleadosView() {
               step="0.01"
               value={salarioPuesto}
               className="bg-muted"
-              readOnly
+              disabled
             />
           </div>
           <div>
