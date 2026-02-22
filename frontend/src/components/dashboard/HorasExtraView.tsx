@@ -25,6 +25,7 @@ interface HorasExtraDTO {
 }
 
 const API_BASE = 'http://localhost:8080';
+const TODAY = new Date().toISOString().slice(0, 10);
 
 export default function HorasExtraView() {
   function formatoEstado(s?: string) {
@@ -47,7 +48,7 @@ export default function HorasExtraView() {
         return s || '';
     }
   }
-  const [fecha, setFecha] = useState<string>(new Date().toISOString().slice(0, 10));
+  const [fecha, setFecha] = useState<string>(TODAY);
   const [horas, setHoras] = useState<number>(1);
   const [motivo, setMotivo] = useState<string>('');
   const [tipo] = useState<string>('SIMPLE');
@@ -172,13 +173,13 @@ export default function HorasExtraView() {
       <Card>
         <CardHeader>
           <CardTitle>Solicitar Horas Extra</CardTitle>
-          <CardDescription>Solicita hasta 3 horas extra para hoy o ayer.</CardDescription>
+          <CardDescription>Solicita hasta 3 horas extra para la fecha actual.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="space-y-1">
               <Label>Fecha</Label>
-              <Input type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} />
+              <Input type="date" value={fecha} min={TODAY} max={TODAY} onChange={(e) => setFecha(e.target.value)} />
             </div>
 
             <div className="space-y-1">

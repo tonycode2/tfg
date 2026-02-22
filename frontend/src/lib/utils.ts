@@ -228,21 +228,17 @@ export function getDateFilterBirthdate(): (date: Date) => boolean {
 }
 
 /**
- * Retorna función para validar fechas de horas extra (solo hoy y ayer)
+ * Retorna función para validar fechas de horas extra (solo hoy)
  */
 export function getDateFilterHorasExtra(): (date: Date) => boolean {
   return (date: Date) => {
     const today = new Date();
-    const yesterday = new Date(today);
-    yesterday.setDate(yesterday.getDate() - 1);
-    
+
     // Normalizar fechas a medianoche para comparación
     const dateNormalized = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const yesterdayNormalized = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
-    
-    return dateNormalized.getTime() === todayNormalized.getTime() || 
-           dateNormalized.getTime() === yesterdayNormalized.getTime();
+
+    return dateNormalized.getTime() === todayNormalized.getTime();
   };
 }
 

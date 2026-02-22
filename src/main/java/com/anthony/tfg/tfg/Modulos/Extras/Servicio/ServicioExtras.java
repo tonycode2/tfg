@@ -146,10 +146,9 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
 
         LocalDate fecha = entidad.getFechaSolicitud();
         LocalDate hoy = LocalDate.now();
-        LocalDate ayer = hoy.minusDays(1);
 
-        if (!(fecha.equals(hoy) || fecha.equals(ayer))) {
-            throw new BadRequestException("La fecha de solicitud debe ser hoy o el día anterior");
+        if (!fecha.equals(hoy)) {
+            throw new BadRequestException("La fecha de solicitud debe ser la fecha actual");
         }
 
         // Validar que exista el empleado

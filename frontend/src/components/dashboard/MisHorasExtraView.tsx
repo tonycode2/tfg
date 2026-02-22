@@ -146,7 +146,7 @@ export default function MisHorasExtraView() {
       <Card>
         <CardHeader>
           <CardTitle>Mis Horas Extra</CardTitle>
-          <CardDescription>Solicita hasta 3 horas extra para hoy o ayer.</CardDescription>
+          <CardDescription>Solicita hasta 3 horas extra para la fecha actual.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
