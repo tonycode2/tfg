@@ -2,7 +2,8 @@ import { memo, useMemo, useState } from 'react';
 import { cn } from '../lib/utils';
 import { Button } from './ui/button';
 import { Popover, PopoverTrigger, PopoverContent } from './ui/popover';
-import { useTheme } from '../hooks/useTheme';
+import { isDarkTheme, useTheme } from '../hooks/useTheme';
+import { ThemeMenuButton } from './ThemeMenuButton';
 import type { Role } from '../services/authService';
 import type { ReactElement } from 'react';
 
@@ -259,7 +260,7 @@ const MobileMenu = memo(function MobileMenu({
             </div>
             <span className="font-semibold text-foreground">Gerson Andre</span>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose}>
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Cerrar menú de navegación">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -298,7 +299,8 @@ export const TopNavbar = memo(function TopNavbar({
   onItemClick,
   onLogout,
 }: TopNavbarProps) {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
+  const darkModeEnabled = isDarkTheme(theme);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [misServiciosOpen, setMisServiciosOpen] = useState(false);
   const [rhOpen, setRhOpen] = useState(false);
@@ -336,6 +338,7 @@ export const TopNavbar = memo(function TopNavbar({
               size="icon"
               className="md:hidden"
               onClick={() => setMobileMenuOpen(true)}
+              aria-label="Abrir menú de navegación"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -345,7 +348,7 @@ export const TopNavbar = memo(function TopNavbar({
             {/* Logo */}
             <div className="flex items-center gap-2">
               <img
-                src={theme === 'light' ? '/logo.png' : '/logo_invertido.png'}
+                src={darkModeEnabled ? '/logo_invertido.png' : '/logo.png'}
                 alt="Logo Sastrería Gerson Andre"
                 className="h-10 w-auto hidden sm:block"
               />
@@ -387,7 +390,7 @@ export const TopNavbar = memo(function TopNavbar({
                 {/* Mis Servicios dropdown */}
                 <Popover open={misServiciosOpen} onOpenChange={setMisServiciosOpen}>
                   <PopoverTrigger asChild>
-                    <button className="rounded-lg px-3 py-2 text-foreground hover:bg-accent flex items-center gap-2">
+                    <button className="rounded-lg px-3 py-2 text-foreground hover:bg-accent flex items-center gap-2" aria-expanded={misServiciosOpen} aria-haspopup="menu">
                       <span>Mis Servicios</span>
                       <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -440,7 +443,7 @@ export const TopNavbar = memo(function TopNavbar({
                 {userRole === 'HR' && (
                   <Popover open={rhOpen} onOpenChange={setRhOpen}>
                     <PopoverTrigger asChild>
-                      <button className="rounded-lg px-3 py-2 text-foreground hover:bg-accent flex items-center gap-2">
+                      <button className="rounded-lg px-3 py-2 text-foreground hover:bg-accent flex items-center gap-2" aria-expanded={rhOpen} aria-haspopup="menu">
                         <span>RH</span>
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -539,7 +542,7 @@ export const TopNavbar = memo(function TopNavbar({
                 {userRole === 'JEFE' && (
                   <Popover open={administrativoOpen} onOpenChange={setAdministrativoOpen}>
                     <PopoverTrigger asChild>
-                      <button className="rounded-lg px-3 py-2 text-foreground hover:bg-accent flex items-center gap-2"> 
+                      <button className="rounded-lg px-3 py-2 text-foreground hover:bg-accent flex items-center gap-2" aria-expanded={administrativoOpen} aria-haspopup="menu"> 
                         <span>Administrativo</span>
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -613,23 +616,7 @@ export const TopNavbar = memo(function TopNavbar({
               <span className="text-xs text-muted-foreground">{roleText}</span>
             </div>
 
-            {/* Theme toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              title={theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro'}
-            >
-              {theme === 'light' ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              )}
-            </Button>
+            <ThemeMenuButton buttonClassName="hidden md:inline-flex h-9 w-9" />
 
             {/* Logout button */}
             <Button
@@ -637,6 +624,7 @@ export const TopNavbar = memo(function TopNavbar({
               size="icon"
               onClick={onLogout}
               title="Cerrar sesión"
+              aria-label="Cerrar sesión"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />

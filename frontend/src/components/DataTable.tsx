@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useId } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -48,6 +49,7 @@ export function DataTable<T extends { id?: number | string }>({
   customActions,
   hideHeader = false,
 }: DataTableProps<T>) {
+  const tableId = useId();
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -202,11 +204,15 @@ export function DataTable<T extends { id?: number | string }>({
       {/* Barra de búsqueda y selector de tamaño */}
       <div className="flex items-center gap-4">
         <div className="relative flex-1">
+          <Label htmlFor={`${tableId}-search`} className="sr-only">
+            Buscar en tabla
+          </Label>
           <svg
             className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -216,6 +222,7 @@ export function DataTable<T extends { id?: number | string }>({
             />
           </svg>
           <Input
+            id={`${tableId}-search`}
             type="text"
             placeholder="Buscar en la tabla..."
             value={searchTerm}
@@ -224,9 +231,9 @@ export function DataTable<T extends { id?: number | string }>({
           />
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground whitespace-nowrap">Mostrar:</span>
+          <Label htmlFor={`${tableId}-page-size`} className="text-sm text-muted-foreground whitespace-nowrap">Mostrar:</Label>
           <Select value={String(pageSize)} onValueChange={handlePageSizeChange}>
-            <SelectTrigger className="w-[100px]">
+            <SelectTrigger id={`${tableId}-page-size`} className="w-[100px]" aria-label="Cantidad de filas por página">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -247,6 +254,9 @@ export function DataTable<T extends { id?: number | string }>({
         )}
         <div className="overflow-x-auto">
           <table className="w-full">
+            <caption className="sr-only">
+              {title}. Total de registros: {totalElements}
+            </caption>
             <thead className="bg-muted">
               <tr>
                 {columns.map((column, index) => (
@@ -296,6 +306,7 @@ export function DataTable<T extends { id?: number | string }>({
                           }}
                           className="h-8 w-8 p-0 hover:bg-muted"
                           title="Editar"
+                          aria-label="Editar registro"
                         >
                           <svg
                             className="w-4 h-4"
@@ -325,6 +336,7 @@ export function DataTable<T extends { id?: number | string }>({
                           }}
                           className="h-8 w-8 p-0 hover:bg-destructive/10 text-destructive"
                           title="Eliminar"
+                          aria-label="Eliminar registro"
                         >
                           <svg
                             className="w-4 h-4"

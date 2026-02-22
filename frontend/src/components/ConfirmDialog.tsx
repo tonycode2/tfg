@@ -1,3 +1,4 @@
+import { useEffect, useId } from 'react';
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 
@@ -22,6 +23,28 @@ export function ConfirmDialog({
   cancelText = 'Cancelar',
   isLoading = false,
 }: ConfirmDialogProps) {
+  const titleId = useId();
+  const descriptionId = useId();
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !isLoading) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen, isLoading, onClose]);
+
   if (!isOpen) return null;
 
   return (
@@ -29,23 +52,35 @@ export function ConfirmDialog({
       {/* Overlay */}
       <div
         className="fixed inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={() => {
+          if (!isLoading) onClose();
+        }}
+        aria-hidden="true"
       />
 
       {/* Dialog */}
-      <div className="relative z-50 w-full max-w-md mx-4 bg-background rounded-lg shadow-lg border border-border">
+      <div
+        className="relative z-50 w-full max-w-md mx-4 bg-background rounded-lg shadow-lg border border-border"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        aria-describedby={descriptionId}
+      >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-border">
-          <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+          <h2 id={titleId} className="text-xl font-semibold text-foreground">{title}</h2>
           <button
             onClick={onClose}
             className="text-muted-foreground hover:text-foreground transition-colors"
+            aria-label="Cerrar diálogo"
+            disabled={isLoading}
           >
             <svg
               className="w-5 h-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -79,7 +114,7 @@ export function ConfirmDialog({
 
             {/* Message */}
             <div className="flex-1">
-              <p className="text-foreground">{message}</p>
+              <p id={descriptionId} className="text-foreground">{message}</p>
             </div>
           </div>
         </div>

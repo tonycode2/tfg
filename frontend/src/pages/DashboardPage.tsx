@@ -177,6 +177,12 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-background focus:border focus:border-border focus:px-3 focus:py-2 focus:rounded"
+      >
+        Saltar al contenido principal
+      </a>
       {/* Top Navigation Bar */}
       <TopNavbar
         userRole={userInfo.role}
@@ -187,7 +193,7 @@ export default function DashboardPage() {
       />
       
       {/* Main Content Area */}
-      <main className={"flex-1 p-4 md:p-6 transition-opacity duration-150 " + (contentHidden ? 'opacity-0' : 'opacity-100')}>
+      <main id="main-content" className={"flex-1 p-4 md:p-6 transition-opacity duration-150 " + (contentHidden ? 'opacity-0' : 'opacity-100')}>
         {renderView()}
       </main>
     </div>
