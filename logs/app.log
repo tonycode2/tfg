@@ -5324,3 +5324,447 @@ Caused by: java.io.IOException: Se ha anulado una conexión establecida por el s
 2026-02-22T10:22:11.500-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2026-02-22T10:22:11.501-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.EstadoAsistenciaDTO@5590e086]
 2026-02-22T10:22:11.501-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:24:34.472-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/empleados
+2026-02-22T10:24:34.475-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/empleados
+2026-02-22T10:24:34.475-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-22T10:24:34.475-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-22T10:24:34.477-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-22T10:24:34.483-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-22T10:24:34.483-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-22T10:24:34.484-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-22T10:24:34.484-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-22T10:24:34.487-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-22T10:24:34.488-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-22T10:24:34.488-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-22T10:24:34.489-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-22T10:24:34.489-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-22T10:24:34.489-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-22T10:24:34.490-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-22T10:24:34.523-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-22T10:24:34.524-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@593d3607
+2026-02-22T10:24:34.524-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@58e5dca9
+2026-02-22T10:24:34.524-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@7538729b
+2026-02-22T10:24:34.524-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@20014ce9
+2026-02-22T10:24:34.524-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@103cdbe0
+2026-02-22T10:24:34.525-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-2] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@66ca4dda
+2026-02-22T10:24:34.526-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:24:34.526-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@593d3607, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-22T10:24:34.527-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:24:34.540-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 4
+2026-02-22T10:24:34.541-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:24:34.541-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@35fe60dd, com.anthony.tfg.tfg.DTOs. (truncated)...]
+2026-02-22T10:24:34.543-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.anthony.tfg.tfg.Exceptions.Handler.GlobalExceptionHandler#handleGlobalException(Exception, HttpServletRequest)
+2026-02-22T10:24:34.544-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 4
+2026-02-22T10:24:34.544-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:24:34.544-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@6c4c8342, com.anthony.tfg.tfg.DTOs. (truncated)...]
+2026-02-22T10:24:34.545-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:24:34.543-06:00 ERROR 13140 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.E.H.GlobalExceptionHandler       : Error interno del servidor: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+
+org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleHttpServletResponse.handleIOException(StandardServletAsyncWebRequest.java:346) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleServletOutputStream.write(StandardServletAsyncWebRequest.java:404) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.util.StreamUtils$NonClosingOutputStream.write(StreamUtils.java:284) ~[spring-core-6.2.12.jar:6.2.12]
+	at com.fasterxml.jackson.core.json.UTF8JsonGenerator._flushBuffer(UTF8JsonGenerator.java:2261) ~[jackson-core-2.19.2.jar:2.19.2]
+	at com.fasterxml.jackson.core.json.UTF8JsonGenerator.flush(UTF8JsonGenerator.java:1202) ~[jackson-core-2.19.2.jar:2.19.2]
+	at com.fasterxml.jackson.databind.ObjectWriter.writeValue(ObjectWriter.java:1063) ~[jackson-databind-2.19.2.jar:2.19.2]
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.writeInternal(AbstractJackson2HttpMessageConverter.java:485) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.http.converter.AbstractGenericHttpMessageConverter.write(AbstractGenericHttpMessageConverter.java:126) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:345) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor.handleReturnValue(HttpEntityMethodProcessor.java:263) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.ResponseEntityReturnValueHandler.handleReturnValue(ResponseEntityReturnValueHandler.java:79) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite.handleReturnValue(HandlerMethodReturnValueHandlerComposite.java:78) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:136) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at com.anthony.tfg.tfg.Util.DebugMultipartLoggingFilter.doFilterInternal(DebugMultipartLoggingFilter.java:58) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:74) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.rate.RateLimitingFilter.doFilterInternal(RateLimitingFilter.java:76) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+Caused by: org.apache.catalina.connector.ClientAbortException: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:340) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.flushByteBuffer(OutputBuffer.java:775) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.append(OutputBuffer.java:672) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.writeBytes(OutputBuffer.java:375) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.write(OutputBuffer.java:353) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteOutputStream.write(CoyoteOutputStream.java:99) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.security.web.util.OnCommittedResponseWrapper$SaveContextServletOutputStream.write(OnCommittedResponseWrapper.java:639) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleServletOutputStream.write(StandardServletAsyncWebRequest.java:401) ~[spring-web-6.2.12.jar:6.2.12]
+	... 123 common frames omitted
+Caused by: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:54) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:137) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:102) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:58) ~[na:na]
+	at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:542) ~[na:na]
+	at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:125) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1413) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.doWrite(SocketWrapperBase.java:732) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.writeBlocking(SocketWrapperBase.java:572) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.write(SocketWrapperBase.java:520) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11OutputBuffer$SocketOutputBuffer.doWrite(Http11OutputBuffer.java:548) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.filters.ChunkedOutputFilter.doWrite(ChunkedOutputFilter.java:109) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11OutputBuffer.doWrite(Http11OutputBuffer.java:193) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.Response.doWrite(Response.java:621) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:328) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	... 130 common frames omitted
+
+2026-02-22T10:24:34.546-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Found 'Content-Type:application/json;charset=UTF-8' in response
+2026-02-22T10:24:34.548-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ErrorResponse[timestamp=2026-02-22T10:24:34.546720600, status=500, error=Internal Server Error, mess (truncated)...]
+2026-02-22T10:24:34.549-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.DisconnectedClient         : Looks like the client has gone away: org.apache.catalina.connector.ClientAbortException: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host. (For a full stack trace, set the log category 'org.apache.commons.logging.LogAdapter$Slf4jLocationAwareLog@28dc7e18' to TRACE level.)
+2026-02-22T10:24:34.549-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.handler.DisconnectedClient       : Looks like the client has gone away: org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host. (For a full stack trace, set the log category 'org.apache.commons.logging.LogAdapter$Slf4jLocationAwareLog@40345b67' to TRACE level.)
+2026-02-22T10:24:34.549-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:24:57.436-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-22T10:24:57.445-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-22T10:24:57.445-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-22T10:24:57.445-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-22T10:24:57.446-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-22T10:24:57.493-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 4
+2026-02-22T10:24:57.493-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:24:57.494-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@4e1bef5, com.anthony.tfg.tfg.DTOs.R (truncated)...]
+2026-02-22T10:24:57.494-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:24:57.496-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-22T10:24:57.502-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-22T10:24:57.503-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-22T10:24:57.503-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-22T10:24:57.503-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-22T10:24:57.551-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 4
+2026-02-22T10:24:57.552-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:24:57.552-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@18bedb5a, com.anthony.tfg.tfg.DTOs. (truncated)...]
+2026-02-22T10:24:57.553-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:26:46.403-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/permisos/mis-solicitudes
+2026-02-22T10:26:46.408-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-6] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/vacaciones/mi-saldo
+2026-02-22T10:26:46.408-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/vacaciones/mi-saldo
+2026-02-22T10:26:46.408-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-1] o.s.security.web.FilterChainProxy        : Securing OPTIONS /api/permisos/mis-solicitudes
+2026-02-22T10:26:46.408-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/permisos/mis-solicitudes
+2026-02-22T10:26:46.412-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Securing GET /api/vacaciones/mi-saldo
+2026-02-22T10:26:46.416-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/permisos/mis-solicitudes
+2026-02-22T10:26:46.417-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/permisos/mis-solicitudes", parameters={}
+2026-02-22T10:26:46.417-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Permisos.Controlador.ControladorPermisos#obtenerMisSolicitudes(Authentication)
+2026-02-22T10:26:46.421-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-7] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se obtuvieron 0 solicitudes para el empleado 4
+2026-02-22T10:26:46.421-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:26:46.422-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-22T10:26:46.422-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:26:46.423-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.security.web.FilterChainProxy        : Secured GET /api/vacaciones/mi-saldo
+2026-02-22T10:26:46.423-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : GET "/api/vacaciones/mi-saldo", parameters={}
+2026-02-22T10:26:46.423-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/permisos/mis-solicitudes
+2026-02-22T10:26:46.424-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Vacaciones.Controlador.ControladorVacaciones#obtenerMiSaldo(Authentication)
+2026-02-22T10:26:46.424-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-9] c.a.t.t.M.V.Servicio.ServicioVacaciones  : Saldo de vacaciones para empleado 4: 30 días
+2026-02-22T10:26:46.425-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:26:46.425-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{diasDisponibles=30}]
+2026-02-22T10:26:46.425-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-9] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:26:46.427-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/vacaciones/mi-saldo
+2026-02-22T10:26:46.431-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/permisos/mis-solicitudes
+2026-02-22T10:26:46.431-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/permisos/mis-solicitudes", parameters={}
+2026-02-22T10:26:46.431-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Permisos.Controlador.ControladorPermisos#obtenerMisSolicitudes(Authentication)
+2026-02-22T10:26:46.435-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/vacaciones/mi-saldo
+2026-02-22T10:26:46.435-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/vacaciones/mi-saldo", parameters={}
+2026-02-22T10:26:46.435-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Vacaciones.Controlador.ControladorVacaciones#obtenerMiSaldo(Authentication)
+2026-02-22T10:26:46.436-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-10] c.a.t.t.M.P.Servicio.ServicioPermisos    : Se obtuvieron 0 solicitudes para el empleado 4
+2026-02-22T10:26:46.436-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-5] c.a.t.t.M.V.Servicio.ServicioVacaciones  : Saldo de vacaciones para empleado 4: 30 días
+2026-02-22T10:26:46.436-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:26:46.436-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:26:46.437-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[]]
+2026-02-22T10:26:46.437-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [{diasDisponibles=30}]
+2026-02-22T10:26:46.437-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:26:46.437-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:26:56.881-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-22T10:26:56.881-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Securing GET /api/empleados
+2026-02-22T10:26:56.881-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Securing GET /api/planillas/empleado/4
+2026-02-22T10:26:56.893-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-22T10:26:56.893-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.security.web.FilterChainProxy        : Secured GET /api/planillas/empleado/4
+2026-02-22T10:26:56.893-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-22T10:26:56.893-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : GET "/api/planillas/empleado/4", parameters={}
+2026-02-22T10:26:56.894-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-22T10:26:56.894-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Planilla.Controlador.ControladorPlanilla#obtenerPlanillasPorEmpleado(Long)
+2026-02-22T10:26:56.894-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-22T10:26:56.894-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Obteniendo planillas para el empleado con ID: 4
+2026-02-22T10:26:56.896-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-3] o.s.security.web.FilterChainProxy        : Secured GET /api/empleados
+2026-02-22T10:26:56.897-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : GET "/api/empleados", parameters={}
+2026-02-22T10:26:56.897-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-3] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Empleados.Controlador.ControladorEmpleados#obtenerTodos()
+2026-02-22T10:26:56.928-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se han obtenido todos los empleados. La cantidad de registros es: 6
+2026-02-22T10:26:56.928-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@42576b7d
+2026-02-22T10:26:56.928-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@6eb78c21
+2026-02-22T10:26:56.928-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@adb277
+2026-02-22T10:26:56.928-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@5828dea8
+2026-02-22T10:26:56.928-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@21dd5a53
+2026-02-22T10:26:56.928-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-3] c.a.t.t.M.E.Servicio.ServicioEmpleados   : Se ha convertido la entidad Empleados a DTO de respuesta: com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@73591ccd
+2026-02-22T10:26:56.929-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:26:56.929-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-3] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaEmpleadosDTO@42576b7d, com.anthony.tfg.tfg.DTOs.Respues (truncated)...]
+2026-02-22T10:26:56.930-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:26:56.946-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 4
+2026-02-22T10:26:56.946-06:00  INFO 13140 --- [tfg] [http-nio-8080-exec-8] c.a.t.t.M.P.Servicio.ServicioPlanilla    : Se encontraron 32 planillas para el empleado con ID: 4
+2026-02-22T10:26:56.947-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:26:56.947-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:26:56.947-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@2644acfe, com.anthony.tfg.tfg.DTOs. (truncated)...]
+2026-02-22T10:26:56.947-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@3569e6b3, com.anthony.tfg.tfg.DTOs. (truncated)...]
+2026-02-22T10:26:56.948-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:26:56.949-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.anthony.tfg.tfg.Exceptions.Handler.GlobalExceptionHandler#handleGlobalException(Exception, HttpServletRequest)
+2026-02-22T10:26:56.949-06:00 ERROR 13140 --- [tfg] [http-nio-8080-exec-4] c.a.t.t.E.H.GlobalExceptionHandler       : Error interno del servidor: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+
+org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleHttpServletResponse.handleIOException(StandardServletAsyncWebRequest.java:346) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleServletOutputStream.write(StandardServletAsyncWebRequest.java:404) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.util.StreamUtils$NonClosingOutputStream.write(StreamUtils.java:284) ~[spring-core-6.2.12.jar:6.2.12]
+	at com.fasterxml.jackson.core.json.UTF8JsonGenerator._flushBuffer(UTF8JsonGenerator.java:2261) ~[jackson-core-2.19.2.jar:2.19.2]
+	at com.fasterxml.jackson.core.json.UTF8JsonGenerator.flush(UTF8JsonGenerator.java:1202) ~[jackson-core-2.19.2.jar:2.19.2]
+	at com.fasterxml.jackson.databind.ObjectWriter.writeValue(ObjectWriter.java:1063) ~[jackson-databind-2.19.2.jar:2.19.2]
+	at org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter.writeInternal(AbstractJackson2HttpMessageConverter.java:485) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.http.converter.AbstractGenericHttpMessageConverter.write(AbstractGenericHttpMessageConverter.java:126) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor.writeWithMessageConverters(AbstractMessageConverterMethodProcessor.java:345) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor.handleReturnValue(HttpEntityMethodProcessor.java:263) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.ResponseEntityReturnValueHandler.handleReturnValue(ResponseEntityReturnValueHandler.java:79) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.method.support.HandlerMethodReturnValueHandlerComposite.handleReturnValue(HandlerMethodReturnValueHandlerComposite.java:78) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:136) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:991) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:896) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1089) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:903) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658) ~[tomcat-embed-core-10.1.48.jar:6.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at com.anthony.tfg.tfg.Util.DebugMultipartLoggingFilter.doFilterInternal(DebugMultipartLoggingFilter.java:58) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:110) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:108) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy.lambda$doFilterInternal$3(FilterChainProxy.java:231) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:365) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.intercept.AuthorizationFilter.doFilter(AuthorizationFilter.java:101) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:125) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.access.ExceptionTranslationFilter.doFilter(ExceptionTranslationFilter.java:119) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:131) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.SessionManagementFilter.doFilter(SessionManagementFilter.java:85) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.AnonymousAuthenticationFilter.doFilter(AnonymousAuthenticationFilter.java:100) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter.doFilter(SecurityContextHolderAwareRequestFilter.java:179) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.savedrequest.RequestCacheAwareFilter.doFilter(RequestCacheAwareFilter.java:63) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.jwt.JwtAuthenticationFilter.doFilterInternal(JwtAuthenticationFilter.java:74) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at com.anthony.tfg.tfg.Modulos.Seguridad.rate.RateLimitingFilter.doFilterInternal(RateLimitingFilter.java:76) ~[classes/:na]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:107) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.authentication.logout.LogoutFilter.doFilter(LogoutFilter.java:93) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CorsFilter.doFilterInternal(CorsFilter.java:91) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doHeadersAfter(HeaderWriterFilter.java:90) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.header.HeaderWriterFilter.doFilterInternal(HeaderWriterFilter.java:75) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:82) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.SecurityContextHolderFilter.doFilter(SecurityContextHolderFilter.java:69) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter.doFilterInternal(WebAsyncManagerIntegrationFilter.java:62) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.session.DisableEncodeUrlFilter.doFilterInternal(DisableEncodeUrlFilter.java:42) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.web.FilterChainProxy$VirtualFilterChain.doFilter(FilterChainProxy.java:374) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:233) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:191) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.ServletRequestPathFilter.doFilter(ServletRequestPathFilter.java:52) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebSecurityConfiguration.java:319) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.servlet.handler.HandlerMappingIntrospector.lambda$createCacheFilter$4(HandlerMappingIntrospector.java:267) ~[spring-webmvc-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter$VirtualFilterChain.doFilter(CompositeFilter.java:113) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.CompositeFilter.doFilter(CompositeFilter.java:74) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration$CompositeFilterChainProxy.doFilter(WebMvcSecurityConfiguration.java:240) ~[spring-security-config-6.5.6.jar:6.5.6]
+	at org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:362) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:278) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.2.12.jar:6.2.12]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:138) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:165) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:88) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:482) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:113) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:83) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:72) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:399) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1774) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:973) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:491) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at java.base/java.lang.Thread.run(Thread.java:1583) ~[na:na]
+Caused by: org.apache.catalina.connector.ClientAbortException: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:340) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.flushByteBuffer(OutputBuffer.java:775) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.append(OutputBuffer.java:672) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.writeBytes(OutputBuffer.java:375) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.write(OutputBuffer.java:353) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.CoyoteOutputStream.write(CoyoteOutputStream.java:99) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.springframework.security.web.util.OnCommittedResponseWrapper$SaveContextServletOutputStream.write(OnCommittedResponseWrapper.java:639) ~[spring-security-web-6.5.6.jar:6.5.6]
+	at org.springframework.web.context.request.async.StandardServletAsyncWebRequest$LifecycleServletOutputStream.write(StandardServletAsyncWebRequest.java:401) ~[spring-web-6.2.12.jar:6.2.12]
+	... 123 common frames omitted
+Caused by: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host.
+	at java.base/sun.nio.ch.SocketDispatcher.write0(Native Method) ~[na:na]
+	at java.base/sun.nio.ch.SocketDispatcher.write(SocketDispatcher.java:54) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.writeFromNativeBuffer(IOUtil.java:137) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:102) ~[na:na]
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:58) ~[na:na]
+	at java.base/sun.nio.ch.SocketChannelImpl.write(SocketChannelImpl.java:542) ~[na:na]
+	at org.apache.tomcat.util.net.NioChannel.write(NioChannel.java:125) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.NioEndpoint$NioSocketWrapper.doWrite(NioEndpoint.java:1413) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.doWrite(SocketWrapperBase.java:732) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.writeBlocking(SocketWrapperBase.java:572) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.tomcat.util.net.SocketWrapperBase.write(SocketWrapperBase.java:520) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11OutputBuffer$SocketOutputBuffer.doWrite(Http11OutputBuffer.java:548) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.filters.ChunkedOutputFilter.doWrite(ChunkedOutputFilter.java:109) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.http11.Http11OutputBuffer.doWrite(Http11OutputBuffer.java:193) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.coyote.Response.doWrite(Response.java:621) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	at org.apache.catalina.connector.OutputBuffer.realWriteBytes(OutputBuffer.java:328) ~[tomcat-embed-core-10.1.48.jar:10.1.48]
+	... 130 common frames omitted
+
+2026-02-22T10:26:56.949-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Found 'Content-Type:application/json;charset=UTF-8' in response
+2026-02-22T10:26:56.949-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [ErrorResponse[timestamp=2026-02-22T10:26:56.949379700, status=500, error=Internal Server Error, mess (truncated)...]
+2026-02-22T10:26:56.949-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.m.m.a.DisconnectedClient         : Looks like the client has gone away: org.apache.catalina.connector.ClientAbortException: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host. (For a full stack trace, set the log category 'org.apache.commons.logging.LogAdapter$Slf4jLocationAwareLog@28dc7e18' to TRACE level.)
+2026-02-22T10:26:56.949-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.w.s.handler.DisconnectedClient       : Looks like the client has gone away: org.springframework.web.context.request.async.AsyncRequestNotUsableException: ServletOutputStream failed to write: java.io.IOException: Se ha anulado una conexión establecida por el software en su equipo host. (For a full stack trace, set the log category 'org.apache.commons.logging.LogAdapter$Slf4jLocationAwareLog@40345b67' to TRACE level.)
+2026-02-22T10:26:56.949-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
