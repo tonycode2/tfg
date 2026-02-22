@@ -5296,3 +5296,31 @@ Caused by: java.io.IOException: Se ha anulado una conexión establecida por el s
 2026-02-22T10:15:16.810-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
 2026-02-22T10:15:16.810-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaPlanillaEmpleadoDTO@7b770dcf, com.anthony.tfg.tfg.DTOs. (truncated)...]
 2026-02-22T10:15:16.811-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:22:11.458-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/mi-estado
+2026-02-22T10:22:11.458-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-22T10:22:11.470-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-22T10:22:11.471-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59", parameters={masked}
+2026-02-22T10:22:11.471-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerHistorial(Long, LocalDateTime, LocalDateTime)
+2026-02-22T10:22:11.474-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/mi-estado
+2026-02-22T10:22:11.474-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/mi-estado", parameters={}
+2026-02-22T10:22:11.475-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerMiEstado()
+2026-02-22T10:22:11.479-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:22:11.479-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAsistenciaDTO@67907fa8, com.anthony.tfg.tfg.DTOs.Respue (truncated)...]
+2026-02-22T10:22:11.481-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:22:11.483-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-22T10:22:11.483-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:22:11.483-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.EstadoAsistenciaDTO@4790fcaa]
+2026-02-22T10:22:11.484-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:22:11.485-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Securing GET /api/asistencias/mi-estado
+2026-02-22T10:22:11.489-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59
+2026-02-22T10:22:11.489-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/historial?fechaInicio=2026-02-01+00%3A00%3A00&fechaFin=2026-02-28+23%3A59%3A59", parameters={masked}
+2026-02-22T10:22:11.490-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerHistorial(Long, LocalDateTime, LocalDateTime)
+2026-02-22T10:22:11.491-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.security.web.FilterChainProxy        : Secured GET /api/asistencias/mi-estado
+2026-02-22T10:22:11.492-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : GET "/api/asistencias/mi-estado", parameters={}
+2026-02-22T10:22:11.492-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped to com.anthony.tfg.tfg.Modulos.Asistencia.Controlador.ControladorAsistencia#obtenerMiEstado()
+2026-02-22T10:22:11.496-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:22:11.496-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [[com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAsistenciaDTO@4240e614, com.anthony.tfg.tfg.DTOs.Respue (truncated)...]
+2026-02-22T10:22:11.497-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-10] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
+2026-02-22T10:22:11.500-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2026-02-22T10:22:11.501-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [com.anthony.tfg.tfg.DTOs.Respuesta.EstadoAsistenciaDTO@5590e086]
+2026-02-22T10:22:11.501-06:00 DEBUG 13140 --- [tfg] [http-nio-8080-exec-5] o.s.web.servlet.DispatcherServlet        : Completed 200 OK
