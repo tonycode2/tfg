@@ -142,8 +142,8 @@ export default function MisHorasExtraView() {
   };
 
   return (
-    <div className="space-y-6">
-      <Card>
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <Card className="h-full">
         <CardHeader>
           <CardTitle>Mis Horas Extra</CardTitle>
           <CardDescription>Solicita hasta 3 horas extra para la fecha actual.</CardDescription>
@@ -179,7 +179,7 @@ export default function MisHorasExtraView() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="h-full">
         <CardHeader>
           <CardTitle>Mis Solicitudes</CardTitle>
           <CardDescription>Lista de mis solicitudes de horas extra</CardDescription>

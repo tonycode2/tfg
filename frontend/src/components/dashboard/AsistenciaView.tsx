@@ -124,7 +124,7 @@ export function AsistenciaView() {
   const [historialFechaFin, setHistorialFechaFin] = useState<string>('');
   const [, setIsLoadingHistorial] = useState(false);
   const [pageHistorial, setPageHistorial] = useState(0);
-  const [pageSizeHistorial, setPageSizeHistorial] = useState(5);
+  const pageSizeHistorial = 5;
 
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [jornadaPreview, setJornadaPreview] = useState<any>(null);
@@ -444,11 +444,6 @@ export function AsistenciaView() {
     setPageEmpleados(0);
   };
 
-  const handlePageSizeHistorialChange = (newSize: string) => {
-    setPageSizeHistorial(Number(newSize));
-    setPageHistorial(0);
-  };
-
   // ==================== TABLE COLUMNS ====================
 
   const historialColumns: Column<HistorialRow>[] = [
@@ -498,7 +493,8 @@ export function AsistenciaView() {
 
   return (
     <div className="space-y-6">
-      <Card>
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+      <Card className="h-full flex flex-col">
         <CardHeader>
           <CardTitle>Registro de Asistencia</CardTitle>
           <CardDescription>
@@ -507,9 +503,9 @@ export function AsistenciaView() {
               : 'Marca tu entrada y salida con la hora actual.'}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-col xl:flex-row gap-4 xl:items-end xl:justify-between">
-            <div className="flex flex-col sm:flex-row gap-4 items-end">
+        <CardContent className="flex-1 flex flex-col">
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {isManualDateTimeEnabled && (
                 <>
                   <div className="space-y-2">
@@ -522,28 +518,32 @@ export function AsistenciaView() {
                   </div>
                 </>
               )}
-              <div className="flex items-center space-x-2">
-                <Button onClick={handleMarcarEntrada} disabled={isClocking} variant="default">
-                  <ClockInIcon />
-                  <span className="ml-2">Marcar Entrada</span>
-                </Button>
-                <Button onClick={handleMarcarSalida} disabled={isClocking} variant="outline">
-                  <ClockOutIcon />
-                  <span className="ml-2">Marcar Salida</span>
-                </Button>
-              </div>
             </div>
 
-            <div className="w-full xl:w-auto xl:min-w-[220px]">
-              <div className="rounded-lg border bg-card px-4 py-3">
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <Button onClick={handleMarcarEntrada} disabled={isClocking} variant="default">
+                <ClockInIcon />
+                <span className="ml-2">Marcar Entrada</span>
+              </Button>
+              <Button onClick={handleMarcarSalida} disabled={isClocking} variant="outline">
+                <ClockOutIcon />
+                <span className="ml-2">Marcar Salida</span>
+              </Button>
+            </div>
+
+          </div>
+
+          <div className="flex-1 flex items-center justify-center pt-6 lg:pt-8">
+            <div className="w-full max-w-[360px]">
+              <div className="rounded-lg border bg-card px-5 py-4">
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-xs text-muted-foreground">Tiempo laborado</span>
                   <span className={`text-xs font-medium ${workStartMs ? 'text-primary' : 'text-muted-foreground'}`}>
                     {workStartMs ? 'En curso' : 'Sin iniciar'}
                   </span>
                 </div>
-                <div className="mt-1 text-2xl font-semibold tabular-nums">{formatElapsedTime(workElapsedSeconds)}</div>
-                <div className="text-xs text-muted-foreground">
+                <div className="mt-2 text-4xl font-semibold tabular-nums">{formatElapsedTime(workElapsedSeconds)}</div>
+                <div className="mt-1 text-sm text-muted-foreground">
                   {workStartMs && miEstado?.estadoActual === 'LABORANDO'
                     ? 'Contando desde tu entrada'
                     : 'Marca entrada para iniciar'}
@@ -556,6 +556,93 @@ export function AsistenciaView() {
           {errorMessage && <div className="mt-4 text-red-600">{errorMessage}</div>}
         </CardContent>
       </Card>
+
+      <Card className="h-full">
+        <CardHeader>
+          <CardTitle>Historial</CardTitle>
+          <CardDescription>Consulta tu historial de asistencias</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap items-end gap-2 mb-4">
+            <div className="w-full sm:w-[360px]">
+              <Label>Rango de fechas</Label>
+              <DatePicker
+                mode="range"
+                startValue={historialFechaInicio}
+                endValue={historialFechaFin}
+                onRangeChange={(startDate: string, endDate: string) => {
+                  setHistorialFechaInicio(startDate);
+                  setHistorialFechaFin(endDate);
+                }}
+                placeholder="Seleccionar rango"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <SimpleDataTable data={paginatedHistorial as any} columns={historialColumns as any} />
+
+            {historialRows.length > 0 && (
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                {totalPagesHistorial > 1 && (
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() => setPageHistorial(Math.max(0, pageHistorial - 1))}
+                          className={pageHistorial === 0 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+                      </PaginationItem>
+
+                      {Array.from({ length: totalPagesHistorial }, (_, i) => i).map((pageNum) => {
+                        if (
+                          pageNum === 0 ||
+                          pageNum === totalPagesHistorial - 1 ||
+                          (pageNum >= pageHistorial - 1 && pageNum <= pageHistorial + 1)
+                        ) {
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <PaginationLink
+                                onClick={() => setPageHistorial(pageNum)}
+                                isActive={pageNum === pageHistorial}
+                                className="cursor-pointer"
+                              >
+                                {pageNum + 1}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        }
+                        if (pageNum === pageHistorial - 2 || pageNum === pageHistorial + 2) {
+                          return (
+                            <PaginationItem key={pageNum}>
+                              <span className="flex h-9 w-9 items-center justify-center">...</span>
+                            </PaginationItem>
+                          );
+                        }
+                        return null;
+                      })}
+
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() => setPageHistorial(Math.min(totalPagesHistorial - 1, pageHistorial + 1))}
+                          className={pageHistorial === totalPagesHistorial - 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                )}
+
+                <div className="text-sm text-muted-foreground text-left md:text-right md:whitespace-nowrap">
+                  {totalPagesHistorial > 0
+                    ? `Página ${pageHistorial + 1} de ${totalPagesHistorial} • ${historialRows.length} registro(s)`
+                    : 'Sin historial para paginar'}
+                </div>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+      </div>
 
       {canViewDepartments && (
         <Card>
@@ -683,106 +770,6 @@ export function AsistenciaView() {
           </CardContent>
         </Card>
       )}
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Historial</CardTitle>
-          <CardDescription>Consulta tu historial de asistencias</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap items-end gap-2 mb-4">
-            <div className="w-full sm:w-[420px]">
-              <Label>Rango de fechas</Label>
-              <DatePicker
-                mode="range"
-                startValue={historialFechaInicio}
-                endValue={historialFechaFin}
-                onRangeChange={(startDate: string, endDate: string) => {
-                  setHistorialFechaInicio(startDate);
-                  setHistorialFechaFin(endDate);
-                }}
-                placeholder="Seleccionar rango"
-              />
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <SimpleDataTable data={paginatedHistorial as any} columns={historialColumns as any} />
-
-            {historialRows.length > 0 && (
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Mostrar:</span>
-                  <Select value={String(pageSizeHistorial)} onValueChange={handlePageSizeHistorialChange}>
-                    <SelectTrigger className="w-[110px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="5">5</SelectItem>
-                      <SelectItem value="10">10</SelectItem>
-                      <SelectItem value="20">20</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {totalPagesHistorial > 1 && (
-                  <Pagination>
-                    <PaginationContent>
-                      <PaginationItem>
-                        <PaginationPrevious
-                          onClick={() => setPageHistorial(Math.max(0, pageHistorial - 1))}
-                          className={pageHistorial === 0 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                        />
-                      </PaginationItem>
-
-                      {Array.from({ length: totalPagesHistorial }, (_, i) => i).map((pageNum) => {
-                        if (
-                          pageNum === 0 ||
-                          pageNum === totalPagesHistorial - 1 ||
-                          (pageNum >= pageHistorial - 1 && pageNum <= pageHistorial + 1)
-                        ) {
-                          return (
-                            <PaginationItem key={pageNum}>
-                              <PaginationLink
-                                onClick={() => setPageHistorial(pageNum)}
-                                isActive={pageNum === pageHistorial}
-                                className="cursor-pointer"
-                              >
-                                {pageNum + 1}
-                              </PaginationLink>
-                            </PaginationItem>
-                          );
-                        }
-                        if (pageNum === pageHistorial - 2 || pageNum === pageHistorial + 2) {
-                          return (
-                            <PaginationItem key={pageNum}>
-                              <span className="flex h-9 w-9 items-center justify-center">...</span>
-                            </PaginationItem>
-                          );
-                        }
-                        return null;
-                      })}
-
-                      <PaginationItem>
-                        <PaginationNext
-                          onClick={() => setPageHistorial(Math.min(totalPagesHistorial - 1, pageHistorial + 1))}
-                          className={pageHistorial === totalPagesHistorial - 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
-                        />
-                      </PaginationItem>
-                    </PaginationContent>
-                  </Pagination>
-                )}
-
-                <div className="text-sm text-muted-foreground text-center sm:text-right">
-                  {totalPagesHistorial > 0
-                    ? `Página ${pageHistorial + 1} de ${totalPagesHistorial} • ${historialRows.length} registro(s)`
-                    : 'Sin historial para paginar'}
-                </div>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
 
       <ConfirmClockOutModal
         isOpen={isConfirmModalOpen}
