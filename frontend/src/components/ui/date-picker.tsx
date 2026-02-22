@@ -9,7 +9,11 @@ import { cn } from "@/lib/utils"
 
 interface DatePickerProps {
   value?: string
-  onChange: (date: string) => void
+  onChange?: (date: string) => void
+  mode?: "single" | "range"
+  startValue?: string
+  endValue?: string
+  onRangeChange?: (startDate: string, endDate: string) => void
   placeholder?: string
   disabled?: boolean
   className?: string
@@ -21,6 +25,10 @@ interface DatePickerProps {
 function DatePickerComponent({
   value,
   onChange,
+  mode = "single",
+  startValue,
+  endValue,
+  onRangeChange,
   placeholder = "Seleccionar fecha",
   disabled = false,
   className,
@@ -37,16 +45,24 @@ function DatePickerComponent({
   }, [])
 
   const selectedDate = parseValueToDate(value)
+  const startDate = parseValueToDate(startValue)
+  const endDate = parseValueToDate(endValue)
 
-  const handleChange = (date: Date | null) => {
-    if (!date) return
-    // Extraer año, mes y día de la fecha seleccionada (zona horaria local)
-    // y formatear directamente sin conversiones de zona horaria
+  const formatDateToString = (date: Date) => {
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, '0')
     const day = String(date.getDate()).padStart(2, '0')
-    const formattedDate = `${year}-${month}-${day}`
-    onChange(formattedDate)
+    return `${year}-${month}-${day}`
+  }
+
+  const handleChange = (date: Date | null) => {
+    if (!date) return
+    onChange?.(formatDateToString(date))
+  }
+
+  const handleRangeChange = (dates: [Date | null, Date | null]) => {
+    const [start, end] = dates
+    onRangeChange?.(start ? formatDateToString(start) : '', end ? formatDateToString(end) : '')
   }
 
   const minDate = React.useMemo(() => new Date(fromYear, 0, 1), [fromYear])
@@ -55,8 +71,11 @@ function DatePickerComponent({
   return (
     <div className={cn("relative w-full", className)}>
       <DatePicker
-        selected={selectedDate}
-        onChange={(d: Date | null) => handleChange(d)}
+        selected={mode === "single" ? selectedDate : startDate}
+        onChange={mode === "range" ? (d) => handleRangeChange(d as [Date | null, Date | null]) : (d: Date | null) => handleChange(d)}
+        selectsRange={mode === "range"}
+        startDate={mode === "range" ? startDate : undefined}
+        endDate={mode === "range" ? endDate : undefined}
         locale={es}
         dateFormat="PPP"
         placeholderText={placeholder}

@@ -122,7 +122,7 @@ export function AsistenciaView() {
   const [historial, setHistorial] = useState<Asistencia[]>([]);
   const [historialFechaInicio, setHistorialFechaInicio] = useState<string>('');
   const [historialFechaFin, setHistorialFechaFin] = useState<string>('');
-  const [isLoadingHistorial, setIsLoadingHistorial] = useState(false);
+  const [, setIsLoadingHistorial] = useState(false);
   const [pageHistorial, setPageHistorial] = useState(0);
   const [pageSizeHistorial, setPageSizeHistorial] = useState(5);
 
@@ -183,23 +183,23 @@ export function AsistenciaView() {
     }
   }, [selectedDepartamento, fechaDepartamento]);
 
-  const loadHistorial = useCallback(async () => {
+  const loadHistorial = useCallback(async (fechaInicio?: string, fechaFin?: string) => {
     setIsLoadingHistorial(true);
     try {
       let fechaInicioStr: string;
       let fechaFinStr: string;
 
-      if (historialFechaInicio && historialFechaFin) {
-        fechaInicioStr = `${historialFechaInicio} 00:00:00`;
-        fechaFinStr = `${historialFechaFin} 23:59:59`;
-      } else if (historialFechaInicio) {
+      if (fechaInicio && fechaFin) {
+        fechaInicioStr = `${fechaInicio} 00:00:00`;
+        fechaFinStr = `${fechaFin} 23:59:59`;
+      } else if (fechaInicio) {
         // Only start provided -> search that day
-        fechaInicioStr = `${historialFechaInicio} 00:00:00`;
-        fechaFinStr = `${historialFechaInicio} 23:59:59`;
-      } else if (historialFechaFin) {
+        fechaInicioStr = `${fechaInicio} 00:00:00`;
+        fechaFinStr = `${fechaInicio} 23:59:59`;
+      } else if (fechaFin) {
         // Only end provided -> search that day
-        fechaInicioStr = `${historialFechaFin} 00:00:00`;
-        fechaFinStr = `${historialFechaFin} 23:59:59`;
+        fechaInicioStr = `${fechaFin} 00:00:00`;
+        fechaFinStr = `${fechaFin} 23:59:59`;
       } else {
         // No dates provided -> default to current month
         fechaInicioStr = getStartOfMonthString();
@@ -224,7 +224,7 @@ export function AsistenciaView() {
     } finally {
       setIsLoadingHistorial(false);
     }
-  }, [historialFechaInicio, historialFechaFin]);
+  }, []);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -346,10 +346,6 @@ export function AsistenciaView() {
     loadResumenDepartamento();
   };
 
-  const handleFilterHistorial = () => {
-    loadHistorial();
-  };
-
   // ==================== COMPUTED VALUES ====================
 
   const accessibleDepartamentos = useMemo(() => {
@@ -430,6 +426,18 @@ export function AsistenciaView() {
       setPageHistorial(Math.max(totalPagesHistorial - 1, 0));
     }
   }, [pageHistorial, totalPagesHistorial]);
+
+  useEffect(() => {
+    // Auto-filtrar solo cuando el rango está completo (inicio + fin)
+    // para evitar recargas innecesarias al seleccionar la primera fecha.
+    if (!historialFechaInicio || !historialFechaFin) return;
+
+    const timerId = window.setTimeout(() => {
+      loadHistorial(historialFechaInicio, historialFechaFin);
+    }, 250);
+
+    return () => window.clearTimeout(timerId);
+  }, [historialFechaInicio, historialFechaFin, loadHistorial]);
 
   const handlePageSizeEmpleadosChange = (newSize: string) => {
     setPageSizeEmpleados(Number(newSize));
@@ -682,17 +690,19 @@ export function AsistenciaView() {
           <CardDescription>Consulta tu historial de asistencias</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-2 mb-4">
-            <div>
-              <Label>Fecha inicio</Label>
-              <DatePicker value={historialFechaInicio} onChange={(v: string) => setHistorialFechaInicio(v)} />
-            </div>
-            <div>
-              <Label>Fecha fin</Label>
-              <DatePicker value={historialFechaFin} onChange={(v: string) => setHistorialFechaFin(v)} />
-            </div>
-            <div className="flex items-end">
-              <Button onClick={handleFilterHistorial} disabled={isLoadingHistorial}>Filtrar</Button>
+          <div className="flex flex-wrap items-end gap-2 mb-4">
+            <div className="w-full sm:w-[420px]">
+              <Label>Rango de fechas</Label>
+              <DatePicker
+                mode="range"
+                startValue={historialFechaInicio}
+                endValue={historialFechaFin}
+                onRangeChange={(startDate: string, endDate: string) => {
+                  setHistorialFechaInicio(startDate);
+                  setHistorialFechaFin(endDate);
+                }}
+                placeholder="Seleccionar rango"
+              />
             </div>
           </div>
 
