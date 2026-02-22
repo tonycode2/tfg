@@ -474,7 +474,7 @@ export const TopNavbar = memo(function TopNavbar({
                           }}
                           className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'dias-feriados' && 'bg-primary text-primary-foreground')}
                         >
-                          Días Feriados
+                          Gestión de Feriados
                         </button>
                         <button
                           onClick={() => {
@@ -483,7 +483,7 @@ export const TopNavbar = memo(function TopNavbar({
                           }}
                           className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'planilla-general' && 'bg-primary text-primary-foreground')}
                         >
-                          Planilla General
+                          Gestión de Planilla
                         </button>
                         <button
                           onClick={() => {
@@ -492,7 +492,7 @@ export const TopNavbar = memo(function TopNavbar({
                           }}
                           className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'configuracion-renta' && 'bg-primary text-primary-foreground')}
                         >
-                          Configuración de Renta
+                          Gestión de Renta
                         </button>
                         <button
                           onClick={() => {
@@ -501,7 +501,7 @@ export const TopNavbar = memo(function TopNavbar({
                           }}
                           className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'liquidaciones' && 'bg-primary text-primary-foreground')}
                         >
-                          Liquidaciones
+                          Gestión de Liquidaciones
                         </button>
                         <button
                           onClick={() => {
@@ -510,7 +510,7 @@ export const TopNavbar = memo(function TopNavbar({
                           }}
                           className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'aguinaldo' && 'bg-primary text-primary-foreground')}
                         >
-                          Aguinaldo
+                          Gestión de Aguinaldo
                         </button>
                         <button
                           onClick={() => {
@@ -519,7 +519,7 @@ export const TopNavbar = memo(function TopNavbar({
                           }}
                           className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'reportes' && 'bg-primary text-primary-foreground')}
                         >
-                          Reportes
+                          Gestión de Reportes
                         </button>
                         <button
                           onClick={() => {
@@ -528,7 +528,7 @@ export const TopNavbar = memo(function TopNavbar({
                           }}
                           className={cn('text-foreground text-left px-2 py-2 rounded hover:bg-accent', activeItem === 'empleados' && 'bg-primary text-primary-foreground')}
                         >
-                          Empleados
+                          Gestión de Empleados
                         </button>
                       </div>
                     </PopoverContent>

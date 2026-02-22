@@ -553,7 +553,7 @@ export function AsistenciaView() {
         <Card>
           <CardHeader>
             <CardTitle>Estado del Departamento</CardTitle>
-            <CardDescription>Resumen por departamento (solo JEFE/HR/ADMIN)</CardDescription>
+            <CardDescription>Resumen por departamento</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap items-end gap-4 mb-4">
