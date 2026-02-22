@@ -70,50 +70,94 @@ function DatePickerComponent({
 
   return (
     <div className={cn("relative w-full", className)}>
-      <DatePicker
-        selected={mode === "single" ? selectedDate : startDate}
-        onChange={mode === "range" ? (d) => handleRangeChange(d as [Date | null, Date | null]) : (d: Date | null) => handleChange(d)}
-        selectsRange={mode === "range"}
-        startDate={mode === "range" ? startDate : undefined}
-        endDate={mode === "range" ? endDate : undefined}
-        locale={es}
-        dateFormat="PPP"
-        placeholderText={placeholder}
-        disabled={disabled}
-        showYearDropdown
-        showMonthDropdown
-        dropdownMode="select"
-        yearDropdownItemNumber={toYear - fromYear + 1}
-        minDate={minDate}
-        maxDate={maxDate}
-        filterDate={filterDate}
-        scrollableYearDropdown
-        className={cn(
-          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm",
-          "ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium",
-          "placeholder:text-muted-foreground",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-          "disabled:cursor-not-allowed disabled:opacity-50"
-        )}
-        wrapperClassName="w-full"
-        popperClassName="react-datepicker-popper"
-        popperPlacement="bottom-start"
-        popperModifiers={( [
-          {
-            name: "offset",
-            options: {
-              offset: [0, 4],
+      {mode === "range" ? (
+        <DatePicker
+          selected={startDate}
+          onChange={(dates: [Date | null, Date | null]) => handleRangeChange(dates)}
+          selectsRange
+          startDate={startDate}
+          endDate={endDate}
+          locale={es}
+          dateFormat="PPP"
+          placeholderText={placeholder}
+          disabled={disabled}
+          showYearDropdown
+          showMonthDropdown
+          dropdownMode="select"
+          yearDropdownItemNumber={toYear - fromYear + 1}
+          minDate={minDate}
+          maxDate={maxDate}
+          filterDate={filterDate}
+          scrollableYearDropdown
+          className={cn(
+            "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm",
+            "ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium",
+            "placeholder:text-muted-foreground",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            "disabled:cursor-not-allowed disabled:opacity-50"
+          )}
+          wrapperClassName="w-full"
+          popperClassName="react-datepicker-popper"
+          popperPlacement="bottom-start"
+          popperModifiers={( [
+            {
+              name: "offset",
+              options: {
+                offset: [0, 4],
+              },
             },
-          },
-          {
-            name: "preventOverflow",
-            options: {
-              rootBoundary: "viewport",
-              padding: 8,
+            {
+              name: "preventOverflow",
+              options: {
+                rootBoundary: "viewport",
+                padding: 8,
+              },
             },
-          },
-        ] ) as any}
-      />
+          ] ) as any}
+        />
+      ) : (
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date: Date | null) => handleChange(date)}
+          locale={es}
+          dateFormat="PPP"
+          placeholderText={placeholder}
+          disabled={disabled}
+          showYearDropdown
+          showMonthDropdown
+          dropdownMode="select"
+          yearDropdownItemNumber={toYear - fromYear + 1}
+          minDate={minDate}
+          maxDate={maxDate}
+          filterDate={filterDate}
+          scrollableYearDropdown
+          className={cn(
+            "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm",
+            "ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium",
+            "placeholder:text-muted-foreground",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            "disabled:cursor-not-allowed disabled:opacity-50"
+          )}
+          wrapperClassName="w-full"
+          popperClassName="react-datepicker-popper"
+          popperPlacement="bottom-start"
+          popperModifiers={( [
+            {
+              name: "offset",
+              options: {
+                offset: [0, 4],
+              },
+            },
+            {
+              name: "preventOverflow",
+              options: {
+                rootBoundary: "viewport",
+                padding: 8,
+              },
+            },
+          ] ) as any}
+        />
+      )}
       <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
         <CalendarIcon className="h-4 w-4 text-muted-foreground" />
       </div>

@@ -55,6 +55,7 @@ const RefreshIcon = () => (
 interface HistorialRow {
   id: string;
   fecha: string;
+  fechaOrden: string;
   horaEntrada: string;
   horaSalida: string;
   horasTrabajadas: string;
@@ -88,6 +89,12 @@ const formatToAmPm = (timeValue?: string | null) => {
   const hours12 = ((hours24 + 11) % 12) + 1;
   const period = hours24 >= 12 ? 'PM' : 'AM';
   return `${String(hours12).padStart(2, '0')}:${minutesPart} ${period}`;
+};
+
+const formatDateToDisplay = (dateValue: string) => {
+  const [year, month, day] = dateValue.split('-');
+  if (!year || !month || !day) return dateValue;
+  return `${day}/${month}/${year}`;
 };
 
 export function AsistenciaView() {
@@ -391,10 +398,18 @@ export function AsistenciaView() {
 
       const observaciones = [group.entrada?.observaciones, group.salida?.observaciones].filter(Boolean).join(' | ');
 
-      rows.push({ id: fecha, fecha, horaEntrada: horaEntrada, horaSalida: horaSalida, horasTrabajadas, observaciones: observaciones || '-' });
+      rows.push({
+        id: fecha,
+        fecha: formatDateToDisplay(fecha),
+        fechaOrden: fecha,
+        horaEntrada: horaEntrada,
+        horaSalida: horaSalida,
+        horasTrabajadas,
+        observaciones: observaciones || '-',
+      });
     });
 
-    return rows.sort((a,b) => b.fecha.localeCompare(a.fecha));
+    return rows.sort((a,b) => b.fechaOrden.localeCompare(a.fechaOrden));
   }, [historial]);
 
   // ==================== PAGINATION ====================
