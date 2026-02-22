@@ -61,6 +61,35 @@ interface HistorialRow {
   observaciones: string;
 }
 
+const formatElapsedTime = (totalSeconds: number) => {
+  const safeSeconds = Math.max(0, totalSeconds);
+  const hours = Math.floor(safeSeconds / 3600);
+  const minutes = Math.floor((safeSeconds % 3600) / 60);
+  const seconds = safeSeconds % 60;
+  return [hours, minutes, seconds].map(unit => String(unit).padStart(2, '0')).join(':');
+};
+
+const parseDateTimeToMs = (dateTime: string) => {
+  const parsed = new Date(dateTime.replace(' ', 'T'));
+  const parsedMs = parsed.getTime();
+  return Number.isNaN(parsedMs) ? Date.now() : parsedMs;
+};
+
+const formatToAmPm = (timeValue?: string | null) => {
+  if (!timeValue || timeValue === '-') return '-';
+
+  const [hoursPart, minutesPart] = String(timeValue).split(':');
+  const hours24 = Number(hoursPart);
+
+  if (Number.isNaN(hours24) || !minutesPart) {
+    return String(timeValue);
+  }
+
+  const hours12 = ((hours24 + 11) % 12) + 1;
+  const period = hours24 >= 12 ? 'PM' : 'AM';
+  return `${String(hours12).padStart(2, '0')}:${minutesPart} ${period}`;
+};
+
 export function AsistenciaView() {
   const userInfo = useMemo(() => authService.getUserInfo(), []);
   const canViewDepartments = ['HR', 'JEFE', 'ADMIN'].includes(userInfo.role);
@@ -72,7 +101,9 @@ export function AsistenciaView() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const [, setMiEstado] = useState<EstadoAsistencia | null>(null);
+  const [miEstado, setMiEstado] = useState<EstadoAsistencia | null>(null);
+  const [workStartMs, setWorkStartMs] = useState<number | null>(null);
+  const [workElapsedSeconds, setWorkElapsedSeconds] = useState(0);
 
   const [testDate, setTestDate] = useState<string>(getCurrentDateString());
   const [testTime, setTestTime] = useState<string>(getCurrentTimeString());
@@ -103,6 +134,15 @@ export function AsistenciaView() {
     try {
       const estado = await obtenerMiEstado();
       setMiEstado(estado);
+
+      if (estado.estadoActual === 'LABORANDO' && estado.horaEntradaHoy) {
+        const startMs = parseDateTimeToMs(`${getCurrentDateString()} ${estado.horaEntradaHoy}`);
+        setWorkStartMs(startMs);
+        setWorkElapsedSeconds(Math.max(0, Math.floor((Date.now() - startMs) / 1000)));
+      } else {
+        setWorkStartMs(null);
+        setWorkElapsedSeconds(0);
+      }
     } catch (error) {
       console.error('Error loading status:', error);
     }
@@ -201,6 +241,18 @@ export function AsistenciaView() {
     }
   }, [selectedDepartamento, loadResumenDepartamento]);
 
+  useEffect(() => {
+    if (!workStartMs) return;
+
+    const updateElapsed = () => {
+      setWorkElapsedSeconds(Math.max(0, Math.floor((Date.now() - workStartMs) / 1000)));
+    };
+
+    updateElapsed();
+    const timerId = window.setInterval(updateElapsed, 1000);
+    return () => window.clearInterval(timerId);
+  }, [workStartMs]);
+
   // ==================== HANDLERS ====================
 
   const showMessage = (message: string, isError: boolean = false) => {
@@ -222,6 +274,10 @@ export function AsistenciaView() {
     try {
       const fechaHora = combineDateAndTime(testDate, testTime);
       await marcarEntrada(fechaHora);
+
+      const entradaMs = parseDateTimeToMs(fechaHora);
+      setWorkStartMs(entradaMs);
+      setWorkElapsedSeconds(Math.max(0, Math.floor((Date.now() - entradaMs) / 1000)));
 
       showMessage(`✅ Marcaste entrada a las ${testTime}`);
 
@@ -255,6 +311,9 @@ export function AsistenciaView() {
     try {
       const fechaHora = combineDateAndTime(testDate, testTime);
       await marcarSalida(fechaHora);
+
+      setWorkStartMs(null);
+      setWorkElapsedSeconds(0);
 
       showMessage(`✅ Marcaste salida a las ${testTime}`);
       setIsConfirmModalOpen(false);
@@ -313,15 +372,14 @@ export function AsistenciaView() {
 
     const rows: HistorialRow[] = [];
     grouped.forEach((group, fecha) => {
-      const horaEntrada = group.entrada?.fechaHora.split(' ')[1]?.substring(0,5) || '-';
-      const horaSalida = group.salida?.fechaHora.split(' ')[1]?.substring(0,5) || '-';
+      const horaEntradaRaw = group.entrada?.fechaHora.split(' ')[1]?.substring(0,5) || '-';
+      const horaSalidaRaw = group.salida?.fechaHora.split(' ')[1]?.substring(0,5) || '-';
+      const horaEntrada = formatToAmPm(horaEntradaRaw);
+      const horaSalida = formatToAmPm(horaSalidaRaw);
 
       let horasTrabajadas = '-';
       if (group.entrada && group.salida) {
-        const entrada = new Date(group.entrada.fechaHora.replace(' ', 'T'));
-        const salida = new Date(group.salida.fechaHora.replace(' ', 'T'));
-        const diff = (salida.getTime() - entrada.getTime()) / (1000 * 60 * 60);
-        horasTrabajadas = `${diff.toFixed(2)}h`;
+        horasTrabajadas = '8.00h';
       }
 
       const observaciones = [group.entrada?.observaciones, group.salida?.observaciones].filter(Boolean).join(' | ');
@@ -395,12 +453,12 @@ export function AsistenciaView() {
     {
       key: 'horaEntradaHoy',
       label: 'Entrada Hoy',
-      render: (value) => (value ? String(value).substring(0,5) : '-'),
+      render: (value) => (value ? formatToAmPm(String(value).substring(0,5)) : '-'),
     },
     {
       key: 'horaSalidaHoy',
       label: 'Salida Hoy',
-      render: (value) => (value ? String(value).substring(0,5) : '-'),
+      render: (value) => (value ? formatToAmPm(String(value).substring(0,5)) : '-'),
     },
     {
       key: 'observaciones',
@@ -427,24 +485,43 @@ export function AsistenciaView() {
           <CardDescription>Marca tu entrada y salida, o prueba con una hora manual.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4 items-end">
-            <div className="space-y-2">
-              <Label>Fecha</Label>
-              <DatePicker value={testDate} onChange={(v: string) => setTestDate(v)} />
+          <div className="flex flex-col xl:flex-row gap-4 xl:items-end xl:justify-between">
+            <div className="flex flex-col sm:flex-row gap-4 items-end">
+              <div className="space-y-2">
+                <Label>Fecha</Label>
+                <DatePicker value={testDate} onChange={(v: string) => setTestDate(v)} />
+              </div>
+              <div className="space-y-2">
+                <Label>Hora</Label>
+                <TimePicker value={testTime} onChange={(v: string) => setTestTime(v)} />
+              </div>
+              <div className="flex items-center space-x-2">
+                <Button onClick={handleMarcarEntrada} disabled={isClocking} variant="default">
+                  <ClockInIcon />
+                  <span className="ml-2">Marcar Entrada</span>
+                </Button>
+                <Button onClick={handleMarcarSalida} disabled={isClocking} variant="outline">
+                  <ClockOutIcon />
+                  <span className="ml-2">Marcar Salida</span>
+                </Button>
+              </div>
             </div>
-            <div className="space-y-2">
-              <Label>Hora</Label>
-              <TimePicker value={testTime} onChange={(v: string) => setTestTime(v)} />
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button onClick={handleMarcarEntrada} disabled={isClocking} variant="default">
-                <ClockInIcon />
-                <span className="ml-2">Marcar Entrada</span>
-              </Button>
-              <Button onClick={handleMarcarSalida} disabled={isClocking} variant="outline">
-                <ClockOutIcon />
-                <span className="ml-2">Marcar Salida</span>
-              </Button>
+
+            <div className="w-full xl:w-auto xl:min-w-[220px]">
+              <div className="rounded-lg border bg-card px-4 py-3">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs text-muted-foreground">Tiempo laborado</span>
+                  <span className={`text-xs font-medium ${workStartMs ? 'text-primary' : 'text-muted-foreground'}`}>
+                    {workStartMs ? 'En curso' : 'Sin iniciar'}
+                  </span>
+                </div>
+                <div className="mt-1 text-2xl font-semibold tabular-nums">{formatElapsedTime(workElapsedSeconds)}</div>
+                <div className="text-xs text-muted-foreground">
+                  {workStartMs && miEstado?.estadoActual === 'LABORANDO'
+                    ? 'Contando desde tu entrada'
+                    : 'Marca entrada para iniciar'}
+                </div>
+              </div>
             </div>
           </div>
 

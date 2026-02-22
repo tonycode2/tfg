@@ -1,6 +1,8 @@
 import { memo, useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
+import { Alert, AlertDescription } from '../ui/alert';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '../ui/dialog';
 import { empleadosService, planillasService, type Empleado, type PlanillaEmpleado } from '../../services/apiService';
 import { toast } from 'sonner';
 
@@ -91,6 +93,7 @@ export const InicioView = memo(function InicioView({ username, employeeId }: Ini
   const [employeeError, setEmployeeError] = useState<string | null>(null);
   const [planillaError, setPlanillaError] = useState<string | null>(null);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -280,14 +283,105 @@ export const InicioView = memo(function InicioView({ username, employeeId }: Ini
                 <div className="text-sm text-muted-foreground">
                   Periodo: <span className="text-foreground">{formatDate(planilla.fechaInicioPeriodo)} al {formatDate(planilla.fechaFinPeriodo)}</span>
                 </div>
-                <Button onClick={handlePdf} disabled={pdfLoading} className="w-full">
-                  {pdfLoading ? 'Generando PDF...' : 'Descargar PDF'}
-                </Button>
+                <div className="flex flex-col gap-2 sm:flex-row">
+                  <Button variant="outline" onClick={() => setDetailOpen(true)} className="w-full">
+                    Ver detalle
+                  </Button>
+                  <Button onClick={handlePdf} disabled={pdfLoading} className="w-full">
+                    {pdfLoading ? 'Generando PDF...' : 'Descargar PDF'}
+                  </Button>
+                </div>
               </div>
             )}
           </CardContent>
         </Card>
       </div>
+
+      <Dialog open={detailOpen} onOpenChange={setDetailOpen}>
+        {planilla && (
+          <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Detalle de Planilla</DialogTitle>
+              <DialogDescription>
+                Periodo: {formatDate(planilla.fechaInicioPeriodo)} al {formatDate(planilla.fechaFinPeriodo)}
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <h3 className="font-semibold text-lg border-b pb-2">Devengado</h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Salario Base:</span>
+                    <span className="font-medium">{formatCurrency(planilla.salarioBasePeriodo)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Horas Extra:</span>
+                    <span className="font-medium">{formatCurrency(planilla.montoHorasExtra)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Feriados Trabajados:</span>
+                    <span className="font-medium">{formatCurrency(planilla.montoFeriadosTrabajados)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Incapacidad:</span>
+                    <span className="font-medium">{formatCurrency(planilla.montoIncapacidad)}</span>
+                  </div>
+                  <div className="flex justify-between pt-2 border-t font-semibold">
+                    <span>Total Devengado:</span>
+                    <span className="text-green-600">{formatCurrency(planilla.totalDevengado)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="font-semibold text-lg border-b pb-2">Deducciones</h3>
+                <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">CCSS IVM:</span>
+                    <span className="font-medium">{formatCurrency(planilla.deduccionCcssIvm)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">CCSS SEM:</span>
+                    <span className="font-medium">{formatCurrency(planilla.deduccionCcssSem)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Impuesto de Renta:</span>
+                    <span className="font-medium">{formatCurrency(planilla.impuestoDeRenta)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-muted-foreground">Otras Deducciones:</span>
+                    <span className="font-medium">{formatCurrency(planilla.otrasDeducciones)}</span>
+                  </div>
+                  <div className="flex justify-between pt-2 border-t font-semibold">
+                    <span>Total Deducciones:</span>
+                    <span className="text-red-600">{formatCurrency(planilla.totalDeducciones)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 p-4 bg-primary/5 rounded-lg">
+              <div className="flex justify-between items-center">
+                <span className="text-lg font-semibold">Salario Neto a Recibir:</span>
+                <span className="text-2xl font-bold text-primary">{formatCurrency(planilla.salarioNeto)}</span>
+              </div>
+              <div className="flex justify-between items-center mt-2 text-sm">
+                <span className="text-muted-foreground">Fecha de Pago:</span>
+                <span className="font-medium">{formatDate(planilla.fechaPago)}</span>
+              </div>
+            </div>
+
+            {(planilla.cantidadDiasFeriados ?? 0) > 0 && (
+              <Alert className="mt-4">
+                <AlertDescription>
+                  Esta planilla incluye {planilla.cantidadDiasFeriados} día(s) feriado(s).
+                </AlertDescription>
+              </Alert>
+            )}
+          </DialogContent>
+        )}
+      </Dialog>
     </div>
   );
 });

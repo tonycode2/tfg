@@ -3,6 +3,7 @@ import { jsPDF } from 'jspdf';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { authService } from '@/services/authService';
@@ -244,7 +245,7 @@ export function MiPlanillaView() {
                                 )
                               }
                             >
-                              {selectedPlanilla?.id === planilla.id ? 'Ocultar detalle' : 'Ver detalle'}
+                              {selectedPlanilla?.id === planilla.id ? 'Cerrar detalle' : 'Ver detalle'}
                             </Button>
                             <Button
                               size="sm"
@@ -338,17 +339,24 @@ export function MiPlanillaView() {
         </CardContent>
       </Card>
 
-      {selectedPlanilla && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Detalle de Planilla</CardTitle>
-            <CardDescription>
-              Periodo: {formatDate(selectedPlanilla.fechaInicioPeriodo)} al {formatDate(selectedPlanilla.fechaFinPeriodo)}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+      <Dialog
+        open={Boolean(selectedPlanilla)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedPlanilla(null);
+          }
+        }}
+      >
+        {selectedPlanilla && (
+          <DialogContent className="max-w-4xl max-h-[85vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Detalle de Planilla</DialogTitle>
+              <DialogDescription>
+                Periodo: {formatDate(selectedPlanilla.fechaInicioPeriodo)} al {formatDate(selectedPlanilla.fechaFinPeriodo)}
+              </DialogDescription>
+            </DialogHeader>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Devengado */}
               <div className="space-y-4">
                 <h3 className="font-semibold text-lg border-b pb-2">Devengado</h3>
                 <div className="space-y-2">
@@ -375,7 +383,6 @@ export function MiPlanillaView() {
                 </div>
               </div>
 
-              {/* Deducciones */}
               <div className="space-y-4">
                 <h3 className="font-semibold text-lg border-b pb-2">Deducciones</h3>
                 <div className="space-y-2">
@@ -403,7 +410,6 @@ export function MiPlanillaView() {
               </div>
             </div>
 
-            {/* Salario Neto */}
             <div className="mt-6 p-4 bg-primary/5 rounded-lg">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-semibold">Salario Neto a Recibir:</span>
@@ -425,9 +431,9 @@ export function MiPlanillaView() {
                 </AlertDescription>
               </Alert>
             )}
-          </CardContent>
-        </Card>
-      )}
+          </DialogContent>
+        )}
+      </Dialog>
     </div>
   );
 }
