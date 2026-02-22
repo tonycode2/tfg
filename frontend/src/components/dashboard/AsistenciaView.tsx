@@ -93,6 +93,7 @@ const formatToAmPm = (timeValue?: string | null) => {
 export function AsistenciaView() {
   const userInfo = useMemo(() => authService.getUserInfo(), []);
   const canViewDepartments = ['HR', 'JEFE', 'ADMIN'].includes(userInfo.role);
+  const isManualDateTimeEnabled = import.meta.env.VITE_ASISTENCIA_MANUAL_DATETIME === 'true';
 
   // ==================== STATE ====================
 
@@ -269,17 +270,27 @@ export function AsistenciaView() {
     }, 5000);
   };
 
+  const getClockingDateTime = () => {
+    const date = isManualDateTimeEnabled ? testDate : getCurrentDateString();
+    const time = isManualDateTimeEnabled ? testTime : getCurrentTimeString();
+
+    return {
+      time,
+      dateTime: combineDateAndTime(date, time),
+    };
+  };
+
   const handleMarcarEntrada = async () => {
     setIsClocking(true);
     try {
-      const fechaHora = combineDateAndTime(testDate, testTime);
+      const { time, dateTime: fechaHora } = getClockingDateTime();
       await marcarEntrada(fechaHora);
 
       const entradaMs = parseDateTimeToMs(fechaHora);
       setWorkStartMs(entradaMs);
       setWorkElapsedSeconds(Math.max(0, Math.floor((Date.now() - entradaMs) / 1000)));
 
-      showMessage(`✅ Marcaste entrada a las ${testTime}`);
+      showMessage(`✅ Marcaste entrada a las ${time}`);
 
       await Promise.all([loadMiEstado(), loadHistorial()]);
       if (selectedDepartamento) {
@@ -295,8 +306,8 @@ export function AsistenciaView() {
 
   const handleMarcarSalida = async () => {
     try {
-      // Primero obtener el preview de la jornada con la hora seleccionada
-      const fechaHoraSalida = combineDateAndTime(testDate, testTime);
+      // Primero obtener el preview de la jornada con la hora efectiva (manual en dev, actual en prod)
+      const { dateTime: fechaHoraSalida } = getClockingDateTime();
       const preview = await obtenerPreviewJornadaDiaria(fechaHoraSalida);
       setJornadaPreview(preview);
       setIsConfirmModalOpen(true);
@@ -309,13 +320,13 @@ export function AsistenciaView() {
   const handleConfirmSalida = async () => {
     setIsClocking(true);
     try {
-      const fechaHora = combineDateAndTime(testDate, testTime);
+      const { time, dateTime: fechaHora } = getClockingDateTime();
       await marcarSalida(fechaHora);
 
       setWorkStartMs(null);
       setWorkElapsedSeconds(0);
 
-      showMessage(`✅ Marcaste salida a las ${testTime}`);
+      showMessage(`✅ Marcaste salida a las ${time}`);
       setIsConfirmModalOpen(false);
       setJornadaPreview(null);
 
@@ -482,19 +493,27 @@ export function AsistenciaView() {
       <Card>
         <CardHeader>
           <CardTitle>Registro de Asistencia</CardTitle>
-          <CardDescription>Marca tu entrada y salida, o prueba con una hora manual.</CardDescription>
+          <CardDescription>
+            {isManualDateTimeEnabled
+              ? 'Marca tu entrada y salida, o prueba con una hora manual.'
+              : 'Marca tu entrada y salida con la hora actual.'}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col xl:flex-row gap-4 xl:items-end xl:justify-between">
             <div className="flex flex-col sm:flex-row gap-4 items-end">
-              <div className="space-y-2">
-                <Label>Fecha</Label>
-                <DatePicker value={testDate} onChange={(v: string) => setTestDate(v)} />
-              </div>
-              <div className="space-y-2">
-                <Label>Hora</Label>
-                <TimePicker value={testTime} onChange={(v: string) => setTestTime(v)} />
-              </div>
+              {isManualDateTimeEnabled && (
+                <>
+                  <div className="space-y-2">
+                    <Label>Fecha</Label>
+                    <DatePicker value={testDate} onChange={(v: string) => setTestDate(v)} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Hora</Label>
+                    <TimePicker value={testTime} onChange={(v: string) => setTestTime(v)} />
+                  </div>
+                </>
+              )}
               <div className="flex items-center space-x-2">
                 <Button onClick={handleMarcarEntrada} disabled={isClocking} variant="default">
                   <ClockInIcon />

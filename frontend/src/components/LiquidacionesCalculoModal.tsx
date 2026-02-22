@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Modal } from './Modal';
-import { Button } from './ui/button';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { SearchableSelect, type SearchableSelectOption } from './ui/searchable-select';

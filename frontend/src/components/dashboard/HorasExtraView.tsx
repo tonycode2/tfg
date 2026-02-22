@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { authService } from '../../services/authService';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -50,7 +50,7 @@ export default function HorasExtraView() {
   const [fecha, setFecha] = useState<string>(new Date().toISOString().slice(0, 10));
   const [horas, setHoras] = useState<number>(1);
   const [motivo, setMotivo] = useState<string>('');
-  const [tipo, setTipo] = useState<string>('SIMPLE');
+  const [tipo] = useState<string>('SIMPLE');
   const [lista, setLista] = useState<HorasExtraDTO[]>([]);
   const [loading, setLoading] = useState(false);
   const userInfo = authService.getUserInfo();
@@ -78,11 +78,10 @@ export default function HorasExtraView() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     try {
       // Obtener idEmpleado del token
-      const userInfoRaw = localStorage.getItem('token');
       let idEmpleado: number | undefined = undefined;
       try {
         idEmpleado = (await import('../../services/authService')).authService.getUserInfo().idEmpleado;

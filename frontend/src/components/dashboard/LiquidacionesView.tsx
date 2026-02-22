@@ -85,7 +85,8 @@ export function LiquidacionesView() {
     const montoPreaviso = Number(item.montoPreaviso ?? 0);
     const montoCesantia = Number(item.montoCesantia ?? 0);
     const montoVacaciones = Number(item.montoVacacionesPendientes ?? 0);
-    const montoAguinaldo = Number(item.montoAguinaldoProporcional ?? item.montoAguinaldoPendiente ?? 0);
+    const montoAguinaldoPendiente = 'montoAguinaldoPendiente' in item ? item.montoAguinaldoPendiente : null;
+    const montoAguinaldo = Number(item.montoAguinaldoProporcional ?? montoAguinaldoPendiente ?? 0);
     const montoSalarioProporcional = Number(item.montoSalarioProporcional ?? 0);
     const total = Number(item.totalLiquidacion ?? 0);
     const saldoVacaciones = 'saldoVacaciones' in item ? item.saldoVacaciones ?? null : null;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { authService } from '../../services/authService';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,8 +10,6 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getDateFilterHorasExtra } from '@/lib/utils';
 import { toast } from 'sonner';
-
-type Role = 'ADMIN' | 'HR' | 'JEFE' | 'EMPLEADO';
 
 interface HorasExtraDTO {
   id?: number;
@@ -54,13 +52,12 @@ export default function MisHorasExtraView() {
   const [fecha, setFecha] = useState<string>(new Date().toISOString().slice(0, 10));
   const [horas, setHoras] = useState<number>(1);
   const [motivo, setMotivo] = useState<string>('');
-  const [tipo, setTipo] = useState<string>('SIMPLE');
+  const [tipo] = useState<string>('SIMPLE');
   const [lista, setLista] = useState<HorasExtraDTO[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const userInfo = authService.getUserInfo();
-  const role = (userInfo.role || 'EMPLEADO') as Role;
   const token = localStorage.getItem('token') || '';
 
   useEffect(() => {
@@ -88,7 +85,7 @@ export default function MisHorasExtraView() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     try {
       const idEmpleado = userInfo.idEmpleado;

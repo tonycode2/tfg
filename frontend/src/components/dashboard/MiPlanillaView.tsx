@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { jsPDF } from 'jspdf';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -31,16 +30,6 @@ const formatCurrency = (value: number | undefined): string => {
   }).format(value);
 };
 
-const formatCurrencyForPdf = (value: number | undefined): string => {
-  if (value === undefined || value === null) return 'CRC 0.00';
-  const formatted = new Intl.NumberFormat('es-CR', {
-    style: 'currency',
-    currency: 'CRC',
-    currencyDisplay: 'code',
-    minimumFractionDigits: 2,
-  }).format(value);
-  return formatted.replace(/\u00A0/g, ' ');
-};
 
 const parseLocalDate = (dateString: string | undefined): Date | null => {
   if (!dateString) return null;
@@ -66,14 +55,6 @@ const formatDate = (dateString: string | undefined): string => {
     month: 'long',
     day: 'numeric',
   });
-};
-
-const formatNumber = (value: number | undefined): string => {
-  if (value === undefined || value === null) return '0';
-  return new Intl.NumberFormat('es-CR', {
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 2,
-  }).format(value);
 };
 
 export function MiPlanillaView() {

@@ -29,7 +29,7 @@ export interface ValidationError {
  * Incluye soporte para cancelación de peticiones mediante AbortController.
  */
 export class ApiService<T> {
-  private readonly endpoint: string;
+  protected readonly endpoint: string;
 
   constructor(endpoint: string) {
     this.endpoint = endpoint;

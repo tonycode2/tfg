@@ -178,7 +178,8 @@ export function PlanillaGeneralView() {
   }, [mes, tipoQuincena, anio]);
 
   useEffect(() => {
-    if (!selectedPlanilla?.id) {
+    const planillaId = selectedPlanilla?.id;
+    if (typeof planillaId !== 'number') {
       setDetallesPlanilla([]);
       setDetallesError(null);
       return;
@@ -190,7 +191,7 @@ export function PlanillaGeneralView() {
       try {
         setLoadingDetalles(true);
         setDetallesError(null);
-        const data = await planillasService.getDetallesPorPlanilla(selectedPlanilla.id, controller.signal);
+        const data = await planillasService.getDetallesPorPlanilla(planillaId, controller.signal);
         const detallesArray = Array.isArray(data) ? data : [];
         setDetallesPlanilla(detallesArray);
       } catch (error: any) {
