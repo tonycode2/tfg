@@ -129,6 +129,30 @@ class ServicioPlanillaTest {
         assertEquals(11, detalle.getCantidadDiasNoTrabajadosEnQuincena());
     }
 
+    @Test
+    void generarPlanilla_tresHorasExtraConSalarioHoraDiezMil_retornaMontoHorasExtraCuarentaYCincoMil() {
+        var fixture = crearFixtureBase();
+        Empleados empleado = crearEmpleadoConSalario(2_400_000.0);
+
+        List<JornadaDiaria> jornadas = crearJornadasConHorasExtra(
+                List.of(LocalDate.of(2026, 1, 2)),
+                3.0);
+
+        when(fixture.empleadosRepositorio.findByEstaActivoTrue()).thenReturn(List.of(empleado));
+        when(fixture.jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(anyLong(), any(LocalDate.class), any(LocalDate.class)))
+                .thenReturn(jornadas);
+
+        SolicitudGenerarPlanillaDTO solicitud = new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.PRIMERA);
+        fixture.servicio.generarPlanilla(solicitud);
+
+        List<PlanillaDetalle> detalles = fixture.detallesGuardados.get();
+        assertNotNull(detalles);
+        assertEquals(1, detalles.size());
+
+        PlanillaDetalle detalle = detalles.getFirst();
+        assertEquals(45_000.0, detalle.getMontoHorasExtra(), 0.0001);
+    }
+
         @Test
         void generarPlanilla_salarioUnMillon_sumaDeduccionesObrerasMensualesEs108300() {
         var fixture = crearFixtureBase();
@@ -381,6 +405,18 @@ class ServicioPlanillaTest {
                     .horasExtra(0.0)
                     .diaPermiso(i + 1)
                     .permiso(permisoSinGoce)
+                    .build());
+        }
+        return jornadas;
+    }
+
+    private List<JornadaDiaria> crearJornadasConHorasExtra(List<LocalDate> fechas, double horasExtra) {
+        List<JornadaDiaria> jornadas = new ArrayList<>();
+        for (LocalDate fecha : fechas) {
+            jornadas.add(JornadaDiaria.builder()
+                    .fecha(fecha)
+                    .horasRegulares(8.0)
+                    .horasExtra(horasExtra)
                     .build());
         }
         return jornadas;
