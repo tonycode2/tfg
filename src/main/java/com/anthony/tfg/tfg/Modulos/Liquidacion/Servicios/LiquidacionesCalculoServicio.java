@@ -122,7 +122,13 @@ public class LiquidacionesCalculoServicio {
         }
 
         int aniosCompletos = (int) (diasTotales / 365);
-        int aniosParaCalculo = Math.min(aniosCompletos, 8);
+        int diasRestantes = (int) (diasTotales % 365);
+
+        int aniosParaCalculo = aniosCompletos;
+        if (aniosCompletos >= 1 && diasRestantes > 183) {
+            aniosParaCalculo = aniosCompletos + 1;
+        }
+        aniosParaCalculo = Math.min(aniosParaCalculo, 8);
 
         double diasPorAnio = obtenerDiasCesantiaPorAnio(aniosParaCalculo);
         double totalDiasCesantia = diasPorAnio * aniosParaCalculo;

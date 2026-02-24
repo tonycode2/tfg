@@ -40,7 +40,7 @@ class LiquidacionesCalculoServicioTest {
 
                 double monto = servicio.calcularCesantia(365 + 184, 10_000.0, MotivoSalida.DESPIDO_CON_RESPONSABILIDAD);
 
-                assertEquals(195_000.0, monto, 0.01);
+                assertEquals(400_000.0, monto, 0.01);
         }
 
     @Test
@@ -117,9 +117,89 @@ class LiquidacionesCalculoServicioTest {
                 MotivoSalida.DESPIDO_CON_RESPONSABILIDAD,
                 true);
 
-        assertEquals(2460000.00, resultado.montoCesantia(), 0.01);
+        assertEquals(3360000.00, resultado.montoCesantia(), 0.01);
         assertEquals(1200000.00, resultado.montoPreaviso(), 0.01);
         assertEquals(1200000.00, resultado.montoAguinaldoProporcional(), 0.01);
         assertEquals(800000.00, resultado.montoVacacionesPendientes(), 0.01);
+    }
+
+    @Test
+    void calcularLiquidacionCompleta_enero2020ANoviembre2025_salarioConstante() {
+        PlanillaDetalleRepositorio planillaDetalleRepositorio = mock(PlanillaDetalleRepositorio.class);
+        IncapacidadesRepositorio incapacidadesRepositorio = mock(IncapacidadesRepositorio.class);
+
+        LiquidacionesCalculoServicio servicio = new LiquidacionesCalculoServicio(
+                planillaDetalleRepositorio,
+                incapacidadesRepositorio);
+
+        Long empleadoId = 3L;
+        LocalDate fechaSalida = LocalDate.of(2025, 11, 30);
+
+        Empleados empleado = Empleados.builder()
+                .id(empleadoId)
+                .fechaIngreso(LocalDate.of(2020, 1, 1))
+                .saldoVacaciones(26)
+                .build();
+
+        when(planillaDetalleRepositorio.sumDevengadoByEmpleadoAndFechaPagoBetween(
+                empleadoId,
+                fechaSalida.minusMonths(6),
+                fechaSalida)).thenReturn(5_202_000.0);
+
+        when(planillaDetalleRepositorio.sumDevengadoByEmpleadoAndFechaPagoBetween(
+                empleadoId,
+                LocalDate.of(2024, 12, 1),
+                fechaSalida)).thenReturn(10_404_000.0);
+
+        LiquidacionesCalculoServicio.ResultadoCalculo resultado = servicio.calcularLiquidacionCompleta(
+                empleado,
+                fechaSalida,
+                MotivoSalida.DESPIDO_CON_RESPONSABILIDAD,
+                true);
+
+        assertEquals(3728100.00, resultado.montoCesantia(), 0.01);
+        assertEquals(867000.00, resultado.montoPreaviso(), 0.01);
+        assertEquals(867000.00, resultado.montoAguinaldoProporcional(), 0.01);
+        assertEquals(751400.00, resultado.montoVacacionesPendientes(), 0.01);
+    }
+
+    @Test
+        void calcularLiquidacionCompleta_julio2022ANoviembre2025_salarioConstante() {
+        PlanillaDetalleRepositorio planillaDetalleRepositorio = mock(PlanillaDetalleRepositorio.class);
+        IncapacidadesRepositorio incapacidadesRepositorio = mock(IncapacidadesRepositorio.class);
+
+        LiquidacionesCalculoServicio servicio = new LiquidacionesCalculoServicio(
+                planillaDetalleRepositorio,
+                incapacidadesRepositorio);
+
+        Long empleadoId = 4L;
+        LocalDate fechaSalida = LocalDate.of(2025, 11, 30);
+
+        Empleados empleado = Empleados.builder()
+                .id(empleadoId)
+                .fechaIngreso(LocalDate.of(2022, 7, 1))
+                .saldoVacaciones(15)
+                .build();
+
+        when(planillaDetalleRepositorio.sumDevengadoByEmpleadoAndFechaPagoBetween(
+                empleadoId,
+                fechaSalida.minusMonths(6),
+                fechaSalida)).thenReturn(5_400_000.0);
+
+        when(planillaDetalleRepositorio.sumDevengadoByEmpleadoAndFechaPagoBetween(
+                empleadoId,
+                LocalDate.of(2024, 12, 1),
+                fechaSalida)).thenReturn(10_800_000.0);
+
+        LiquidacionesCalculoServicio.ResultadoCalculo resultado = servicio.calcularLiquidacionCompleta(
+                empleado,
+                fechaSalida,
+                MotivoSalida.DESPIDO_CON_RESPONSABILIDAD,
+                true);
+
+        assertEquals(1845000.00, resultado.montoCesantia(), 0.01);
+        assertEquals(900000.00, resultado.montoPreaviso(), 0.01);
+        assertEquals(900000.00, resultado.montoAguinaldoProporcional(), 0.01);
+        assertEquals(450000.00, resultado.montoVacacionesPendientes(), 0.01);
     }
 }
