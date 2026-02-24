@@ -111,23 +111,21 @@ public class LiquidacionesCalculoServicio {
             return 0.0;
         }
 
-        int aniosCompletos = (int) (diasTotales / 365);
-        int diasRestantes = (int) (diasTotales % 365);
+        if (diasTotales < 90) {
+            return 0.0;
+        }
+        if (diasTotales < 180) {
+            return 7.0 * salarioDiario;
+        }
+        if (diasTotales < 365) {
+            return 14.0 * salarioDiario;
+        }
 
+        int aniosCompletos = (int) (diasTotales / 365);
         int aniosParaCalculo = Math.min(aniosCompletos, 8);
 
-        double totalDiasCesantia = 0.0;
-
-        for (int anio = 1; anio <= aniosParaCalculo; anio++) {
-            totalDiasCesantia += obtenerDiasCesantiaPorAnio(anio);
-        }
-
-        if (aniosCompletos < 8 && diasRestantes > 0) {
-            int siguienteAnio = aniosParaCalculo + 1;
-            double diasDelSiguienteAnio = obtenerDiasCesantiaPorAnio(siguienteAnio);
-            double proporcion = (double) diasRestantes / 365.0;
-            totalDiasCesantia += diasDelSiguienteAnio * proporcion;
-        }
+        double diasPorAnio = obtenerDiasCesantiaPorAnio(aniosParaCalculo);
+        double totalDiasCesantia = diasPorAnio * aniosParaCalculo;
 
         double montoCesantia = totalDiasCesantia * salarioDiario;
         log.info("Cesantía calculada: {} días × ₡{} = ₡{}",
@@ -137,17 +135,17 @@ public class LiquidacionesCalculoServicio {
 
     private double obtenerDiasCesantiaPorAnio(int anio) {
         return switch (anio) {
-            case 1 -> 14.0;
-            case 2 -> 19.5;
-            case 3 -> 20.0;
-            case 4 -> 20.5;
-            case 5 -> 21.0;
-            case 6 -> 21.24;
-            case 7 -> 21.5;
-            case 8, 9, 10 -> 22.0;
+            case 1 -> 19.5;
+            case 2 -> 20.0;
+            case 3 -> 20.5;
+            case 4 -> 21.0;
+            case 5 -> 21.24;
+            case 6 -> 21.5;
+            case 7, 8, 9 -> 22.0;
+            case 10 -> 21.5;
             case 11 -> 21.0;
-            case 12 -> 20.0;
-            default -> 19.5;
+            case 12 -> 20.5;
+            default -> 20.0;
         };
     }
 
