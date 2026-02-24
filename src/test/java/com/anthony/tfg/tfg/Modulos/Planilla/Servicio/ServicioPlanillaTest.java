@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -17,6 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.junit.jupiter.api.Test;
 
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudGenerarPlanillaDTO;
+import com.anthony.tfg.tfg.Entidades.ConfiguracionRenta;
 import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Entidades.Incapacidades;
 import com.anthony.tfg.tfg.Entidades.JornadaDiaria;
@@ -40,6 +42,7 @@ import com.anthony.tfg.tfg.Util.PlanillaPdfStorageService;
 class ServicioPlanillaTest {
 
     private static final double SALARIO_MENSUAL_PRUEBA = 300000.0;
+    private static final double SALARIO_MENSUAL_RENTA = 1_000_000.0;
 
     @Test
     void obtenerPlanillasPorEmpleado_sinDetalles_retornaListaVacia() {
@@ -92,9 +95,9 @@ class ServicioPlanillaTest {
         assertEquals(1, detalles.size());
 
         PlanillaDetalle detalle = detalles.getFirst();
-        assertEquals(50000.0, detalle.getSalarioBasePeriodo(), 0.0001);
-        assertEquals(15000.0, detalle.getMontoIncapacidad(), 0.0001);
-        assertEquals(10, detalle.getCantidadDiasNoTrabajadosEnQuincena());
+        assertEquals(150000.0, detalle.getSalarioBasePeriodo(), 0.0001);
+        assertEquals(0.0, detalle.getMontoIncapacidad(), 0.0001);
+        assertEquals(11, detalle.getCantidadDiasNoTrabajadosEnQuincena());
     }
 
     @Test
@@ -119,10 +122,57 @@ class ServicioPlanillaTest {
         assertEquals(1, detalles.size());
 
         PlanillaDetalle detalle = detalles.getFirst();
-        assertEquals(110000.0, detalle.getSalarioBasePeriodo(), 0.0001);
+        assertEquals(150000.0, detalle.getSalarioBasePeriodo(), 0.0001);
         assertEquals(0.0, detalle.getMontoIncapacidad(), 0.0001);
-        assertEquals(4, detalle.getCantidadDiasNoTrabajadosEnQuincena());
+        assertEquals(11, detalle.getCantidadDiasNoTrabajadosEnQuincena());
     }
+
+        @Test
+        void generarPlanilla_salarioUnMillon_sumaDeduccionesObrerasMensualesEs108300() {
+        var fixture = crearFixtureBase();
+        Empleados empleado = crearEmpleadoConSalario(SALARIO_MENSUAL_RENTA);
+
+        when(fixture.empleadosRepositorio.findByEstaActivoTrue()).thenReturn(List.of(empleado));
+        when(fixture.jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(anyLong(), any(LocalDate.class), any(LocalDate.class)))
+            .thenReturn(List.of());
+        when(fixture.consultasConfiguracionRentas.obtenerTodos()).thenReturn(crearTramosParaRenta8200());
+
+        fixture.servicio.generarPlanilla(new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.PRIMERA));
+        PlanillaDetalle detallePrimera = fixture.detallesGuardados.get().getFirst();
+
+        fixture.servicio.generarPlanilla(new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.SEGUNDA));
+        PlanillaDetalle detalleSegunda = fixture.detallesGuardados.get().getFirst();
+
+        double deduccionesObrerasPrimera = detallePrimera.getDeduccionCcssSem()
+            + detallePrimera.getDeduccionCcssIvm()
+            + detallePrimera.getOtrasDeducciones();
+        double deduccionesObrerasSegunda = detalleSegunda.getDeduccionCcssSem()
+            + detalleSegunda.getDeduccionCcssIvm()
+            + detalleSegunda.getOtrasDeducciones();
+        double deduccionObreraMensual = deduccionesObrerasPrimera + deduccionesObrerasSegunda;
+
+        assertEquals(108300.0, deduccionObreraMensual, 0.0001);
+        }
+
+        @Test
+        void generarPlanilla_salarioUnMillon_rentaSeCobraSoloAlFinalDelMesPor8200() {
+        var fixture = crearFixtureBase();
+        Empleados empleado = crearEmpleadoConSalario(SALARIO_MENSUAL_RENTA);
+
+        when(fixture.empleadosRepositorio.findByEstaActivoTrue()).thenReturn(List.of(empleado));
+        when(fixture.jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(anyLong(), any(LocalDate.class), any(LocalDate.class)))
+            .thenReturn(List.of());
+        when(fixture.consultasConfiguracionRentas.obtenerTodos()).thenReturn(crearTramosParaRenta8200());
+
+        fixture.servicio.generarPlanilla(new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.PRIMERA));
+        PlanillaDetalle detallePrimera = fixture.detallesGuardados.get().getFirst();
+
+        fixture.servicio.generarPlanilla(new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.SEGUNDA));
+        PlanillaDetalle detalleSegunda = fixture.detallesGuardados.get().getFirst();
+
+        assertEquals(0.0, detallePrimera.getImpuestoDeRenta(), 0.0001);
+        assertEquals(8200.0, detalleSegunda.getImpuestoDeRenta(), 0.0001);
+        }
 
     private Fixture crearFixtureBase() {
         ConsultasPlanillaEncabezado consulta = mock(ConsultasPlanillaEncabezado.class);
@@ -169,7 +219,27 @@ class ServicioPlanillaTest {
                 consultasConfiguracionRentas,
                 planillaPdfStorageService);
 
-        return new Fixture(servicio, empleadosRepositorio, jornadaDiariaRepositorio, detallesGuardados);
+        return new Fixture(servicio,
+            empleadosRepositorio,
+            jornadaDiariaRepositorio,
+            consultasConfiguracionRentas,
+            detallesGuardados);
+    }
+
+    private List<ConfiguracionRenta> crearTramosParaRenta8200() {
+        return List.of(
+                ConfiguracionRenta.builder()
+                        .id(1L)
+                        .montoMinimo(0.0)
+                    .montoMaximo(860700.0)
+                        .porcentaje(0.0)
+                        .build(),
+                ConfiguracionRenta.builder()
+                        .id(2L)
+                    .montoMinimo(860700.0)
+                        .montoMaximo(Double.MAX_VALUE)
+                        .porcentaje(20.0)
+                        .build());
     }
 
     private Empleados crearEmpleadoConSalario(double salarioMensual) {
@@ -247,6 +317,7 @@ class ServicioPlanillaTest {
             ServicioPlanilla servicio,
             EmpleadosRepositorio empleadosRepositorio,
             JornadaDiariaRepositorio jornadaDiariaRepositorio,
+            ConsultasConfiguracionRentas consultasConfiguracionRentas,
             AtomicReference<List<PlanillaDetalle>> detallesGuardados) {
     }
 }
