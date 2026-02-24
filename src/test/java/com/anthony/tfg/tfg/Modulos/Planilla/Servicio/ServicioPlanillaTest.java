@@ -43,6 +43,7 @@ class ServicioPlanillaTest {
 
     private static final double SALARIO_MENSUAL_PRUEBA = 300000.0;
     private static final double SALARIO_MENSUAL_RENTA = 1_000_000.0;
+    private static final double SALARIO_MENSUAL_RENTA_ALTA = 2_500_000.0;
 
     @Test
     void obtenerPlanillasPorEmpleado_sinDetalles_retornaListaVacia() {
@@ -174,6 +175,34 @@ class ServicioPlanillaTest {
         assertEquals(8200.0, detalleSegunda.getImpuestoDeRenta(), 0.0001);
         }
 
+        @Test
+        void generarPlanilla_salarioDosMillonesQuinientos_ccssEs270750YRenta222650EnSegundaQuincena() {
+        var fixture = crearFixtureBase();
+        Empleados empleado = crearEmpleadoConSalario(SALARIO_MENSUAL_RENTA_ALTA);
+
+        when(fixture.empleadosRepositorio.findByEstaActivoTrue()).thenReturn(List.of(empleado));
+        when(fixture.jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(anyLong(), any(LocalDate.class), any(LocalDate.class)))
+            .thenReturn(List.of());
+        when(fixture.consultasConfiguracionRentas.obtenerTodos()).thenReturn(crearTramosParaRenta222650());
+
+        fixture.servicio.generarPlanilla(new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.PRIMERA));
+        PlanillaDetalle detallePrimera = fixture.detallesGuardados.get().getFirst();
+
+        fixture.servicio.generarPlanilla(new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.SEGUNDA));
+        PlanillaDetalle detalleSegunda = fixture.detallesGuardados.get().getFirst();
+
+        double deduccionesObrerasPrimera = detallePrimera.getDeduccionCcssSem()
+            + detallePrimera.getDeduccionCcssIvm()
+            + detallePrimera.getOtrasDeducciones();
+        double deduccionesObrerasSegunda = detalleSegunda.getDeduccionCcssSem()
+            + detalleSegunda.getDeduccionCcssIvm()
+            + detalleSegunda.getOtrasDeducciones();
+
+        assertEquals(270750.0, deduccionesObrerasPrimera + deduccionesObrerasSegunda, 0.0001);
+        assertEquals(0.0, detallePrimera.getImpuestoDeRenta(), 0.0001);
+        assertEquals(222650.0, detalleSegunda.getImpuestoDeRenta(), 0.0001);
+        }
+
     private Fixture crearFixtureBase() {
         ConsultasPlanillaEncabezado consulta = mock(ConsultasPlanillaEncabezado.class);
         MantenimientosPlanillaEncabezados mantenimiento = mock(MantenimientosPlanillaEncabezados.class);
@@ -241,6 +270,22 @@ class ServicioPlanillaTest {
                         .porcentaje(20.0)
                         .build());
     }
+
+                private List<ConfiguracionRenta> crearTramosParaRenta222650() {
+                return List.of(
+                    ConfiguracionRenta.builder()
+                        .id(1L)
+                        .montoMinimo(0.0)
+                        .montoMaximo(1141000.0)
+                        .porcentaje(0.0)
+                        .build(),
+                    ConfiguracionRenta.builder()
+                        .id(2L)
+                        .montoMinimo(1141000.0)
+                        .montoMaximo(Double.MAX_VALUE)
+                        .porcentaje(20.0)
+                        .build());
+                }
 
     private Empleados crearEmpleadoConSalario(double salarioMensual) {
         Puestos puesto = Puestos.builder()
