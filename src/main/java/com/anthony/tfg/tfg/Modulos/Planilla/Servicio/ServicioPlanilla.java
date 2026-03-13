@@ -308,97 +308,97 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return deEntidadDtoARespuesta(planillaGuardada);
     }
 
-        /**
-         * Genera una planilla completa para todos los empleados activos en el periodo.
-         */
-        @Transactional
-        public RespuestaPlanillaEncabezadoDTO generarPlanilla(SolicitudGenerarPlanillaDTO solicitud) {
-        if (solicitud == null) {
-            throw new BadRequestException("La solicitud de planilla es requerida");
-        }
-        if (solicitud.mes() == null || solicitud.anio() == null || solicitud.tipoQuincena() == null) {
-            throw new BadRequestException("El mes, año y la quincena son requeridos");
-        }
+    /**
+     * Genera una planilla completa para todos los empleados activos en el periodo.
+     */
+    @Transactional
+    public RespuestaPlanillaEncabezadoDTO generarPlanilla(SolicitudGenerarPlanillaDTO solicitud) {
+    if (solicitud == null) {
+        throw new BadRequestException("La solicitud de planilla es requerida");
+    }
+    if (solicitud.mes() == null || solicitud.anio() == null || solicitud.tipoQuincena() == null) {
+        throw new BadRequestException("El mes, año y la quincena son requeridos");
+    }
 
-        LocalDate fechaInicioPeriodo = calcularFechaInicioPeriodo(solicitud.anio(), solicitud.mes(),
-            solicitud.tipoQuincena());
-        LocalDate fechaFinPeriodo = calcularFechaFinPeriodo(solicitud.anio(), solicitud.mes(),
-            solicitud.tipoQuincena());
-        LocalDate fechaPago = calcularFechaPago(solicitud.anio(), solicitud.mes(), solicitud.tipoQuincena());
+    LocalDate fechaInicioPeriodo = calcularFechaInicioPeriodo(solicitud.anio(), solicitud.mes(),
+        solicitud.tipoQuincena());
+    LocalDate fechaFinPeriodo = calcularFechaFinPeriodo(solicitud.anio(), solicitud.mes(),
+        solicitud.tipoQuincena());
+    LocalDate fechaPago = calcularFechaPago(solicitud.anio(), solicitud.mes(), solicitud.tipoQuincena());
 
-        if (consulta.existePlanillaParaPeriodo(fechaInicioPeriodo, fechaFinPeriodo, solicitud.tipoQuincena())) {
-            throw new ConflictException("Ya existe una planilla generada para el periodo seleccionado");
-        }
+    if (consulta.existePlanillaParaPeriodo(fechaInicioPeriodo, fechaFinPeriodo, solicitud.tipoQuincena())) {
+        throw new ConflictException("Ya existe una planilla generada para el periodo seleccionado");
+    }
 
-        List<Empleados> empleadosActivos = empleadosRepositorio.findByEstaActivoTrue();
-        if (empleadosActivos.isEmpty()) {
-            throw new BadRequestException("No hay empleados activos para generar la planilla");
-        }
+    List<Empleados> empleadosActivos = empleadosRepositorio.findByEstaActivoTrue();
+    if (empleadosActivos.isEmpty()) {
+        throw new BadRequestException("No hay empleados activos para generar la planilla");
+    }
 
-        List<DiasFeriados> feriadosEnRango = diasFeriadosRepositorio.findByFechaBetween(
-            fechaInicioPeriodo,
-            fechaFinPeriodo);
-        Set<LocalDate> fechasFeriados = feriadosEnRango.stream()
-            .map(DiasFeriados::getFecha)
-            .collect(Collectors.toCollection(HashSet::new));
+    List<DiasFeriados> feriadosEnRango = diasFeriadosRepositorio.findByFechaBetween(
+        fechaInicioPeriodo,
+        fechaFinPeriodo);
+    Set<LocalDate> fechasFeriados = feriadosEnRango.stream()
+        .map(DiasFeriados::getFecha)
+        .collect(Collectors.toCollection(HashSet::new));
 
-        YearMonth yearMonth = YearMonth.of(solicitud.anio(), solicitud.mes());
-        LocalDate fechaInicioMes = yearMonth.atDay(1);
-        LocalDate fechaFinMes = yearMonth.atEndOfMonth();
-        Set<LocalDate> fechasFeriadosMes = diasFeriadosRepositorio.findByFechaBetween(fechaInicioMes, fechaFinMes)
-            .stream()
-            .map(DiasFeriados::getFecha)
-            .collect(Collectors.toCollection(HashSet::new));
+    YearMonth yearMonth = YearMonth.of(solicitud.anio(), solicitud.mes());
+    LocalDate fechaInicioMes = yearMonth.atDay(1);
+    LocalDate fechaFinMes = yearMonth.atEndOfMonth();
+    Set<LocalDate> fechasFeriadosMes = diasFeriadosRepositorio.findByFechaBetween(fechaInicioMes, fechaFinMes)
+        .stream()
+        .map(DiasFeriados::getFecha)
+        .collect(Collectors.toCollection(HashSet::new));
 
-        List<ConfiguracionRenta> tramosRenta = consultasConfiguracionRentas.obtenerTodos().stream()
-            .sorted((a, b) -> Double.compare(a.getMontoMinimo(), b.getMontoMinimo()))
-            .toList();
+    List<ConfiguracionRenta> tramosRenta = consultasConfiguracionRentas.obtenerTodos().stream()
+        .sorted((a, b) -> Double.compare(a.getMontoMinimo(), b.getMontoMinimo()))
+        .toList();
 
-        PlanillaEncabezado encabezado = PlanillaEncabezado.builder()
-            .fechaInicioPeriodo(fechaInicioPeriodo)
-            .fechaFinPeriodo(fechaFinPeriodo)
-            .fechaPago(fechaPago)
-            .tipoQuincena(solicitud.tipoQuincena())
-            .totalPlanillaBruto(0.0)
-            .totalPlanillaNeto(0.0)
-            .estadoPlanilla(EstadoPlanilla.BORRADOR)
-            .build();
+    PlanillaEncabezado encabezado = PlanillaEncabezado.builder()
+        .fechaInicioPeriodo(fechaInicioPeriodo)
+        .fechaFinPeriodo(fechaFinPeriodo)
+        .fechaPago(fechaPago)
+        .tipoQuincena(solicitud.tipoQuincena())
+        .totalPlanillaBruto(0.0)
+        .totalPlanillaNeto(0.0)
+        .estadoPlanilla(EstadoPlanilla.BORRADOR)
+        .build();
 
-        PlanillaEncabezado encabezadoGuardado = mantenimiento.crear(encabezado);
+    PlanillaEncabezado encabezadoGuardado = mantenimiento.crear(encabezado);
 
-        double totalPlanillaBruto = 0.0;
-        double totalPlanillaNeto = 0.0;
-        List<PlanillaDetalle> detalles = empleadosActivos.stream()
-            .map(empleado -> calcularDetallePlanilla(empleado, fechaInicioPeriodo,
-                fechaFinPeriodo, fechasFeriados, fechasFeriadosMes, tramosRenta, encabezadoGuardado))
-            .toList();
+    double totalPlanillaBruto = 0.0;
+    double totalPlanillaNeto = 0.0;
+    List<PlanillaDetalle> detalles = empleadosActivos.stream()
+        .map(empleado -> calcularDetallePlanilla(empleado, fechaInicioPeriodo,
+            fechaFinPeriodo, fechasFeriados, fechasFeriadosMes, tramosRenta, encabezadoGuardado))
+        .toList();
 
-        planillaDetalleRepo.saveAll(detalles);
+    planillaDetalleRepo.saveAll(detalles);
 
-        for (PlanillaDetalle detalle : detalles) {
-            double totalDevengado = safe(detalle.getSalarioBasePeriodo())
-                + safe(detalle.getMontoHorasExtra())
-                + safe(detalle.getMontoFeriadosTrabajados())
-                + safe(detalle.getMontoIncapacidad());
-            double totalDeducciones = safe(detalle.getDeduccionCcssIvm())
-                + safe(detalle.getDeduccionCcssSem())
-                + safe(detalle.getOtrasDeducciones())
-                + safe(detalle.getImpuestoDeRenta());
-            totalPlanillaBruto += totalDevengado;
-            totalPlanillaNeto += (totalDevengado - totalDeducciones);
-        }
+    for (PlanillaDetalle detalle : detalles) {
+        double totalDevengado = safe(detalle.getSalarioBasePeriodo())
+            + safe(detalle.getMontoHorasExtra())
+            + safe(detalle.getMontoFeriadosTrabajados())
+            + safe(detalle.getMontoIncapacidad());
+        double totalDeducciones = safe(detalle.getDeduccionCcssIvm())
+            + safe(detalle.getDeduccionCcssSem())
+            + safe(detalle.getOtrasDeducciones())
+            + safe(detalle.getImpuestoDeRenta());
+        totalPlanillaBruto += totalDevengado;
+        totalPlanillaNeto += (totalDevengado - totalDeducciones);
+    }
 
-        encabezadoGuardado.setTotalPlanillaBruto(totalPlanillaBruto);
-        encabezadoGuardado.setTotalPlanillaNeto(totalPlanillaNeto);
-        PlanillaEncabezado encabezadoActualizado = mantenimiento.actualizar(encabezadoGuardado);
+    encabezadoGuardado.setTotalPlanillaBruto(totalPlanillaBruto);
+    encabezadoGuardado.setTotalPlanillaNeto(totalPlanillaNeto);
+    PlanillaEncabezado encabezadoActualizado = mantenimiento.actualizar(encabezadoGuardado);
 
-        log.info("Se generó la planilla {} para el periodo {} a {} con {} detalles",
-            encabezadoActualizado.getId(),
-            fechaInicioPeriodo,
-            fechaFinPeriodo,
-            detalles.size());
-        return deEntidadDtoARespuesta(encabezadoActualizado);
-        }
+    log.info("Se generó la planilla {} para el periodo {} a {} con {} detalles",
+        encabezadoActualizado.getId(),
+        fechaInicioPeriodo,
+        fechaFinPeriodo,
+        detalles.size());
+    return deEntidadDtoARespuesta(encabezadoActualizado);
+    }
 
     public RespuestaPlanillaEncabezadoDTO actualizar(Long id, SolicitudPlanillaEncabezadoDTO entidad) {
         PlanillaEncabezado planillaExistente = consulta.obtenerPorId(id);

@@ -102,62 +102,62 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         log.info("Se ha eliminado el aguinaldo con ID: " + id);
     }
 
-        @Transactional
-        public List<RespuestaCalculoAguinaldoDTO> calcularAguinaldos() {
-        LocalDate fechaCalculo = LocalDate.now();
-        int anio = fechaCalculo.getYear();
-        LocalDate fechaInicio = LocalDate.of(anio - 1, 12, 1);
-        LocalDate fechaFin = LocalDate.of(anio, 11, 30);
+    @Transactional
+    public List<RespuestaCalculoAguinaldoDTO> calcularAguinaldos() {
+    LocalDate fechaCalculo = LocalDate.now();
+    int anio = fechaCalculo.getYear();
+    LocalDate fechaInicio = LocalDate.of(anio - 1, 12, 1);
+    LocalDate fechaFin = LocalDate.of(anio, 11, 30);
 
-        List<Empleados> empleadosActivos = empleadosRepositorio.findByEstaActivoTrue();
-        if (empleadosActivos.isEmpty()) {
-            log.info("No hay empleados activos para calcular aguinaldo");
-            return List.of();
-        }
+    List<Empleados> empleadosActivos = empleadosRepositorio.findByEstaActivoTrue();
+    if (empleadosActivos.isEmpty()) {
+        log.info("No hay empleados activos para calcular aguinaldo");
+        return List.of();
+    }
 
-        Date fechaInicioSql = Date.valueOf(fechaInicio);
-        Date fechaFinSql = Date.valueOf(fechaFin);
-        Date fechaCalculoSql = Date.valueOf(fechaCalculo);
+    Date fechaInicioSql = Date.valueOf(fechaInicio);
+    Date fechaFinSql = Date.valueOf(fechaFin);
+    Date fechaCalculoSql = Date.valueOf(fechaCalculo);
 
-        log.info("Calculando aguinaldo para {} empleados en el periodo {} - {}",
-            empleadosActivos.size(), fechaInicio, fechaFin);
+    log.info("Calculando aguinaldo para {} empleados en el periodo {} - {}",
+        empleadosActivos.size(), fechaInicio, fechaFin);
 
-        return empleadosActivos.stream()
-            .map(empleado -> {
-                Double totalDevengado = planillaDetalleRepositorio
-                    .sumDevengadoByEmpleadoAndFechaPagoBetween(empleado.getId(), fechaInicio, fechaFin);
-                double totalSalarios = totalDevengado != null ? totalDevengado : 0.0;
-                double montoAguinaldo = totalSalarios / 12.0;
+    return empleadosActivos.stream()
+        .map(empleado -> {
+            Double totalDevengado = planillaDetalleRepositorio
+                .sumDevengadoByEmpleadoAndFechaPagoBetween(empleado.getId(), fechaInicio, fechaFin);
+            double totalSalarios = totalDevengado != null ? totalDevengado : 0.0;
+            double montoAguinaldo = totalSalarios / 12.0;
 
-                Aguinaldos aguinaldo = aguinaldosRepositorio
-                    .findByEmpleadoIdAndAnio(empleado.getId(), anio)
-                    .orElseGet(() -> Aguinaldos.builder().empleado(empleado).build());
+            Aguinaldos aguinaldo = aguinaldosRepositorio
+                .findByEmpleadoIdAndAnio(empleado.getId(), anio)
+                .orElseGet(() -> Aguinaldos.builder().empleado(empleado).build());
 
-                aguinaldo.setAnio(anio);
-                aguinaldo.setFechaInicioPeriodo(fechaInicioSql);
-                aguinaldo.setFechaFinPeriodo(fechaFinSql);
-                aguinaldo.setTotalSalariosDevengados(totalSalarios);
-                aguinaldo.setMontoAguinaldo(montoAguinaldo);
-                aguinaldo.setFechaCalculo(fechaCalculoSql);
+            aguinaldo.setAnio(anio);
+            aguinaldo.setFechaInicioPeriodo(fechaInicioSql);
+            aguinaldo.setFechaFinPeriodo(fechaFinSql);
+            aguinaldo.setTotalSalariosDevengados(totalSalarios);
+            aguinaldo.setMontoAguinaldo(montoAguinaldo);
+            aguinaldo.setFechaCalculo(fechaCalculoSql);
 
-                Aguinaldos guardado = mantenimiento.actualizar(aguinaldo);
+            Aguinaldos guardado = mantenimiento.actualizar(aguinaldo);
 
-                return new RespuestaCalculoAguinaldoDTO(
-                    guardado.getId(),
-                    empleado.getId(),
-                    empleado.getNombre(),
-                    empleado.getPrimerApellido(),
-                    empleado.getSegundoApellido(),
-                    guardado.getAnio(),
-                    guardado.getFechaInicioPeriodo(),
-                    guardado.getFechaFinPeriodo(),
-                    guardado.getTotalSalariosDevengados(),
-                    guardado.getMontoAguinaldo(),
-                    guardado.getFechaCalculo(),
-                    guardado.getFechaPago());
-            })
-            .toList();
-        }
+            return new RespuestaCalculoAguinaldoDTO(
+                guardado.getId(),
+                empleado.getId(),
+                empleado.getNombre(),
+                empleado.getPrimerApellido(),
+                empleado.getSegundoApellido(),
+                guardado.getAnio(),
+                guardado.getFechaInicioPeriodo(),
+                guardado.getFechaFinPeriodo(),
+                guardado.getTotalSalariosDevengados(),
+                guardado.getMontoAguinaldo(),
+                guardado.getFechaCalculo(),
+                guardado.getFechaPago());
+        })
+        .toList();
+    }
 
     public Aguinaldos deSolicitudDtoAEntidad(SolicitudAguinaldosDTO solicitud) {
         if(solicitud == null){
