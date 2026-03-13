@@ -470,7 +470,7 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             log.warn("No se ha encontrado la planilla con ID: {} para marcar como pagada", id);
             throw new ResourceNotFoundException("PlanillaEncabezado", "id", id);
         }
-
+        
         if (planilla.getEstadoPlanilla() != EstadoPlanilla.BORRADOR) {
             throw new BadRequestException("Solo se pueden marcar como pagadas las planillas en estado BORRADOR");
         }
