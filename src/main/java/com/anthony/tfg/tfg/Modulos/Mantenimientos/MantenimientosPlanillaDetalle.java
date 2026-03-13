@@ -15,14 +15,25 @@ public class MantenimientosPlanillaDetalle implements MantenimientoInterface<Pla
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return PlanillaDetalle
+     */
     public PlanillaDetalle crear(PlanillaDetalle entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return PlanillaDetalle
+     */
     public PlanillaDetalle actualizar(PlanillaDetalle entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

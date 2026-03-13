@@ -18,11 +18,18 @@ public class ConsultasEmpleados implements ConsultaInterface<Empleados>{
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return Empleados
+     */
     public Empleados obtenerPorId(Long id) {
         Optional<Empleados> empleado = repo.findById(id);
         return empleado.orElse(null);
     }
 
+    /** 
+     * @return List<Empleados>
+     */
     public List<Empleados> obtenerTodos() {
         return repo.findAll();
     }

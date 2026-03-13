@@ -15,14 +15,25 @@ public class MantenimientosJefesDepartamento implements MantenimientoInterface<J
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return JefesDepartamento
+     */
     public JefesDepartamento crear(JefesDepartamento entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return JefesDepartamento
+     */
     public JefesDepartamento actualizar(JefesDepartamento entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

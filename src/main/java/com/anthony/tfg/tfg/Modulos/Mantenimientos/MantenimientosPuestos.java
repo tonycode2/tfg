@@ -15,14 +15,25 @@ public class MantenimientosPuestos implements MantenimientoInterface<Puestos>{
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return Puestos
+     */
     public Puestos crear(Puestos entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return Puestos
+     */
     public Puestos actualizar(Puestos entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

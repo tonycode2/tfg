@@ -31,6 +31,11 @@ public class SecurityConfig {
         private final RateLimitingFilter rateLimitingFilter;
     private final AuthenticationProvider authenticationProvider;
 
+    /** 
+     * @param http
+     * @return SecurityFilterChain
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -50,6 +55,9 @@ public class SecurityConfig {
                 .build();
     }
 
+    /** 
+     * @return CorsConfigurationSource
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

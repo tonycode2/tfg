@@ -44,6 +44,11 @@ public class ControladorReportes {
         this.reportePdfGenerator = reportePdfGenerator;
     }
 
+    /** 
+     * @param pdfBytes
+     * @param filename
+     * @return ResponseEntity<byte[]>
+     */
     private ResponseEntity<byte[]> buildPdfResponse(byte[] pdfBytes, String filename) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
@@ -52,6 +57,11 @@ public class ControladorReportes {
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
 
+    /** 
+     * @param planillaId
+     * @return ResponseEntity<byte[]>
+     * @throws Exception
+     */
     @GetMapping("/planilla/{planillaId}")
     @PreAuthorize("hasAnyRole('ADMIN','HR','JEFE')")
     public ResponseEntity<byte[]> planilla(@PathVariable Long planillaId) throws Exception {
@@ -60,6 +70,12 @@ public class ControladorReportes {
         return buildPdfResponse(pdf, "reporte-planilla-" + planillaId + ".pdf");
     }
 
+    /** 
+     * @param detalleId
+     * @param authentication
+     * @return ResponseEntity<byte[]>
+     * @throws Exception
+     */
     @GetMapping("/colilla/{detalleId}")
     @PreAuthorize("hasAnyRole('ADMIN','HR','JEFE','EMPLEADO')")
     public ResponseEntity<byte[]> colilla(@PathVariable Long detalleId, Authentication authentication) throws Exception {
@@ -82,6 +98,10 @@ public class ControladorReportes {
         return buildPdfResponse(pdf, "colilla-pago-" + detalleId + ".pdf");
     }
 
+    /** 
+     * @return ResponseEntity<byte[]>
+     * @throws Exception
+     */
     @GetMapping("/vacaciones")
     @PreAuthorize("hasAnyRole('ADMIN','HR')")
     public ResponseEntity<byte[]> vacaciones() throws Exception {
@@ -90,6 +110,10 @@ public class ControladorReportes {
         return buildPdfResponse(pdf, "reporte-vacaciones.pdf");
     }
 
+    /** 
+     * @return ResponseEntity<byte[]>
+     * @throws Exception
+     */
     @GetMapping("/antiguedad")
     @PreAuthorize("hasAnyRole('ADMIN','HR','JEFE')")
     public ResponseEntity<byte[]> antiguedad() throws Exception {
@@ -98,6 +122,11 @@ public class ControladorReportes {
         return buildPdfResponse(pdf, "reporte-antiguedad.pdf");
     }
 
+    /** 
+     * @param planillaId
+     * @return ResponseEntity<byte[]>
+     * @throws Exception
+     */
     @GetMapping("/deducciones/{planillaId}")
     @PreAuthorize("hasAnyRole('ADMIN','HR')")
     public ResponseEntity<byte[]> deducciones(@PathVariable Long planillaId) throws Exception {
@@ -106,6 +135,11 @@ public class ControladorReportes {
         return buildPdfResponse(pdf, "reporte-deducciones-" + planillaId + ".pdf");
     }
 
+    /** 
+     * @param liquidacionId
+     * @return ResponseEntity<byte[]>
+     * @throws Exception
+     */
     @GetMapping("/liquidacion/{liquidacionId}")
     @PreAuthorize("hasAnyRole('ADMIN','HR')")
     public ResponseEntity<byte[]> liquidacion(@PathVariable Long liquidacionId) throws Exception {
@@ -114,6 +148,10 @@ public class ControladorReportes {
         return buildPdfResponse(pdf, "reporte-liquidacion-" + liquidacionId + ".pdf");
     }
 
+    /** 
+     * @param DateTimeFormat.ISO.DATE
+     * @return ResponseEntity<byte[]>
+     */
     @GetMapping("/incapacidades")
     @PreAuthorize("hasAnyRole('ADMIN','HR','JEFE')")
     public ResponseEntity<byte[]> incapacidades(@RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) String fechaInicioStr,
@@ -133,6 +171,10 @@ public class ControladorReportes {
         return buildPdfResponse(pdf, "reporte-incapacidades.pdf");
     }
 
+    /** 
+     * @return ResponseEntity<byte[]>
+     * @throws Exception
+     */
     @GetMapping("/proyeccion-cesantia")
     @PreAuthorize("hasAnyRole('ADMIN','HR')")
     public ResponseEntity<byte[]> proyeccionCesantia() throws Exception {

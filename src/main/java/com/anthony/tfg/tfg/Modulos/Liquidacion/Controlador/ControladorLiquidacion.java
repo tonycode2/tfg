@@ -34,6 +34,10 @@ public class ControladorLiquidacion {
         this.servicio = servicio;
     }
 
+    /** 
+     * @param calcularLiquidacion(
+     * @return ResponseEntity<RespuestaCalculoLiquidacionDTO>
+     */
     @PostMapping("/calcular")
     @PreAuthorize("hasRole('HR')")
     public ResponseEntity<RespuestaCalculoLiquidacionDTO> calcularLiquidacion(
@@ -42,18 +46,29 @@ public class ControladorLiquidacion {
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaLiquidacionesDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaLiquidacionesDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaLiquidacionesDTO respuesta = servicio.obtenerPorId(id);
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaLiquidacionesDTO>>
+     */
     @GetMapping
     public ResponseEntity<List<RespuestaLiquidacionesDTO>> obtenerTodos() {
         List<RespuestaLiquidacionesDTO> lista = servicio.obtenerTodos();
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param crear(
+     * @return ResponseEntity<RespuestaLiquidacionesDTO>
+     */
     @PostMapping
     public ResponseEntity<RespuestaLiquidacionesDTO> crear(
             @Valid @RequestBody SolicitudLiquidacionesDTO solicitud) {
@@ -61,6 +76,10 @@ public class ControladorLiquidacion {
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaLiquidacionesDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaLiquidacionesDTO> actualizar(
             @PathVariable Long id,
@@ -69,6 +88,10 @@ public class ControladorLiquidacion {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);

@@ -82,6 +82,9 @@ public class DataSeeder implements CommandLineRunner {
     private final ServicioJornadaDiaria servicioJornadaDiaria;
     private final ServicioPlanilla servicioPlanilla;
 
+    /** 
+     * @param args
+     */
     @Override
     @Transactional
     public void run(String... args) {
@@ -236,6 +239,9 @@ public class DataSeeder implements CommandLineRunner {
         return toCreate.size();
     }
 
+    /** 
+     * @return int
+     */
     private int seedHolidays2026() {
         List<DiasFeriados> holidays = List.of(
             DiasFeriados.builder()
@@ -592,6 +598,10 @@ public class DataSeeder implements CommandLineRunner {
         return attendanceRecords.size();
     }
 
+    /** 
+     * @param empleados
+     * @return int
+     */
     // No month-specific events: keep all months uniform for seeding.
 
     private int generateJornadasFromAttendance(List<Empleados> empleados) {
@@ -637,6 +647,10 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
+    /** 
+     * @param periodo
+     * @param tipoQuincena
+     */
     private void generarPlanillaParaPeriodo(YearMonth periodo, TipoQuincena tipoQuincena) {
         try {
             SolicitudGenerarPlanillaDTO solicitud = new SolicitudGenerarPlanillaDTO(
@@ -650,6 +664,10 @@ public class DataSeeder implements CommandLineRunner {
         }
     }
 
+    /** 
+     * @param date
+     * @return boolean
+     */
     private boolean isLaborable(LocalDate date) {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {

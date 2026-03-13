@@ -17,11 +17,18 @@ public class ConsultasDepartamentos implements ConsultaInterface<Departamento>{
         this.repo = repo;
     }
     
+    /** 
+     * @param id
+     * @return Departamento
+     */
     public Departamento obtenerPorId(Long id) {
         Optional<Departamento> departamento = repo.findById(id);
         return departamento.orElse(null);
     }
 
+    /** 
+     * @return List<Departamento>
+     */
     public List<Departamento> obtenerTodos() {
         return repo.findAll();
     }

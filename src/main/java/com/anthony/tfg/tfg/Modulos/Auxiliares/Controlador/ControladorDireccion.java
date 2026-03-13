@@ -31,6 +31,10 @@ public class ControladorDireccion {
         this.servicio = servicio;
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaDireccionDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaDireccionDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaDireccionDTO respuesta = servicio.obtenerPorId(id);
@@ -40,18 +44,29 @@ public class ControladorDireccion {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaDireccionDTO>>
+     */
     @GetMapping
     public ResponseEntity<List<RespuestaDireccionDTO>> obtenerTodos() {
         List<RespuestaDireccionDTO> lista = servicio.obtenerTodos();
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param solicitud
+     * @return ResponseEntity<RespuestaDireccionDTO>
+     */
     @PostMapping
     public ResponseEntity<RespuestaDireccionDTO> crear(@Valid @RequestBody SolicitudDireccionDTO solicitud) {
         RespuestaDireccionDTO respuesta = servicio.guardar(solicitud);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaDireccionDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaDireccionDTO> actualizar(
             @PathVariable Long id,
@@ -63,6 +78,10 @@ public class ControladorDireccion {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);

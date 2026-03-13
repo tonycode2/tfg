@@ -36,6 +36,10 @@ public class ControladorEmpleados {
         this.servicioGeneracionUsuario = servicioGeneracionUsuario;
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaEmpleadosDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaEmpleadosDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaEmpleadosDTO respuesta = servicio.obtenerPorId(id);
@@ -45,18 +49,29 @@ public class ControladorEmpleados {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaEmpleadosDTO>>
+     */
     @GetMapping
     public ResponseEntity<List<RespuestaEmpleadosDTO>> obtenerTodos() {
         List<RespuestaEmpleadosDTO> lista = servicio.obtenerTodos();
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param solicitud
+     * @return ResponseEntity<RespuestaEmpleadosDTO>
+     */
     @PostMapping
     public ResponseEntity<RespuestaEmpleadosDTO> crear(@Valid @RequestBody SolicitudEmpleadosDTO solicitud) {
         RespuestaEmpleadosDTO respuesta = servicio.guardar(solicitud);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaEmpleadosDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaEmpleadosDTO> actualizar(
             @PathVariable Long id,
@@ -68,12 +83,20 @@ public class ControladorEmpleados {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);
         return ResponseEntity.noContent().build();
     }
     
+    /** 
+     * @param generarUsuario(
+     * @return ResponseEntity<RespuestaCredencialesDTO>
+     */
     @PostMapping("/{id}/generar-usuario")
     public ResponseEntity<RespuestaCredencialesDTO> generarUsuario(
             @PathVariable Long id,

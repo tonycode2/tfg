@@ -13,6 +13,9 @@ import org.thymeleaf.templatemode.TemplateMode;
 @Configuration
 public class ThymeleafReportesConfig {
 
+    /** 
+     * @return SpringResourceTemplateResolver
+     */
     @Bean
     public SpringResourceTemplateResolver reportesTemplateResolver() {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
@@ -26,6 +29,10 @@ public class ThymeleafReportesConfig {
         return resolver;
     }
 
+    /** 
+     * @param reportesTemplateResolver
+     * @return SpringTemplateEngine
+     */
     @Bean
     public SpringTemplateEngine reportesTemplateEngine(SpringResourceTemplateResolver reportesTemplateResolver) {
         SpringTemplateEngine engine = new SpringTemplateEngine();

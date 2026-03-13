@@ -19,16 +19,27 @@ public class MantenimientosDiasFeriados implements MantenimientoInterface<DiasFe
         this.repo = repo;
     }
     
+    /** 
+     * @param entidad
+     * @return DiasFeriados
+     */
     @Override
     public DiasFeriados crear(DiasFeriados entidad) {
         return repo.save(entidad);
     }
     
+    /** 
+     * @param entidad
+     * @return DiasFeriados
+     */
     @Override
     public DiasFeriados actualizar(DiasFeriados entidad) {
         return repo.save(entidad);
     }
     
+    /** 
+     * @param id
+     */
     @Override
     public void eliminar(Long id) {
         repo.deleteById(id);

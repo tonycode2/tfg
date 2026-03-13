@@ -62,6 +62,9 @@ public class LiquidacionesCalculoServicio {
         return salarioDiario;
     }
 
+    /** 
+     * @return long
+     */
     // private long calcularDiasIncapacidadNoProtegida(Long empleadoId, LocalDate desde, LocalDate hasta) {
     //     List<Incapacidades> incapacidades = incapacidadesRepositorio
     //             .findByEmpleadoIdOrderByFechaSolicitudDesc(empleadoId);
@@ -245,6 +248,13 @@ public class LiquidacionesCalculoServicio {
         return monto;
     }
 
+    /** 
+     * @param empleado
+     * @param fechaSalida
+     * @param motivoSalida
+     * @param preaviso_pagado
+     * @return ResultadoCalculo
+     */
     @Transactional(readOnly = true)
     public ResultadoCalculo calcularLiquidacionCompleta(Empleados empleado,
                                                          LocalDate fechaSalida,

@@ -18,19 +18,34 @@ public class ConsultasEvaluacionDeDesempeno implements ConsultaInterface<Evaluac
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return EvaluacionDeDesempeno
+     */
     public EvaluacionDeDesempeno obtenerPorId(Long id) {
         Optional<EvaluacionDeDesempeno> evaluacion = repo.findById(id);
         return evaluacion.orElse(null);
     }
 
+    /** 
+     * @return List<EvaluacionDeDesempeno>
+     */
     public List<EvaluacionDeDesempeno> obtenerTodos() {
         return repo.findAll();
     }
 
+    /** 
+     * @param empleadoId
+     * @return List<EvaluacionDeDesempeno>
+     */
     public java.util.List<EvaluacionDeDesempeno> obtenerPorEmpleadoId(Long empleadoId) {
         return repo.findByEmpleadoId(empleadoId);
     }
 
+    /** 
+     * @param departamentoId
+     * @return List<EmpleadoEvaluacionResumenDTO>
+     */
     public java.util.List<com.anthony.tfg.tfg.DTOs.Respuesta.EmpleadoEvaluacionResumenDTO> findResumenPorDepartamento(Long departamentoId) {
         return repo.findResumenPorDepartamento(departamentoId);
     }

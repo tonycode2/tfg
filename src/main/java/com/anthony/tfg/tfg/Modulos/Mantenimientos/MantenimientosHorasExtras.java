@@ -15,14 +15,25 @@ public class MantenimientosHorasExtras implements MantenimientoInterface<HorasEx
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return HorasExtra
+     */
     public HorasExtra crear(HorasExtra entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return HorasExtra
+     */
     public HorasExtra actualizar(HorasExtra entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

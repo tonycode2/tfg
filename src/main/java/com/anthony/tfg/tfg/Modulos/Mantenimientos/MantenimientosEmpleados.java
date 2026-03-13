@@ -17,14 +17,25 @@ public class MantenimientosEmpleados implements MantenimientoInterface<Empleados
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return Empleados
+     */
     public Empleados crear(Empleados entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return Empleados
+     */
     public Empleados actualizar(Empleados entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     @Transactional
     public void eliminar(Long id) {
         // Obtener IDs de usuario y dirección antes de eliminar

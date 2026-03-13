@@ -18,11 +18,18 @@ public class ConsultasJornadaDiaria implements ConsultaInterface<JornadaDiaria>{
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return JornadaDiaria
+     */
     public JornadaDiaria obtenerPorId(Long id) {
         Optional<JornadaDiaria> jornada = repo.findById(id);
         return jornada.orElse(null);
     }
 
+    /** 
+     * @return List<JornadaDiaria>
+     */
     public List<JornadaDiaria> obtenerTodos() {
         return repo.findAll();
     }

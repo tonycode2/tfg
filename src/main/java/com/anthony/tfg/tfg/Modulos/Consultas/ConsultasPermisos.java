@@ -18,11 +18,18 @@ public class ConsultasPermisos implements ConsultaInterface<Permisos>{
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return Permisos
+     */
     public Permisos obtenerPorId(Long id) {
         Optional<Permisos> permiso = repo.findById(id);
         return permiso.orElse(null);
     }
 
+    /** 
+     * @return List<Permisos>
+     */
     public List<Permisos> obtenerTodos() {
         return repo.findAll();
     }

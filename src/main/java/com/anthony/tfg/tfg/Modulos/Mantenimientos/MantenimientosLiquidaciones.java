@@ -15,14 +15,25 @@ public class MantenimientosLiquidaciones implements MantenimientoInterface<Liqui
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return Liquidaciones
+     */
     public Liquidaciones crear(Liquidaciones entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return Liquidaciones
+     */
     public Liquidaciones actualizar(Liquidaciones entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

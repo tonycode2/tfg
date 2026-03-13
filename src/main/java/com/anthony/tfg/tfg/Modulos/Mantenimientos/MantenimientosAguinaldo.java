@@ -15,14 +15,25 @@ public class MantenimientosAguinaldo implements MantenimientoInterface<Aguinaldo
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return Aguinaldos
+     */
     public Aguinaldos crear(Aguinaldos entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return Aguinaldos
+     */
     public Aguinaldos actualizar(Aguinaldos entidad) {
         return repo.save(entidad);
     }
     
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

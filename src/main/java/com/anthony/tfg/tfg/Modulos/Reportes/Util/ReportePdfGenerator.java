@@ -55,6 +55,10 @@ public class ReportePdfGenerator {
         }
     }
 
+    /** 
+     * @param html
+     * @return String
+     */
     private String inlineCss(String html) {
         try {
             ClassPathResource cssRes = new ClassPathResource("static/css/reportes.css");
@@ -71,6 +75,10 @@ public class ReportePdfGenerator {
         return html;
     }
 
+    /** 
+     * @param html
+     * @return String
+     */
     private String inlineImages(String html) {
         try {
             // Common logo path used in templates: /logo.png or /static/logo.png or logo.png

@@ -256,6 +256,9 @@ class ServicioPlanillaTest {
         assertEquals(736300.0, detalleSegunda.getImpuestoDeRenta(), 0.0001);
         }
 
+    /** 
+     * @return Fixture
+     */
     private Fixture crearFixtureBase() {
         ConsultasPlanillaEncabezado consulta = mock(ConsultasPlanillaEncabezado.class);
         MantenimientosPlanillaEncabezados mantenimiento = mock(MantenimientosPlanillaEncabezados.class);
@@ -308,6 +311,9 @@ class ServicioPlanillaTest {
             detallesGuardados);
     }
 
+    /** 
+     * @return List<ConfiguracionRenta>
+     */
     private List<ConfiguracionRenta> crearTramosParaRenta8200() {
         return List.of(
                 ConfiguracionRenta.builder()
@@ -324,6 +330,9 @@ class ServicioPlanillaTest {
                         .build());
     }
 
+                /** 
+                 * @return List<ConfiguracionRenta>
+                 */
                 private List<ConfiguracionRenta> crearTramosParaRenta222650() {
                 return List.of(
                     ConfiguracionRenta.builder()
@@ -340,6 +349,9 @@ class ServicioPlanillaTest {
                         .build());
                 }
 
+                /** 
+                 * @return List<ConfiguracionRenta>
+                 */
                 private List<ConfiguracionRenta> crearTramosParaRenta736300() {
                 return List.of(
                     ConfiguracionRenta.builder()
@@ -356,6 +368,10 @@ class ServicioPlanillaTest {
                         .build());
                 }
 
+    /** 
+     * @param salarioMensual
+     * @return Empleados
+     */
     private Empleados crearEmpleadoConSalario(double salarioMensual) {
         Puestos puesto = Puestos.builder()
                 .id(10L)
@@ -372,6 +388,11 @@ class ServicioPlanillaTest {
                 .build();
     }
 
+    /** 
+     * @param fechas
+     * @param entidadEmisora
+     * @return List<JornadaDiaria>
+     */
     private List<JornadaDiaria> crearJornadasIncapacidad(List<LocalDate> fechas, TipoEntidadEmisora entidadEmisora) {
         Incapacidades incapacidad = Incapacidades.builder()
                 .id(100L)
@@ -391,6 +412,10 @@ class ServicioPlanillaTest {
         return jornadas;
     }
 
+    /** 
+     * @param fechas
+     * @return List<JornadaDiaria>
+     */
     private List<JornadaDiaria> crearJornadasPermisoSinGoce(List<LocalDate> fechas) {
         Permisos permisoSinGoce = Permisos.builder()
                 .id(200L)
@@ -410,6 +435,11 @@ class ServicioPlanillaTest {
         return jornadas;
     }
 
+    /** 
+     * @param fechas
+     * @param horasExtra
+     * @return List<JornadaDiaria>
+     */
     private List<JornadaDiaria> crearJornadasConHorasExtra(List<LocalDate> fechas, double horasExtra) {
         List<JornadaDiaria> jornadas = new ArrayList<>();
         for (LocalDate fecha : fechas) {
@@ -422,6 +452,12 @@ class ServicioPlanillaTest {
         return jornadas;
     }
 
+    /** 
+     * @param inicio
+     * @param fin
+     * @param cantidadDias
+     * @return List<LocalDate>
+     */
     private List<LocalDate> primerosDiasLaborables(LocalDate inicio, LocalDate fin, int cantidadDias) {
         List<LocalDate> resultado = new ArrayList<>();
         LocalDate fecha = inicio;
@@ -434,6 +470,10 @@ class ServicioPlanillaTest {
         return resultado;
     }
 
+    /** 
+     * @param fecha
+     * @return boolean
+     */
     private boolean esFinDeSemana(LocalDate fecha) {
         DayOfWeek dayOfWeek = fecha.getDayOfWeek();
         return dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY;

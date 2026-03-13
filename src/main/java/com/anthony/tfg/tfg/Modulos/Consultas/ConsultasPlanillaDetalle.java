@@ -18,11 +18,18 @@ public class ConsultasPlanillaDetalle implements ConsultaInterface<PlanillaDetal
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return PlanillaDetalle
+     */
     public PlanillaDetalle obtenerPorId(Long id) {
         Optional<PlanillaDetalle> resultado = repo.findById(id);
         return resultado.orElse(null);
     }
 
+    /** 
+     * @return List<PlanillaDetalle>
+     */
     public List<PlanillaDetalle> obtenerTodos() {
         return repo.findAll();
     }

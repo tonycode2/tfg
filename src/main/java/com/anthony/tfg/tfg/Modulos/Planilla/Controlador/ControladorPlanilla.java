@@ -40,6 +40,10 @@ public class ControladorPlanilla {
         this.servicio = servicio;
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaPlanillaEncabezadoDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaPlanillaEncabezadoDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaPlanillaEncabezadoDTO respuesta = servicio.obtenerPorId(id);
@@ -49,12 +53,19 @@ public class ControladorPlanilla {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaPlanillaEncabezadoDTO>>
+     */
     @GetMapping
     public ResponseEntity<List<RespuestaPlanillaEncabezadoDTO>> obtenerTodos() {
         List<RespuestaPlanillaEncabezadoDTO> lista = servicio.obtenerTodos();
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param obtenerPlanillasPorEmpleado(
+     * @return ResponseEntity<List<RespuestaPlanillaEmpleadoDTO>>
+     */
     @GetMapping("/empleado/{empleadoId}")
     public ResponseEntity<List<RespuestaPlanillaEmpleadoDTO>> obtenerPlanillasPorEmpleado(
             @PathVariable Long empleadoId) {
@@ -62,6 +73,10 @@ public class ControladorPlanilla {
         return ResponseEntity.ok(planillas);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<List<RespuestaPlanillaDetalleDTO>>
+     */
     @GetMapping("/{id}/detalles")
     @PreAuthorize("hasAnyRole('HR', 'ADMIN')")
     public ResponseEntity<List<RespuestaPlanillaDetalleDTO>> obtenerDetallesPorPlanilla(@PathVariable Long id) {
@@ -69,6 +84,10 @@ public class ControladorPlanilla {
         return ResponseEntity.ok(detalles);
     }
 
+    /** 
+     * @param authentication
+     * @return ResponseEntity<RespuestaPlanillaPdfDTO>
+     */
     @PostMapping(value = "/detalles/{detalleId}/pdf", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<RespuestaPlanillaPdfDTO> subirPdfPlanilla(
             @PathVariable Long detalleId,
@@ -78,6 +97,11 @@ public class ControladorPlanilla {
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param authentication
+     * @return ResponseEntity<Resource>
+     * @throws UnsupportedEncodingException
+     */
     @GetMapping("/detalles/{detalleId}/pdf")
     public ResponseEntity<Resource> descargarPdfPlanilla(
             @PathVariable Long detalleId,
@@ -85,12 +109,20 @@ public class ControladorPlanilla {
         return servicio.descargarPdfPlanilla(detalleId, authentication);
     }
 
+    /** 
+     * @param solicitud
+     * @return ResponseEntity<RespuestaPlanillaEncabezadoDTO>
+     */
     @PostMapping
     public ResponseEntity<RespuestaPlanillaEncabezadoDTO> crear(@Valid @RequestBody SolicitudPlanillaEncabezadoDTO solicitud) {
         RespuestaPlanillaEncabezadoDTO respuesta = servicio.guardar(solicitud);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param generarPlanilla(
+     * @return ResponseEntity<RespuestaPlanillaEncabezadoDTO>
+     */
     @PostMapping("/generar")
     @PreAuthorize("hasAnyRole('HR', 'ADMIN')")
     public ResponseEntity<RespuestaPlanillaEncabezadoDTO> generarPlanilla(
@@ -99,6 +131,10 @@ public class ControladorPlanilla {
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaPlanillaEncabezadoDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaPlanillaEncabezadoDTO> actualizar(
             @PathVariable Long id,
@@ -110,6 +146,10 @@ public class ControladorPlanilla {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaPlanillaEncabezadoDTO>
+     */
     @PutMapping("/{id}/pagada")
     @PreAuthorize("hasAnyRole('HR', 'ADMIN')")
     public ResponseEntity<RespuestaPlanillaEncabezadoDTO> marcarComoPagada(@PathVariable Long id) {
@@ -117,6 +157,10 @@ public class ControladorPlanilla {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);

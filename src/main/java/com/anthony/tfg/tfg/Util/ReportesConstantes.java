@@ -42,6 +42,10 @@ public final class ReportesConstantes {
     public static final String TITULO_REPORTE_INCAPACIDADES = "Reporte de Incapacidades";
     public static final String TITULO_PROYECCION_CESANTIA = "Proyección de Cesantía";
 
+    /** 
+     * @param mesesTrabajados
+     * @return int
+     */
     // ===== Tabla de Cesantía (Art 29 Código de Trabajo CR) =====
     // Antigüedad en meses → días de cesantía
     public static int diasCesantiaPorAntiguedad(long mesesTrabajados) {
@@ -54,6 +58,10 @@ public final class ReportesConstantes {
         return (int) Math.round(Math.min(totalDias, 240.0));
     }
 
+    /** 
+     * @param mesesTrabajados
+     * @return int
+     */
     // ===== Preaviso (Art 28 Código de Trabajo CR) =====
     public static int diasPreaviso(long mesesTrabajados) {
         if (mesesTrabajados < 3) return 0;

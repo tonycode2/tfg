@@ -15,14 +15,25 @@ public class MantenimientosPlanillaEncabezados implements MantenimientoInterface
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return PlanillaEncabezado
+     */
     public PlanillaEncabezado crear(PlanillaEncabezado entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return PlanillaEncabezado
+     */
     public PlanillaEncabezado actualizar(PlanillaEncabezado entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

@@ -42,11 +42,22 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     @Value("${rate-limit.login.window-seconds:60}")
     private int loginWindowSeconds;
 
+    /** 
+     * @param request
+     * @return boolean
+     */
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         return "OPTIONS".equalsIgnoreCase(request.getMethod());
     }
 
+    /** 
+     * @param request
+     * @param response
+     * @param filterChain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -76,6 +87,12 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /** 
+     * @param request
+     * @param response
+     * @param retryAfterSeconds
+     * @throws IOException
+     */
     private void writeRateLimitError(HttpServletRequest request, HttpServletResponse response, int retryAfterSeconds)
             throws IOException {
         response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
@@ -95,6 +112,10 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         objectMapper.writeValue(response.getWriter(), errorResponse);
     }
 
+    /** 
+     * @param request
+     * @return String
+     */
     private String extractClientIp(HttpServletRequest request) {
         String forwardedFor = request.getHeader("X-Forwarded-For");
         if (forwardedFor != null && !forwardedFor.isBlank()) {
@@ -107,6 +128,9 @@ public class RateLimitingFilter extends OncePerRequestFilter {
         return request.getRemoteAddr();
     }
 
+    /** 
+     * @param now
+     */
     private void cleanupStaleCounters(long now) {
         if (requestCounter.incrementAndGet() % 200 != 0) {
             return;

@@ -22,12 +22,19 @@ public class ConsultasDiasFeriados implements ConsultaInterface<DiasFeriados> {
         this.repo = repo;
     }
     
+    /** 
+     * @param id
+     * @return DiasFeriados
+     */
     @Override
     public DiasFeriados obtenerPorId(Long id) {
         Optional<DiasFeriados> feriado = repo.findById(id);
         return feriado.orElse(null);
     }
     
+    /** 
+     * @return List<DiasFeriados>
+     */
     @Override
     public List<DiasFeriados> obtenerTodos() {
         return repo.findAllByOrderByFechaDesc();

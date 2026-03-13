@@ -116,6 +116,9 @@ public class ServicioEvaluacionTest {
                 "2025 Q4", "Buen desempeño", "Mantener calidad");
     }
 
+    /** 
+     * @throws Forbidden()
+     */
     @Test
     public void guardar_asJefeWithoutAccess_throwsForbidden() {
         // Arrange

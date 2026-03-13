@@ -15,14 +15,25 @@ public class MantenimientosPermisos implements MantenimientoInterface<Permisos>{
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return Permisos
+     */
     public Permisos crear(Permisos entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return Permisos
+     */
     public Permisos actualizar(Permisos entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

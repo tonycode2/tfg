@@ -18,11 +18,18 @@ public class ConsultasConfiguracionRentas implements ConsultaInterface<Configura
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return ConfiguracionRenta
+     */
     public ConfiguracionRenta obtenerPorId(Long id) {
         Optional<ConfiguracionRenta> resultado = repo.findById(id);
         return resultado.orElse(null);
     }
 
+    /** 
+     * @return List<ConfiguracionRenta>
+     */
     public List<ConfiguracionRenta> obtenerTodos() {
         return repo.findAll();
     }

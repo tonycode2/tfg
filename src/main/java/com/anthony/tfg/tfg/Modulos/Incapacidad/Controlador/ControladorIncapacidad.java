@@ -38,12 +38,19 @@ public class ControladorIncapacidad {
         this.fileStorageService = fileStorageService;
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaIncapacidadesDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaIncapacidadesDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaIncapacidadesDTO respuesta = servicio.obtenerPorId(id);
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaIncapacidadesDTO>>
+     */
     @GetMapping
     @PreAuthorize("hasAnyRole('HR', 'ADMIN')")
     public ResponseEntity<List<RespuestaIncapacidadesDTO>> obtenerTodos() {
@@ -51,6 +58,12 @@ public class ControladorIncapacidad {
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param bindingResult
+     * @param authentication
+     * @param request
+     * @return ResponseEntity<RespuestaIncapacidadesDTO>
+     */
     @PostMapping(consumes = {org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<RespuestaIncapacidadesDTO> crear(
             @Valid @org.springframework.web.bind.annotation.ModelAttribute SolicitudIncapacidadesDTO solicitud,
@@ -88,6 +101,10 @@ public class ControladorIncapacidad {
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaIncapacidadesDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaIncapacidadesDTO> actualizar(
             @PathVariable Long id,
@@ -96,6 +113,10 @@ public class ControladorIncapacidad {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param authentication
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminar(

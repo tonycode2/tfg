@@ -18,11 +18,18 @@ public class ConsultasJefesDepartamento implements ConsultaInterface<JefesDepart
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return JefesDepartamento
+     */
     public JefesDepartamento obtenerPorId(Long id) {
         Optional<JefesDepartamento> resultado = repo.findById(id);
         return resultado.orElse(null);
     }
 
+    /** 
+     * @return List<JefesDepartamento>
+     */
     public List<JefesDepartamento> obtenerTodos() {
         return repo.findAll();
     }

@@ -120,6 +120,14 @@ public class ServicioEmail {
             """, nombreCompleto, username, password);
     }
 
+    /** 
+     * @param destinatario
+     * @param nombreCompleto
+     * @param puntuacionFinal
+     * @param periodoEvaluado
+     * @param observaciones
+     * @param planDeMejora
+     */
     public void enviarNotificacionEvaluacion(String destinatario, String nombreCompleto, Double puntuacionFinal,
             String periodoEvaluado, String observaciones, String planDeMejora) {
         try {
@@ -142,6 +150,14 @@ public class ServicioEmail {
         }
     }
 
+    /** 
+     * @param nombreCompleto
+     * @param puntuacionFinal
+     * @param periodoEvaluado
+     * @param observaciones
+     * @param planDeMejora
+     * @return String
+     */
     private String construirEmailEvaluacionHtml(String nombreCompleto, Double puntuacionFinal, String periodoEvaluado,
             String observaciones, String planDeMejora) {
         return String.format("""

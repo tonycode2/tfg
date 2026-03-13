@@ -10,11 +10,19 @@ public class EdadMinimaValidator implements ConstraintValidator<EdadMinima, Loca
 
     private int edadMinima;
 
+    /** 
+     * @param constraintAnnotation
+     */
     @Override
     public void initialize(EdadMinima constraintAnnotation) {
         this.edadMinima = constraintAnnotation.value();
     }
 
+    /** 
+     * @param value
+     * @param context
+     * @return boolean
+     */
     @Override
     public boolean isValid(LocalDate value, ConstraintValidatorContext context) {
         if (value == null) {

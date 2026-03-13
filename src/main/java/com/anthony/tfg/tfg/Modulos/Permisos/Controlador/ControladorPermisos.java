@@ -34,12 +34,19 @@ public class ControladorPermisos {
         this.servicio = servicio;
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaPermisosDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaPermisosDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaPermisosDTO respuesta = servicio.obtenerPorId(id);
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaPermisosDTO>>
+     */
     @GetMapping
     @PreAuthorize("hasAnyRole('HR', 'ADMIN')")
     public ResponseEntity<List<RespuestaPermisosDTO>> obtenerTodos() {
@@ -47,6 +54,10 @@ public class ControladorPermisos {
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param authentication
+     * @return ResponseEntity<RespuestaPermisosDTO>
+     */
     @PostMapping
     public ResponseEntity<RespuestaPermisosDTO> crear(
             @Valid @RequestBody SolicitudPermisosDTO solicitud,
@@ -55,6 +66,10 @@ public class ControladorPermisos {
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaPermisosDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaPermisosDTO> actualizar(
             @PathVariable Long id,
@@ -63,6 +78,10 @@ public class ControladorPermisos {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param authentication
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminar(

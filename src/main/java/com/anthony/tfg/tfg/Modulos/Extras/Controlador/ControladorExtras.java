@@ -32,6 +32,10 @@ public class ControladorExtras {
         this.servicio = servicio;
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaHorasExtraDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaHorasExtraDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaHorasExtraDTO respuesta = servicio.obtenerPorId(id);
@@ -41,12 +45,19 @@ public class ControladorExtras {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaHorasExtraDTO>>
+     */
     @GetMapping
     public ResponseEntity<List<RespuestaHorasExtraDTO>> obtenerTodos() {
         List<RespuestaHorasExtraDTO> lista = servicio.obtenerTodos();
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param solicitud
+     * @return ResponseEntity<RespuestaHorasExtraDTO>
+     */
     @PostMapping
     public ResponseEntity<RespuestaHorasExtraDTO> crear(@Valid @RequestBody SolicitudHorasExtraDTO solicitud) {
         RespuestaHorasExtraDTO respuesta = servicio.guardar(solicitud);
@@ -63,30 +74,54 @@ public class ControladorExtras {
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param id
+     * @param auth
+     * @return ResponseEntity<RespuestaHorasExtraDTO>
+     */
     @PutMapping("/{id}/aprobar-jefe")
     public ResponseEntity<RespuestaHorasExtraDTO> aprobarPorJefe(@PathVariable Long id, Authentication auth) {
         RespuestaHorasExtraDTO respuesta = servicio.aprobarPorJefe(id, auth);
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @param auth
+     * @return ResponseEntity<RespuestaHorasExtraDTO>
+     */
     @PutMapping("/{id}/rechazar-jefe")
     public ResponseEntity<RespuestaHorasExtraDTO> rechazarPorJefe(@PathVariable Long id, Authentication auth) {
         RespuestaHorasExtraDTO respuesta = servicio.rechazarPorJefe(id, auth);
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @param auth
+     * @return ResponseEntity<RespuestaHorasExtraDTO>
+     */
     @PutMapping("/{id}/aprobar-rh")
     public ResponseEntity<RespuestaHorasExtraDTO> aprobarPorRH(@PathVariable Long id, Authentication auth) {
         RespuestaHorasExtraDTO respuesta = servicio.aprobarPorRH(id, auth);
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @param auth
+     * @return ResponseEntity<RespuestaHorasExtraDTO>
+     */
     @PutMapping("/{id}/rechazar-rh")
     public ResponseEntity<RespuestaHorasExtraDTO> rechazarPorRH(@PathVariable Long id, Authentication auth) {
         RespuestaHorasExtraDTO respuesta = servicio.rechazarPorRH(id, auth);
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaHorasExtraDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaHorasExtraDTO> actualizar(
             @PathVariable Long id,
@@ -98,6 +133,10 @@ public class ControladorExtras {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);

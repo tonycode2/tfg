@@ -15,14 +15,25 @@ public class MantenimientosIncapacidades implements MantenimientoInterface<Incap
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return Incapacidades
+     */
     public Incapacidades crear(Incapacidades entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return Incapacidades
+     */
     public Incapacidades actualizar(Incapacidades entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

@@ -33,6 +33,10 @@ public class ControladorAguinaldo {
         this.servicio = servicio;
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaAguinaldosDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaAguinaldosDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaAguinaldosDTO respuesta = servicio.obtenerPorId(id);
@@ -42,18 +46,28 @@ public class ControladorAguinaldo {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaAguinaldosDTO>>
+     */
     @GetMapping
     public ResponseEntity<List<RespuestaAguinaldosDTO>> obtenerTodos() {
         List<RespuestaAguinaldosDTO> lista = servicio.obtenerTodos();
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param solicitud
+     * @return ResponseEntity<RespuestaAguinaldosDTO>
+     */
     @PostMapping
     public ResponseEntity<RespuestaAguinaldosDTO> crear(@Valid @RequestBody SolicitudAguinaldosDTO solicitud) {
         RespuestaAguinaldosDTO respuesta = servicio.guardar(solicitud);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaCalculoAguinaldoDTO>>
+     */
     @PostMapping("/calcular")
     @PreAuthorize("hasRole('HR')")
     public ResponseEntity<List<RespuestaCalculoAguinaldoDTO>> calcularAguinaldos() {
@@ -61,6 +75,10 @@ public class ControladorAguinaldo {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaAguinaldosDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaAguinaldosDTO> actualizar(
             @PathVariable Long id,
@@ -72,6 +90,10 @@ public class ControladorAguinaldo {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);

@@ -15,14 +15,25 @@ public class MantenimientosDirecciones implements MantenimientoInterface<Direcci
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return Direccion
+     */
     public Direccion crear(Direccion entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return Direccion
+     */
     public Direccion actualizar(Direccion entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

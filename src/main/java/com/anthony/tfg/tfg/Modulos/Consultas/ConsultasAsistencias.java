@@ -18,11 +18,18 @@ public class ConsultasAsistencias implements ConsultaInterface<Asistencia>{
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return Asistencia
+     */
     public Asistencia obtenerPorId(Long id) {
         Optional<Asistencia> asistencia = repo.findById(id);
         return asistencia.orElse(null);
     }
 
+    /** 
+     * @return List<Asistencia>
+     */
     public List<Asistencia> obtenerTodos() {
         return repo.findAll();
     }

@@ -15,14 +15,25 @@ public class MantenimientosEvaluacionDeDesempeno implements MantenimientoInterfa
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return EvaluacionDeDesempeno
+     */
     public EvaluacionDeDesempeno crear(EvaluacionDeDesempeno entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return EvaluacionDeDesempeno
+     */
     public EvaluacionDeDesempeno actualizar(EvaluacionDeDesempeno entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

@@ -34,6 +34,10 @@ public class ControladorJornadaDiaria {
         this.servicio = servicio;
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaJornadaDiariaDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaJornadaDiariaDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaJornadaDiariaDTO respuesta = servicio.obtenerPorId(id);
@@ -43,18 +47,29 @@ public class ControladorJornadaDiaria {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaJornadaDiariaDTO>>
+     */
     @GetMapping
     public ResponseEntity<List<RespuestaJornadaDiariaDTO>> obtenerTodos() {
         List<RespuestaJornadaDiariaDTO> lista = servicio.obtenerTodos();
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param solicitud
+     * @return ResponseEntity<RespuestaJornadaDiariaDTO>
+     */
     @PostMapping
     public ResponseEntity<RespuestaJornadaDiariaDTO> crear(@Valid @RequestBody SolicitudJornadaDiariaDTO solicitud) {
         RespuestaJornadaDiariaDTO respuesta = servicio.guardar(solicitud);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaJornadaDiariaDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaJornadaDiariaDTO> actualizar(
             @PathVariable Long id,
@@ -66,12 +81,20 @@ public class ControladorJornadaDiaria {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 
+    /** 
+     * @param previsualizarJornada(
+     * @return ResponseEntity<RespuestaJornadaDiariaDTO>
+     */
     @GetMapping("/preview")
     public ResponseEntity<RespuestaJornadaDiariaDTO> previsualizarJornada(
             @RequestParam(required = false) String fechaHoraSalida) {

@@ -15,14 +15,25 @@ public class MantenimientosDepartamentos implements MantenimientoInterface<Depar
         this.departamentoRepositorio = departamentoRepositorio;
     }
 
+    /** 
+     * @param entidad
+     * @return Departamento
+     */
     public Departamento crear(Departamento entidad) {
         return departamentoRepositorio.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return Departamento
+     */
     public Departamento actualizar(Departamento entidad) {
         return departamentoRepositorio.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         departamentoRepositorio.deleteById(id);
     }

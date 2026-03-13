@@ -23,14 +23,23 @@ public class ResourceNotFoundException extends RuntimeException {
         this.fieldValue = null;
     }
     
+    /** 
+     * @return String
+     */
     public String getResourceName() {
         return resourceName;
     }
     
+    /** 
+     * @return String
+     */
     public String getFieldName() {
         return fieldName;
     }
     
+    /** 
+     * @return Object
+     */
     public Object getFieldValue() {
         return fieldValue;
     }

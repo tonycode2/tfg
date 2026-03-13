@@ -20,15 +20,28 @@ public class ConsultasPlanillaEncabezado implements ConsultaInterface<PlanillaEn
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return PlanillaEncabezado
+     */
     public PlanillaEncabezado obtenerPorId(Long id) {
         Optional<PlanillaEncabezado> resultado = repo.findById(id);
         return resultado.orElse(null);
     }
 
+    /** 
+     * @return List<PlanillaEncabezado>
+     */
     public List<PlanillaEncabezado> obtenerTodos() {
         return repo.findAll();
     }
 
+    /** 
+     * @param fechaInicioPeriodo
+     * @param fechaFinPeriodo
+     * @param tipoQuincena
+     * @return boolean
+     */
     public boolean existePlanillaParaPeriodo(LocalDate fechaInicioPeriodo,
                                             LocalDate fechaFinPeriodo,
                                             TipoQuincena tipoQuincena) {

@@ -15,14 +15,25 @@ public class MantenimientosJornadaDiaria implements MantenimientoInterface<Jorna
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return JornadaDiaria
+     */
     public JornadaDiaria crear(JornadaDiaria entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return JornadaDiaria
+     */
     public JornadaDiaria actualizar(JornadaDiaria entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

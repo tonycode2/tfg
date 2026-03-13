@@ -178,6 +178,15 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         );
     }
 
+    /** 
+     * @param empleado
+     * @param fechaInicio
+     * @param fechaFin
+     * @param permiso
+     * @param incapacidad
+     * @param diaInicial
+     * @param observacionBase
+     */
     private void generarJornadasEnRango(Empleados empleado,
                                         LocalDate fechaInicio,
                                         LocalDate fechaFin,
@@ -204,6 +213,14 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         }
     }
 
+    /** 
+     * @param empleado
+     * @param fecha
+     * @param permiso
+     * @param incapacidad
+     * @param diaPermiso
+     * @param observacionBase
+     */
     private void crearOActualizarJornadaEnCero(Empleados empleado,
                                                LocalDate fecha,
                                                Permisos permiso,

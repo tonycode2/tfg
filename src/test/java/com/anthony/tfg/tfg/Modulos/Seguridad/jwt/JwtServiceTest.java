@@ -12,6 +12,9 @@ import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 
 class JwtServiceTest {
 
+    /** 
+     * @throws Exception
+     */
     @Test
     void getToken_generaJwtFirmado() throws Exception {
         JwtService service = new JwtService();

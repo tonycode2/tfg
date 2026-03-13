@@ -47,6 +47,9 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "usuario")
     Empleados empleado;
 
+    /** 
+     * @return Collection<? extends GrantedAuthority>
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Spring Security's `hasRole`/`hasAnyRole` checks for authorities with the
@@ -55,31 +58,49 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority("ROLE_" + roleName));
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String getPassword() {
         return this.password;
     }
 
+    /** 
+     * @return String
+     */
     @Override
     public String getUsername() {
         return this.username;
     }
 
+    /** 
+     * @return boolean
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /** 
+     * @return boolean
+     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    /** 
+     * @return boolean
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /** 
+     * @return boolean
+     */
     @Override
     public boolean isEnabled() {
         return true;

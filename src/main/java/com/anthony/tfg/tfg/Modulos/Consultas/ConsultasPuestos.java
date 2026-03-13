@@ -18,11 +18,18 @@ public class ConsultasPuestos implements ConsultaInterface<Puestos>{
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return Puestos
+     */
     public Puestos obtenerPorId(Long id) {
         Optional<Puestos> puesto = repo.findById(id);
         return puesto.orElse(null);
     }
 
+    /** 
+     * @return List<Puestos>
+     */
     public List<Puestos> obtenerTodos() {
         return repo.findAll();
     }

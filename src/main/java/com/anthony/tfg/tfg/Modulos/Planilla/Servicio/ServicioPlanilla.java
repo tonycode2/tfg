@@ -234,6 +234,12 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return new RespuestaPlanillaPdfDTO(urlPdf);
     }
 
+    /** 
+     * @param detalleId
+     * @param auth
+     * @return ResponseEntity<Resource>
+     * @throws UnsupportedEncodingException
+     */
     public ResponseEntity<Resource> descargarPdfPlanilla(Long detalleId, Authentication auth) throws UnsupportedEncodingException {
         PlanillaDetalle detalle = planillaDetalleRepo.findById(detalleId)
                 .orElseThrow(() -> new ResourceNotFoundException("PlanillaDetalle", "id", detalleId));
@@ -637,6 +643,16 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return yearMonth.atEndOfMonth();
     }
 
+    /** 
+     * @param empleado
+     * @param fechaInicio
+     * @param fechaFin
+     * @param feriados
+     * @param feriadosMes
+     * @param tramosRenta
+     * @param encabezado
+     * @return PlanillaDetalle
+     */
     private PlanillaDetalle calcularDetallePlanilla(Empleados empleado,
                                                     LocalDate fechaInicio,
                                                     LocalDate fechaFin,
@@ -753,6 +769,20 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                 .build();
     }
 
+    /** 
+     * @param tipoQuincena
+     * @param empleado
+     * @param salarioMensual
+     * @param salarioDiario
+     * @param salarioHora
+     * @param inicioMes
+     * @param finMes
+     * @param jornadasPorFechaMes
+     * @param feriadosMes
+     * @param ccssMensual
+     * @param tramosRenta
+     * @return double
+     */
     private double calcularImpuestoRentaQuincena(TipoQuincena tipoQuincena,
                                                  Empleados empleado,
                                                  double salarioMensual,
@@ -839,6 +869,13 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
     private record ResumenRenta(double totalHorasExtra, int cantidadDiasFeriados) {
     }
 
+    /** 
+     * @param inicio
+     * @param fin
+     * @param jornadasPorFecha
+     * @param feriados
+     * @return ResumenRenta
+     */
     private ResumenRenta calcularResumenRenta(LocalDate inicio,
                                               LocalDate fin,
                                               Map<LocalDate, JornadaDiaria> jornadasPorFecha,

@@ -19,15 +19,27 @@ public class ConsultasHorasExtras implements ConsultaInterface<HorasExtra>{
     } 
 
 
+    /** 
+     * @param id
+     * @return HorasExtra
+     */
     public HorasExtra obtenerPorId(Long id) {
         Optional<HorasExtra> horasExtra = repo.findById(id);
         return horasExtra.orElse(null);
     }
 
+    /** 
+     * @return List<HorasExtra>
+     */
     public List<HorasExtra> obtenerTodos() {
         return repo.findAll();
     }
 
+    /** 
+     * @param empleadoId
+     * @param fecha
+     * @return List<HorasExtra>
+     */
     public List<HorasExtra> obtenerPorEmpleadoYFecha(Long empleadoId, java.time.LocalDate fecha) {
         return repo.findByEmpleadoIdAndFechaSolicitud(empleadoId, fecha);
     }

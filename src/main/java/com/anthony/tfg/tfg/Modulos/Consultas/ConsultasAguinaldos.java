@@ -18,11 +18,18 @@ public class ConsultasAguinaldos implements  ConsultaInterface<Aguinaldos>{
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return Aguinaldos
+     */
     public Aguinaldos obtenerPorId(Long id) {
         Optional<Aguinaldos> aguinaldo = repo.findById(id);
         return aguinaldo.orElse(null);
     }
 
+    /** 
+     * @return List<Aguinaldos>
+     */
     public List<Aguinaldos> obtenerTodos() {
         return repo.findAll();
     }

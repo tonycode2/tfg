@@ -19,12 +19,19 @@ public class ConsultasIncapacidades implements ConsultaInterface<Incapacidades> 
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return Incapacidades
+     */
     @Override
     public Incapacidades obtenerPorId(Long id) {
         Optional<Incapacidades> incapacidad = repo.findById(id);
         return incapacidad.orElse(null);
     }
 
+    /** 
+     * @return List<Incapacidades>
+     */
     @Override
     public List<Incapacidades> obtenerTodos() {
         return repo.findAll();

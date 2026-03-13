@@ -17,11 +17,18 @@ public class ConsultasDirecciones implements ConsultaInterface<Direccion>{
         this.repo = repo;
     }
     
+    /** 
+     * @param id
+     * @return Direccion
+     */
     public Direccion obtenerPorId(Long id) {
         Optional<Direccion> direccion = repo.findById(id);
         return direccion.orElse(null);
     }
 
+    /** 
+     * @return List<Direccion>
+     */
     public List<Direccion> obtenerTodos() {
         return repo.findAll();
     }

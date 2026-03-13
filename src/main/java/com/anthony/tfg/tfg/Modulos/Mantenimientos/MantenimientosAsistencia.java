@@ -15,14 +15,25 @@ public class MantenimientosAsistencia implements MantenimientoInterface<Asistenc
         this.repo = repo;
     }
 
+    /** 
+     * @param entidad
+     * @return Asistencia
+     */
     public Asistencia crear(Asistencia entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param entidad
+     * @return Asistencia
+     */
     public Asistencia actualizar(Asistencia entidad) {
         return repo.save(entidad);
     }
 
+    /** 
+     * @param id
+     */
     public void eliminar(Long id) {
         repo.deleteById(id);
     }

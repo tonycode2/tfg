@@ -18,11 +18,18 @@ public class ConsultasLiquidaciones implements ConsultaInterface<Liquidaciones>{
         this.repo = repo;
     }
 
+    /** 
+     * @param id
+     * @return Liquidaciones
+     */
     public Liquidaciones obtenerPorId(Long id) {
         Optional<Liquidaciones> liquidacion = repo.findById(id);
         return liquidacion.orElse(null);
     }
 
+    /** 
+     * @return List<Liquidaciones>
+     */
     public List<Liquidaciones> obtenerTodos() {
         return repo.findAll();
     }

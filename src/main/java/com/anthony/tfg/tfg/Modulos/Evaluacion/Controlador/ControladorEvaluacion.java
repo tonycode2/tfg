@@ -33,6 +33,10 @@ public class ControladorEvaluacion {
         this.servicio = servicio;
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<RespuestaEvaluacionDeDesempenoDTO>
+     */
     @GetMapping("/{id}")
     public ResponseEntity<RespuestaEvaluacionDeDesempenoDTO> obtenerPorId(@PathVariable Long id) {
         RespuestaEvaluacionDeDesempenoDTO respuesta = servicio.obtenerPorId(id);
@@ -42,18 +46,29 @@ public class ControladorEvaluacion {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @return ResponseEntity<List<RespuestaEvaluacionDeDesempenoDTO>>
+     */
     @GetMapping
     public ResponseEntity<List<RespuestaEvaluacionDeDesempenoDTO>> obtenerTodos() {
         List<RespuestaEvaluacionDeDesempenoDTO> lista = servicio.obtenerTodos();
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param solicitud
+     * @return ResponseEntity<RespuestaEvaluacionDeDesempenoDTO>
+     */
     @PostMapping
     public ResponseEntity<RespuestaEvaluacionDeDesempenoDTO> crear(@Valid @RequestBody SolicitudEvaluacionDeDesempenoDTO solicitud) {
         RespuestaEvaluacionDeDesempenoDTO respuesta = servicio.guardar(solicitud);
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
+    /** 
+     * @param actualizar(
+     * @return ResponseEntity<RespuestaEvaluacionDeDesempenoDTO>
+     */
     @PutMapping("/{id}")
     public ResponseEntity<RespuestaEvaluacionDeDesempenoDTO> actualizar(
             @PathVariable Long id,
@@ -65,24 +80,39 @@ public class ControladorEvaluacion {
         return ResponseEntity.ok(respuesta);
     }
 
+    /** 
+     * @param id
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);
         return ResponseEntity.noContent().build();
     }
 
+    /** 
+     * @param idDepartamento
+     * @return ResponseEntity<ResumenEvaluacionesDepartamentoDTO>
+     */
     @GetMapping("/resumen-departamento/{idDepartamento}")
     public ResponseEntity<ResumenEvaluacionesDepartamentoDTO> obtenerResumenDepartamento(@PathVariable Long idDepartamento) {
         ResumenEvaluacionesDepartamentoDTO resumen = servicio.obtenerResumenDepartamento(idDepartamento);
         return ResponseEntity.ok(resumen);
     }
 
+    /** 
+     * @return ResponseEntity<List<EmpleadoEvaluacionResumenDTO>>
+     */
     @GetMapping("/empleados-mis-departamentos")
     public ResponseEntity<java.util.List<EmpleadoEvaluacionResumenDTO>> obtenerEmpleadosMisDepartamentos() {
         java.util.List<EmpleadoEvaluacionResumenDTO> lista = servicio.obtenerEmpleadosMisDepartamentos();
         return ResponseEntity.ok(lista);
     }
 
+    /** 
+     * @param idEmpleado
+     * @return ResponseEntity<List<RespuestaEvaluacionDeDesempenoDTO>>
+     */
     @GetMapping("/por-empleado/{idEmpleado}")
     public ResponseEntity<java.util.List<RespuestaEvaluacionDeDesempenoDTO>> obtenerPorEmpleado(@PathVariable Long idEmpleado) {
         java.util.List<RespuestaEvaluacionDeDesempenoDTO> lista = servicio.obtenerPorEmpleado(idEmpleado);
