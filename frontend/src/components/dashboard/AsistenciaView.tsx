@@ -595,7 +595,7 @@ export function AsistenciaView() {
           </div>
 
           <div className="space-y-3">
-            <SimpleDataTable data={paginatedHistorial as any} columns={historialColumns as any} />
+            <SimpleDataTable data={paginatedHistorial as any} columns={historialColumns as any} hideHorizontalScrollbar />
 
             {historialRows.length > 0 && (
               <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

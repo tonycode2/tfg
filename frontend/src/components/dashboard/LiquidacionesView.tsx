@@ -193,6 +193,18 @@ export function LiquidacionesView() {
     { key: 'total', label: 'Total', render: (_v, item) => formatCurrency(item.totalLiquidacion || 0) },
   ];
 
+  const historyColumns: Column<LiquidacionRow>[] = [
+    { key: 'idEmpleado', label: 'ID Empleado', render: (_v, item) => (item.idEmpleado ? String(item.idEmpleado) : '-') },
+    { key: 'nombre', label: 'Nombre', render: (_v, item) => `${item.nombreEmpleado || 'Empleado'} ${item.primerApellidoEmpleado || ''} ${item.segundoApellidoEmpleado || ''}`.trim() || 'Empleado' },
+    { key: 'fechaSalida', label: 'Fecha salida', render: (_v, item) => item.fechaSalida || '-' },
+    { key: 'montoPreaviso', label: 'Monto preaviso', render: (_v, item) => formatCurrency(item.montoPreaviso || 0) },
+    { key: 'montoCesantia', label: 'Monto cesantía', render: (_v, item) => formatCurrency(item.montoCesantia || 0) },
+    { key: 'montoVacacionesPendientes', label: 'Monto vacaciones', render: (_v, item) => formatCurrency(item.montoVacacionesPendientes || 0) },
+    { key: 'montoAguinaldoProporcional', label: 'Aguinaldo proporcional', render: (_v, item) => formatCurrency(item.montoAguinaldoProporcional ?? item.montoAguinaldoPendiente ?? 0) },
+    { key: 'montoSalarioProporcional', label: 'Salario proporcional', render: (_v, item) => formatCurrency(item.montoSalarioProporcional || 0) },
+    { key: 'total', label: 'Total', render: (_v, item) => formatCurrency(item.totalLiquidacion || 0) },
+  ];
+
   return (
     <div className="space-y-6">
       <Card>
@@ -259,30 +271,7 @@ export function LiquidacionesView() {
           ) : (
             <SimpleDataTable
               data={liquidaciones}
-              columns={columns}
-              customActions={(item) => (
-                <>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={async () => {
-                      if (!item.idEmpleado) return;
-                      if (!window.confirm('¿Desactivar este empleado?')) return;
-                      try {
-                        await empleadosService.update(item.idEmpleado, { estaActivo: false });
-                        toast.success('Empleado desactivado');
-                      } catch (e) {
-                        console.error('Error desactivando empleado', e);
-                        toast.error('No se pudo desactivar el empleado');
-                      }
-                    }}
-                    className="h-8 px-2 text-destructive"
-                    title="Desactivar empleado"
-                  >
-                    🚫
-                  </Button>
-                </>
-              )}
+              columns={historyColumns}
             />
           )}
         </CardContent>

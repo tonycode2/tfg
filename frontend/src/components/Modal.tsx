@@ -59,7 +59,7 @@ export const Modal = memo(function Modal({
       aria-labelledby="modal-title"
     >
       <Card className="w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
-        <div className="p-6 overflow-y-auto flex-1">
+        <div className="p-6 overflow-y-auto flex-1 modal-scrollbar">
           <div className="flex items-center justify-between mb-4">
             <h2 id="modal-title" className="text-2xl font-bold text-foreground">{title}</h2>
             <button

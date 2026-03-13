@@ -12,6 +12,7 @@ interface SimpleDataTableProps<T> {
   onEdit?: (item: T) => void;
   onDelete?: (id: number | string) => void;
   customActions?: (item: T) => React.ReactNode;
+  hideHorizontalScrollbar?: boolean;
 }
 
 export function SimpleDataTable<T extends { id: number | string }>({
@@ -20,7 +21,10 @@ export function SimpleDataTable<T extends { id: number | string }>({
   onEdit,
   onDelete,
   customActions,
+  hideHorizontalScrollbar = false,
 }: SimpleDataTableProps<T>) {
+  const hasActions = Boolean(onEdit || onDelete || customActions);
+
   const getCellValue = (item: T, column: Column<T>) => {
     const keys = String(column.key).split('.');
     let value: any = item;
@@ -33,7 +37,9 @@ export function SimpleDataTable<T extends { id: number | string }>({
   };
 
   return (
-    <div className="overflow-x-auto pb-4">
+    <div
+      className={`overflow-x-auto pb-4 ${hideHorizontalScrollbar ? '[scrollbar-width:none] [&::-webkit-scrollbar]:hidden' : ''}`}
+    >
       <table className="w-full min-w-full table-auto">
         <thead className="bg-muted">
           <tr>
@@ -46,16 +52,18 @@ export function SimpleDataTable<T extends { id: number | string }>({
                 <span className="inline-block align-middle truncate max-w-[180px]">{column.label}</span>
               </th>
             ))}
-            <th className="px-4 py-4 text-right text-sm font-medium text-muted-foreground align-middle" title="Acciones">
-              <span className="inline-block align-middle truncate max-w-[180px]">Acciones</span>
-            </th>
+            {hasActions && (
+              <th className="px-4 py-4 text-right text-sm font-medium text-muted-foreground align-middle" title="Acciones">
+                <span className="inline-block align-middle truncate max-w-[180px]">Acciones</span>
+              </th>
+            )}
           </tr>
         </thead>
         <tbody className="divide-y divide-border">
           {data.length === 0 ? (
             <tr>
               <td
-                colSpan={columns.length + 1}
+                colSpan={columns.length + (hasActions ? 1 : 0)}
                 className="px-4 py-8 text-center text-muted-foreground"
               >
                 No hay registros para mostrar
@@ -76,33 +84,35 @@ export function SimpleDataTable<T extends { id: number | string }>({
                     </div>
                   </td>
                 ))}
-                <td className="px-4 py-3 text-right align-middle">
-                  <div className="inline-flex items-center justify-end gap-2">
-                    {customActions && customActions(item)}
-                  </div>
-                  {onEdit && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onEdit(item)}
-                      className="h-8 px-2"
-                      title="Editar"
-                    >
-                      ✏️
-                    </Button>
-                  )}
-                  {onDelete && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => onDelete(item.id)}
-                      className="h-8 px-2 text-destructive hover:text-destructive"
-                      title="Eliminar"
-                    >
-                      🗑️
-                    </Button>
-                  )}
-                </td>
+                {hasActions && (
+                  <td className="px-4 py-3 text-right align-middle">
+                    <div className="inline-flex items-center justify-end gap-2">
+                      {customActions && customActions(item)}
+                    </div>
+                    {onEdit && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => onEdit(item)}
+                        className="h-8 px-2"
+                        title="Editar"
+                      >
+                        ✏️
+                      </Button>
+                    )}
+                    {onDelete && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => onDelete(item.id)}
+                        className="h-8 px-2 text-destructive hover:text-destructive"
+                        title="Eliminar"
+                      >
+                        🗑️
+                      </Button>
+                    )}
+                  </td>
+                )}
               </tr>
             ))
           )}

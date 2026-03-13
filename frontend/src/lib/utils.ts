@@ -243,20 +243,24 @@ export function getDateFilterHorasExtra(): (date: Date) => boolean {
 }
 
 /**
- * Retorna función para validar fechas de inicio de incapacidades (solo hoy y ayer)
+ * Retorna función para validar fechas de inicio de incapacidades (hoy, ayer y anteayer)
  */
 export function getDateFilterIncapacidadInicio(): (date: Date) => boolean {
   return (date: Date) => {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
+    const twoDaysAgo = new Date(today);
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
     
     const dateNormalized = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const yesterdayNormalized = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
+    const twoDaysAgoNormalized = new Date(twoDaysAgo.getFullYear(), twoDaysAgo.getMonth(), twoDaysAgo.getDate());
     
     return dateNormalized.getTime() === todayNormalized.getTime() || 
-           dateNormalized.getTime() === yesterdayNormalized.getTime();
+          dateNormalized.getTime() === yesterdayNormalized.getTime() ||
+          dateNormalized.getTime() === twoDaysAgoNormalized.getTime();
   };
 }
 
@@ -288,5 +292,20 @@ export function getDateFilterNoPassedDates(): (date: Date) => boolean {
     const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     
     return dateNormalized.getTime() >= todayNormalized.getTime();
+  };
+}
+
+/**
+ * Retorna función para validar fechas desde mañana (sin permitir hoy ni pasadas)
+ */
+export function getDateFilterFromTomorrow(): (date: Date) => boolean {
+  return (date: Date) => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    const dateNormalized = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const tomorrowNormalized = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate());
+
+    return dateNormalized.getTime() >= tomorrowNormalized.getTime();
   };
 }

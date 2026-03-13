@@ -25,6 +25,7 @@ import {
   formatearFecha,
   formatearHoras,
   getDateFilterNoPassedDates,
+  getDateFilterFromTomorrow,
   getDateFilterIncapacidadFin
 } from '../../lib/utils';
 import { Calendar, Plus, Eye, FileText, Clock, CheckCircle, XCircle, Palmtree } from 'lucide-react';
@@ -172,9 +173,17 @@ export default function PermisosView() {
     // Validar que la fecha de inicio sea futura
     const hoy = new Date();
     const hoyStr = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
+    const manana = new Date(hoy);
+    manana.setDate(manana.getDate() + 1);
+    const mananaStr = `${manana.getFullYear()}-${String(manana.getMonth() + 1).padStart(2, '0')}-${String(manana.getDate()).padStart(2, '0')}`;
     
     if (formData.fechaInicio < hoyStr) {
       toast.error('No se permiten solicitudes con fechas pasadas');
+      return;
+    }
+
+    if (formData.tipoPermiso === 'VACACIONES' && formData.fechaInicio < mananaStr) {
+      toast.error('Las vacaciones deben solicitarse a partir del día siguiente');
       return;
     }
     
@@ -575,7 +584,7 @@ export default function PermisosView() {
                     value={formData.fechaInicio}
                     onChange={(fecha) => handleFechaChange('fechaInicio', fecha)}
                     placeholder="Seleccionar fecha inicio"
-                    filterDate={getDateFilterNoPassedDates()}
+                    filterDate={formData.tipoPermiso === 'VACACIONES' ? getDateFilterFromTomorrow() : getDateFilterNoPassedDates()}
                     fromYear={new Date().getFullYear()}
                     toYear={new Date().getFullYear() + 2}
                   />
