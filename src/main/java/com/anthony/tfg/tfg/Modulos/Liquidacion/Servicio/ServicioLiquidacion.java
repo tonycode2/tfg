@@ -48,6 +48,11 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
 
     // ===================== CÁLCULO DE LIQUIDACIÓN =====================
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     @Transactional
     public RespuestaCalculoLiquidacionDTO calcularYGuardar(SolicitudCalculoLiquidacionDTO solicitud) {
         Empleados empleado = consultasEmpleados.obtenerPorId(solicitud.getIdEmpleado());
@@ -112,6 +117,11 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
                 detalles);
     }
 
+    /**
+     * Ejecuta la logica principal de construirDetalles.
+     * @param resultado parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private List<DetalleCalculoLiquidacionDTO> construirDetalles(ResultadoCalculo resultado) {
         List<DetalleCalculoLiquidacionDTO> detalles = new ArrayList<>();
 
@@ -174,6 +184,11 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
 
     // ===================== CRUD ESTÁNDAR =====================
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaLiquidacionesDTO obtenerPorId(Long id) {
         Liquidaciones liquidacion = consulta.obtenerPorId(id);
         if (liquidacion == null) {
@@ -184,12 +199,21 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
         return deEntidadDtoARespuesta(liquidacion);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaLiquidacionesDTO> obtenerTodos() {
         List<Liquidaciones> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todas las liquidaciones. Cantidad: {}", entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaLiquidacionesDTO guardar(SolicitudLiquidacionesDTO entidad) {
         Liquidaciones nuevaLiquidacion = deSolicitudDtoAEntidad(entidad);
         if (nuevaLiquidacion == null) {
@@ -200,6 +224,12 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
         return deEntidadDtoARespuesta(liquidacionGuardada);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaLiquidacionesDTO actualizar(Long id, SolicitudLiquidacionesDTO entidad) {
         Liquidaciones liquidacionExistente = consulta.obtenerPorId(id);
         if (liquidacionExistente == null) {
@@ -227,6 +257,10 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
         return deEntidadDtoARespuesta(liquidacionActualizada);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         Liquidaciones liquidacion = consulta.obtenerPorId(id);
         if (liquidacion == null) {
@@ -238,6 +272,11 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
 
     // ===================== DTO CONVERSIONS =====================
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Liquidaciones deSolicitudDtoAEntidad(SolicitudLiquidacionesDTO solicitud) {
         if (solicitud == null) {
             log.warn("El DTO de solicitud es nulo");
@@ -267,6 +306,11 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
                 .build();
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaLiquidacionesDTO deEntidadDtoARespuesta(Liquidaciones entidad) {
         if (entidad == null) {
             log.warn("La entidad Liquidaciones es nula");
@@ -300,12 +344,22 @@ public class ServicioLiquidacion implements ServicioInterface<RespuestaLiquidaci
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaLiquidacionesDTO> deListaEntidadADto(List<Liquidaciones> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)
                 .toList();
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param motivo parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private MotivoSalida obtenerMotivoSalida(String motivo) {
         if (motivo == null || motivo.isBlank()) {
             return null;

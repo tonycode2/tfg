@@ -26,12 +26,23 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
     private final MantenimientosPuestos mantenimiento;
     private final ConsultasDepartamentos consultasDepartamentos;
 
+    /**
+     * Inicializa el servicio con sus dependencias principales.
+     * @param consulta parametro de entrada de la operacion.
+     * @param mantenimiento parametro de entrada de la operacion.
+     * @param consultasDepartamentos parametro de entrada de la operacion.
+     */
     public ServicioPuestos(ConsultasPuestos consulta, MantenimientosPuestos mantenimiento, ConsultasDepartamentos consultasDepartamentos) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasDepartamentos = consultasDepartamentos;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPuestosDTO obtenerPorId(Long id) {
         Puestos puesto = consulta.obtenerPorId(id);
         if(puesto == null){
@@ -42,12 +53,21 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
         return deEntidadDtoARespuesta(puesto);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaPuestosDTO> obtenerTodos() {
         List<Puestos> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todos los puestos. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPuestosDTO guardar(SolicitudPuestosDTO entidad) {
         Puestos nuevoPuesto = deSolicitudDtoAEntidad(entidad);
         Puestos puestoGuardado = mantenimiento.crear(nuevoPuesto);
@@ -55,6 +75,12 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
         return deEntidadDtoARespuesta(puestoGuardado);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPuestosDTO actualizar(Long id, SolicitudPuestosDTO entidad) {
         Puestos puestoExistente = consulta.obtenerPorId(id);
         if(puestoExistente == null){
@@ -77,11 +103,20 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
         return deEntidadDtoARespuesta(puestoActualizado);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado el puesto con ID: " + id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Puestos deSolicitudDtoAEntidad(SolicitudPuestosDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad Puestos.");
@@ -106,6 +141,11 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
         return puesto;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPuestosDTO deEntidadDtoARespuesta(Puestos entidad) {
         if(entidad == null){
             log.warn("La entidad Puestos es nula, no se puede convertir a DTO de respuesta.");
@@ -126,6 +166,11 @@ public class ServicioPuestos implements ServicioInterface<RespuestaPuestosDTO,
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaPuestosDTO> deListaEntidadADto(List<Puestos> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)

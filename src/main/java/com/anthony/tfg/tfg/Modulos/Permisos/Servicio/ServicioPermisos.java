@@ -67,6 +67,11 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         this.servicioJornadaDiaria = servicioJornadaDiaria;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPermisosDTO obtenerPorId(Long id) {
         Permisos permiso = consulta.obtenerPorId(id);
         if(permiso == null){
@@ -77,6 +82,10 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         return deEntidadDtoARespuesta(permiso);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaPermisosDTO> obtenerTodos() {
         List<Permisos> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todos los permisos. La cantidad de registros es: " + entidades.size());
@@ -504,6 +513,12 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         }
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPermisosDTO actualizar(Long id, SolicitudPermisosDTO entidad) {
         Permisos permisoExistente = consulta.obtenerPorId(id);
         if(permisoExistente == null){
@@ -532,6 +547,10 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         return deEntidadDtoARespuesta(permisoActualizado);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     @Override
     public void eliminar(Long id) {
         throw new BadRequestException("No se permite eliminar solicitudes de permisos. Use el endpoint autenticado.");
@@ -558,6 +577,11 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
                 usuario.getUsername(), id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Permisos deSolicitudDtoAEntidad(SolicitudPermisosDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad Permisos.");
@@ -597,6 +621,11 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         return permiso;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPermisosDTO deEntidadDtoARespuesta(Permisos entidad) {
         if(entidad == null){
             log.warn("La entidad Permisos es nula, no se puede convertir a DTO de respuesta.");
@@ -651,12 +680,22 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaPermisosDTO> deListaEntidadADto(List<Permisos> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)
                 .toList();
     }
     
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param tipo parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private TipoPermiso obtenerTipoPermiso(String tipo) {
         try {
             return TipoPermiso.valueOf(tipo.toUpperCase());

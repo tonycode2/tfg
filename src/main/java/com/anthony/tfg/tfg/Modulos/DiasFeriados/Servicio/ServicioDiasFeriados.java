@@ -30,6 +30,11 @@ public class ServicioDiasFeriados implements ServicioInterface<RespuestaDiasFeri
     private final ConsultasDiasFeriados consulta;
     private final MantenimientosDiasFeriados mantenimiento;
     
+    /**
+     * Inicializa el servicio con sus dependencias principales.
+     * @param consulta parametro de entrada de la operacion.
+     * @param mantenimiento parametro de entrada de la operacion.
+     */
     public ServicioDiasFeriados(ConsultasDiasFeriados consulta, MantenimientosDiasFeriados mantenimiento) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
@@ -177,6 +182,11 @@ public class ServicioDiasFeriados implements ServicioInterface<RespuestaDiasFeri
     
     // ==================== MÉTODOS DE CONVERSIÓN ====================
     
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     @Override
     public DiasFeriados deSolicitudDtoAEntidad(SolicitudDiasFeriadosDTO solicitud) {
         if (solicitud == null) {
@@ -191,6 +201,11 @@ public class ServicioDiasFeriados implements ServicioInterface<RespuestaDiasFeri
                 .build();
     }
     
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     @Override
     public RespuestaDiasFeriadosDTO deEntidadDtoARespuesta(DiasFeriados entidad) {
         if (entidad == null) {
@@ -207,6 +222,11 @@ public class ServicioDiasFeriados implements ServicioInterface<RespuestaDiasFeri
         return respuesta;
     }
     
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     @Override
     public List<RespuestaDiasFeriadosDTO> deListaEntidadADto(List<DiasFeriados> entidades) {
         return entidades.stream()

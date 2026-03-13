@@ -23,11 +23,21 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
     private final ConsultasConfiguracionRentas consulta;
     private final MantenimientosConfiguracionRenta mantenimiento;
 
+    /**
+     * Inicializa el servicio con sus dependencias principales.
+     * @param consulta parametro de entrada de la operacion.
+     * @param mantenimiento parametro de entrada de la operacion.
+     */
     public ServicioConfiguracionRenta(ConsultasConfiguracionRentas consulta, MantenimientosConfiguracionRenta mantenimiento) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaConfiguracionRentaDTO obtenerPorId(Long id) {
         ConfiguracionRenta configuracionRenta = consulta.obtenerPorId(id);
         if(configuracionRenta == null){
@@ -38,12 +48,21 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
         return deEntidadDtoARespuesta(configuracionRenta);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaConfiguracionRentaDTO> obtenerTodos() {
         List<ConfiguracionRenta> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todas las configuraciones de renta. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaConfiguracionRentaDTO guardar(SolicitudConfiguracionRentaDTO entidad) {
         ConfiguracionRenta nuevaConfiguracionRenta = deSolicitudDtoAEntidad(entidad);
         ConfiguracionRenta configuracionRentaGuardada = mantenimiento.crear(nuevaConfiguracionRenta);
@@ -51,6 +70,12 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
         return deEntidadDtoARespuesta(configuracionRentaGuardada);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaConfiguracionRentaDTO actualizar(Long id, SolicitudConfiguracionRentaDTO entidad) {
         ConfiguracionRenta configuracionRentaExistente = consulta.obtenerPorId(id);
         if(configuracionRentaExistente == null){
@@ -65,11 +90,20 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
         return deEntidadDtoARespuesta(configuracionRentaActualizada);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado la configuración de renta con ID: " + id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public ConfiguracionRenta deSolicitudDtoAEntidad(SolicitudConfiguracionRentaDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad ConfiguracionRenta.");
@@ -85,6 +119,11 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
         return configuracionRenta;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaConfiguracionRentaDTO deEntidadDtoARespuesta(ConfiguracionRenta entidad) {
         if(entidad == null){
             log.warn("La entidad ConfiguracionRenta es nula, no se puede convertir a DTO de respuesta.");
@@ -99,6 +138,11 @@ public class ServicioConfiguracionRenta implements ServicioInterface<RespuestaCo
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaConfiguracionRentaDTO> deListaEntidadADto(List<ConfiguracionRenta> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)

@@ -19,6 +19,13 @@ public class ServicioEmail {
     @Value("${spring.mail.username}")
     private String fromEmail;
     
+    /**
+     * Envia la informacion solicitada.
+     * @param destinatario parametro de entrada de la operacion.
+     * @param nombreCompleto parametro de entrada de la operacion.
+     * @param username parametro de entrada de la operacion.
+     * @param password parametro de entrada de la operacion.
+     */
     public void enviarCredenciales(String destinatario, String nombreCompleto, String username, String password) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
@@ -40,6 +47,13 @@ public class ServicioEmail {
         }
     }
     
+    /**
+     * Ejecuta la logica principal de construirEmailHtml.
+     * @param nombreCompleto parametro de entrada de la operacion.
+     * @param username parametro de entrada de la operacion.
+     * @param password parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private String construirEmailHtml(String nombreCompleto, String username, String password) {
         return String.format("""
             <!DOCTYPE html>

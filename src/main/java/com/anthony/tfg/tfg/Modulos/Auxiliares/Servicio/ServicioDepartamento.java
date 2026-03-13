@@ -23,11 +23,21 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
     private final ConsultasDepartamentos consulta;
     private final MantenimientosDepartamentos mantenimiento;
 
+    /**
+     * Inicializa el servicio con sus dependencias principales.
+     * @param consulta parametro de entrada de la operacion.
+     * @param mantenimiento parametro de entrada de la operacion.
+     */
     public ServicioDepartamento(ConsultasDepartamentos consulta, MantenimientosDepartamentos mantenimiento) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaDepartamentoDTO obtenerPorId(Long id) {
         Departamento departamento = consulta.obtenerPorId(id);
         if(departamento == null){
@@ -38,12 +48,21 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
         return deEntidadDtoARespuesta(departamento);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaDepartamentoDTO> obtenerTodos() {
         List<Departamento> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todos los departamentos. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaDepartamentoDTO guardar(SolicitudDepartamentoDTO entidad) {
         Departamento nuevoDepartamento = deSolicitudDtoAEntidad(entidad);
         Departamento departamentoGuardado = mantenimiento.crear(nuevoDepartamento);
@@ -51,6 +70,12 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
         return deEntidadDtoARespuesta(departamentoGuardado);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaDepartamentoDTO actualizar(Long id, SolicitudDepartamentoDTO entidad) {
         Departamento departamentoExistente = consulta.obtenerPorId(id);
         if(departamentoExistente == null){
@@ -63,11 +88,20 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
         return deEntidadDtoARespuesta(departamentoActualizado);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado el departamento con ID: " + id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Departamento deSolicitudDtoAEntidad(SolicitudDepartamentoDTO solicitud) {
         if (solicitud == null) {
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad Departamento.");
@@ -81,6 +115,11 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
         return departamento;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaDepartamentoDTO deEntidadDtoARespuesta(Departamento entidad) {
         if (entidad == null) {
             log.warn("La entidad Departamento es nula, no se puede convertir a DTO de respuesta.");
@@ -92,6 +131,11 @@ public class ServicioDepartamento implements ServicioInterface<RespuestaDepartam
         );
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaDepartamentoDTO> deListaEntidadADto(List<Departamento> entidades) {
         return entidades.stream()
                         .map(this::deEntidadDtoARespuesta)

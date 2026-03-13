@@ -64,6 +64,11 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         this.servicioRegistroAsistencia = servicioRegistroAsistencia;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaEvaluacionDeDesempenoDTO obtenerPorId(Long id) {
         EvaluacionDeDesempeno evaluacion = consulta.obtenerPorId(id);
         if(evaluacion == null){
@@ -74,12 +79,21 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         return deEntidadDtoARespuesta(evaluacion);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaEvaluacionDeDesempenoDTO> obtenerTodos() {
         List<EvaluacionDeDesempeno> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todas las evaluaciones. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param empleadoId parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public java.util.List<RespuestaEvaluacionDeDesempenoDTO> obtenerPorEmpleado(Long empleadoId) {
         java.util.List<EvaluacionDeDesempeno> entidades = consulta.obtenerPorEmpleadoId(empleadoId);
         if (entidades == null || entidades.isEmpty()) {
@@ -90,6 +104,11 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaEvaluacionDeDesempenoDTO guardar(SolicitudEvaluacionDeDesempenoDTO entidad) {
         // Authorization: only JEFE, HR or ADMIN can create evaluations
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -147,6 +166,11 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         return deEntidadDtoARespuesta(evaluacionGuardada);
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param idDepartamento parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public ResumenEvaluacionesDepartamentoDTO obtenerResumenDepartamento(Long idDepartamento) {
         // Validate department exists
         Departamento departamento = departamentoRepositorio.findById(idDepartamento)
@@ -184,6 +208,11 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
     }
 
     // Helper to obtain Empleados entity from authenticated User
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param user parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private Empleados obtenerEmpleadoDesdeUsuario(User user) {
         Empleados empleado = user.getEmpleado();
         if (empleado == null) {
@@ -193,6 +222,10 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         return empleado;
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @return resultado de la operacion.
+     */
     public java.util.List<EmpleadoEvaluacionResumenDTO> obtenerEmpleadosMisDepartamentos() {
         java.util.List<Long> departamentos = servicioRegistroAsistencia.obtenerDepartamentosAccesibles();
         java.util.Map<Long, EmpleadoEvaluacionResumenDTO> mapa = new java.util.HashMap<>();
@@ -205,6 +238,12 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         return new java.util.ArrayList<>(mapa.values());
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaEvaluacionDeDesempenoDTO actualizar(Long id, SolicitudEvaluacionDeDesempenoDTO entidad) {
         EvaluacionDeDesempeno evaluacionExistente = consulta.obtenerPorId(id);
         if(evaluacionExistente == null){
@@ -227,11 +266,20 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         return deEntidadDtoARespuesta(evaluacionActualizada);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado la evaluación de desempeño con ID: " + id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public EvaluacionDeDesempeno deSolicitudDtoAEntidad(SolicitudEvaluacionDeDesempenoDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad EvaluacionDeDesempeno.");
@@ -257,6 +305,11 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         return evaluacion;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaEvaluacionDeDesempenoDTO deEntidadDtoARespuesta(EvaluacionDeDesempeno entidad) {
         if(entidad == null){
             log.warn("La entidad EvaluacionDeDesempeno es nula, no se puede convertir a DTO de respuesta.");
@@ -280,6 +333,11 @@ public class ServicioEvaluacion implements ServicioInterface<RespuestaEvaluacion
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaEvaluacionDeDesempenoDTO> deListaEntidadADto(List<EvaluacionDeDesempeno> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)

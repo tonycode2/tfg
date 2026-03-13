@@ -58,6 +58,11 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
 
     // ==================== MÉTODOS BÁSICOS (CRUD) ====================
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaIncapacidadesDTO obtenerPorId(Long id) {
         Incapacidades incapacidad = consulta.obtenerPorId(id);
         if (incapacidad == null) {
@@ -68,6 +73,10 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         return deEntidadDtoARespuesta(incapacidad);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaIncapacidadesDTO> obtenerTodos() {
         List<Incapacidades> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todas las incapacidades. La cantidad de registros es: " + entidades.size());
@@ -163,6 +172,12 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         return deEntidadDtoARespuesta(incapacidadGuardada);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaIncapacidadesDTO actualizar(Long id, SolicitudIncapacidadesDTO entidad) {
         Incapacidades incapacidadExistente = consulta.obtenerPorId(id);
         if (incapacidadExistente == null) {
@@ -198,6 +213,10 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         return deEntidadDtoARespuesta(incapacidadActualizada);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         Incapacidades incapacidad = consulta.obtenerPorId(id);
         if (incapacidad == null) {
@@ -215,6 +234,11 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         log.info("Se ha eliminado la incapacidad con ID: " + id);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @param auth parametro de entrada de la operacion.
+     */
     public void eliminar(Long id, Authentication auth) {
         eliminar(id);
     }
@@ -665,6 +689,11 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
 
     // ==================== MÉTODOS DE CONVERSIÓN ====================
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Incapacidades deSolicitudDtoAEntidad(SolicitudIncapacidadesDTO solicitud) {
         if (solicitud == null) {
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad Incapacidades.");
@@ -707,6 +736,11 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         return incapacidad;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaIncapacidadesDTO deEntidadDtoARespuesta(Incapacidades entidad) {
         if (entidad == null) {
             log.warn("La entidad Incapacidades es nula, no se puede convertir a DTO de respuesta.");
@@ -786,12 +820,22 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaIncapacidadesDTO> deListaEntidadADto(List<Incapacidades> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)
                 .toList();
     }
     
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param tipo parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private TipoIncapacidad obtenerTipoIncapacidad(String tipo) {
         try {
             return TipoIncapacidad.valueOf(tipo.toUpperCase());
@@ -800,6 +844,11 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         }
     }
     
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private TipoEntidadEmisora obtenerTipoEntidadEmisora(String entidad) {
         try {
             return TipoEntidadEmisora.valueOf(entidad.toUpperCase());

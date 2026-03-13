@@ -26,12 +26,23 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
     private final MantenimientosAsistencia mantenimiento;
     private final ConsultasEmpleados consultasEmpleados;
 
+    /**
+     * Inicializa el servicio con sus dependencias principales.
+     * @param consulta parametro de entrada de la operacion.
+     * @param mantenimiento parametro de entrada de la operacion.
+     * @param consultasEmpleados parametro de entrada de la operacion.
+     */
     public ServicioAsistencia(ConsultasAsistencias consulta, MantenimientosAsistencia mantenimiento, ConsultasEmpleados consultasEmpleados) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaAsistenciaDTO obtenerPorId(Long id) {
         Asistencia asistencia = consulta.obtenerPorId(id);
         if(asistencia == null){
@@ -42,12 +53,21 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         return deEntidadDtoARespuesta(asistencia);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaAsistenciaDTO> obtenerTodos() {
         List<Asistencia> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todas las asistencias. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaAsistenciaDTO guardar(SolicitudAsistenciaDTO entidad) {
         Asistencia nuevaAsistencia = deSolicitudDtoAEntidad(entidad);
         Asistencia asistenciaGuardada = mantenimiento.crear(nuevaAsistencia);
@@ -55,6 +75,12 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         return deEntidadDtoARespuesta(asistenciaGuardada);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaAsistenciaDTO actualizar(Long id, SolicitudAsistenciaDTO entidad) {
         Asistencia asistenciaExistente = consulta.obtenerPorId(id);
         if(asistenciaExistente == null){
@@ -75,11 +101,20 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         return deEntidadDtoARespuesta(asistenciaActualizada);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado la asistencia con ID: " + id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Asistencia deSolicitudDtoAEntidad(SolicitudAsistenciaDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad Asistencia.");
@@ -103,6 +138,11 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         return asistencia;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaAsistenciaDTO deEntidadDtoARespuesta(Asistencia entidad) {
         if(entidad == null){
             log.warn("La entidad Asistencia es nula, no se puede convertir a DTO de respuesta.");
@@ -124,6 +164,11 @@ public class ServicioAsistencia implements ServicioInterface<RespuestaAsistencia
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaAsistenciaDTO> deListaEntidadADto(List<Asistencia> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)

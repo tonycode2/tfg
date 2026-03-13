@@ -285,6 +285,11 @@ public class ServicioRegistroAsistencia {
         return List.of();
     }
 
+    /**
+     * Valida reglas de negocio antes de continuar.
+     * @param idEmpleado parametro de entrada de la operacion.
+     * @param fecha parametro de entrada de la operacion.
+     */
     private void validarAusenciaAprobada(Long idEmpleado, LocalDate fecha) {
         Optional<JornadaDiaria> jornadaOpt = jornadaDiariaRepositorio.findByEmpleadoIdAndFecha(idEmpleado, fecha);
         if (jornadaOpt.isEmpty()) {

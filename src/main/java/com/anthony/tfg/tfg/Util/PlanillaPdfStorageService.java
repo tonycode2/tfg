@@ -21,6 +21,10 @@ public class PlanillaPdfStorageService {
 
     private final Path fileStorageLocation;
 
+    /**
+     * Inicializa el servicio con sus dependencias principales.
+     * @param uploadDir parametro de entrada de la operacion.
+     */
     public PlanillaPdfStorageService(@Value("${files.planillas-dir:uploads/planillas}") String uploadDir) {
         this.fileStorageLocation = Paths.get(uploadDir).toAbsolutePath().normalize();
         try {
@@ -30,6 +34,12 @@ public class PlanillaPdfStorageService {
         }
     }
 
+    /**
+     * Gestiona el almacenamiento y la recuperacion de archivos.
+     * @param file parametro de entrada de la operacion.
+     * @param detalleId parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public String storePdf(MultipartFile file, Long detalleId) {
         if (file == null || file.isEmpty()) {
             throw new BadRequestException("El archivo PDF es requerido");
@@ -57,6 +67,11 @@ public class PlanillaPdfStorageService {
         }
     }
 
+    /**
+     * Gestiona el almacenamiento y la recuperacion de archivos.
+     * @param fileName parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Resource loadFileAsResource(String fileName) {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
@@ -70,6 +85,10 @@ public class PlanillaPdfStorageService {
         }
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param fileName parametro de entrada de la operacion.
+     */
     public void deleteFile(String fileName) {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();

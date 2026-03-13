@@ -22,6 +22,11 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
+    /**
+     * Gestiona operaciones de autenticacion y seguridad.
+     * @param request parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public AuthResponse login(LoginRequest request) {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
@@ -33,6 +38,11 @@ public class AuthService {
                 .build();
     }
 
+    /**
+     * Gestiona operaciones de autenticacion y seguridad.
+     * @param request parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public AuthResponse register(RegisterRequest request) {
         User user = User.builder()
                 .username(request.getUsername())
@@ -47,6 +57,11 @@ public class AuthService {
                 .build();
     }
     
+    /**
+     * Gestiona operaciones de autenticacion y seguridad.
+     * @param request parametro de entrada de la operacion.
+     * @param username parametro de entrada de la operacion.
+     */
     public void changePassword(ChangePasswordRequest request, String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));

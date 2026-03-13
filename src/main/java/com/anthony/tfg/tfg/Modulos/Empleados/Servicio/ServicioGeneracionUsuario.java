@@ -39,6 +39,12 @@ public class ServicioGeneracionUsuario {
     private static final String CARACTERES_PASSWORD = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
     private static final int LONGITUD_PASSWORD = 12;
     
+    /**
+     * Genera informacion requerida por el proceso.
+     * @param idEmpleado parametro de entrada de la operacion.
+     * @param role parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     @Transactional
     public RespuestaCredencialesDTO generarUsuarioParaEmpleado(Long idEmpleado, Role role) {
         log.info("Iniciando generación de usuario para empleado ID: {}", idEmpleado);
@@ -100,6 +106,12 @@ public class ServicioGeneracionUsuario {
         );
     }
     
+    /**
+     * Genera informacion requerida por el proceso.
+     * @param nombre parametro de entrada de la operacion.
+     * @param apellido parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private String generarUsernameUnico(String nombre, String apellido) {
         // Formato base: primera letra nombre + apellido
         String baseUsername = (nombre.charAt(0) + apellido).toLowerCase()
@@ -117,6 +129,10 @@ public class ServicioGeneracionUsuario {
         return username;
     }
     
+    /**
+     * Genera informacion requerida por el proceso.
+     * @return resultado de la operacion.
+     */
     private String generarPasswordAleatorio() {
         SecureRandom random = new SecureRandom();
         StringBuilder password = new StringBuilder(LONGITUD_PASSWORD);

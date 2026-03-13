@@ -31,6 +31,13 @@ public class LiquidacionesCalculoServicio {
         // this.incapacidadesRepositorio = incapacidadesRepositorio;
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param empleadoId parametro de entrada de la operacion.
+     * @param fechaHasta parametro de entrada de la operacion.
+     * @param meses parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     @Transactional(readOnly = true)
     public double calcularSalarioPromedioPorDia(Long empleadoId, LocalDate fechaHasta, int meses) {
         if (meses <= 0) {
@@ -77,6 +84,12 @@ public class LiquidacionesCalculoServicio {
     //             .sum();
     // }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param empleado parametro de entrada de la operacion.
+     * @param fechaSalida parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public long calcularDiasTotalesAntiguedad(Empleados empleado, LocalDate fechaSalida) {
         LocalDate fechaIngreso = empleado.getFechaIngreso();
         if (fechaIngreso == null) {
@@ -86,6 +99,11 @@ public class LiquidacionesCalculoServicio {
         return ChronoUnit.DAYS.between(fechaIngreso, fechaSalida);
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param diasTotales parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public int calcularDiasPreaviso(long diasTotales) {
         if (diasTotales < 90) {
             return 0;
@@ -98,6 +116,13 @@ public class LiquidacionesCalculoServicio {
         }
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param salarioDiario parametro de entrada de la operacion.
+     * @param diasPreaviso parametro de entrada de la operacion.
+     * @param preaviso_pagado parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public double calcularMontoPreaviso(double salarioDiario, int diasPreaviso, boolean preaviso_pagado) {
         if (!preaviso_pagado) {
             return 0.0;
@@ -105,6 +130,13 @@ public class LiquidacionesCalculoServicio {
         return salarioDiario * diasPreaviso;
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param diasTotales parametro de entrada de la operacion.
+     * @param salarioDiario parametro de entrada de la operacion.
+     * @param motivoSalida parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public double calcularCesantia(long diasTotales, double salarioDiario, MotivoSalida motivoSalida) {
         if (motivoSalida != MotivoSalida.DESPIDO_CON_RESPONSABILIDAD) {
             log.info("Cesantía no aplica para motivo de salida: {}", motivoSalida);
@@ -139,6 +171,11 @@ public class LiquidacionesCalculoServicio {
         return montoCesantia;
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param anio parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private double obtenerDiasCesantiaPorAnio(int anio) {
         return switch (anio) {
             case 1 -> 19.5;
@@ -155,6 +192,12 @@ public class LiquidacionesCalculoServicio {
         };
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param empleadoId parametro de entrada de la operacion.
+     * @param fechaSalida parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     @Transactional(readOnly = true)
     public double calcularAguinaldoProporcional(Long empleadoId, LocalDate fechaSalida) {
         int anioSalida = fechaSalida.getYear();
@@ -175,6 +218,12 @@ public class LiquidacionesCalculoServicio {
         return aguinaldoProporcional;
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param saldoVacaciones parametro de entrada de la operacion.
+     * @param salarioDiario parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public double calcularVacacionesPendientes(int saldoVacaciones, double salarioDiario) {
         double monto = saldoVacaciones * salarioDiario;
         log.info("Vacaciones pendientes: {} días × ₡{} = ₡{}",
@@ -182,6 +231,12 @@ public class LiquidacionesCalculoServicio {
         return monto;
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param salarioDiario parametro de entrada de la operacion.
+     * @param fechaSalida parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public double calcularSalarioProporcional(double salarioDiario, LocalDate fechaSalida) {
         int diaDelMes = fechaSalida.getDayOfMonth();
         double monto = salarioDiario * diaDelMes;

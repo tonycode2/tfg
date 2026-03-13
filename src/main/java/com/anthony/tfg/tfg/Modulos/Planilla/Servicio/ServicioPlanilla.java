@@ -209,6 +209,13 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return dto;
     }
 
+    /**
+     * Ejecuta la logica principal de guardarPdfPlanilla.
+     * @param detalleId parametro de entrada de la operacion.
+     * @param archivo parametro de entrada de la operacion.
+     * @param auth parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     @Transactional
     public RespuestaPlanillaPdfDTO guardarPdfPlanilla(Long detalleId, MultipartFile archivo, Authentication auth) {
         PlanillaDetalle detalle = planillaDetalleRepo.findById(detalleId)
@@ -270,6 +277,11 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                 .body(recurso);
     }
 
+    /**
+     * Valida reglas de negocio antes de continuar.
+     * @param detalle parametro de entrada de la operacion.
+     * @param auth parametro de entrada de la operacion.
+     */
     private void validarAccesoDetalle(PlanillaDetalle detalle, Authentication auth) {
         Object principal = auth.getPrincipal();
         User user = (User) principal;
@@ -285,6 +297,11 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         }
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPlanillaEncabezadoDTO obtenerPorId(Long id) {
         PlanillaEncabezado planilla = consulta.obtenerPorId(id);
         if(planilla == null){
@@ -295,12 +312,21 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return deEntidadDtoARespuesta(planilla);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaPlanillaEncabezadoDTO> obtenerTodos() {
         List<PlanillaEncabezado> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todas las planillas. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPlanillaEncabezadoDTO guardar(SolicitudPlanillaEncabezadoDTO entidad) {
         PlanillaEncabezado nuevaPlanilla = deSolicitudDtoAEntidad(entidad);
         PlanillaEncabezado planillaGuardada = mantenimiento.crear(nuevaPlanilla);
@@ -400,6 +426,12 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
     return deEntidadDtoARespuesta(encabezadoActualizado);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPlanillaEncabezadoDTO actualizar(Long id, SolicitudPlanillaEncabezadoDTO entidad) {
         PlanillaEncabezado planillaExistente = consulta.obtenerPorId(id);
         if(planillaExistente == null){
@@ -426,6 +458,11 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return deEntidadDtoARespuesta(planillaActualizada);
     }
 
+    /**
+     * Ejecuta la logica principal de marcarComoPagada.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     @Transactional
     public RespuestaPlanillaEncabezadoDTO marcarComoPagada(Long id) {
         PlanillaEncabezado planilla = consulta.obtenerPorId(id);
@@ -444,11 +481,20 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return deEntidadDtoARespuesta(planillaActualizada);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado la planilla con ID: " + id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public PlanillaEncabezado deSolicitudDtoAEntidad(SolicitudPlanillaEncabezadoDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad PlanillaEncabezado.");
@@ -481,6 +527,11 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return planilla;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaPlanillaEncabezadoDTO deEntidadDtoARespuesta(PlanillaEncabezado entidad) {
         if(entidad == null){
             log.warn("La entidad PlanillaEncabezado es nula, no se puede convertir a DTO de respuesta.");
@@ -505,12 +556,22 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaPlanillaEncabezadoDTO> deListaEntidadADto(List<PlanillaEncabezado> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)
                 .toList();
     }
     
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param estado parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private EstadoPlanilla obtenerEstadoPlanilla(String estado) {
         try {
             return EstadoPlanilla.valueOf(estado.toUpperCase());
@@ -519,6 +580,11 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         }
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param tipoQuincena parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private TipoQuincena obtenerTipoQuincena(String tipoQuincena) {
         try {
             return TipoQuincena.valueOf(tipoQuincena.toUpperCase());
@@ -527,6 +593,13 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         }
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param anio parametro de entrada de la operacion.
+     * @param mes parametro de entrada de la operacion.
+     * @param tipoQuincena parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private LocalDate calcularFechaInicioPeriodo(int anio, int mes, TipoQuincena tipoQuincena) {
         if (tipoQuincena == TipoQuincena.PRIMERA) {
             return YearMonth.of(anio, mes).minusMonths(1).atEndOfMonth();
@@ -534,6 +607,13 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return LocalDate.of(anio, mes, 15);
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param anio parametro de entrada de la operacion.
+     * @param mes parametro de entrada de la operacion.
+     * @param tipoQuincena parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private LocalDate calcularFechaFinPeriodo(int anio, int mes, TipoQuincena tipoQuincena) {
         if (tipoQuincena == TipoQuincena.PRIMERA) {
             return LocalDate.of(anio, mes, 14);
@@ -542,6 +622,13 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return yearMonth.atEndOfMonth().minusDays(1);
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param anio parametro de entrada de la operacion.
+     * @param mes parametro de entrada de la operacion.
+     * @param tipoQuincena parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private LocalDate calcularFechaPago(int anio, int mes, TipoQuincena tipoQuincena) {
         if (tipoQuincena == TipoQuincena.PRIMERA) {
             return LocalDate.of(anio, mes, 15);
@@ -694,6 +781,11 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return 0.0;
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param empleado parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private double calcularCreditosFiscales(Empleados empleado) {
         int cantidadHijos = empleado != null && empleado.getCantidadDeHijos() != null
                 ? Math.max(0, empleado.getCantidadDeHijos())
@@ -705,6 +797,12 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return creditos;
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @param salario parametro de entrada de la operacion.
+     * @param tramosRenta parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private double calcularImpuestoRenta(double salario, List<ConfiguracionRenta> tramosRenta) {
         if (tramosRenta.isEmpty()) {
             return 0.0;
@@ -770,11 +868,21 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return new ResumenRenta(totalHorasExtra, cantidadDiasFeriados);
     }
 
+    /**
+     * Ejecuta la logica principal de esFinDeSemana.
+     * @param fecha parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private boolean esFinDeSemana(LocalDate fecha) {
         DayOfWeek dia = fecha.getDayOfWeek();
         return dia == DayOfWeek.SATURDAY || dia == DayOfWeek.SUNDAY;
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param jornadas parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private Map<LocalDate, JornadaDiaria> mapearJornadas(List<JornadaDiaria> jornadas) {
         Map<LocalDate, JornadaDiaria> resultado = new HashMap<>();
         for (JornadaDiaria jornada : jornadas) {
@@ -785,6 +893,11 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return resultado;
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param empleado parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private double obtenerSalarioMensual(Empleados empleado) {
         if (empleado == null) {
             return 0.0;
@@ -796,6 +909,11 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return 0.0;
     }
 
+    /**
+     * Ejecuta la logica principal de safe.
+     * @param value parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private double safe(Double value) {
         return value == null ? 0.0 : value;
     }

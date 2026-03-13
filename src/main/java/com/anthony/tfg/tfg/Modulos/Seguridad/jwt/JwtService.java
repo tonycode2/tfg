@@ -23,10 +23,21 @@ public class JwtService {
     @Value("${jwt.secret:${JWT_SECRET:}}")
     private String SECRET_KEY;
 
+    /**
+     * Gestiona operaciones relacionadas con tokens JWT.
+     * @param user parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public String getToken(User user) {
         return getToken(new HashMap<>(), user);
     }
 
+    /**
+     * Gestiona operaciones relacionadas con tokens JWT.
+     * @param extraClaims parametro de entrada de la operacion.
+     * @param user parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private String getToken(HashMap<String, Object> extraClaims, User user) {
         String nombreCompleto = null;
         Long idEmpleado = null;
@@ -52,11 +63,18 @@ public class JwtService {
                 .compact();
     }
 
+    /**
+     * Gestiona operaciones relacionadas con tokens JWT.
+     * @return resultado de la operacion.
+     */
     private SecretKey getKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    /**
+     * Gestiona operaciones relacionadas con tokens JWT.
+     */
     @PostConstruct
     private void checkSecret() {
         if (SECRET_KEY == null || SECRET_KEY.trim().isEmpty()) {
@@ -64,15 +82,31 @@ public class JwtService {
         }
     }
 
+    /**
+     * Gestiona operaciones relacionadas con tokens JWT.
+     * @param token parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public String getUsernameFromToken(String token) {
         return getClaim(token, Claims::getSubject);
     }
 
+    /**
+     * Gestiona operaciones relacionadas con tokens JWT.
+     * @param token parametro de entrada de la operacion.
+     * @param userDetails parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    /**
+     * Gestiona operaciones relacionadas con tokens JWT.
+     * @param token parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private Claims getAllClaims(String token) {
         return Jwts
                 .parser()
@@ -82,15 +116,31 @@ public class JwtService {
                 .getPayload();
     }
 
+    /**
+     * Gestiona operaciones relacionadas con tokens JWT.
+     * @param token parametro de entrada de la operacion.
+     * @param claimsResolver parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public <T> T getClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
+    /**
+     * Ejecuta la logica principal de getExpirationDate.
+     * @param token parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private Date getExpirationDate(String token) {
         return getClaim(token, Claims::getExpiration);
     }
 
+    /**
+     * Gestiona operaciones relacionadas con tokens JWT.
+     * @param token parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private boolean isTokenExpired(String token) {
         return getExpirationDate(token).before(new Date());
     }

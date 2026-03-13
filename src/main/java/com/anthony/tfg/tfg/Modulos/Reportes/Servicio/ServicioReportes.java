@@ -599,6 +599,11 @@ public class ServicioReportes {
     // UTILITY METHODS
     // =====================================================================
 
+    /**
+     * Ejecuta la logica principal de nombreCompleto.
+     * @param emp parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private String nombreCompleto(Empleados emp) {
 	if (emp == null) return "";
 	StringBuilder sb = new StringBuilder();
@@ -608,6 +613,11 @@ public class ServicioReportes {
 	return sb.toString().trim();
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param emp parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private String obtenerNombreDepartamento(Empleados emp) {
 	if (emp == null || emp.getPuesto() == null || emp.getPuesto().getDepartamento() == null) {
 	    return "";
@@ -615,6 +625,11 @@ public class ServicioReportes {
 	return emp.getPuesto().getDepartamento().getNombre();
     }
 
+    /**
+     * Ejecuta la logica principal de clasificarAntiguedad.
+     * @param anios parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private String clasificarAntiguedad(long anios) {
 	if (anios < 1) return "Menos de 1 año";
 	if (anios < 5) return "1-5 años";
@@ -622,10 +637,20 @@ public class ServicioReportes {
 	return "Más de 10 años";
     }
 
+    /**
+     * Ejecuta la logica principal de formatearFechaHora.
+     * @param fechaHora parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private String formatearFechaHora(LocalDateTime fechaHora) {
 	return fechaHora.format(FORMATO_FECHA_HORA_ES);
     }
 
+    /**
+     * Ejecuta la logica principal de safe.
+     * @param value parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private double safe(Double value) {
 	return value == null ? 0.0 : value;
     }

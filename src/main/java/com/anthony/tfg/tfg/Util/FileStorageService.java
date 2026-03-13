@@ -22,6 +22,10 @@ public class FileStorageService {
 
     private final Path fileStorageLocation;
 
+    /**
+     * Inicializa el servicio con sus dependencias principales.
+     * @param uploadDir parametro de entrada de la operacion.
+     */
     public FileStorageService(@Value("${files.upload-dir:uploads/incapacidades}") String uploadDir) {
         this.fileStorageLocation = Paths.get(uploadDir).toAbsolutePath().normalize();
         try {
@@ -31,6 +35,11 @@ public class FileStorageService {
         }
     }
 
+    /**
+     * Gestiona el almacenamiento y la recuperacion de archivos.
+     * @param file parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public String storeFile(MultipartFile file) {
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
         String extension = "";
@@ -51,6 +60,11 @@ public class FileStorageService {
         }
     }
 
+    /**
+     * Gestiona el almacenamiento y la recuperacion de archivos.
+     * @param fileName parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Resource loadFileAsResource(String fileName) {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
@@ -65,6 +79,10 @@ public class FileStorageService {
         }
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param fileName parametro de entrada de la operacion.
+     */
     public void deleteFile(String fileName) {
         try {
             Path filePath = this.fileStorageLocation.resolve(fileName).normalize();

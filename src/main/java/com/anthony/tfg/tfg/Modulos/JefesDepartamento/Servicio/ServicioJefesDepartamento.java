@@ -39,6 +39,11 @@ public class ServicioJefesDepartamento implements ServicioInterface<RespuestaJef
         this.consultasEmpleados = consultasEmpleados;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaJefesDepartamentoDTO obtenerPorId(Long id) {
         JefesDepartamento jefe = consulta.obtenerPorId(id);
         if(jefe == null){
@@ -49,12 +54,21 @@ public class ServicioJefesDepartamento implements ServicioInterface<RespuestaJef
         return deEntidadDtoARespuesta(jefe);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaJefesDepartamentoDTO> obtenerTodos() {
         List<JefesDepartamento> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todos los jefes de departamento. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaJefesDepartamentoDTO guardar(SolicitudJefesDepartamentoDTO entidad) {
         JefesDepartamento nuevoJefe = deSolicitudDtoAEntidad(entidad);
         JefesDepartamento jefeGuardado = mantenimiento.crear(nuevoJefe);
@@ -62,6 +76,12 @@ public class ServicioJefesDepartamento implements ServicioInterface<RespuestaJef
         return deEntidadDtoARespuesta(jefeGuardado);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaJefesDepartamentoDTO actualizar(Long id, SolicitudJefesDepartamentoDTO entidad) {
         JefesDepartamento jefeExistente = consulta.obtenerPorId(id);
         if(jefeExistente == null){
@@ -88,11 +108,20 @@ public class ServicioJefesDepartamento implements ServicioInterface<RespuestaJef
         return deEntidadDtoARespuesta(jefeActualizado);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado el jefe de departamento con ID: " + id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public JefesDepartamento deSolicitudDtoAEntidad(SolicitudJefesDepartamentoDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad JefesDepartamento.");
@@ -123,6 +152,11 @@ public class ServicioJefesDepartamento implements ServicioInterface<RespuestaJef
         return jefe;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaJefesDepartamentoDTO deEntidadDtoARespuesta(JefesDepartamento entidad) {
         if(entidad == null){
             log.warn("La entidad JefesDepartamento es nula, no se puede convertir a DTO de respuesta.");
@@ -150,6 +184,11 @@ public class ServicioJefesDepartamento implements ServicioInterface<RespuestaJef
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaJefesDepartamentoDTO> deListaEntidadADto(List<JefesDepartamento> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)

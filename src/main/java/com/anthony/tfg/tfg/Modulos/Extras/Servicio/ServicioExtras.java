@@ -48,6 +48,11 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         this.jefesDepartamentoRepo = jefesDepartamentoRepo;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaHorasExtraDTO obtenerPorId(Long id) {
         HorasExtra horaExtra = consulta.obtenerPorId(id);
         if(horaExtra == null){
@@ -58,12 +63,21 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return deEntidadDtoARespuesta(horaExtra);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaHorasExtraDTO> obtenerTodos() {
         List<HorasExtra> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todas las horas extra. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaHorasExtraDTO guardar(SolicitudHorasExtraDTO entidad) {
         HorasExtra nuevaHoraExtra = deSolicitudDtoAEntidad(entidad);
         HorasExtra horaExtraGuardada = mantenimiento.crear(nuevaHoraExtra);
@@ -71,6 +85,12 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return deEntidadDtoARespuesta(horaExtraGuardada);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaHorasExtraDTO actualizar(Long id, SolicitudHorasExtraDTO entidad) {
         HorasExtra horaExtraExistente = consulta.obtenerPorId(id);
         if(horaExtraExistente == null){
@@ -103,6 +123,10 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return deEntidadDtoARespuesta(horaExtraActualizada);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado la hora extra con ID: " + id);
@@ -132,6 +156,10 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return deEntidadDtoARespuesta(horaExtraGuardada);
     }
 
+    /**
+     * Valida reglas de negocio antes de continuar.
+     * @param entidad parametro de entrada de la operacion.
+     */
     private void validarSolicitudBasica(SolicitudHorasExtraDTO entidad) {
         if (entidad.getCantidadDeHoras() == null || entidad.getCantidadDeHoras() <= 0) {
             throw new BadRequestException("La cantidad de horas debe ser mayor que cero");
@@ -174,6 +202,11 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         }
     }
 
+    /**
+     * Ejecuta la logica principal de determinarEstadoInicial.
+     * @param empleado parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private EstadoSolicitud determinarEstadoInicial(Empleados empleado) {
         // Si el empleado es jefe asignado -> va directo a RH
         List<JefesDepartamento> listaJefes = jefesDepartamentoRepo.findByEmpleadoIdAndEstaActivoTrue(empleado.getId());
@@ -194,6 +227,12 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     }
 
     // =================== APROBACIONES =====================
+    /**
+     * Aprueba la solicitud segun las reglas definidas.
+     * @param id parametro de entrada de la operacion.
+     * @param auth parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaHorasExtraDTO aprobarPorJefe(Long id, Authentication auth) {
         Empleados jefe = obtenerEmpleadoAutenticado(auth);
         HorasExtra he = consulta.obtenerPorId(id);
@@ -214,6 +253,12 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return deEntidadDtoARespuesta(actualizado);
     }
 
+    /**
+     * Rechaza la solicitud segun las reglas definidas.
+     * @param id parametro de entrada de la operacion.
+     * @param auth parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaHorasExtraDTO rechazarPorJefe(Long id, Authentication auth) {
         Empleados jefe = obtenerEmpleadoAutenticado(auth);
         HorasExtra he = consulta.obtenerPorId(id);
@@ -232,6 +277,12 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return deEntidadDtoARespuesta(actualizado);
     }
 
+    /**
+     * Aprueba la solicitud segun las reglas definidas.
+     * @param id parametro de entrada de la operacion.
+     * @param auth parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaHorasExtraDTO aprobarPorRH(Long id, Authentication auth) {
         User usuario = obtenerUsuarioAutenticado(auth);
         String role = usuario.getRole().name();
@@ -248,6 +299,12 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return deEntidadDtoARespuesta(actualizado);
     }
 
+    /**
+     * Rechaza la solicitud segun las reglas definidas.
+     * @param id parametro de entrada de la operacion.
+     * @param auth parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaHorasExtraDTO rechazarPorRH(Long id, Authentication auth) {
         User usuario = obtenerUsuarioAutenticado(auth);
         String role = usuario.getRole().name();
@@ -264,6 +321,12 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return deEntidadDtoARespuesta(actualizado);
     }
 
+    /**
+     * Ejecuta la logica principal de esJefeDelEmpleado.
+     * @param posibleJefe parametro de entrada de la operacion.
+     * @param empleado parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private boolean esJefeDelEmpleado(Empleados posibleJefe, Empleados empleado) {
         if (posibleJefe == null || empleado == null) return false;
         if (empleado.getPuesto() == null || empleado.getPuesto().getDepartamento() == null) return false;
@@ -272,12 +335,21 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     }
 
     // Email notifications for Horas Extra are intentionally disabled.
+    /**
+     * Envia la informacion solicitada.
+     * @param horaExtra parametro de entrada de la operacion.
+     */
     private void enviarEmailCambioEstado(HorasExtra horaExtra) {
         Long id = horaExtra != null ? horaExtra.getId() : null;
         log.info("Notificación por email deshabilitada para HorasExtra (ID: {})", id);
     }
 
     // =================== HELPERS AUTH ====================
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param auth parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private User obtenerUsuarioAutenticado(Authentication auth) {
         if (auth == null) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -295,6 +367,11 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return (User) principal;
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param auth parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private Empleados obtenerEmpleadoAutenticado(Authentication auth) {
         User user = obtenerUsuarioAutenticado(auth);
         Empleados empleado = user.getEmpleado();
@@ -306,6 +383,11 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return empleado;
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public HorasExtra deSolicitudDtoAEntidad(SolicitudHorasExtraDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad HorasExtra.");
@@ -353,6 +435,11 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return horaExtra;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaHorasExtraDTO deEntidadDtoARespuesta(HorasExtra entidad) {
         if(entidad == null){
             log.warn("La entidad HorasExtra es nula, no se puede convertir a DTO de respuesta.");
@@ -385,12 +472,22 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaHorasExtraDTO> deListaEntidadADto(List<HorasExtra> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)
                 .toList();
     }
     
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param estado parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private EstadoSolicitud obtenerEstadoSolicitud(String estado) {
         try {
             return EstadoSolicitud.valueOf(estado.toUpperCase());
@@ -399,6 +496,11 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         }
     }
     
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param tipo parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private TipoTarifa obtenerTipoTarifa(String tipo) {
         try {
             return TipoTarifa.valueOf(tipo.toUpperCase());

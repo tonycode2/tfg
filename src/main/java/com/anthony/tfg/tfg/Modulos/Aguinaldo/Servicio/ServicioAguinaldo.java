@@ -50,6 +50,11 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         this.aguinaldosRepositorio = aguinaldosRepositorio;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaAguinaldosDTO obtenerPorId(Long id) {
         Aguinaldos aguinaldo = consulta.obtenerPorId(id);
         if(aguinaldo == null){
@@ -60,12 +65,21 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         return deEntidadDtoARespuesta(aguinaldo);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaAguinaldosDTO> obtenerTodos() {
         List<Aguinaldos> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todos los aguinaldos. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaAguinaldosDTO guardar(SolicitudAguinaldosDTO entidad) {
         Aguinaldos nuevoAguinaldo = deSolicitudDtoAEntidad(entidad);
         Aguinaldos aguinaldoGuardado = mantenimiento.crear(nuevoAguinaldo);
@@ -73,6 +87,12 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         return deEntidadDtoARespuesta(aguinaldoGuardado);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaAguinaldosDTO actualizar(Long id, SolicitudAguinaldosDTO entidad) {
         Aguinaldos aguinaldoExistente = consulta.obtenerPorId(id);
         if(aguinaldoExistente == null){
@@ -97,11 +117,19 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         return deEntidadDtoARespuesta(aguinaldoActualizado);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado el aguinaldo con ID: " + id);
     }
 
+    /**
+     * Realiza un calculo de negocio segun los datos de entrada.
+     * @return resultado de la operacion.
+     */
     @Transactional
     public List<RespuestaCalculoAguinaldoDTO> calcularAguinaldos() {
     LocalDate fechaCalculo = LocalDate.now();
@@ -159,6 +187,11 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         .toList();
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Aguinaldos deSolicitudDtoAEntidad(SolicitudAguinaldosDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad Aguinaldos.");
@@ -186,6 +219,11 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         return aguinaldo;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaAguinaldosDTO deEntidadDtoARespuesta(Aguinaldos entidad) {
         if(entidad == null){
             log.warn("La entidad Aguinaldos es nula, no se puede convertir a DTO de respuesta.");
@@ -211,6 +249,11 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaAguinaldosDTO> deListaEntidadADto(List<Aguinaldos> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)

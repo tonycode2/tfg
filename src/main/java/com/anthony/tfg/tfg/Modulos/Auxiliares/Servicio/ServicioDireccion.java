@@ -27,11 +27,21 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
     private final ConsultasDirecciones consulta;
     private final MantenimientosDirecciones mantenimiento;
 
+    /**
+     * Inicializa el servicio con sus dependencias principales.
+     * @param consulta parametro de entrada de la operacion.
+     * @param mantenimiento parametro de entrada de la operacion.
+     */
     public ServicioDireccion(ConsultasDirecciones consulta, MantenimientosDirecciones mantenimiento) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaDireccionDTO obtenerPorId(Long id) {
         var direccion = consulta.obtenerPorId(id);
         if(direccion == null){
@@ -42,12 +52,21 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
         return deEntidadDtoARespuesta(direccion);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaDireccionDTO> obtenerTodos() {
         var entidades = consulta.obtenerTodos();
         log.info("Se obtuvieron {} direcciones", entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaDireccionDTO guardar(SolicitudDireccionDTO entidad) {
         var nuevaDireccion = deSolicitudDtoAEntidad(entidad);
         var direccionGuardada = mantenimiento.crear(nuevaDireccion);
@@ -55,6 +74,12 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
         return deEntidadDtoARespuesta(direccionGuardada);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaDireccionDTO actualizar(Long id, SolicitudDireccionDTO entidad) {
         var direccionExistente = consulta.obtenerPorId(id);
         if(direccionExistente == null){
@@ -70,11 +95,20 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
         return deEntidadDtoARespuesta(direccionActualizada);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Dirección eliminada con ID: {}", id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Direccion deSolicitudDtoAEntidad(SolicitudDireccionDTO solicitud) {
         if(solicitud == null){
             log.warn("DTO de solicitud nulo, no se puede convertir a entidad Direccion");
@@ -89,6 +123,11 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
                     .build();
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaDireccionDTO deEntidadDtoARespuesta(Direccion entidad) {
         if(entidad == null){
             log.warn("Entidad Direccion nula, no se puede convertir a DTO de respuesta");
@@ -103,6 +142,11 @@ public class ServicioDireccion implements ServicioInterface<RespuestaDireccionDT
         );
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaDireccionDTO> deListaEntidadADto(List<Direccion> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)

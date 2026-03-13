@@ -188,6 +188,11 @@ public class ServicioVacaciones {
 
     // ==================== AUTHENTICATION HELPERS ====================
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param auth parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private User obtenerUsuarioAutenticado(Authentication auth) {
         if (auth == null) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -205,6 +210,11 @@ public class ServicioVacaciones {
         return (User) principal;
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param auth parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private Empleados obtenerEmpleadoAutenticado(Authentication auth) {
         User user = obtenerUsuarioAutenticado(auth);
         Empleados empleado = user.getEmpleado();

@@ -43,6 +43,11 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         this.userRepository = userRepository;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaEmpleadosDTO obtenerPorId(Long id) {
         Empleados empleado = consulta.obtenerPorId(id);
         if(empleado == null){
@@ -53,12 +58,21 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         return deEntidadDtoARespuesta(empleado);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaEmpleadosDTO> obtenerTodos() {
         List<Empleados> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todos los empleados. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaEmpleadosDTO guardar(SolicitudEmpleadosDTO entidad) {
         Empleados nuevoEmpleado = deSolicitudDtoAEntidad(entidad);
         Empleados empleadoGuardado = mantenimiento.crear(nuevoEmpleado);
@@ -66,6 +80,12 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         return deEntidadDtoARespuesta(empleadoGuardado);
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaEmpleadosDTO actualizar(Long id, SolicitudEmpleadosDTO entidad) {
         Empleados empleadoExistente = consulta.obtenerPorId(id);
         if(empleadoExistente == null){
@@ -113,11 +133,20 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         return deEntidadDtoARespuesta(empleadoActualizado);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado el empleado con ID: " + id);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public Empleados deSolicitudDtoAEntidad(SolicitudEmpleadosDTO solicitud) {
         if(solicitud == null){
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad Empleados.");
@@ -173,6 +202,11 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         return empleado;
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaEmpleadosDTO deEntidadDtoARespuesta(Empleados entidad) {
         if(entidad == null){
             log.warn("La entidad Empleados es nula, no se puede convertir a DTO de respuesta.");
@@ -231,12 +265,22 @@ public class ServicioEmpleados implements ServicioInterface<RespuestaEmpleadosDT
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaEmpleadosDTO> deListaEntidadADto(List<Empleados> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)
                 .toList();
     }
     
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param tipo parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private TipoDeJornada obtenerTipoDeJornada(String tipo) {
         try {
             return TipoDeJornada.valueOf(tipo.toUpperCase());

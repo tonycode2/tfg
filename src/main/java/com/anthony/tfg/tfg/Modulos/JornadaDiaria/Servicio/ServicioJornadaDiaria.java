@@ -75,6 +75,11 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         this.incapacidadesRepositorio = incapacidadesRepositorio;
     }
 
+    /**
+     * Obtiene un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaJornadaDiariaDTO obtenerPorId(Long id) {
         JornadaDiaria jornada = consulta.obtenerPorId(id);
         if (jornada == null) {
@@ -85,12 +90,21 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return deEntidadDtoARespuesta(jornada);
     }
 
+    /**
+     * Obtiene todos los registros disponibles.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaJornadaDiariaDTO> obtenerTodos() {
         List<JornadaDiaria> entidades = consulta.obtenerTodos();
         log.info("Se han obtenido todas las jornadas diarias. La cantidad de registros es: " + entidades.size());
         return deListaEntidadADto(entidades);
     }
 
+    /**
+     * Guarda un nuevo registro.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaJornadaDiariaDTO guardar(SolicitudJornadaDiariaDTO entidad) {
         JornadaDiaria nuevaJornada = deSolicitudDtoAEntidad(entidad);
         JornadaDiaria jornadaGuardada = mantenimiento.crear(nuevaJornada);
@@ -98,6 +112,10 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return deEntidadDtoARespuesta(jornadaGuardada);
     }
 
+    /**
+     * Genera informacion requerida por el proceso.
+     * @param permiso parametro de entrada de la operacion.
+     */
     @Transactional
     public void generarJornadasParaPermiso(Permisos permiso) {
         if (permiso == null) {
@@ -127,6 +145,12 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         );
     }
 
+    /**
+     * Genera informacion requerida por el proceso.
+     * @param incapacidad parametro de entrada de la operacion.
+     * @param fechaInicio parametro de entrada de la operacion.
+     * @param fechaFin parametro de entrada de la operacion.
+     */
     @Transactional
     public void generarJornadasParaIncapacidad(Incapacidades incapacidad, LocalDate fechaInicio, LocalDate fechaFin) {
         if (incapacidad == null) {
@@ -217,6 +241,11 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         }
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param idPermiso parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private int obtenerSiguienteDiaPermiso(Long idPermiso) {
         if (idPermiso == null) {
             return 1;
@@ -225,6 +254,11 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return (maxDia == null || maxDia == 0) ? 1 : maxDia + 1;
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param idIncapacidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private int obtenerSiguienteDiaIncapacidad(Long idIncapacidad) {
         if (idIncapacidad == null) {
             return 1;
@@ -233,6 +267,12 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return (maxDia == null || maxDia == 0) ? 1 : maxDia + 1;
     }
 
+    /**
+     * Actualiza un registro existente.
+     * @param id parametro de entrada de la operacion.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaJornadaDiariaDTO actualizar(Long id, SolicitudJornadaDiariaDTO entidad) {
         JornadaDiaria jornadaExistente = consulta.obtenerPorId(id);
         if (jornadaExistente == null) {
@@ -268,6 +308,10 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return deEntidadDtoARespuesta(jornadaActualizada);
     }
 
+    /**
+     * Elimina un registro por su identificador.
+     * @param id parametro de entrada de la operacion.
+     */
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado la jornada diaria con ID: " + id);
@@ -411,6 +455,11 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return deEntidadDtoARespuesta(jornadaGuardada);
     }
 
+    /**
+     * Convierte un DTO de solicitud a entidad.
+     * @param solicitud parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public JornadaDiaria deSolicitudDtoAEntidad(SolicitudJornadaDiariaDTO solicitud) {
         if (solicitud == null) {
             log.warn("El DTO de solicitud es nulo, no se puede convertir a entidad JornadaDiaria.");
@@ -448,6 +497,11 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
                 .build();
     }
 
+    /**
+     * Convierte una entidad a DTO de respuesta.
+     * @param entidad parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public RespuestaJornadaDiariaDTO deEntidadDtoARespuesta(JornadaDiaria entidad) {
         if (entidad == null) {
             log.warn("La entidad JornadaDiaria es nula, no se puede convertir a DTO.");
@@ -484,6 +538,11 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return respuesta;
     }
 
+    /**
+     * Convierte una lista de entidades a DTOs de respuesta.
+     * @param entidades parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     public List<RespuestaJornadaDiariaDTO> deListaEntidadADto(List<JornadaDiaria> entidades) {
         return entidades.stream()
                 .map(this::deEntidadDtoARespuesta)
@@ -611,6 +670,12 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return respuesta;
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @param idEmpleado parametro de entrada de la operacion.
+     * @param fecha parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
     private Permisos obtenerPermisoHorasAprobado(Long idEmpleado, LocalDate fecha) {
         List<Permisos> permisosHoras = permisosRepositorio.findPermisosHorasAprobadosEnFecha(idEmpleado, fecha);
         if (permisosHoras == null || permisosHoras.isEmpty()) {
@@ -619,6 +684,10 @@ public class ServicioJornadaDiaria implements ServicioInterface<RespuestaJornada
         return permisosHoras.get(0);
     }
 
+    /**
+     * Obtiene informacion necesaria para la operacion.
+     * @return resultado de la operacion.
+     */
     private Empleados obtenerEmpleadoAutenticado() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         
