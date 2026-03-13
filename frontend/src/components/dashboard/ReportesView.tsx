@@ -245,144 +245,153 @@ export function ReportesView() {
           <CardTitle>Reportes</CardTitle>
           <CardDescription>Seleccione y descargue los reportes disponibles en PDF.</CardDescription>
         </CardHeader>
-        <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="space-y-2">
-            <div className="text-sm font-medium">Planilla</div>
-            <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
-              <Select value={planillaMes} onValueChange={setPlanillaMes} disabled={cargandoPlanillas}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Mes" />
-                </SelectTrigger>
-                <SelectContent>
-                  {monthOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 gap-4 xl:grid-cols-2">
+            <div className="space-y-4 rounded-xl border bg-card/40 p-4">
+              <div>
+                <h3 className="text-base font-semibold">Planilla</h3>
+                <p className="text-sm text-muted-foreground">Filtre por mes y quincena para descargar la planilla.</p>
+              </div>
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                <Select value={planillaMes} onValueChange={setPlanillaMes} disabled={cargandoPlanillas}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Mes" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {monthOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-              <Select value={planillaQuincena} onValueChange={setPlanillaQuincena} disabled={cargandoPlanillas}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Tipo quincena" />
-                </SelectTrigger>
-                <SelectContent>
-                  {quincenaOptions.map((quincena) => (
-                    <SelectItem key={quincena} value={quincena}>
-                      {formatQuincenaLabel(quincena)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              {/* Planilla dropdown removed: month + tipo quincena determine the planilla */}
-            </div>
-            <Button
-              onClick={() => handleDownload(() => reportesService.planilla(Number(planillaId)))}
-              disabled={!planillaId}
-            >
-              Descargar Planilla
-            </Button>
-          </div>
-
-          <div className="space-y-2">
-            <div className="text-sm font-medium">Colilla de pago</div>
-            <div className="grid grid-cols-1 gap-2 md:grid-cols-4">
-              <Select value={colillaMes} onValueChange={setColillaMes} disabled={cargandoPlanillas}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Mes" />
-                </SelectTrigger>
-                <SelectContent>
-                  {monthOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <Select value={colillaQuincena} onValueChange={setColillaQuincena} disabled={cargandoPlanillas}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Tipo quincena" />
-                </SelectTrigger>
-                <SelectContent>
-                  {quincenaOptions.map((quincena) => (
-                    <SelectItem key={quincena} value={quincena}>
-                      {formatQuincenaLabel(quincena)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              {/* Planilla dropdown removed: month + tipo quincena determine the planilla */}
-
-              <Select
-                value={colillaDetalleId}
-                onValueChange={setColillaDetalleId}
-                disabled={!colillaPlanillaId || cargandoColillaDetalles || colillaDetalles.length === 0}
+                <Select value={planillaQuincena} onValueChange={setPlanillaQuincena} disabled={cargandoPlanillas}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Tipo quincena" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {quincenaOptions.map((quincena) => (
+                      <SelectItem key={quincena} value={quincena}>
+                        {formatQuincenaLabel(quincena)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button
+                className="w-full sm:w-auto"
+                onClick={() => handleDownload(() => reportesService.planilla(Number(planillaId)))}
+                disabled={!planillaId}
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Empleado" />
-                </SelectTrigger>
-                <SelectContent>
-                  {colillaDetalles.map((detalle) => (
-                    <SelectItem key={detalle.id} value={String(detalle.id)}>
-                      {formatEmpleado(detalle)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                Descargar Planilla
+              </Button>
             </div>
-            <Button
-              onClick={() => handleDownload(() => reportesService.colilla(Number(colillaDetalleId)))}
-              disabled={!colillaDetalleId}
-            >
-              Descargar Colilla
-            </Button>
-          </div>
 
-          <div className="space-y-2">
-            <div className="text-sm font-medium">Deducciones</div>
-            <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
-              <Select value={deduccionesMes} onValueChange={setDeduccionesMes} disabled={cargandoPlanillas}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Mes" />
-                </SelectTrigger>
-                <SelectContent>
-                  {monthOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            <div className="space-y-4 rounded-xl border bg-card/40 p-4">
+              <div>
+                <h3 className="text-base font-semibold">Colilla de pago</h3>
+                <p className="text-sm text-muted-foreground">Seleccione periodo y empleado para descargar la colilla.</p>
+              </div>
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
+                <Select value={colillaMes} onValueChange={setColillaMes} disabled={cargandoPlanillas}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Mes" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {monthOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-              <Select value={deduccionesQuincena} onValueChange={setDeduccionesQuincena} disabled={cargandoPlanillas}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Tipo quincena" />
-                </SelectTrigger>
-                <SelectContent>
-                  {quincenaOptions.map((quincena) => (
-                    <SelectItem key={quincena} value={quincena}>
-                      {formatQuincenaLabel(quincena)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                <Select value={colillaQuincena} onValueChange={setColillaQuincena} disabled={cargandoPlanillas}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Tipo quincena" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {quincenaOptions.map((quincena) => (
+                      <SelectItem key={quincena} value={quincena}>
+                        {formatQuincenaLabel(quincena)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-              {/* Planilla dropdown removed: month + tipo quincena determine the planilla */}
+                <Select
+                  value={colillaDetalleId}
+                  onValueChange={setColillaDetalleId}
+                  disabled={!colillaPlanillaId || cargandoColillaDetalles || colillaDetalles.length === 0}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Empleado" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {colillaDetalles.map((detalle) => (
+                      <SelectItem key={detalle.id} value={String(detalle.id)}>
+                        {formatEmpleado(detalle)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button
+                className="w-full sm:w-auto"
+                onClick={() => handleDownload(() => reportesService.colilla(Number(colillaDetalleId)))}
+                disabled={!colillaDetalleId}
+              >
+                Descargar Colilla
+              </Button>
             </div>
-            <Button
-              onClick={() => handleDownload(() => reportesService.deducciones(Number(deduccionesPlanillaId)))}
-              disabled={!deduccionesPlanillaId}
-            >
-              Descargar Deducciones
-            </Button>
-          </div>
 
-          <div className="space-y-2">
-            <div className="text-sm font-medium">Liquidación</div>
-            <div className="grid grid-cols-1 gap-2">
+            <div className="space-y-4 rounded-xl border bg-card/40 p-4">
+              <div>
+                <h3 className="text-base font-semibold">Deducciones</h3>
+                <p className="text-sm text-muted-foreground">Descargue deducciones por periodo de planilla.</p>
+              </div>
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                <Select value={deduccionesMes} onValueChange={setDeduccionesMes} disabled={cargandoPlanillas}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Mes" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {monthOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <Select value={deduccionesQuincena} onValueChange={setDeduccionesQuincena} disabled={cargandoPlanillas}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Tipo quincena" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {quincenaOptions.map((quincena) => (
+                      <SelectItem key={quincena} value={quincena}>
+                        {formatQuincenaLabel(quincena)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button
+                className="w-full sm:w-auto"
+                onClick={() => handleDownload(() => reportesService.deducciones(Number(deduccionesPlanillaId)))}
+                disabled={!deduccionesPlanillaId}
+              >
+                Descargar Deducciones
+              </Button>
+            </div>
+
+            <div className="space-y-4 rounded-xl border bg-card/40 p-4">
+              <div>
+                <h3 className="text-base font-semibold">Liquidación</h3>
+                <p className="text-sm text-muted-foreground">Seleccione el empleado liquidado para generar su reporte.</p>
+              </div>
               <Select value={liquidacionId} onValueChange={setLiquidacionId} disabled={cargandoLiquidaciones}>
                 <SelectTrigger>
                   <SelectValue placeholder="Empleado liquidado" />
@@ -395,31 +404,26 @@ export function ReportesView() {
                   ))}
                 </SelectContent>
               </Select>
+              <Button
+                className="w-full sm:w-auto"
+                onClick={() => handleDownload(() => reportesService.liquidacion(Number(liquidacionId)))}
+                disabled={!liquidacionId}
+              >
+                Descargar Liquidación
+              </Button>
             </div>
-            <Button
-              onClick={() => handleDownload(() => reportesService.liquidacion(Number(liquidacionId)))}
-              disabled={!liquidacionId}
-            >
-              Descargar Liquidación
-            </Button>
           </div>
 
-          <div className="space-y-2">
-            <div className="text-sm font-medium">Vacaciones</div>
-            <Button onClick={() => handleDownload(() => reportesService.vacaciones())}>Descargar Vacaciones</Button>
-          </div>
-
-          <div className="space-y-2">
-            <div className="text-sm font-medium">Antigüedad</div>
-            <Button onClick={() => handleDownload(() => reportesService.antiguedad())}>Descargar Antigüedad</Button>
-          </div>
-
-          <div className="space-y-2 col-span-1 md:col-span-2">
-            <div className="text-sm font-medium">Incapacidades (rango)</div>
-            <div className="flex gap-2">
+          <div className="rounded-xl border bg-card/40 p-4">
+            <div className="mb-4">
+              <h3 className="text-base font-semibold">Incapacidades (rango)</h3>
+              <p className="text-sm text-muted-foreground">Seleccione fecha de inicio y fin para descargar incapacidades.</p>
+            </div>
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-[1fr_1fr_auto]">
               <Input type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
               <Input type="date" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
               <Button
+                className="w-full md:w-auto"
                 onClick={() => handleDownload(() => reportesService.incapacidades(fechaInicio, fechaFin))}
                 disabled={!fechaInicio || !fechaFin}
               >
@@ -428,9 +432,30 @@ export function ReportesView() {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <div className="text-sm font-medium">Proyección Cesantía</div>
-            <Button onClick={() => handleDownload(() => reportesService.proyeccionCesantia())}>Descargar Proyección</Button>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="space-y-3 rounded-xl border bg-card/40 p-4">
+              <h3 className="text-base font-semibold">Vacaciones</h3>
+              <p className="text-sm text-muted-foreground">Reporte consolidado de vacaciones.</p>
+              <Button className="w-full sm:w-auto" onClick={() => handleDownload(() => reportesService.vacaciones())}>
+                Descargar Vacaciones
+              </Button>
+            </div>
+
+            <div className="space-y-3 rounded-xl border bg-card/40 p-4">
+              <h3 className="text-base font-semibold">Antigüedad</h3>
+              <p className="text-sm text-muted-foreground">Reporte de años de servicio del personal.</p>
+              <Button className="w-full sm:w-auto" onClick={() => handleDownload(() => reportesService.antiguedad())}>
+                Descargar Antigüedad
+              </Button>
+            </div>
+
+            <div className="space-y-3 rounded-xl border bg-card/40 p-4">
+              <h3 className="text-base font-semibold">Proyección Cesantía</h3>
+              <p className="text-sm text-muted-foreground">Estimación de cesantía del personal activo.</p>
+              <Button className="w-full sm:w-auto" onClick={() => handleDownload(() => reportesService.proyeccionCesantia())}>
+                Descargar Proyección
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>

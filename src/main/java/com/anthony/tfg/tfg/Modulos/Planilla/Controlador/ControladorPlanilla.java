@@ -110,6 +110,13 @@ public class ControladorPlanilla {
         return ResponseEntity.ok(respuesta);
     }
 
+    @PutMapping("/{id}/pagada")
+    @PreAuthorize("hasAnyRole('HR', 'ADMIN')")
+    public ResponseEntity<RespuestaPlanillaEncabezadoDTO> marcarComoPagada(@PathVariable Long id) {
+        RespuestaPlanillaEncabezadoDTO respuesta = servicio.marcarComoPagada(id);
+        return ResponseEntity.ok(respuesta);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         servicio.eliminar(id);

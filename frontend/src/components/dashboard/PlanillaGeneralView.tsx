@@ -19,6 +19,8 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ConfirmDialog } from '@/components/ConfirmDialog';
 import { planillasService, type PlanillaEncabezado, type PlanillaDetalleGeneral } from '@/services/apiService';
 import { toast } from 'sonner';
 
@@ -84,6 +86,22 @@ const formatCurrency = (value: number | undefined): string => {
   return `₡${amount.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
 
+const VALID_QUINCENAS = new Set(['PRIMERA', 'SEGUNDA']);
+
+const getPeriodKey = (anio: number, mes: number, tipoQuincena: string): string => {
+  return `${anio}-${mes}-${tipoQuincena}`;
+};
+
+const parseDateParts = (dateString: string | undefined): { anio: number; mes: number } | null => {
+  if (!dateString) return null;
+  const date = new Date(`${dateString}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return null;
+  return {
+    anio: date.getFullYear(),
+    mes: date.getMonth() + 1,
+  };
+};
+
 const getEstadoBadge = (estado: string | undefined): string => {
   if (!estado) return 'bg-gray-100 text-gray-800';
   
@@ -130,6 +148,40 @@ export function PlanillaGeneralView() {
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [paginatedPlanillas, setPaginatedPlanillas] = useState<PlanillaEncabezado[]>([]);
+  const [payingPlanillaId, setPayingPlanillaId] = useState<number | null>(null);
+  const [planillaPendientePago, setPlanillaPendientePago] = useState<PlanillaEncabezado | null>(null);
+
+  const existingPeriods = new Set(
+    planillas
+      .map((planilla) => {
+        const tipo = (planilla.tipoQuincena || '').toUpperCase();
+        if (!VALID_QUINCENAS.has(tipo)) return null;
+        const parts = parseDateParts(planilla.fechaPago);
+        if (!parts) return null;
+        return getPeriodKey(parts.anio, parts.mes, tipo);
+      })
+      .filter((key): key is string => key !== null),
+  );
+
+  const selectedMonth = Number(mes);
+  const isMonthSelected = Number.isInteger(selectedMonth) && selectedMonth >= 1 && selectedMonth <= 12;
+  const primeraExistsForSelection = isMonthSelected
+    ? existingPeriods.has(getPeriodKey(anio, selectedMonth, 'PRIMERA'))
+    : false;
+  const segundaExistsForSelection = isMonthSelected
+    ? existingPeriods.has(getPeriodKey(anio, selectedMonth, 'SEGUNDA'))
+    : false;
+  const selectedCombinationExists =
+    isMonthSelected &&
+    Boolean(tipoQuincena) &&
+    existingPeriods.has(getPeriodKey(anio, selectedMonth, tipoQuincena));
+
+  const monthIsFullyUsed = (month: number): boolean => {
+    return (
+      existingPeriods.has(getPeriodKey(anio, month, 'PRIMERA')) &&
+      existingPeriods.has(getPeriodKey(anio, month, 'SEGUNDA'))
+    );
+  };
 
   useEffect(() => {
     cargarPlanillas();
@@ -240,6 +292,13 @@ export function PlanillaGeneralView() {
       return;
     }
 
+    if (selectedCombinationExists) {
+      toast.error('Esta planilla ya existe', {
+        description: 'Selecciona una quincena que no haya sido creada para este mes y año.',
+      });
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -270,12 +329,52 @@ export function PlanillaGeneralView() {
     }
   };
 
-  const canCreatePlanilla = mes && tipoQuincena && anio && !loading;
+  const canCreatePlanilla = mes && tipoQuincena && anio && !loading && !selectedCombinationExists;
   const totalPages = Math.ceil(planillas.length / pageSize);
 
   const handlePageSizeChange = (newSize: string) => {
     setPageSize(Number(newSize));
     setPage(0);
+  };
+
+  const handleAbrirConfirmacionPago = (planilla: PlanillaEncabezado) => {
+    if (planilla.estadoPlanilla !== 'BORRADOR') {
+      toast.error('Solo se pueden marcar como pagadas las planillas en borrador');
+      return;
+    }
+    setPlanillaPendientePago(planilla);
+  };
+
+  const handleMarcarPagada = async (planilla: PlanillaEncabezado) => {
+    if (typeof planilla.id !== 'number') {
+      toast.error('No se pudo identificar la planilla a actualizar');
+      return;
+    }
+
+    if (planilla.estadoPlanilla !== 'BORRADOR') {
+      toast.error('Solo se pueden marcar como pagadas las planillas en borrador');
+      return;
+    }
+
+    try {
+      setPayingPlanillaId(planilla.id);
+      const planillaActualizada = await planillasService.marcarComoPagada(planilla.id);
+
+      if (selectedPlanilla?.id === planilla.id) {
+        setSelectedPlanilla(planillaActualizada);
+      }
+
+      toast.success('Planilla marcada como pagada');
+      await cargarPlanillas();
+      setPlanillaPendientePago(null);
+    } catch (error: any) {
+      console.error('Error al marcar planilla como pagada:', error);
+      toast.error('Error al marcar como pagada', {
+        description: error.message || 'Ocurrió un error inesperado',
+      });
+    } finally {
+      setPayingPlanillaId(null);
+    }
   };
 
   return (
@@ -316,18 +415,18 @@ export function PlanillaGeneralView() {
                   <SelectValue placeholder="Seleccionar mes" />
                 </SelectTrigger>
                 <SelectContent className="max-h-56 overflow-y-auto">
-                  <SelectItem value="1">Enero</SelectItem>
-                  <SelectItem value="2">Febrero</SelectItem>
-                  <SelectItem value="3">Marzo</SelectItem>
-                  <SelectItem value="4">Abril</SelectItem>
-                  <SelectItem value="5">Mayo</SelectItem>
-                  <SelectItem value="6">Junio</SelectItem>
-                  <SelectItem value="7">Julio</SelectItem>
-                  <SelectItem value="8">Agosto</SelectItem>
-                  <SelectItem value="9">Septiembre</SelectItem>
-                  <SelectItem value="10">Octubre</SelectItem>
-                  <SelectItem value="11">Noviembre</SelectItem>
-                  <SelectItem value="12">Diciembre</SelectItem>
+                  <SelectItem value="1" disabled={monthIsFullyUsed(1)}>Enero</SelectItem>
+                  <SelectItem value="2" disabled={monthIsFullyUsed(2)}>Febrero</SelectItem>
+                  <SelectItem value="3" disabled={monthIsFullyUsed(3)}>Marzo</SelectItem>
+                  <SelectItem value="4" disabled={monthIsFullyUsed(4)}>Abril</SelectItem>
+                  <SelectItem value="5" disabled={monthIsFullyUsed(5)}>Mayo</SelectItem>
+                  <SelectItem value="6" disabled={monthIsFullyUsed(6)}>Junio</SelectItem>
+                  <SelectItem value="7" disabled={monthIsFullyUsed(7)}>Julio</SelectItem>
+                  <SelectItem value="8" disabled={monthIsFullyUsed(8)}>Agosto</SelectItem>
+                  <SelectItem value="9" disabled={monthIsFullyUsed(9)}>Septiembre</SelectItem>
+                  <SelectItem value="10" disabled={monthIsFullyUsed(10)}>Octubre</SelectItem>
+                  <SelectItem value="11" disabled={monthIsFullyUsed(11)}>Noviembre</SelectItem>
+                  <SelectItem value="12" disabled={monthIsFullyUsed(12)}>Diciembre</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -343,8 +442,12 @@ export function PlanillaGeneralView() {
                   <SelectValue placeholder="Seleccionar quincena" />
                 </SelectTrigger>
                 <SelectContent className="max-h-56 overflow-y-auto">
-                  <SelectItem value="PRIMERA">Primera quincena (último día del mes anterior al 14)</SelectItem>
-                  <SelectItem value="SEGUNDA">Segunda quincena (15 al penúltimo día)</SelectItem>
+                  <SelectItem value="PRIMERA" disabled={primeraExistsForSelection}>
+                    Primera quincena (último día del mes anterior al 14)
+                  </SelectItem>
+                  <SelectItem value="SEGUNDA" disabled={segundaExistsForSelection}>
+                    Segunda quincena (15 al penúltimo día)
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -387,6 +490,15 @@ export function PlanillaGeneralView() {
                 </div>
               </div>
             </div>
+          )}
+
+          {selectedCombinationExists && (
+            <Alert>
+              <InfoIcon />
+              <AlertDescription>
+                Ya existe una planilla para este mes, año y quincena. Selecciona otra combinación disponible.
+              </AlertDescription>
+            </Alert>
           )}
 
           <div className="flex justify-end gap-3">
@@ -479,13 +591,23 @@ export function PlanillaGeneralView() {
                           </span>
                         </td>
                         <td className="px-4 py-3">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => setSelectedPlanilla(selectedPlanilla?.id === planilla.id ? null : planilla)}
-                          >
-                            {selectedPlanilla?.id === planilla.id ? 'Ocultar' : 'Ver Detalle'}
-                          </Button>
+                          <div className="flex flex-col gap-2 sm:flex-row">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setSelectedPlanilla(planilla)}
+                            >
+                              Ver Detalle
+                            </Button>
+                            <Button
+                              variant="secondary"
+                              size="sm"
+                              onClick={() => handleAbrirConfirmacionPago(planilla)}
+                              disabled={planilla.estadoPlanilla !== 'BORRADOR' || payingPlanillaId === planilla.id}
+                            >
+                              {payingPlanillaId === planilla.id ? 'Actualizando...' : 'Pagado'}
+                            </Button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -532,145 +654,173 @@ export function PlanillaGeneralView() {
         </CardContent>
       </Card>
 
-      {selectedPlanilla && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Detalle de Planilla #{selectedPlanilla.id}</CardTitle>
-            <CardDescription>
-              Periodo: {formatDate(selectedPlanilla.fechaInicioPeriodo)} al {formatDate(selectedPlanilla.fechaFinPeriodo)}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <h3 className="font-semibold text-lg border-b pb-2">Información General</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">ID de Planilla:</span>
-                    <span className="font-medium">{selectedPlanilla.id}</span>
+      <Dialog open={Boolean(selectedPlanilla)} onOpenChange={(open) => !open && setSelectedPlanilla(null)}>
+        {selectedPlanilla && (
+          <DialogContent className="w-[95vw] max-w-6xl p-0">
+            <div className="max-h-[90vh] overflow-y-auto overscroll-contain p-6 modal-scrollbar">
+              <DialogHeader>
+                <DialogTitle>Detalle de Planilla #{selectedPlanilla.id}</DialogTitle>
+                <DialogDescription>
+                  Periodo: {formatDate(selectedPlanilla.fechaInicioPeriodo)} al {formatDate(selectedPlanilla.fechaFinPeriodo)}
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                  <h3 className="font-semibold text-lg border-b pb-2">Información General</h3>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">ID de Planilla:</span>
+                      <span className="font-medium">{selectedPlanilla.id}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Fecha de Inicio:</span>
+                      <span className="font-medium">{formatDate(selectedPlanilla.fechaInicioPeriodo)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Fecha de Fin:</span>
+                      <span className="font-medium">{formatDate(selectedPlanilla.fechaFinPeriodo)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Fecha de Pago:</span>
+                      <span className="font-medium">{formatDate(selectedPlanilla.fechaPago)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Quincena:</span>
+                      <span className="font-medium">{getQuincenaLabel(selectedPlanilla.tipoQuincena)}</span>
+                    </div>
+                    <div className="flex justify-between pt-2 border-t">
+                      <span className="text-muted-foreground">Estado:</span>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoBadge(selectedPlanilla.estadoPlanilla)}`}>
+                        {getEstadoLabel(selectedPlanilla.estadoPlanilla)}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Fecha de Inicio:</span>
-                    <span className="font-medium">{formatDate(selectedPlanilla.fechaInicioPeriodo)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Fecha de Fin:</span>
-                    <span className="font-medium">{formatDate(selectedPlanilla.fechaFinPeriodo)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Fecha de Pago:</span>
-                    <span className="font-medium">{formatDate(selectedPlanilla.fechaPago)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Quincena:</span>
-                    <span className="font-medium">{getQuincenaLabel(selectedPlanilla.tipoQuincena)}</span>
-                  </div>
-                  <div className="flex justify-between pt-2 border-t">
-                    <span className="text-muted-foreground">Estado:</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getEstadoBadge(selectedPlanilla.estadoPlanilla)}`}>
-                      {getEstadoLabel(selectedPlanilla.estadoPlanilla)}
-                    </span>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="font-semibold text-lg border-b pb-2">Totales</h3>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Total Bruto:</span>
+                      <span className="font-medium">{formatCurrency(selectedPlanilla.totalPlanillaBruto)}</span>
+                    </div>
+                    <div className="flex justify-between pt-2 border-t">
+                      <span className="font-semibold">Total Neto:</span>
+                      <span className="font-semibold text-green-600">{formatCurrency(selectedPlanilla.totalPlanillaNeto)}</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <h3 className="font-semibold text-lg border-b pb-2">Totales</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Total Bruto:</span>
-                    <span className="font-medium">{formatCurrency(selectedPlanilla.totalPlanillaBruto)}</span>
-                  </div>
-                  <div className="flex justify-between pt-2 border-t">
-                    <span className="font-semibold">Total Neto:</span>
-                    <span className="font-semibold text-green-600">{formatCurrency(selectedPlanilla.totalPlanillaNeto)}</span>
-                  </div>
+              <div className="mt-8 space-y-4">
+                <div className="flex items-center justify-between gap-4">
+                  <h3 className="font-semibold text-lg">Detalle por Empleado</h3>
+                  <span className="text-sm text-muted-foreground">
+                    {detallesPlanilla.length} empleados
+                  </span>
                 </div>
+
+                {loadingDetalles ? (
+                  <div className="text-center py-6 text-muted-foreground">Cargando detalles...</div>
+                ) : detallesError ? (
+                  <Alert>
+                    <InfoIcon />
+                    <AlertDescription>{detallesError}</AlertDescription>
+                  </Alert>
+                ) : detallesPlanilla.length === 0 ? (
+                  <Alert>
+                    <InfoIcon />
+                    <AlertDescription>No hay detalles disponibles para esta planilla.</AlertDescription>
+                  </Alert>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-muted">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Empleado</th>
+                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Base</th>
+                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Horas Extra</th>
+                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Incapacidad</th>
+                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Feriados</th>
+                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Devengado</th>
+                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Deducciones</th>
+                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Impuesto Renta</th>
+                          <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Neto</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-card divide-y divide-border">
+                        {detallesPlanilla.map((detalle) => {
+                          const totalDevengado =
+                            (detalle.salarioBasePeriodo || 0) +
+                            (detalle.montoHorasExtra || 0) +
+                            (detalle.montoFeriadosTrabajados || 0) +
+                            (detalle.montoIncapacidad || 0);
+                          const totalDeducciones =
+                            (detalle.deduccionCcssIvm || 0) +
+                            (detalle.deduccionCcssSem || 0) +
+                            (detalle.impuestoDeRenta || 0) +
+                            (detalle.otrasDeducciones || 0);
+                          const salarioNeto = totalDevengado - totalDeducciones;
+                          const nombreCompleto = [
+                            detalle.nombreEmpleado,
+                            detalle.primerApellidoEmpleado,
+                            detalle.segundoApellidoEmpleado,
+                          ]
+                            .filter(Boolean)
+                            .join(' ')
+                            .trim();
+
+                          return (
+                            <tr key={detalle.id} className="hover:bg-muted/50 transition-colors">
+                              <td className="px-4 py-3 font-medium">
+                                {nombreCompleto || 'Empleado'}
+                              </td>
+                              <td className="px-4 py-3">{formatCurrency(detalle.salarioBasePeriodo)}</td>
+                              <td className="px-4 py-3">{formatCurrency(detalle.montoHorasExtra)}</td>
+                              <td className="px-4 py-3">{formatCurrency(detalle.montoIncapacidad)}</td>
+                              <td className="px-4 py-3">{formatCurrency(detalle.montoFeriadosTrabajados)}</td>
+                              <td className="px-4 py-3 font-semibold">{formatCurrency(totalDevengado)}</td>
+                              <td className="px-4 py-3">{formatCurrency(totalDeducciones)}</td>
+                              <td className="px-4 py-3">{formatCurrency(detalle.impuestoDeRenta)}</td>
+                              <td className="px-4 py-3 font-semibold text-green-600">{formatCurrency(salarioNeto)}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </div>
             </div>
+          </DialogContent>
+        )}
+      </Dialog>
 
-            <div className="mt-8 space-y-4">
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="font-semibold text-lg">Detalle por Empleado</h3>
-                <span className="text-sm text-muted-foreground">
-                  {detallesPlanilla.length} empleados
-                </span>
-              </div>
-
-              {loadingDetalles ? (
-                <div className="text-center py-6 text-muted-foreground">Cargando detalles...</div>
-              ) : detallesError ? (
-                <Alert>
-                  <InfoIcon />
-                  <AlertDescription>{detallesError}</AlertDescription>
-                </Alert>
-              ) : detallesPlanilla.length === 0 ? (
-                <Alert>
-                  <InfoIcon />
-                  <AlertDescription>No hay detalles disponibles para esta planilla.</AlertDescription>
-                </Alert>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-muted">
-                      <tr>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Empleado</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Base</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Horas Extra</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Incapacidad</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Feriados</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Total Devengado</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Deducciones</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Impuesto Renta</th>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-muted-foreground">Salario Neto</th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-card divide-y divide-border">
-                      {detallesPlanilla.map((detalle) => {
-                        const totalDevengado =
-                          (detalle.salarioBasePeriodo || 0) +
-                          (detalle.montoHorasExtra || 0) +
-                          (detalle.montoFeriadosTrabajados || 0) +
-                          (detalle.montoIncapacidad || 0);
-                        const totalDeducciones =
-                          (detalle.deduccionCcssIvm || 0) +
-                          (detalle.deduccionCcssSem || 0) +
-                          (detalle.impuestoDeRenta || 0) +
-                          (detalle.otrasDeducciones || 0);
-                        const salarioNeto = totalDevengado - totalDeducciones;
-                        const nombreCompleto = [
-                          detalle.nombreEmpleado,
-                          detalle.primerApellidoEmpleado,
-                          detalle.segundoApellidoEmpleado,
-                        ]
-                          .filter(Boolean)
-                          .join(' ')
-                          .trim();
-
-                        return (
-                          <tr key={detalle.id} className="hover:bg-muted/50 transition-colors">
-                            <td className="px-4 py-3 font-medium">
-                              {nombreCompleto || 'Empleado'}
-                            </td>
-                            <td className="px-4 py-3">{formatCurrency(detalle.salarioBasePeriodo)}</td>
-                            <td className="px-4 py-3">{formatCurrency(detalle.montoHorasExtra)}</td>
-                            <td className="px-4 py-3">{formatCurrency(detalle.montoIncapacidad)}</td>
-                            <td className="px-4 py-3">{formatCurrency(detalle.montoFeriadosTrabajados)}</td>
-                            <td className="px-4 py-3 font-semibold">{formatCurrency(totalDevengado)}</td>
-                            <td className="px-4 py-3">{formatCurrency(totalDeducciones)}</td>
-                            <td className="px-4 py-3">{formatCurrency(detalle.impuestoDeRenta)}</td>
-                            <td className="px-4 py-3 font-semibold text-green-600">{formatCurrency(salarioNeto)}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      <ConfirmDialog
+        isOpen={Boolean(planillaPendientePago)}
+        onClose={() => {
+          if (!payingPlanillaId) {
+            setPlanillaPendientePago(null);
+          }
+        }}
+        onConfirm={() => {
+          if (planillaPendientePago) {
+            void handleMarcarPagada(planillaPendientePago);
+          }
+        }}
+        title="Confirmar pago de planilla"
+        message={
+          planillaPendientePago
+            ? `Esta acción marcará la planilla #${planillaPendientePago.id} como PAGADA. ¿Deseas continuar?`
+            : '¿Deseas marcar esta planilla como pagada?'
+        }
+        confirmText="Marcar como pagada"
+        cancelText="Cancelar"
+        isLoading={Boolean(payingPlanillaId)}
+        confirmVariant="secondary"
+        loadingText="Marcando como pagada..."
+      />
 
     </div>
   );

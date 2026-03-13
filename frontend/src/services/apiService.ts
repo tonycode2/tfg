@@ -566,6 +566,30 @@ export class PlanillasService extends ApiService<PlanillaEncabezado> {
 
     return response.json();
   }
+
+  async marcarComoPagada(planillaId: number): Promise<PlanillaEncabezado> {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_URL}/${this.endpoint}/${planillaId}/pagada`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+        throw new Error('Sesión expirada. Por favor, inicia sesión nuevamente.');
+      }
+
+      const errorData: ErrorResponse = await response.json();
+      throw new Error(errorData.message || 'Error al marcar la planilla como pagada');
+    }
+
+    return response.json();
+  }
 }
 
 export interface DiaFeriado {

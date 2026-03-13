@@ -11,6 +11,8 @@ interface ConfirmDialogProps {
   confirmText?: string;
   cancelText?: string;
   isLoading?: boolean;
+  confirmVariant?: 'default' | 'destructive' | 'secondary' | 'outline' | 'ghost' | 'link';
+  loadingText?: string;
 }
 
 export function ConfirmDialog({
@@ -22,6 +24,8 @@ export function ConfirmDialog({
   confirmText = 'Confirmar',
   cancelText = 'Cancelar',
   isLoading = false,
+  confirmVariant = 'destructive',
+  loadingText = 'Eliminando...',
 }: ConfirmDialogProps) {
   const titleId = useId();
   const descriptionId = useId();
@@ -129,11 +133,11 @@ export function ConfirmDialog({
             {cancelText}
           </Button>
           <Button
-            variant="destructive"
+            variant={confirmVariant}
             onClick={onConfirm}
             disabled={isLoading}
           >
-            {isLoading ? 'Eliminando...' : confirmText}
+            {isLoading ? loadingText : confirmText}
           </Button>
         </div>
       </div>

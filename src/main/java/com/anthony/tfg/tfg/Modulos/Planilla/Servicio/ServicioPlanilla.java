@@ -426,6 +426,24 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         return deEntidadDtoARespuesta(planillaActualizada);
     }
 
+    @Transactional
+    public RespuestaPlanillaEncabezadoDTO marcarComoPagada(Long id) {
+        PlanillaEncabezado planilla = consulta.obtenerPorId(id);
+        if (planilla == null) {
+            log.warn("No se ha encontrado la planilla con ID: {} para marcar como pagada", id);
+            throw new ResourceNotFoundException("PlanillaEncabezado", "id", id);
+        }
+
+        if (planilla.getEstadoPlanilla() != EstadoPlanilla.BORRADOR) {
+            throw new BadRequestException("Solo se pueden marcar como pagadas las planillas en estado BORRADOR");
+        }
+
+        planilla.setEstadoPlanilla(EstadoPlanilla.PAGADA);
+        PlanillaEncabezado planillaActualizada = mantenimiento.actualizar(planilla);
+        log.info("Se marcó como PAGADA la planilla con ID: {}", id);
+        return deEntidadDtoARespuesta(planillaActualizada);
+    }
+
     public void eliminar(Long id) {
         mantenimiento.eliminar(id);
         log.info("Se ha eliminado la planilla con ID: " + id);
