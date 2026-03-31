@@ -56,16 +56,38 @@ export function AguinaldoView() {
   const [error, setError] = useState<string | null>(null);
 
   const currentYear = new Date().getFullYear();
-  const periodoInicio = useMemo(() => new Date(currentYear - 1, 11, 1), [currentYear]);
-  const periodoFin = useMemo(() => new Date(currentYear, 10, 30), [currentYear]);
+  const [selectedYear, setSelectedYear] = useState<number>(currentYear);
+  const [filterYear, setFilterYear] = useState<number | null>(null);
+
+  const periodoInicio = useMemo(() => new Date(selectedYear - 1, 11, 1), [selectedYear]);
+  const periodoFin = useMemo(() => new Date(selectedYear, 10, 30), [selectedYear]);
+
+  // Años disponibles para seleccionar en el cálculo
+  const availableYears = useMemo(() => {
+    return [2026, 2025, 2024];
+  }, []);
+
+  // Obtener años únicos en los datos
+  const yearsInData = useMemo(() => {
+    const years = Array.from(new Set(aguinaldos.map(a => a.anio))).sort((a, b) => b - a);
+    return years;
+  }, [aguinaldos]);
+
+  // Filtrar aguinaldos según el año seleccionado en el filtro
+  const filteredAguinaldos = useMemo(() => {
+    if (filterYear === null) return aguinaldos;
+    return aguinaldos.filter(a => a.anio === filterYear);
+  }, [aguinaldos, filterYear]);
 
   const handleCalcular = async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await calcularAguinaldos();
+      const data = await calcularAguinaldos(selectedYear);
       const aguinaldosArray = Array.isArray(data) ? data : [];
       setAguinaldos(aguinaldosArray);
+      // Establecer el filtro al año recién calculado
+      setFilterYear(selectedYear);
       toast.success('Aguinaldos calculados correctamente');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Error al calcular aguinaldos';
@@ -77,14 +99,14 @@ export function AguinaldoView() {
   };
 
   const totals = useMemo(() => {
-    const totalSalarios = aguinaldos.reduce((sum, item) => sum + (item.totalSalariosDevengados || 0), 0);
-    const totalAguinaldo = aguinaldos.reduce((sum, item) => sum + (item.montoAguinaldo || 0), 0);
+    const totalSalarios = filteredAguinaldos.reduce((sum, item) => sum + (item.totalSalariosDevengados || 0), 0);
+    const totalAguinaldo = filteredAguinaldos.reduce((sum, item) => sum + (item.montoAguinaldo || 0), 0);
     return {
-      empleados: aguinaldos.length,
+      empleados: filteredAguinaldos.length,
       totalSalarios,
       totalAguinaldo,
     };
-  }, [aguinaldos]);
+  }, [filteredAguinaldos]);
 
   const columns: Column<AguinaldoCalculado>[] = [
     {
@@ -118,12 +140,31 @@ export function AguinaldoView() {
             Calculo de Aguinaldo
           </CardTitle>
           <CardDescription>
-            Periodo actual: {periodoInicio.toLocaleDateString('es-CR')} - {periodoFin.toLocaleDateString('es-CR')}
+            Período: {periodoInicio.toLocaleDateString('es-CR')} - {periodoFin.toLocaleDateString('es-CR')}
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div className="text-sm text-muted-foreground">
-            Calcula el aguinaldo con base en la suma de salarios devengados entre diciembre y noviembre.
+          <div className="flex flex-col gap-3 flex-1">
+            <div className="text-sm text-muted-foreground">
+              Calcula el aguinaldo con base en la suma de salarios devengados entre diciembre y noviembre.
+            </div>
+            <div className="flex items-center gap-3">
+              <label htmlFor="year-select" className="text-sm font-medium">
+                Seleccionar año:
+              </label>
+              <select
+                id="year-select"
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                className="px-3 py-2 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+              >
+                {availableYears.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <Button onClick={handleCalcular} disabled={loading} className="gap-2">
             {loading ? 'Calculando...' : 'Calcular aguinaldo'}
@@ -162,11 +203,30 @@ export function AguinaldoView() {
         <CardHeader>
           <CardTitle>Detalle por empleado</CardTitle>
           <CardDescription>
-            Aguinaldos calculados para el periodo vigente.
+            Aguinaldos calculados para el período seleccionado.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <SimpleDataTable data={aguinaldos} columns={columns} />
+        <CardContent className="flex flex-col gap-4">
+          {yearsInData.length > 0 && (
+            <div className="flex items-center gap-3">
+              <label htmlFor="filter-year-select" className="text-sm font-medium">
+                Filtrar por año:
+              </label>
+              <select
+                id="filter-year-select"
+                value={filterYear ?? ''}
+                onChange={(e) => setFilterYear(e.target.value ? Number(e.target.value) : yearsInData[0] ?? null)}
+                className="px-3 py-2 border border-gray-300 rounded-md bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+              >
+                {yearsInData.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          <SimpleDataTable data={filteredAguinaldos} columns={columns} />
         </CardContent>
       </Card>
     </div>

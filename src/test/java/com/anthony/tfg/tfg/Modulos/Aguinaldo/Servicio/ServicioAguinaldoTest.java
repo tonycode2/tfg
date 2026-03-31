@@ -43,7 +43,7 @@ class ServicioAguinaldoTest {
                 planillaDetalleRepositorio,
                 aguinaldosRepositorio);
 
-        var resultado = servicio.calcularAguinaldos();
+        var resultado = servicio.calcularAguinaldos(2026);
 
         assertNotNull(resultado);
         assertTrue(resultado.isEmpty());
@@ -81,7 +81,7 @@ class ServicioAguinaldoTest {
             planillaDetalleRepositorio,
             aguinaldosRepositorio);
 
-        var resultado = servicio.calcularAguinaldos();
+        var resultado = servicio.calcularAguinaldos(2026);
 
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
@@ -121,7 +121,7 @@ class ServicioAguinaldoTest {
             planillaDetalleRepositorio,
             aguinaldosRepositorio);
 
-        var resultado = servicio.calcularAguinaldos();
+        var resultado = servicio.calcularAguinaldos(2026);
 
         assertNotNull(resultado);
         assertEquals(1, resultado.size());

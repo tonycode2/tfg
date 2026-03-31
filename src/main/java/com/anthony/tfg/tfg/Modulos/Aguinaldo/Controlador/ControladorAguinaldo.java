@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaAguinaldosDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaCalculoAguinaldoDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudAguinaldosDTO;
+import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudCalculoAguinaldosDTO;
 import com.anthony.tfg.tfg.Modulos.Aguinaldo.Servicio.ServicioAguinaldo;
 
 import jakarta.validation.Valid;
@@ -66,12 +67,14 @@ public class ControladorAguinaldo {
     }
 
     /** 
+     * @param solicitud
      * @return ResponseEntity<List<RespuestaCalculoAguinaldoDTO>>
      */
     @PostMapping("/calcular")
     @PreAuthorize("hasRole('HR')")
-    public ResponseEntity<List<RespuestaCalculoAguinaldoDTO>> calcularAguinaldos() {
-        List<RespuestaCalculoAguinaldoDTO> respuesta = servicio.calcularAguinaldos();
+    public ResponseEntity<List<RespuestaCalculoAguinaldoDTO>> calcularAguinaldos(
+            @Valid @RequestBody SolicitudCalculoAguinaldosDTO solicitud) {
+        List<RespuestaCalculoAguinaldoDTO> respuesta = servicio.calcularAguinaldos(solicitud.getAnio());
         return ResponseEntity.ok(respuesta);
     }
 

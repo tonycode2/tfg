@@ -49,8 +49,9 @@ const fetchWithAuth = async <T>(url: string, options: RequestInit = {}): Promise
   return response.json();
 };
 
-export const calcularAguinaldos = async (): Promise<AguinaldoCalculado[]> => {
+export const calcularAguinaldos = async (anio: number): Promise<AguinaldoCalculado[]> => {
   return fetchWithAuth<AguinaldoCalculado[]>(`${API_URL}/calcular`, {
     method: 'POST',
+    body: JSON.stringify({ anio }),
   });
 };

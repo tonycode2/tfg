@@ -128,12 +128,12 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
 
     /**
      * Realiza un calculo de negocio segun los datos de entrada.
+     * @param anio el año para calcular el aguinaldo
      * @return resultado de la operacion.
      */
     @Transactional
-    public List<RespuestaCalculoAguinaldoDTO> calcularAguinaldos() {
+    public List<RespuestaCalculoAguinaldoDTO> calcularAguinaldos(int anio) {
     LocalDate fechaCalculo = LocalDate.now();
-    int anio = fechaCalculo.getYear();
     LocalDate fechaInicio = LocalDate.of(anio - 1, 12, 1);
     LocalDate fechaFin = LocalDate.of(anio, 11, 30);
 
