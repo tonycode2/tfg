@@ -56,6 +56,18 @@ public class ControladorAguinaldo {
         return ResponseEntity.ok(lista);
     }
 
+    /**
+     * Obtiene los aguinaldos de un empleado específico.
+     * GET /api/aguinaldos/empleado/{idEmpleado}
+     * @param idEmpleado el ID del empleado
+     * @return ResponseEntity<List<RespuestaAguinaldosDTO>>
+     */
+    @GetMapping("/empleado/{idEmpleado}")
+    public ResponseEntity<List<RespuestaAguinaldosDTO>> obtenerPorEmpleado(@PathVariable Long idEmpleado) {
+        List<RespuestaAguinaldosDTO> lista = servicio.obtenerPorEmpleado(idEmpleado);
+        return ResponseEntity.ok(lista);
+    }
+
     /** 
      * @param solicitud
      * @return ResponseEntity<RespuestaAguinaldosDTO>

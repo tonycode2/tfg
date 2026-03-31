@@ -33,4 +33,14 @@ public class ConsultasAguinaldos implements  ConsultaInterface<Aguinaldos>{
     public List<Aguinaldos> obtenerTodos() {
         return repo.findAll();
     }
+
+    /**
+     * Obtiene los aguinaldos de un empleado específico.
+     * Los resultados se ordenan por año descendente.
+     * @param idEmpleado el ID del empleado
+     * @return Lista de aguinaldos del empleado
+     */
+    public List<Aguinaldos> obtenerPorEmpleadoId(Long idEmpleado) {
+        return repo.findByEmpleadoIdOrderByAnioDesc(idEmpleado);
+    }
 }

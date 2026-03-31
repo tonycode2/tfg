@@ -55,3 +55,7 @@ export const calcularAguinaldos = async (anio: number): Promise<AguinaldoCalcula
     body: JSON.stringify({ anio }),
   });
 };
+
+export const obtenerAguinaldosPorEmpleado = async (idEmpleado: number): Promise<AguinaldoCalculado[]> => {
+  return fetchWithAuth<AguinaldoCalculado[]>(`${API_URL}/empleado/${idEmpleado}`);
+};

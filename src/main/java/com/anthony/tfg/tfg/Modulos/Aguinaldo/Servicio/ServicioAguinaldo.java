@@ -76,6 +76,17 @@ public class ServicioAguinaldo implements ServicioInterface<RespuestaAguinaldosD
     }
 
     /**
+     * Obtiene los aguinaldos de un empleado específico.
+     * @param idEmpleado el ID del empleado
+     * @return lista de aguinaldos del empleado ordenados por año descendente
+     */
+    public List<RespuestaAguinaldosDTO> obtenerPorEmpleado(Long idEmpleado) {
+        List<Aguinaldos> entidades = consulta.obtenerPorEmpleadoId(idEmpleado);
+        log.info("Se han obtenido {} aguinaldos para el empleado con ID: {}", entidades.size(), idEmpleado);
+        return deListaEntidadADto(entidades);
+    }
+
+    /**
      * Guarda un nuevo registro.
      * @param entidad parametro de entrada de la operacion.
      * @return resultado de la operacion.
