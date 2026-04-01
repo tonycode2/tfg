@@ -416,7 +416,7 @@ export function MantenimientosView() {
           {
             key: 'salarioMinimo',
             label: 'Salario Mínimo',
-            render: (value) => `₡${value?.toLocaleString()}`,
+            render: (value) => `₡${value?.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
           },
           { key: 'horaEntrada', label: 'Hora Entrada' },
           { key: 'horaSalida', label: 'Hora Salida' },
@@ -426,12 +426,12 @@ export function MantenimientosView() {
           {
             key: 'montoMinimo',
             label: 'Monto Mínimo',
-            render: (value) => `₡${value?.toLocaleString()}`,
+            render: (value) => `₡${value?.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
           },
           {
             key: 'montoMaximo',
             label: 'Monto Máximo',
-            render: (value) => `₡${value?.toLocaleString()}`,
+            render: (value) => `₡${value?.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
           },
           {
             key: 'porcentaje',
@@ -463,7 +463,7 @@ export function MantenimientosView() {
           {
             key: 'montoAguinaldo',
             label: 'Monto',
-            render: (value) => `₡${value?.toLocaleString()}`,
+            render: (value) => `₡${value?.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
           },
           { key: 'fechaPago', label: 'Fecha Pago' },
         ];
@@ -522,17 +522,17 @@ export function MantenimientosView() {
           {
             key: 'montoPreaviso',
             label: 'Preaviso',
-            render: (value) => `₡${value?.toLocaleString()}`,
+            render: (value) => `₡${value?.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
           },
           {
             key: 'montoCesantia',
             label: 'Cesantía',
-            render: (value) => `₡${value?.toLocaleString()}`,
+            render: (value) => `₡${value?.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
           },
           {
             key: 'totalLiquidacion',
             label: 'Total',
-            render: (value) => `₡${value?.toLocaleString()}`,
+            render: (value) => `₡${value?.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
           },
         ];
       case 'planillas':
@@ -543,12 +543,12 @@ export function MantenimientosView() {
           {
             key: 'totalPlanillaBruto',
             label: 'Total Bruto',
-            render: (value) => `₡${value?.toLocaleString()}`,
+            render: (value) => `₡${value?.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
           },
           {
             key: 'totalPlanillaNeto',
             label: 'Total Neto',
-            render: (value) => `₡${value?.toLocaleString()}`,
+            render: (value) => `₡${value?.toLocaleString('es-CR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
           },
           {
             key: 'estadoPlanilla',

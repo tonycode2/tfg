@@ -41,6 +41,7 @@ public final class ReportesConstantes {
     public static final String TITULO_REPORTE_LIQUIDACIONES = "Reporte de Liquidación";
     public static final String TITULO_REPORTE_INCAPACIDADES = "Reporte de Incapacidades";
     public static final String TITULO_PROYECCION_CESANTIA = "Proyección de Cesantía";
+    public static final String TITULO_REPORTE_AGUINALDO = "Reporte de Aguinaldo";
 
     /** 
      * @param mesesTrabajados

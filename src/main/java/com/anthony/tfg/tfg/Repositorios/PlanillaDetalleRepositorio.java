@@ -19,7 +19,7 @@ public interface PlanillaDetalleRepositorio extends JpaRepository<PlanillaDetall
 
     @Query("""
         SELECT COALESCE(SUM(
-            COALESCE(pd.salarioBasePeriodo, 0) + COALESCE(pd.montoHorasExtra, 0) + COALESCE(pd.montoIncapacidad, 0)
+            COALESCE(pd.salarioBasePeriodo, 0) + COALESCE(pd.montoHorasExtra, 0) + COALESCE(pd.montoFeriadosTrabajados, 0) + COALESCE(pd.montoIncapacidad, 0)
         ), 0)
         FROM PlanillaDetalle pd
         WHERE pd.empleado.id = :empleadoId
@@ -30,4 +30,14 @@ public interface PlanillaDetalleRepositorio extends JpaRepository<PlanillaDetall
             @Param("fechaInicio") LocalDate fechaInicio,
             @Param("fechaFin") LocalDate fechaFin);
 
+    @Query("""
+        SELECT pd FROM PlanillaDetalle pd
+        WHERE pd.empleado.id = :empleadoId
+          AND pd.planillaEncabezado.fechaPago BETWEEN :fechaInicio AND :fechaFin
+        ORDER BY pd.planillaEncabezado.fechaPago ASC
+        """)
+    List<PlanillaDetalle> findByPlanillaEncabezadoIdAndEmpleadoId(
+            @Param("empleadoId") Long empleadoId,
+            @Param("fechaInicio") LocalDate fechaInicio,
+            @Param("fechaFin") LocalDate fechaFin);
 }

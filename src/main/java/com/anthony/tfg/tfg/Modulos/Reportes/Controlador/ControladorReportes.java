@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.ColillaPagoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.ProyeccionCesantiaDTO;
+import com.anthony.tfg.tfg.DTOs.Respuesta.ReporteAguinaldoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.ReporteAntiguedadDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.ReporteDeduccionesDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.ReporteIncapacidadesDTO2;
@@ -96,6 +97,35 @@ public class ControladorReportes {
 
         byte[] pdf = reportePdfGenerator.generarPdf("colilla-pago", Map.of("dto", dto));
         return buildPdfResponse(pdf, "colilla-pago-" + detalleId + ".pdf");
+    }
+
+    /** 
+     * @param empleadoId
+     * @param anio
+     * @param authentication
+     * @return ResponseEntity<byte[]>
+     * @throws Exception
+     */
+    @GetMapping("/aguinaldo/{empleadoId}/{anio}")
+    @PreAuthorize("hasAnyRole('ADMIN','HR','JEFE','EMPLEADO')")
+    public ResponseEntity<byte[]> aguinaldo(@PathVariable Long empleadoId, @PathVariable Integer anio, Authentication authentication) throws Exception {
+        ReporteAguinaldoDTO dto = servicioReportes.generarReporteAguinaldo(empleadoId, anio);
+
+        // If the authenticated user is an EMPLEADO, ensure they can only access their own aguinaldo
+        Object principal = authentication != null ? authentication.getPrincipal() : null;
+        if (principal instanceof User) {
+            User user = (User) principal;
+            String roleName = user.getRole() != null ? user.getRole().name() : "";
+            if ("EMPLEADO".equals(roleName)) {
+                Empleados empleado = user.getEmpleado();
+                if (empleado == null || empleado.getId() == null || !empleado.getId().equals(empleadoId)) {
+                    throw new ForbiddenException("No autorizado para descargar este aguinaldo");
+                }
+            }
+        }
+
+        byte[] pdf = reportePdfGenerator.generarPdf("reporte-aguinaldo", Map.of("dto", dto));
+        return buildPdfResponse(pdf, "reporte-aguinaldo-" + empleadoId + "-" + anio + ".pdf");
     }
 
     /** 

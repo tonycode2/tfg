@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.ColillaPagoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.ProyeccionCesantiaDTO;
+import com.anthony.tfg.tfg.DTOs.Respuesta.ReporteAguinaldoDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.ReporteAntiguedadDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.ReporteDeduccionesDTO;
 import com.anthony.tfg.tfg.DTOs.Respuesta.ReporteIncapacidadesDTO2;
@@ -30,6 +31,7 @@ import com.anthony.tfg.tfg.Repositorios.IncapacidadesRepositorio;
 import com.anthony.tfg.tfg.Repositorios.LiquidacionesRepositorio;
 import com.anthony.tfg.tfg.Repositorios.PlanillaDetalleRepositorio;
 import com.anthony.tfg.tfg.Repositorios.PlanillaEncabezadoRepositorio;
+import com.anthony.tfg.tfg.Repositorios.AguinaldosRepositorio;
 import com.anthony.tfg.tfg.Util.ReportesConstantes;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +49,7 @@ public class ServicioReportes {
     private final PlanillaDetalleRepositorio planillaDetalleRepositorio;
     private final IncapacidadesRepositorio incapacidadesRepositorio;
     private final LiquidacionesRepositorio liquidacionesRepositorio;
+    private final AguinaldosRepositorio aguinaldosRepositorio;
 
 	private static final DateTimeFormatter FORMATO_FECHA_HORA_ES = DateTimeFormatter
 		.ofPattern(ReportesConstantes.FORMATO_FECHA_HORA_REPORTE, Locale.of("es", "CR"));
@@ -55,12 +58,14 @@ public class ServicioReportes {
 			    PlanillaEncabezadoRepositorio planillaEncabezadoRepositorio,
 			    PlanillaDetalleRepositorio planillaDetalleRepositorio,
 			    IncapacidadesRepositorio incapacidadesRepositorio,
-			    LiquidacionesRepositorio liquidacionesRepositorio) {
+			    LiquidacionesRepositorio liquidacionesRepositorio,
+			    AguinaldosRepositorio aguinaldosRepositorio) {
 	this.empleadosRepositorio = empleadosRepositorio;
 	this.planillaEncabezadoRepositorio = planillaEncabezadoRepositorio;
 	this.planillaDetalleRepositorio = planillaDetalleRepositorio;
 	this.incapacidadesRepositorio = incapacidadesRepositorio;
 	this.liquidacionesRepositorio = liquidacionesRepositorio;
+	this.aguinaldosRepositorio = aguinaldosRepositorio;
     }
 
     // =====================================================================
@@ -141,6 +146,86 @@ public class ServicioReportes {
 		.totalBruto(totalBruto)
 		.totalDeducciones(totalDeducciones)
 		.totalNeto(totalNeto)
+		.build();
+    }
+
+    // =====================================================================
+    // 1.5. REPORTE DE AGUINALDO
+    // =====================================================================
+
+    /**
+     * Genera los datos del reporte de aguinaldo para un empleado específico.
+     *
+     * @param empleadoId ID del empleado
+     * @param anio Año del aguinaldo
+     * @return DTO con los datos del reporte de aguinaldo
+     */
+    public ReporteAguinaldoDTO generarReporteAguinaldo(Long empleadoId, Integer anio) {
+	log.info("Generando reporte de aguinaldo para empleado {} y año {}", empleadoId, anio);
+
+	Empleados emp = empleadosRepositorio.findById(empleadoId)
+		.orElseThrow(() -> new ResourceNotFoundException("Empleados", "id", empleadoId));
+
+	com.anthony.tfg.tfg.Entidades.Aguinaldos aguinaldo = aguinaldosRepositorio
+		.findByEmpleadoIdAndAnio(empleadoId, anio)
+		.orElseThrow(() -> new ResourceNotFoundException("Aguinaldos", "empleadoId y anio", 
+			empleadoId + " - " + anio));
+
+	// Obtener planillas del periodo para desglose mensual
+	LocalDate fechaInicio = aguinaldo.getFechaInicioPeriodo().toLocalDate();
+	LocalDate fechaFin = aguinaldo.getFechaFinPeriodo().toLocalDate();
+
+	List<PlanillaDetalle> detallesPeriodo = planillaDetalleRepositorio
+		.findByPlanillaEncabezadoIdAndEmpleadoId(empleadoId, fechaInicio, fechaFin);
+
+	List<ReporteAguinaldoDTO.DetalleMensualAguinaldoDTO> mesesDetalle = new ArrayList<>();
+	java.time.YearMonth actual = java.time.YearMonth.from(fechaInicio);
+	java.time.YearMonth fin = java.time.YearMonth.from(fechaFin);
+
+	while (!actual.isAfter(fin)) {
+	    LocalDate inicioMes = actual.atDay(1);
+	    LocalDate finMes = actual.atEndOfMonth();
+
+	    double salarioBrutoMes = detallesPeriodo.stream()
+		    .filter(d -> {
+			LocalDate fechaPago = d.getPlanillaEncabezado().getFechaPago();
+			return !fechaPago.isBefore(inicioMes) && !fechaPago.isAfter(finMes);
+		    })
+		    .mapToDouble(d -> safe(d.getSalarioBasePeriodo()) 
+			    + safe(d.getMontoHorasExtra()) 
+			    + safe(d.getMontoFeriadosTrabajados())
+			    + safe(d.getMontoIncapacidad()))
+		    .sum();
+
+	    if (salarioBrutoMes > 0) {
+		mesesDetalle.add(ReporteAguinaldoDTO.DetalleMensualAguinaldoDTO.builder()
+			.mes(actual.getMonth().toString())
+			.anioMes(actual.getYear())
+			.mesNumero(actual.getMonthValue())
+			.salarioBruto(salarioBrutoMes)
+			.build());
+	    }
+
+	    actual = actual.plusMonths(1);
+	}
+
+	return ReporteAguinaldoDTO.builder()
+		.nombreEmpresa(ReportesConstantes.NOMBRE_EMPRESA)
+		.tituloReporte(ReportesConstantes.TITULO_REPORTE_AGUINALDO != null 
+			? ReportesConstantes.TITULO_REPORTE_AGUINALDO 
+			: "Reporte de Aguinaldo")
+		.fechaGeneracion(formatearFechaHora(LocalDateTime.now()))
+		.cedula(emp.getCedula())
+		.nombreCompleto(nombreCompleto(emp))
+		.puesto(emp.getPuesto() != null ? emp.getPuesto().getNombre() : "")
+		.departamento(obtenerNombreDepartamento(emp))
+		.fechaInicioPeriodo(fechaInicio)
+		.fechaFinPeriodo(fechaFin)
+		.anio(anio)
+		.mesesDetalle(mesesDetalle)
+		.totalSalariosDevengados(safe(aguinaldo.getTotalSalariosDevengados()))
+		.montoAguinaldo(safe(aguinaldo.getMontoAguinaldo()))
+		.fechaPago(aguinaldo.getFechaPago() != null ? aguinaldo.getFechaPago().toLocalDate() : null)
 		.build();
     }
 

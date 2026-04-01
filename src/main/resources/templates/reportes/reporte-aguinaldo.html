@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="css/reportes.css"/>
+    <title>Reporte de Aguinaldo</title>
+</head>
+<body>
+    <div class="reporte-header">
+        <div class="header-logo">
+            <img src="logo.png" alt="Logo"/>
+        </div>
+        <div class="header-info">
+            <div class="empresa-nombre" th:text="${dto.nombreEmpresa}">Empresa</div>
+            <div class="reporte-titulo" th:text="${dto.tituloReporte}">Reporte</div>
+            <div class="reporte-periodo">
+                Período: <span th:text="${dto.fechaInicioPeriodo}"/> — <span th:text="${dto.fechaFinPeriodo}"/>
+                | Año: <span th:text="${dto.anio}"/>
+            </div>
+        </div>
+        <div class="header-fecha">
+            Generado: <span th:text="${dto.fechaGeneracion}"/>
+        </div>
+    </div>
+
+    <!-- Datos del Empleado -->
+    <div class="section-titulo">Empleado: <span th:text="${dto.nombreCompleto}"/></div>
+
+    <!-- Desglose de Salarios por Mes -->
+    <div class="section-titulo">Salarios Devengados por Mes</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Mes</th>
+                <th class="col-monto">Salario Bruto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="mes : ${dto.mesesDetalle}">
+                <td th:text="${mes.mes} + ', ' + ${mes.anioMes}"></td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(mes.salarioBruto, 1, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="fila-total">
+                <td style="text-align: right; font-weight: bold;">TOTAL PERIODO:</td>
+                <td class="col-monto" th:text="${#numbers.formatDecimal(dto.totalSalariosDevengados, 1, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- Cálculo del Aguinaldo -->
+    <div class="section-titulo">Cálculo del Aguinaldo</div>
+    <div class="seccion-calculo">
+        <div class="calculo-row">
+            <div class="calculo-label">Total de Salarios Devengados (período):</div>
+            <div class="calculo-value" th:text="${#numbers.formatDecimal(dto.totalSalariosDevengados, 1, 'COMMA', 2, 'POINT')}"></div>
+        </div>
+        <div class="calculo-row">
+            <div class="calculo-label">Fórmula de Cálculo:</div>
+            <div class="calculo-value">Total Salarios ÷ 12 meses</div>
+        </div>
+        <div class="calculo-row destac­ado">
+            <div class="calculo-label-grande">Monto de Aguinaldo a Depositar:</div>
+            <div class="calculo-value-grande" th:text="${#numbers.formatDecimal(dto.montoAguinaldo, 1, 'COMMA', 2, 'POINT')}"></div>
+        </div>
+        <div class="calculo-row" th:if="${dto.fechaPago != null}">
+            <div class="calculo-label">Fecha de Pago Programada:</div>
+            <div class="calculo-value" th:text="${dto.fechaPago}"></div>
+        </div>
+    </div>
+
+    <div class="reporte-footer">
+        Generado por el Sistema de Gestión de RH — <span th:text="${dto.nombreEmpresa}"/>
+    </div>
+</body>
+</html>

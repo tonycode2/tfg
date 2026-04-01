@@ -59,3 +59,34 @@ export const calcularAguinaldos = async (anio: number): Promise<AguinaldoCalcula
 export const obtenerAguinaldosPorEmpleado = async (idEmpleado: number): Promise<AguinaldoCalculado[]> => {
   return fetchWithAuth<AguinaldoCalculado[]>(`${API_URL}/empleado/${idEmpleado}`);
 };
+
+export const descargarPdfAguinaldo = async (empleadoId: number, anio: number): Promise<void> => {
+  const token = localStorage.getItem('token');
+  const url = `http://localhost:8080/api/reportes/aguinaldo/${empleadoId}/${anio}`;
+  
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al descargar el PDF');
+    }
+
+    const blob = await response.blob();
+    const urlBlob = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = urlBlob;
+    link.download = `aguinaldo-${empleadoId}-${anio}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(urlBlob);
+  } catch (error) {
+    console.error('Error descargando PDF:', error);
+    throw error;
+  }
+};

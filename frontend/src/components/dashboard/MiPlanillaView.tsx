@@ -7,7 +7,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { authService } from '@/services/authService';
 import {  planillasService, type PlanillaEmpleado } from '@/services/apiService';
-import { obtenerAguinaldosPorEmpleado, type AguinaldoCalculado } from '@/services/aguinaldoService';
+import { obtenerAguinaldosPorEmpleado, type AguinaldoCalculado, descargarPdfAguinaldo } from '@/services/aguinaldoService';
 import { toast } from 'sonner';
 
 const MoneyIcon = () => (
@@ -256,6 +256,21 @@ export function MiPlanillaView() {
     }
   };
 
+  const handlePdfAguinaldo = async (aguinaldo: AguinaldoCalculado) => {
+    setPdfGeneratingId(aguinaldo.id);
+
+    try {
+      await descargarPdfAguinaldo(userInfo.idEmpleado, aguinaldo.anio);
+    } catch (error: any) {
+      console.error('Error al generar PDF:', error);
+      toast.error('Error al generar PDF', {
+        description: error?.message || 'No se pudo generar el reporte de aguinaldo',
+      });
+    } finally {
+      setPdfGeneratingId(null);
+    }
+  };
+
   if (loading) {
     return (
       <Card>
@@ -394,17 +409,27 @@ export function MiPlanillaView() {
                               </span>
                             </td>
                             <td className="px-4 py-3">
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() =>
-                                  setSelectedAguinaldo((current) =>
-                                    current?.id === aguinaldo.id ? null : aguinaldo,
-                                  )
-                                }
-                              >
-                                {selectedAguinaldo?.id === aguinaldo.id ? 'Cerrar detalle' : 'Ver detalle'}
-                              </Button>
+                              <div className="flex flex-col gap-2 sm:flex-row">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() =>
+                                    setSelectedAguinaldo((current) =>
+                                      current?.id === aguinaldo.id ? null : aguinaldo,
+                                    )
+                                  }
+                                >
+                                  {selectedAguinaldo?.id === aguinaldo.id ? 'Cerrar detalle' : 'Ver detalle'}
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="secondary"
+                                  onClick={() => handlePdfAguinaldo(aguinaldo)}
+                                  disabled={pdfGeneratingId === aguinaldo.id}
+                                >
+                                  {pdfGeneratingId === aguinaldo.id ? 'Generando PDF...' : 'PDF'}
+                                </Button>
+                              </div>
                             </td>
                           </tr>
                         );
@@ -600,10 +625,39 @@ export function MiPlanillaView() {
         {selectedAguinaldo && (
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
             <DialogHeader>
-              <DialogTitle>Detalle de Aguinaldo</DialogTitle>
-              <DialogDescription>
-                Período: {formatDate(selectedAguinaldo.fechaInicioPeriodo)} al {formatDate(selectedAguinaldo.fechaFinPeriodo)}
-              </DialogDescription>
+              <div className="flex justify-between items-start gap-4">
+                <div className="flex-1">
+                  <DialogTitle>Detalle de Aguinaldo</DialogTitle>
+                  <DialogDescription>
+                    Período: {formatDate(selectedAguinaldo.fechaInicioPeriodo)} al {formatDate(selectedAguinaldo.fechaFinPeriodo)}
+                  </DialogDescription>
+                </div>
+                <Button
+                  onClick={() => {
+                    if (userInfo.idEmpleado) {
+                      setPdfGeneratingId(selectedAguinaldo.id);
+                      descargarPdfAguinaldo(userInfo.idEmpleado, selectedAguinaldo.anio)
+                        .then(() => {
+                          toast.success('PDF descargado correctamente');
+                          setPdfGeneratingId(null);
+                        })
+                        .catch(() => {
+                          toast.error('Error al descargar el PDF');
+                          setPdfGeneratingId(null);
+                        });
+                    }
+                  }}
+                  disabled={pdfGeneratingId === selectedAguinaldo.id}
+                  variant="outline"
+                  size="sm"
+                  className="gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8m0 8l-4-2m4 2l4-2m-4-2l-4 2m4-2l4 2M9 7l3 5m0 0l3-5m-3 5l-3-5m3 5l3-5" />
+                  </svg>
+                  {pdfGeneratingId === selectedAguinaldo.id ? 'Descargando...' : 'Descargar PDF'}
+                </Button>
+              </div>
             </DialogHeader>
 
             <div className="overflow-y-auto modal-scrollbar flex-1 space-y-6 pr-4">
