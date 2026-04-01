@@ -664,13 +664,6 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         double salarioDiario = salarioMensual / 30.0;
         double salarioHora = salarioDiario / 8.0;
 
-        double basePeriodo = salarioMensual / 2.0;
-        double totalHorasExtra = 0.0;
-        int cantidadDiasFeriados = 0;
-        int cantidadDiasNoTrabajados = 0;
-        int cantidadDiasRebajables = 0;
-        double montoIncapacidad = 0.0;
-
         TipoQuincena tipoQuincena = encabezado.getTipoQuincena();
         YearMonth yearMonth = YearMonth.from(fechaInicio);
         LocalDate inicioMes = yearMonth.atDay(1);
@@ -679,6 +672,18 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
             ? jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(empleado.getId(), inicioMes, finMes)
             : jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(empleado.getId(), fechaInicio, fechaFin);
         Map<LocalDate, JornadaDiaria> jornadasPorFecha = mapearJornadas(jornadas);
+        
+        // Validación: Si no hay jornadas diarias, no hay salario que pagar
+        if (jornadas.isEmpty()) {
+            return crearPlanillaDetalleCero(empleado, encabezado);
+        }
+
+        double basePeriodo = salarioMensual / 2.0;
+        double totalHorasExtra = 0.0;
+        int cantidadDiasFeriados = 0;
+        int cantidadDiasNoTrabajados = 0;
+        int cantidadDiasRebajables = 0;
+        double montoIncapacidad = 0.0;
 
         LocalDate fecha = fechaInicio;
         while (!fecha.isAfter(fechaFin)) {
@@ -954,5 +959,31 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
     private double safe(Double value) {
         return value == null ? 0.0 : value;
     }
+
+    /**
+     * Crea un detalle de planilla con todos los valores en cero
+     * cuando el empleado no tiene jornadas diarias en el período.
+     * 
+     * @param empleado empleado sin jornadas
+     * @param encabezado encabezado de la planilla
+     * @return detalle con valores cero
+     */
+    private PlanillaDetalle crearPlanillaDetalleCero(Empleados empleado, PlanillaEncabezado encabezado) {
+        return PlanillaDetalle.builder()
+                .salarioBasePeriodo(0.0)
+                .cantidadDiasFeriados(0)
+                .cantidadDiasNoTrabajadosEnQuincena(0)
+                .montoHorasExtra(0.0)
+                .montoFeriadosTrabajados(0.0)
+                .montoIncapacidad(0.0)
+                .deduccionCcssIvm(0.0)
+                .deduccionCcssSem(0.0)
+                .impuestoDeRenta(0.0)
+                .otrasDeducciones(0.0)
+                .empleado(empleado)
+                .planillaEncabezado(encabezado)
+                .build();
+    }
+    
 
 }

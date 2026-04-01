@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.ReporteVacacionesDTO;
+import com.anthony.tfg.tfg.Repositorios.AguinaldosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.IncapacidadesRepositorio;
 import com.anthony.tfg.tfg.Repositorios.LiquidacionesRepositorio;
@@ -25,6 +26,7 @@ class ServicioReportesTest {
         PlanillaDetalleRepositorio planillaDetalleRepositorio = mock(PlanillaDetalleRepositorio.class);
         IncapacidadesRepositorio incapacidadesRepositorio = mock(IncapacidadesRepositorio.class);
         LiquidacionesRepositorio liquidacionesRepositorio = mock(LiquidacionesRepositorio.class);
+        AguinaldosRepositorio aguinaldosRepositorio = mock(AguinaldosRepositorio.class);
 
         when(empleadosRepositorio.findByEstaActivoTrue()).thenReturn(List.of());
 
@@ -33,7 +35,8 @@ class ServicioReportesTest {
                 planillaEncabezadoRepositorio,
                 planillaDetalleRepositorio,
                 incapacidadesRepositorio,
-                liquidacionesRepositorio);
+                liquidacionesRepositorio,
+                aguinaldosRepositorio);
 
         ReporteVacacionesDTO reporte = servicio.generarReporteVacaciones();
 
