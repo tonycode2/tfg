@@ -2,6 +2,7 @@ package com.anthony.tfg.tfg.Modulos.Empleados.Servicio;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -203,5 +204,87 @@ public class ServicioEmail {
                 puntuacionFinal != null ? String.format("%.2f", puntuacionFinal) : "N/A",
                 observaciones != null ? observaciones : "-",
                 planDeMejora != null ? planDeMejora : "-");
+    }
+
+    /**
+     * Envia colilla de pago con PDF adjunto.
+     * @param destinatario parametro de entrada de la operacion.
+     * @param nombreCompleto parametro de entrada de la operacion.
+     * @param pdfBytes parametro de entrada de la operacion.
+     * @param nombreArchivo parametro de entrada de la operacion.
+     */
+    public void enviarColillaPago(String destinatario, String nombreCompleto, byte[] pdfBytes, String nombreArchivo) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            
+            helper.setFrom(fromEmail);
+            helper.setTo(destinatario);
+            helper.setSubject("Colilla de Pago - Sistema de Gestión de RH");
+            
+            String contenidoHtml = construirEmailColillaHtml(nombreCompleto);
+            helper.setText(contenidoHtml, true);
+            
+            // Adjuntar el PDF
+            helper.addAttachment(nombreArchivo, new ByteArrayResource(pdfBytes));
+            
+            mailSender.send(message);
+            log.info("Colilla de pago enviada exitosamente a: {}", destinatario);
+            
+        } catch (Exception e) {
+            log.error("Error al enviar colilla de pago a: {}", destinatario, e);
+            throw new RuntimeException("No se pudo enviar la colilla de pago: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Ejecuta la logica principal de construirEmailColillaHtml.
+     * @param nombreCompleto parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
+    private String construirEmailColillaHtml(String nombreCompleto) {
+        return String.format("""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background-color: #3b82f6; color: white; padding: 20px; text-align: center; }
+                    .content { background-color: #f9f9f9; padding: 20px; margin: 20px 0; }
+                    .info-box { background-color: white; padding: 15px; border-left: 4px solid #3b82f6; margin: 15px 0; }
+                    .footer { text-align: center; color: #666; font-size: 12px; margin-top: 20px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>Colilla de Pago</h1>
+                        <p>Sastrería Gerson Andre</p>
+                    </div>
+                    
+                    <div class="content">
+                        <p>Hola <strong>%s</strong>,</p>
+                        
+                        <p>Adjuntamos tu colilla de pago correspondiente a la planilla de este período.</p>
+                        
+                        <div class="info-box">
+                            <p><strong>📎 Archivo adjunto:</strong> colilla-pago.pdf</p>
+                            <p>Por favor, descarga y guarda el archivo para tu registro.</p>
+                        </div>
+                        
+                        <p>Si tienes dudas sobre tu colilla o encuentras alguna discrepancia, contacta al departamento de Recursos Humanos.</p>
+                    </div>
+                    
+                    <div class="footer">
+                        <p><strong>Sastrería Gerson Andre</strong></p>
+                        <p>Este es un correo automático, por favor no respondas a este mensaje.</p>
+                        <p>&copy; 2026 Sistema de Gestión de RH - Todos los derechos reservados</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """, nombreCompleto);
     }
 }

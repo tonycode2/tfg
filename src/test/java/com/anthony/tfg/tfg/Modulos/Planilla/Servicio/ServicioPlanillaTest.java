@@ -33,6 +33,8 @@ import com.anthony.tfg.tfg.Entidades.Enums.TipoQuincena;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasConfiguracionRentas;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPlanillaEncabezado;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPlanillaEncabezados;
+import com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioEmail;
+import com.anthony.tfg.tfg.Modulos.Reportes.Util.ReportePdfGenerator;
 import com.anthony.tfg.tfg.Repositorios.DiasFeriadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.JornadaDiariaRepositorio;
@@ -56,6 +58,8 @@ class ServicioPlanillaTest {
         DiasFeriadosRepositorio diasFeriadosRepositorio = mock(DiasFeriadosRepositorio.class);
         ConsultasConfiguracionRentas consultasConfiguracionRentas = mock(ConsultasConfiguracionRentas.class);
         PlanillaPdfStorageService planillaPdfStorageService = mock(PlanillaPdfStorageService.class);
+        ServicioEmail servicioEmail = mock(ServicioEmail.class);
+        ReportePdfGenerator reportePdfGenerator = mock(ReportePdfGenerator.class);
 
         when(planillaDetalleRepo.findByEmpleadoId(1L)).thenReturn(List.of());
 
@@ -67,7 +71,9 @@ class ServicioPlanillaTest {
                 jornadaDiariaRepositorio,
                 diasFeriadosRepositorio,
                 consultasConfiguracionRentas,
-                planillaPdfStorageService);
+                planillaPdfStorageService,
+                servicioEmail,
+                reportePdfGenerator);
 
         var resultado = servicio.obtenerPlanillasPorEmpleado(1L);
 
@@ -84,10 +90,14 @@ class ServicioPlanillaTest {
         LocalDate finPeriodo = LocalDate.of(2026, 1, 14);
         List<LocalDate> diasLaborablesIncapacidad = primerosDiasLaborables(inicioPeriodo, finPeriodo, 10);
         List<JornadaDiaria> jornadas = crearJornadasIncapacidad(diasLaborablesIncapacidad, TipoEntidadEmisora.CCSS);
+        
+        // Configurar las jornadas con el empleado correcto
+        jornadas.forEach(j -> j.setEmpleado(empleado));
 
         when(fixture.empleadosRepositorio.findByEstaActivoTrue()).thenReturn(List.of(empleado));
-        when(fixture.jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(empleado.getId(), inicioPeriodo, finPeriodo))
+        when(fixture.jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(anyLong(), any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(jornadas);
+        when(fixture.consultasConfiguracionRentas.obtenerTodos()).thenReturn(crearTramosParaRenta8200());
 
         SolicitudGenerarPlanillaDTO solicitud = new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.PRIMERA);
         fixture.servicio.generarPlanilla(solicitud);
@@ -111,10 +121,14 @@ class ServicioPlanillaTest {
         LocalDate finPeriodo = LocalDate.of(2026, 1, 14);
         List<LocalDate> diasLaborablesSinGoce = primerosDiasLaborables(inicioPeriodo, finPeriodo, 4);
         List<JornadaDiaria> jornadas = crearJornadasPermisoSinGoce(diasLaborablesSinGoce);
+        
+        // Configurar las jornadas con el empleado correcto
+        jornadas.forEach(j -> j.setEmpleado(empleado));
 
         when(fixture.empleadosRepositorio.findByEstaActivoTrue()).thenReturn(List.of(empleado));
-        when(fixture.jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(empleado.getId(), inicioPeriodo, finPeriodo))
+        when(fixture.jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(anyLong(), any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(jornadas);
+        when(fixture.consultasConfiguracionRentas.obtenerTodos()).thenReturn(crearTramosParaRenta8200());
 
         SolicitudGenerarPlanillaDTO solicitud = new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.PRIMERA);
         fixture.servicio.generarPlanilla(solicitud);
@@ -137,10 +151,14 @@ class ServicioPlanillaTest {
         List<JornadaDiaria> jornadas = crearJornadasConHorasExtra(
                 List.of(LocalDate.of(2026, 1, 2)),
                 3.0);
+        
+        // Configurar las jornadas con el empleado correcto
+        jornadas.forEach(j -> j.setEmpleado(empleado));
 
         when(fixture.empleadosRepositorio.findByEstaActivoTrue()).thenReturn(List.of(empleado));
         when(fixture.jornadaDiariaRepositorio.findByEmpleadoIdAndFechaBetween(anyLong(), any(LocalDate.class), any(LocalDate.class)))
                 .thenReturn(jornadas);
+        when(fixture.consultasConfiguracionRentas.obtenerTodos()).thenReturn(crearTramosParaRenta8200());
 
         SolicitudGenerarPlanillaDTO solicitud = new SolicitudGenerarPlanillaDTO(1, 2026, TipoQuincena.PRIMERA);
         fixture.servicio.generarPlanilla(solicitud);
@@ -268,6 +286,8 @@ class ServicioPlanillaTest {
         DiasFeriadosRepositorio diasFeriadosRepositorio = mock(DiasFeriadosRepositorio.class);
         ConsultasConfiguracionRentas consultasConfiguracionRentas = mock(ConsultasConfiguracionRentas.class);
         PlanillaPdfStorageService planillaPdfStorageService = mock(PlanillaPdfStorageService.class);
+        ServicioEmail servicioEmail = mock(ServicioEmail.class);
+        ReportePdfGenerator reportePdfGenerator = mock(ReportePdfGenerator.class);
 
         when(consulta.existePlanillaParaPeriodo(any(LocalDate.class), any(LocalDate.class), any(TipoQuincena.class)))
                 .thenReturn(false);
@@ -302,7 +322,9 @@ class ServicioPlanillaTest {
                 jornadaDiariaRepositorio,
                 diasFeriadosRepositorio,
                 consultasConfiguracionRentas,
-                planillaPdfStorageService);
+                planillaPdfStorageService,
+                servicioEmail,
+                reportePdfGenerator);
 
         return new Fixture(servicio,
             empleadosRepositorio,
@@ -435,11 +457,6 @@ class ServicioPlanillaTest {
         return jornadas;
     }
 
-    /** 
-     * @param fechas
-     * @param horasExtra
-     * @return List<JornadaDiaria>
-     */
     private List<JornadaDiaria> crearJornadasConHorasExtra(List<LocalDate> fechas, double horasExtra) {
         List<JornadaDiaria> jornadas = new ArrayList<>();
         for (LocalDate fecha : fechas) {

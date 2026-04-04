@@ -45,7 +45,10 @@ import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPlanillaEncabezado;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPlanillaEncabezados;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
+import com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioEmail;
+import com.anthony.tfg.tfg.Modulos.Reportes.Util.ReportePdfGenerator;
 import com.anthony.tfg.tfg.Repositorios.DiasFeriadosRepositorio;
+import com.anthony.tfg.tfg.Util.ReportesConstantes;
 import com.anthony.tfg.tfg.Repositorios.EmpleadosRepositorio;
 import com.anthony.tfg.tfg.Repositorios.JornadaDiariaRepositorio;
 import com.anthony.tfg.tfg.Repositorios.PlanillaDetalleRepositorio;
@@ -71,6 +74,8 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
     private final DiasFeriadosRepositorio diasFeriadosRepositorio;
     private final ConsultasConfiguracionRentas consultasConfiguracionRentas;
     private final PlanillaPdfStorageService planillaPdfStorageService;
+    private final ServicioEmail servicioEmail;
+    private final ReportePdfGenerator reportePdfGenerator;
 
     public ServicioPlanilla(ConsultasPlanillaEncabezado consulta, 
                            MantenimientosPlanillaEncabezados mantenimiento,
@@ -79,7 +84,9 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
                            JornadaDiariaRepositorio jornadaDiariaRepositorio,
                            DiasFeriadosRepositorio diasFeriadosRepositorio,
                            ConsultasConfiguracionRentas consultasConfiguracionRentas,
-                           PlanillaPdfStorageService planillaPdfStorageService) {
+                           PlanillaPdfStorageService planillaPdfStorageService,
+                           ServicioEmail servicioEmail,
+                           ReportePdfGenerator reportePdfGenerator) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.planillaDetalleRepo = planillaDetalleRepo;
@@ -88,6 +95,8 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         this.diasFeriadosRepositorio = diasFeriadosRepositorio;
         this.consultasConfiguracionRentas = consultasConfiguracionRentas;
         this.planillaPdfStorageService = planillaPdfStorageService;
+        this.servicioEmail = servicioEmail;
+        this.reportePdfGenerator = reportePdfGenerator;
     }
 
     /**
@@ -484,8 +493,183 @@ public class ServicioPlanilla implements ServicioInterface<RespuestaPlanillaEnca
         planilla.setEstadoPlanilla(EstadoPlanilla.PAGADA);
         PlanillaEncabezado planillaActualizada = mantenimiento.actualizar(planilla);
         log.info("Se marcó como PAGADA la planilla con ID: {}", id);
+        
+        // Generar y enviar colillas por correo
+        generarYEnviarColillas(planillaActualizada);
+        
         return deEntidadDtoARespuesta(planillaActualizada);
     }
+
+    /**
+     * Genera y envía colillas de pago por correo.
+     * @param planillaEncabezado parametro de entrada de la operacion.
+     */
+    private void generarYEnviarColillas(PlanillaEncabezado planillaEncabezado) {
+        try {
+            List<PlanillaDetalle> detalles = planillaDetalleRepo.findByPlanillaEncabezadoId(planillaEncabezado.getId());
+            
+            for (PlanillaDetalle detalle : detalles) {
+                try {
+                    Empleados empleado = detalle.getEmpleado();
+                    
+                    // Validar que el empleado tenga correo
+                    if (empleado == null || empleado.getCorreoPersonal() == null || empleado.getCorreoPersonal().isEmpty()) {
+                        log.warn("El empleado con ID: {} no tiene correo registrado, omitiendo envío de colilla", 
+                                empleado != null ? empleado.getId() : "desconocido");
+                        continue;
+                    }
+                    
+                    // Generar PDF de la colilla
+                    byte[] pdfBytes = generarPdfColilla(detalle.getId());
+                    
+                    // Construir nombre completo del empleado
+                    String nombreCompleto = construirNombreCompleto(empleado);
+                    
+                    // Enviar por correo
+                    String nombreArchivo = String.format("colilla-pago-%d.pdf", detalle.getId());
+                    servicioEmail.enviarColillaPago(
+                        empleado.getCorreoPersonal(),
+                        nombreCompleto,
+                        pdfBytes,
+                        nombreArchivo
+                    );
+                    
+                    log.info("Colilla enviada al empleado: {} ({})", nombreCompleto, empleado.getCorreoPersonal());
+                    
+                } catch (Exception e) {
+                    log.error("Error enviando colilla para el detalle ID: {}", detalle.getId(), e);
+                    // No lanzar excepción, continuar con los demás empleados
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error general procesando colillas para la planilla ID: {}", planillaEncabezado.getId(), e);
+            // No lanzar excepción, ya que la planilla ya fue marcada como PAGADA
+        }
+    }
+
+    /**
+     * Genera el PDF de una colilla de pago.
+     * @param detalleId parametro de entrada de la operacion.
+     * @return PDF como byte[]
+     */
+    private byte[] generarPdfColilla(Long detalleId) throws Exception {
+        // Obtener el DTO de colilla de pago
+        // Nota: Esto requiere usar el ServicioReportes, pero para evitar
+        // una dependencia circular, generaremos un map básico con los datos del detalle
+        PlanillaDetalle detalle = planillaDetalleRepo.findById(detalleId).orElse(null);
+        
+        if (detalle == null) {
+            throw new ResourceNotFoundException("PlanillaDetalle", "id", detalleId);
+        }
+        
+        // Crear un mapa con los datos necesarios para la colilla
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("dto", obtenerDatosColilla(detalle));
+        
+        return reportePdfGenerator.generarPdf("colilla-pago", variables);
+    }
+
+    /**
+     * Obtiene los datos necesarios para la colilla desde el detalle.
+     * @param detalle parametro de entrada de la operacion.
+     * @return HashMap con datos de la colilla
+     */
+    private Object obtenerDatosColilla(PlanillaDetalle detalle) {
+        // Crear un objeto con los datos del detalle para la colilla
+        // Este será mapeado al template colilla-pago.html
+        
+        Map<String, Object> datosColilla = new HashMap<>();
+        
+        PlanillaEncabezado encabezado = detalle.getPlanillaEncabezado();
+        Empleados empleado = detalle.getEmpleado();
+        
+        if (encabezado != null && empleado != null) {
+            // Datos generales del reporte
+            datosColilla.put("nombreEmpresa", ReportesConstantes.NOMBRE_EMPRESA);
+            datosColilla.put("tituloReporte", ReportesConstantes.TITULO_COLILLA_PAGO);
+            datosColilla.put("fechaGeneracion", java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+            
+            // Datos del empleado
+            datosColilla.put("idEmpleado", empleado.getId());
+            datosColilla.put("nombreCompleto", construirNombreCompleto(empleado));
+            datosColilla.put("cedula", empleado.getCedula());
+            datosColilla.put("cuentaIban", empleado.getCuentaIban() != null ? empleado.getCuentaIban() : "");
+            
+            if (empleado.getPuesto() != null) {
+                datosColilla.put("puesto", empleado.getPuesto().getNombre());
+            }
+            
+            if (empleado.getPuesto() != null && empleado.getPuesto().getDepartamento() != null) {
+                datosColilla.put("departamento", empleado.getPuesto().getDepartamento().getNombre());
+            }
+            
+            // Datos del período
+            datosColilla.put("fechaInicioPeriodo", encabezado.getFechaInicioPeriodo());
+            datosColilla.put("fechaFinPeriodo", encabezado.getFechaFinPeriodo());
+            datosColilla.put("fechaPago", encabezado.getFechaPago());
+            datosColilla.put("tipoQuincena", encabezado.getTipoQuincena() != null ? encabezado.getTipoQuincena().name() : "");
+            
+            // Ingresos
+            datosColilla.put("salarioBase", detalle.getSalarioBasePeriodo() != null ? detalle.getSalarioBasePeriodo() : 0.0);
+            datosColilla.put("montoHorasExtra", detalle.getMontoHorasExtra() != null ? detalle.getMontoHorasExtra() : 0.0);
+            datosColilla.put("montoFeriadosTrabajados", detalle.getMontoFeriadosTrabajados() != null ? detalle.getMontoFeriadosTrabajados() : 0.0);
+            datosColilla.put("montoIncapacidad", detalle.getMontoIncapacidad() != null ? detalle.getMontoIncapacidad() : 0.0);
+            
+            // Deducciones
+            datosColilla.put("deduccionCcssIvm", detalle.getDeduccionCcssIvm() != null ? detalle.getDeduccionCcssIvm() : 0.0);
+            datosColilla.put("deduccionCcssSem", detalle.getDeduccionCcssSem() != null ? detalle.getDeduccionCcssSem() : 0.0);
+            datosColilla.put("impuestoDeRenta", detalle.getImpuestoDeRenta() != null ? detalle.getImpuestoDeRenta() : 0.0);
+            datosColilla.put("otrasDeducciones", detalle.getOtrasDeducciones() != null ? detalle.getOtrasDeducciones() : 0.0);
+            
+            // Calcular totales
+            Double salarioBase = detalle.getSalarioBasePeriodo() != null ? detalle.getSalarioBasePeriodo() : 0.0;
+            Double horasExtra = detalle.getMontoHorasExtra() != null ? detalle.getMontoHorasExtra() : 0.0;
+            Double feriadosTrabajados = detalle.getMontoFeriadosTrabajados() != null ? detalle.getMontoFeriadosTrabajados() : 0.0;
+            Double incapacidad = detalle.getMontoIncapacidad() != null ? detalle.getMontoIncapacidad() : 0.0;
+            
+            Double totalDevengado = salarioBase + horasExtra + feriadosTrabajados + incapacidad;
+            
+            Double ccssIvm = detalle.getDeduccionCcssIvm() != null ? detalle.getDeduccionCcssIvm() : 0.0;
+            Double ccssSem = detalle.getDeduccionCcssSem() != null ? detalle.getDeduccionCcssSem() : 0.0;
+            Double renta = detalle.getImpuestoDeRenta() != null ? detalle.getImpuestoDeRenta() : 0.0;
+            Double otras = detalle.getOtrasDeducciones() != null ? detalle.getOtrasDeducciones() : 0.0;
+            
+            Double totalDeducciones = ccssIvm + ccssSem + renta + otras;
+            Double salarioNeto = totalDevengado - totalDeducciones;
+            
+            datosColilla.put("totalDevengado", totalDevengado);
+            datosColilla.put("totalDeducciones", totalDeducciones);
+            datosColilla.put("salarioNeto", salarioNeto);
+        }
+        
+        return datosColilla;
+    }
+
+    /**
+     * Construye el nombre completo del empleado.
+     * @param empleado parametro de entrada de la operacion.
+     * @return String con nombre completo
+     */
+    private String construirNombreCompleto(Empleados empleado) {
+        StringBuilder nombre = new StringBuilder();
+        
+        if (empleado.getNombre() != null && !empleado.getNombre().isEmpty()) {
+            nombre.append(empleado.getNombre());
+        }
+        
+        if (empleado.getPrimerApellido() != null && !empleado.getPrimerApellido().isEmpty()) {
+            if (nombre.length() > 0) nombre.append(" ");
+            nombre.append(empleado.getPrimerApellido());
+        }
+        
+        if (empleado.getSegundoApellido() != null && !empleado.getSegundoApellido().isEmpty()) {
+            if (nombre.length() > 0) nombre.append(" ");
+            nombre.append(empleado.getSegundoApellido());
+        }
+        
+        return nombre.toString();
+    }
+
 
     /**
      * Elimina un registro por su identificador.
