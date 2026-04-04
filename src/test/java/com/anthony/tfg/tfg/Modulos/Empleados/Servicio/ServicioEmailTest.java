@@ -20,11 +20,6 @@ public class ServicioEmailTest {
     @Test
     void testEnviarColillaPagoWithValidData() {
         try {
-            // Datos de prueba
-            String destinatario = "test@example.com";
-            String nombreCompleto = "Juan Pérez García";
-            byte[] pdfBytes = "PDF Test Content".getBytes();
-            String nombreArchivo = "colilla-pago-1.pdf";
             
             // Esta prueba solo verifica que el método existe y es invocable
             // En un ambiente de prueba, esto causará un error de conexión SMTP esperado

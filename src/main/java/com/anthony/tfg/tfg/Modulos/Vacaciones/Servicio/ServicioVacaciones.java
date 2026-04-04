@@ -139,6 +139,25 @@ public class ServicioVacaciones {
     }
 
     /**
+     * Restaura días del saldo de vacaciones cuando se cancela un permiso de vacaciones aprobado.
+     * Se llama desde ServicioPermisos cuando RH cancela una solicitud de vacaciones.
+     */
+    @Transactional
+    public void restaurarDias(Long idEmpleado, Integer dias) {
+        Empleados empleado = consultasEmpleados.obtenerPorId(idEmpleado);
+        if (empleado == null) {
+            throw new ResourceNotFoundException("Empleados", "id", idEmpleado);
+        }
+        
+        Integer saldoActual = empleado.getSaldoVacaciones() != null ? empleado.getSaldoVacaciones() : 0;
+        empleado.setSaldoVacaciones(saldoActual + dias);
+        empleadosRepositorio.save(empleado);
+        
+        log.info("Se restauraron {} días de vacaciones al empleado {}. Saldo anterior: {}, Saldo nuevo: {}",
+                dias, idEmpleado, saldoActual, empleado.getSaldoVacaciones());
+    }
+
+    /**
      * Tarea programada que se ejecuta el primer día de cada mes a las 1:00 AM.
      * Agrega 1 día de vacaciones a todos los empleados activos.
      */

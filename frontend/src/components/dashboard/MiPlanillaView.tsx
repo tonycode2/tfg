@@ -260,6 +260,10 @@ export function MiPlanillaView() {
     setPdfGeneratingId(aguinaldo.id);
 
     try {
+      if (!userInfo?.idEmpleado) {
+        toast.error('No se pudo identificar el empleado');
+        return;
+      }
       await descargarPdfAguinaldo(userInfo.idEmpleado, aguinaldo.anio);
     } catch (error: any) {
       console.error('Error al generar PDF:', error);

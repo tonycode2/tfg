@@ -287,4 +287,292 @@ public class ServicioEmail {
             </html>
             """, nombreCompleto);
     }
+
+    /**
+     * Envía notificación de respuesta de incapacidad (aprobada o rechazada por RH).
+     * @param destinatario parametro de entrada de la operacion.
+     * @param nombreCompleto parametro de entrada de la operacion.
+     * @param tipoIncapacidad parametro de entrada de la operacion.
+     * @param aprobado parametro de entrada de la operacion.
+     * @param comentarios parametro de entrada de la operacion.
+     * @param diasTotales parametro de entrada de la operacion.
+     * @param fechaInicio parametro de entrada de la operacion.
+     * @param fechaFin parametro de entrada de la operacion.
+     */
+    public void enviarNotificacionIncapacidad(String destinatario, String nombreCompleto, String tipoIncapacidad, 
+            Boolean aprobado, String comentarios, Integer diasTotales, String fechaInicio, String fechaFin) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom(fromEmail);
+            helper.setTo(destinatario);
+            
+            String asunto = aprobado 
+                ? "Respuesta de Recursos Humanos - Incapacidad APROBADA" 
+                : "Respuesta de Recursos Humanos - Incapacidad RECHAZADA";
+            helper.setSubject(asunto);
+
+            String contenidoHtml = construirEmailIncapacidadHtml(nombreCompleto, tipoIncapacidad, aprobado, 
+                    comentarios, diasTotales, fechaInicio, fechaFin);
+            helper.setText(contenidoHtml, true);
+
+            mailSender.send(message);
+            log.info("Email de incapacidad enviado exitosamente a: {}", destinatario);
+
+        } catch (Exception e) {
+            log.error("Error al enviar email de incapacidad a: {}", destinatario, e);
+            throw new RuntimeException("No se pudo enviar el email de incapacidad: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Construye el HTML del correo de notificación de incapacidad.
+     * @param nombreCompleto parametro de entrada de la operacion.
+     * @param tipoIncapacidad parametro de entrada de la operacion.
+     * @param aprobado parametro de entrada de la operacion.
+     * @param comentarios parametro de entrada de la operacion.
+     * @param diasTotales parametro de entrada de la operacion.
+     * @param fechaInicio parametro de entrada de la operacion.
+     * @param fechaFin parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
+    private String construirEmailIncapacidadHtml(String nombreCompleto, String tipoIncapacidad, Boolean aprobado,
+            String comentarios, Integer diasTotales, String fechaInicio, String fechaFin) {
+        String estado = aprobado ? "APROBADA" : "RECHAZADA";
+        String colorEstado = aprobado ? "#10b981" : "#ef4444";
+        String iconoEstado = aprobado ? "✓" : "✗";
+        
+        return String.format("""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background-color: #3b82f6; color: white; padding: 20px; text-align: center; }
+                    .content { background-color: #f9f9f9; padding: 20px; margin: 20px 0; }
+                    .estado-box { background-color: %s; color: white; padding: 20px; text-align: center; margin: 20px 0; border-radius: 8px; }
+                    .estado-icono { font-size: 48px; margin-bottom: 10px; }
+                    .estado-titulo { font-size: 24px; font-weight: bold; }
+                    .detalles { background-color: white; padding: 15px; border-left: 4px solid #3b82f6; margin: 15px 0; }
+                    .detalle-item { margin: 10px 0; }
+                    .detalle-label { font-weight: bold; color: #666; }
+                    .detalle-valor { color: #1e40af; }
+                    .comentarios-box { background-color: white; padding: 15px; border-left: 4px solid #f59e0b; margin: 15px 0; }
+                    .footer { text-align: center; color: #666; font-size: 12px; margin-top: 20px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>Sistema de Gestión de RH</h1>
+                        <p>Sastrería Gerson Andre</p>
+                    </div>
+                    
+                    <div class="content">
+                        <p>Hola <strong>%s</strong>,</p>
+                        
+                        <div class="estado-box">
+                            <div class="estado-icono">%s</div>
+                            <div class="estado-titulo">Incapacidad %s</div>
+                        </div>
+                        
+                        <p>Te informamos que tu solicitud de incapacidad ha sido revisada por el departamento de Recursos Humanos. A continuación se detalla la respuesta:</p>
+                        
+                        <div class="detalles">
+                            <div class="detalle-item">
+                                <span class="detalle-label">Tipo de incapacidad:</span>
+                                <span class="detalle-valor">%s</span>
+                            </div>
+                            <div class="detalle-item">
+                                <span class="detalle-label">Fecha de inicio:</span>
+                                <span class="detalle-valor">%s</span>
+                            </div>
+                            <div class="detalle-item">
+                                <span class="detalle-label">Fecha de finalización:</span>
+                                <span class="detalle-valor">%s</span>
+                            </div>
+                            <div class="detalle-item">
+                                <span class="detalle-label">Días totales:</span>
+                                <span class="detalle-valor">%d</span>
+                            </div>
+                        </div>
+                        
+                        %s
+                        
+                        <p>Si tienes alguna pregunta sobre esta resolución, por favor contacta al departamento de Recursos Humanos.</p>
+                    </div>
+                    
+                    <div class="footer">
+                        <p><strong>Sastrería Gerson Andre</strong></p>
+                        <p>Este es un correo automático, por favor no respondas a este mensaje.</p>
+                        <p>&copy; 2026 Sistema de Gestión de RH - Todos los derechos reservados</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """, colorEstado, nombreCompleto, iconoEstado, estado, tipoIncapacidad, fechaInicio, fechaFin, 
+            diasTotales != null ? diasTotales : 0,
+            comentarios != null && !comentarios.isEmpty() 
+                ? String.format("<div class=\"comentarios-box\"><strong>Comentarios:</strong><br/>%s</div>", comentarios)
+                : "");
+    }
+
+    /**
+     * Envía notificación de respuesta de permiso o vacaciones (aprobado o rechazado).
+     * @param destinatario parametro de entrada de la operacion.
+     * @param nombreCompleto parametro de entrada de la operacion.
+     * @param tipoPermiso parametro de entrada de la operacion.
+     * @param aprobado parametro de entrada de la operacion.
+     * @param comentarios parametro de entrada de la operacion.
+     * @param diasTotales parametro de entrada de la operacion.
+     * @param fechaInicio parametro de entrada de la operacion.
+     * @param fechaFin parametro de entrada de la operacion.
+     */
+    public void enviarNotificacionPermiso(String destinatario, String nombreCompleto, String tipoPermiso, 
+            Boolean aprobado, String comentarios, Integer diasTotales, String fechaInicio, String fechaFin) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setFrom(fromEmail);
+            helper.setTo(destinatario);
+            
+            String asunto = aprobado 
+                ? "Respuesta de Recursos Humanos - Permiso APROBADO" 
+                : "Respuesta de Recursos Humanos - Permiso RECHAZADO";
+            helper.setSubject(asunto);
+
+            String contenidoHtml = construirEmailPermisoHtml(nombreCompleto, tipoPermiso, aprobado, 
+                    comentarios, diasTotales, fechaInicio, fechaFin);
+            helper.setText(contenidoHtml, true);
+
+            mailSender.send(message);
+            log.info("Email de permiso enviado exitosamente a: {}", destinatario);
+
+        } catch (Exception e) {
+            log.error("Error al enviar email de permiso a: {}", destinatario, e);
+            throw new RuntimeException("No se pudo enviar el email de permiso: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Construye el HTML del correo de notificación de permiso o vacaciones.
+     * @param nombreCompleto parametro de entrada de la operacion.
+     * @param tipoPermiso parametro de entrada de la operacion.
+     * @param aprobado parametro de entrada de la operacion.
+     * @param comentarios parametro de entrada de la operacion.
+     * @param diasTotales parametro de entrada de la operacion.
+     * @param fechaInicio parametro de entrada de la operacion.
+     * @param fechaFin parametro de entrada de la operacion.
+     * @return resultado de la operacion.
+     */
+    private String construirEmailPermisoHtml(String nombreCompleto, String tipoPermiso, Boolean aprobado,
+            String comentarios, Integer diasTotales, String fechaInicio, String fechaFin) {
+        String estado = aprobado ? "APROBADO" : "RECHAZADO";
+        String colorEstado = aprobado ? "#10b981" : "#ef4444";
+        String iconoEstado = aprobado ? "✓" : "✗";
+        
+        // Determinar si es vacaciones para mensajes específicos
+        boolean esVacaciones = tipoPermiso != null && tipoPermiso.equalsIgnoreCase("VACACIONES");
+        String tipoSolicitud = esVacaciones ? "Vacaciones" : "Permiso";
+        
+        // Construir secciones opcionales fuera del String.format para evitar conflictos
+        String seccionComentarios = (comentarios != null && !comentarios.isEmpty()) 
+            ? "<div class=\"comentarios-box\"><strong>Comentarios de RH:</strong><br/>" + comentarios + "</div>"
+            : "";
+        
+        String seccionVacaciones = (aprobado && esVacaciones)
+            ? "<div class=\"info-box\"><strong>ℹ️ Importante:</strong> El saldo de vacaciones ha sido descontado y actualizado en el sistema.</div>"
+            : "";
+        
+        return String.format("""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                    .header { background-color: #3b82f6; color: white; padding: 20px; text-align: center; }
+                    .content { background-color: #f9f9f9; padding: 20px; margin: 20px 0; }
+                    .estado-box { background-color: %s; color: white; padding: 20px; text-align: center; margin: 20px 0; border-radius: 8px; }
+                    .estado-icono { font-size: 48px; margin-bottom: 10px; }
+                    .estado-titulo { font-size: 24px; font-weight: bold; }
+                    .detalles { background-color: white; padding: 15px; border-left: 4px solid #3b82f6; margin: 15px 0; }
+                    .detalle-item { margin: 10px 0; }
+                    .detalle-label { font-weight: bold; color: #666; }
+                    .detalle-valor { color: #1e40af; }
+                    .comentarios-box { background-color: white; padding: 15px; border-left: 4px solid #f59e0b; margin: 15px 0; }
+                    .info-box { background-color: #dbeafe; padding: 15px; border-left: 4px solid #3b82f6; margin: 15px 0; border-radius: 4px; }
+                    .footer { text-align: center; color: #666; font-size: 12px; margin-top: 20px; }
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>Sistema de Gestión de RH</h1>
+                        <p>Sastrería Gerson Andre</p>
+                    </div>
+                    
+                    <div class="content">
+                        <p>Hola <strong>%s</strong>,</p>
+                        
+                        <div class="estado-box">
+                            <div class="estado-icono">%s</div>
+                            <div class="estado-titulo">%s %s</div>
+                        </div>
+                        
+                        <p>Te informamos que tu solicitud de %s ha sido revisada por el departamento de Recursos Humanos. A continuación se detalla la respuesta:</p>
+                        
+                        <div class="detalles">
+                            <div class="detalle-item">
+                                <span class="detalle-label">Tipo de %s:</span>
+                                <span class="detalle-valor">%s</span>
+                            </div>
+                            <div class="detalle-item">
+                                <span class="detalle-label">Fecha de inicio:</span>
+                                <span class="detalle-valor">%s</span>
+                            </div>
+                            <div class="detalle-item">
+                                <span class="detalle-label">Fecha de finalización:</span>
+                                <span class="detalle-valor">%s</span>
+                            </div>
+                            <div class="detalle-item">
+                                <span class="detalle-label">Días totales:</span>
+                                <span class="detalle-valor">%s</span>
+                            </div>
+                        </div>
+                        
+                        %s
+                        
+                        %s
+                        
+                        <p>Si tienes alguna pregunta sobre esta resolución, por favor contacta al departamento de Recursos Humanos.</p>
+                    </div>
+                    
+                    <div class="footer">
+                        <p><strong>Sastrería Gerson Andre</strong></p>
+                        <p>Este es un correo automático, por favor no respondas a este mensaje.</p>
+                        <p>&copy; 2026 Sistema de Gestión de RH - Todos los derechos reservados</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """, 
+            colorEstado, 
+            nombreCompleto, 
+            iconoEstado, 
+            estado, 
+            tipoSolicitud,
+            tipoSolicitud.toLowerCase(),
+            tipoPermiso != null ? tipoPermiso : "N/A",
+            fechaInicio,
+            fechaFin, 
+            diasTotales != null ? String.valueOf(diasTotales) : "0",
+            seccionComentarios,
+            seccionVacaciones);
+    }
 }

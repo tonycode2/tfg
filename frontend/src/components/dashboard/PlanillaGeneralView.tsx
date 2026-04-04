@@ -819,7 +819,7 @@ export function PlanillaGeneralView() {
         cancelText="Cancelar"
         isLoading={Boolean(payingPlanillaId)}
         confirmVariant="secondary"
-        loadingText="Marcando como pagada..."
+        loadingText="Enviando notificaciones y procesando pago..."
       />
 
     </div>

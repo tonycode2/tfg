@@ -11,6 +11,7 @@ import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudIncapacidadesDTO;
 import com.anthony.tfg.tfg.Exceptions.BadRequestException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasIncapacidades;
+import com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioEmail;
 import com.anthony.tfg.tfg.Modulos.JornadaDiaria.Servicio.ServicioJornadaDiaria;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosIncapacidades;
 import com.anthony.tfg.tfg.Repositorios.JefesDepartamentoRepositorio;
@@ -26,6 +27,7 @@ class ServicioIncapacidadTest {
         JefesDepartamentoRepositorio jefesDepartamentoRepo = mock(JefesDepartamentoRepositorio.class);
         FileStorageService fileStorageService = mock(FileStorageService.class);
         ServicioJornadaDiaria servicioJornadaDiaria = mock(ServicioJornadaDiaria.class);
+        ServicioEmail servicioEmail = mock(ServicioEmail.class);
 
         ServicioIncapacidad servicio = new ServicioIncapacidad(
                 consulta,
@@ -33,7 +35,8 @@ class ServicioIncapacidadTest {
                 consultasEmpleados,
                 jefesDepartamentoRepo,
                 fileStorageService,
-                servicioJornadaDiaria);
+                servicioJornadaDiaria,
+                servicioEmail);
 
         SolicitudIncapacidadesDTO dto = new SolicitudIncapacidadesDTO();
         dto.setFechaInicio(LocalDate.now());

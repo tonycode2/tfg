@@ -4,8 +4,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,7 @@ import com.anthony.tfg.tfg.Exceptions.ResourceNotFoundException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasPermisos;
 import com.anthony.tfg.tfg.Modulos.DiasFeriados.Servicio.ServicioDiasFeriados;
+import com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioEmail;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.JornadaDiaria.Servicio.ServicioJornadaDiaria;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosPermisos;
@@ -43,7 +42,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
     private final MantenimientosPermisos mantenimiento;
     private final ConsultasEmpleados consultasEmpleados;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepo;
-    private final JavaMailSender emailSender;
+    private final ServicioEmail servicioEmail;
     private final ServicioVacaciones servicioVacaciones;
     private final ServicioDiasFeriados servicioDiasFeriados;
     private final ServicioJornadaDiaria servicioJornadaDiaria;
@@ -53,7 +52,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
             MantenimientosPermisos mantenimiento, 
             ConsultasEmpleados consultasEmpleados,
             JefesDepartamentoRepositorio jefesDepartamentoRepo,
-            JavaMailSender emailSender,
+            ServicioEmail servicioEmail,
             ServicioVacaciones servicioVacaciones,
             ServicioDiasFeriados servicioDiasFeriados,
             ServicioJornadaDiaria servicioJornadaDiaria) {
@@ -61,7 +60,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
         this.jefesDepartamentoRepo = jefesDepartamentoRepo;
-        this.emailSender = emailSender;
+        this.servicioEmail = servicioEmail;
         this.servicioVacaciones = servicioVacaciones;
         this.servicioDiasFeriados = servicioDiasFeriados;
         this.servicioJornadaDiaria = servicioJornadaDiaria;
@@ -407,6 +406,10 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
         
         Permisos permisoActualizado = mantenimiento.actualizar(permiso);
         log.info("Permiso {} rechazado por RH {}", idPermiso, rh.getId());
+        
+        // Enviar notificación por email
+        enviarEmailRechazo(permisoActualizado);
+        
         return deEntidadDtoARespuesta(permisoActualizado);
     }
 
@@ -426,9 +429,22 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
             throw new BadRequestException("Solo se pueden cancelar solicitudes aprobadas");
         }
         
+        // Si es vacaciones aprobadas, restaurar los días descontados
+        if (permiso.getTipoPermiso() == TipoPermiso.VACACIONES) {
+            Long idEmpleado = permiso.getEmpleado().getId();
+            Integer diasAprobados = permiso.getDiasTotales();
+            servicioVacaciones.restaurarDias(idEmpleado, diasAprobados);
+            log.info("Se restauraron {} días de vacaciones al empleado {} por cancelación del permiso {}",
+                    diasAprobados, idEmpleado, idPermiso);
+        }
+        
         permiso.setEstadoSolicitud(EstadoSolicitud.CANCELADA);
         Permisos permisoActualizado = mantenimiento.actualizar(permiso);
         log.info("Permiso {} cancelado por RH {}", idPermiso, rh.getId());
+        
+        // Enviar notificación de cancelación
+        enviarEmailCancelacion(permisoActualizado);
+        
         return deEntidadDtoARespuesta(permisoActualizado);
     }
 
@@ -484,32 +500,85 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
                 return;
             }
             
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(empleado.getCorreoPersonal());
-            message.setSubject("Solicitud de Permiso Aprobada");
-            message.setText(String.format(
-                "Estimado(a) %s %s,\n\n" +
-                "Su solicitud de permiso ha sido aprobada.\n\n" +
-                "Detalles:\n" +
-                "- Tipo: %s\n" +
-                "- Fechas: %s al %s\n" +
-                "- Días: %d\n\n" +
-                "Comentarios de RH: %s\n\n" +
-                "Saludos,\n" +
-                "Departamento de Recursos Humanos",
-                empleado.getNombre(),
-                empleado.getPrimerApellido(),
-                permiso.getTipoPermiso(),
-                permiso.getFechaInicio(),
-                permiso.getFechaFin(),
-                permiso.getDiasTotales(),
-                permiso.getComentariosRH() != null ? permiso.getComentariosRH() : "N/A"
-            ));
+            String nombreCompleto = empleado.getNombre() + " " + empleado.getPrimerApellido();
+            String tipoPermiso = permiso.getTipoPermiso().toString();
             
-            emailSender.send(message);
-            log.info("Email de aprobación enviado a {}", empleado.getCorreoPersonal());
+            servicioEmail.enviarNotificacionPermiso(
+                empleado.getCorreoPersonal(),
+                nombreCompleto,
+                tipoPermiso,
+                true,
+                permiso.getComentariosRH(),
+                permiso.getDiasTotales(),
+                permiso.getFechaInicio().toString(),
+                permiso.getFechaFin().toString()
+            );
+            
+            log.info("Email de aprobación de permiso enviado a {}", empleado.getCorreoPersonal());
         } catch (Exception e) {
-            log.error("Error al enviar email de aprobación: {}", e.getMessage());
+            log.error("Error al enviar email de aprobación de permiso: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Envía email de notificación cuando RH rechaza un permiso
+     */
+    private void enviarEmailRechazo(Permisos permiso) {
+        try {
+            Empleados empleado = permiso.getEmpleado();
+            if (empleado.getCorreoPersonal() == null || empleado.getCorreoPersonal().isEmpty()) {
+                log.warn("El empleado {} no tiene correo registrado", empleado.getId());
+                return;
+            }
+            
+            String nombreCompleto = empleado.getNombre() + " " + empleado.getPrimerApellido();
+            String tipoPermiso = permiso.getTipoPermiso().toString();
+            
+            servicioEmail.enviarNotificacionPermiso(
+                empleado.getCorreoPersonal(),
+                nombreCompleto,
+                tipoPermiso,
+                false,
+                permiso.getComentariosRH(),
+                permiso.getDiasTotales(),
+                permiso.getFechaInicio().toString(),
+                permiso.getFechaFin().toString()
+            );
+            
+            log.info("Email de rechazo de permiso enviado a {}", empleado.getCorreoPersonal());
+        } catch (Exception e) {
+            log.error("Error al enviar email de rechazo de permiso: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Envía email de notificación cuando RH cancela un permiso aprobado
+     */
+    private void enviarEmailCancelacion(Permisos permiso) {
+        try {
+            Empleados empleado = permiso.getEmpleado();
+            if (empleado.getCorreoPersonal() == null || empleado.getCorreoPersonal().isEmpty()) {
+                log.warn("El empleado {} no tiene correo registrado", empleado.getId());
+                return;
+            }
+            
+            String nombreCompleto = empleado.getNombre() + " " + empleado.getPrimerApellido();
+            String tipoPermiso = permiso.getTipoPermiso().toString();
+            
+            servicioEmail.enviarNotificacionPermiso(
+                empleado.getCorreoPersonal(),
+                nombreCompleto,
+                tipoPermiso,
+                false,
+                "Su solicitud de " + tipoPermiso.toLowerCase() + " aprobada ha sido cancelada.",
+                permiso.getDiasTotales(),
+                permiso.getFechaInicio().toString(),
+                permiso.getFechaFin().toString()
+            );
+            
+            log.info("Email de cancelación de permiso enviado a {}", empleado.getCorreoPersonal());
+        } catch (Exception e) {
+            log.error("Error al enviar email de cancelación de permiso: {}", e.getMessage());
         }
     }
 

@@ -41,19 +41,22 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
     private final JefesDepartamentoRepositorio jefesDepartamentoRepo;
     private final com.anthony.tfg.tfg.Util.FileStorageService fileStorageService;
     private final ServicioJornadaDiaria servicioJornadaDiaria;
+    private final com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioEmail servicioEmail;
 
     public ServicioIncapacidad(ConsultasIncapacidades consulta, 
                                MantenimientosIncapacidades mantenimiento, 
                                ConsultasEmpleados consultasEmpleados,
                                JefesDepartamentoRepositorio jefesDepartamentoRepo,
                                com.anthony.tfg.tfg.Util.FileStorageService fileStorageService,
-                               ServicioJornadaDiaria servicioJornadaDiaria) {
+                               ServicioJornadaDiaria servicioJornadaDiaria,
+                               com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioEmail servicioEmail) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
         this.jefesDepartamentoRepo = jefesDepartamentoRepo;
         this.fileStorageService = fileStorageService;
         this.servicioJornadaDiaria = servicioJornadaDiaria;
+        this.servicioEmail = servicioEmail;
     }
 
     // ==================== MÉTODOS BÁSICOS (CRUD) ====================
@@ -513,11 +516,54 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
                 log.warn("No se pudo eliminar la entrada de extensión con ID {}: {}", incapacidad.getId(), e.getMessage());
             }
 
+            // Enviar correo de aprobación al empleado
+            try {
+                Empleados empleado = originalActualizada.getEmpleado();
+                if (empleado != null && empleado.getCorreoPersonal() != null) {
+                    servicioEmail.enviarNotificacionIncapacidad(
+                        empleado.getCorreoPersonal(),
+                        empleado.getNombre() + " " + empleado.getPrimerApellido(),
+                        originalActualizada.getTipoIncapacidad().name(),
+                        true,
+                        comentarios,
+                        originalActualizada.getDiasTotales(),
+                        originalActualizada.getFechaInicio().toString(),
+                        originalActualizada.getFechaFin().toString()
+                    );
+                } else if (empleado != null) {
+                    log.warn("El empleado {} no tiene correo personal registrado", empleado.getId());
+                }
+            } catch (Exception e) {
+                log.error("Error al enviar correo de aprobación de incapacidad: {}", e.getMessage());
+            }
+
             log.info("Extensión de incapacidad {} aprobada por RH {}. Se actualizaron los datos de la incapacidad original {}", idIncapacidad, rh.getId(), original.getId());
             return deEntidadDtoARespuesta(originalActualizada);
         }
 
         Incapacidades incapacidadActualizada = mantenimiento.actualizar(incapacidad);
+        
+        // Enviar correo de aprobación al empleado
+        try {
+            Empleados empleado = incapacidadActualizada.getEmpleado();
+            if (empleado != null && empleado.getCorreoPersonal() != null) {
+                servicioEmail.enviarNotificacionIncapacidad(
+                    empleado.getCorreoPersonal(),
+                    empleado.getNombre() + " " + empleado.getPrimerApellido(),
+                    incapacidadActualizada.getTipoIncapacidad().name(),
+                    true,
+                    comentarios,
+                    incapacidadActualizada.getDiasTotales(),
+                    incapacidadActualizada.getFechaInicio().toString(),
+                    incapacidadActualizada.getFechaFin().toString()
+                );
+            } else if (empleado != null) {
+                log.warn("El empleado {} no tiene correo personal registrado", empleado.getId());
+            }
+        } catch (Exception e) {
+            log.error("Error al enviar correo de aprobación de incapacidad: {}", e.getMessage());
+        }
+        
         log.info("Incapacidad {} aprobada por RH {}", idIncapacidad, rh.getId());
         return deEntidadDtoARespuesta(incapacidadActualizada);
     }
@@ -544,6 +590,28 @@ public class ServicioIncapacidad implements ServicioInterface<RespuestaIncapacid
         incapacidad.setAprobadorRH(rh);
         
         Incapacidades incapacidadActualizada = mantenimiento.actualizar(incapacidad);
+        
+        // Enviar correo de rechazo al empleado
+        try {
+            Empleados empleado = incapacidadActualizada.getEmpleado();
+            if (empleado != null && empleado.getCorreoPersonal() != null) {
+                servicioEmail.enviarNotificacionIncapacidad(
+                    empleado.getCorreoPersonal(),
+                    empleado.getNombre() + " " + empleado.getPrimerApellido(),
+                    incapacidadActualizada.getTipoIncapacidad().name(),
+                    false,
+                    comentarios,
+                    incapacidadActualizada.getDiasTotales(),
+                    incapacidadActualizada.getFechaInicio().toString(),
+                    incapacidadActualizada.getFechaFin().toString()
+                );
+            } else if (empleado != null) {
+                log.warn("El empleado {} no tiene correo personal registrado", empleado.getId());
+            }
+        } catch (Exception e) {
+            log.error("Error al enviar correo de rechazo de incapacidad: {}", e.getMessage());
+        }
+        
         log.info("Incapacidad {} rechazada por RH {}", idIncapacidad, rh.getId());
         return deEntidadDtoARespuesta(incapacidadActualizada);
     }
