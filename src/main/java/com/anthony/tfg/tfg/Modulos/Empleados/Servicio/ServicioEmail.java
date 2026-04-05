@@ -522,7 +522,7 @@ public class ServicioEmail {
                         
                         <div class="estado-box">
                             <div class="estado-icono">%s</div>
-                            <div class="estado-titulo">%s %s</div>
+                            <div class="estado-titulo">%s</div>
                         </div>
                         
                         <p>Te informamos que tu solicitud de %s ha sido revisada por el departamento de Recursos Humanos. A continuación se detalla la respuesta:</p>
@@ -565,7 +565,7 @@ public class ServicioEmail {
             colorEstado, 
             nombreCompleto, 
             iconoEstado, 
-            estado, 
+            estado + " " + tipoSolicitud,
             tipoSolicitud,
             tipoSolicitud.toLowerCase(),
             tipoPermiso != null ? tipoPermiso : "N/A",

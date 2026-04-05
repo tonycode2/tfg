@@ -2,6 +2,7 @@ package com.anthony.tfg.tfg.Modulos.Permisos.Servicio;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -502,6 +503,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
             
             String nombreCompleto = empleado.getNombre() + " " + empleado.getPrimerApellido();
             String tipoPermiso = permiso.getTipoPermiso().toString();
+            DateTimeFormatter fechaFormato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             
             servicioEmail.enviarNotificacionPermiso(
                 empleado.getCorreoPersonal(),
@@ -510,8 +512,8 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
                 true,
                 permiso.getComentariosRH(),
                 permiso.getDiasTotales(),
-                permiso.getFechaInicio().toString(),
-                permiso.getFechaFin().toString()
+                permiso.getFechaInicio().format(fechaFormato),
+                permiso.getFechaFin().format(fechaFormato)
             );
             
             log.info("Email de aprobación de permiso enviado a {}", empleado.getCorreoPersonal());
@@ -533,6 +535,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
             
             String nombreCompleto = empleado.getNombre() + " " + empleado.getPrimerApellido();
             String tipoPermiso = permiso.getTipoPermiso().toString();
+            DateTimeFormatter fechaFormato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             
             servicioEmail.enviarNotificacionPermiso(
                 empleado.getCorreoPersonal(),
@@ -541,8 +544,8 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
                 false,
                 permiso.getComentariosRH(),
                 permiso.getDiasTotales(),
-                permiso.getFechaInicio().toString(),
-                permiso.getFechaFin().toString()
+                permiso.getFechaInicio().format(fechaFormato),
+                permiso.getFechaFin().format(fechaFormato)
             );
             
             log.info("Email de rechazo de permiso enviado a {}", empleado.getCorreoPersonal());
@@ -564,6 +567,7 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
             
             String nombreCompleto = empleado.getNombre() + " " + empleado.getPrimerApellido();
             String tipoPermiso = permiso.getTipoPermiso().toString();
+            DateTimeFormatter fechaFormato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             
             servicioEmail.enviarNotificacionPermiso(
                 empleado.getCorreoPersonal(),
@@ -572,8 +576,8 @@ public class ServicioPermisos implements ServicioInterface<RespuestaPermisosDTO,
                 false,
                 "Su solicitud de " + tipoPermiso.toLowerCase() + " aprobada ha sido cancelada.",
                 permiso.getDiasTotales(),
-                permiso.getFechaInicio().toString(),
-                permiso.getFechaFin().toString()
+                permiso.getFechaInicio().format(fechaFormato),
+                permiso.getFechaFin().format(fechaFormato)
             );
             
             log.info("Email de cancelación de permiso enviado a {}", empleado.getCorreoPersonal());
