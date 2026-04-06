@@ -3,7 +3,6 @@ package com.anthony.tfg.tfg.Modulos.Extras.Servicio;
 import java.time.LocalDate;
 import java.util.List;
 
-// Email sending disabled for Horas Extra module
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -22,6 +21,7 @@ import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasHorasExtras;
 import com.anthony.tfg.tfg.Modulos.Interfaces.ServicioInterface;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosHorasExtras;
+import com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioEmail;
 import com.anthony.tfg.tfg.Repositorios.JefesDepartamentoRepositorio;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
 
@@ -37,15 +37,18 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     private final MantenimientosHorasExtras mantenimiento;
     private final ConsultasEmpleados consultasEmpleados;
     private final JefesDepartamentoRepositorio jefesDepartamentoRepo;
+    private final ServicioEmail servicioEmail;
 
     public ServicioExtras(ConsultasHorasExtras consulta,
                           MantenimientosHorasExtras mantenimiento,
                           ConsultasEmpleados consultasEmpleados,
-                          JefesDepartamentoRepositorio jefesDepartamentoRepo) {
+                          JefesDepartamentoRepositorio jefesDepartamentoRepo,
+                          ServicioEmail servicioEmail) {
         this.consulta = consulta;
         this.mantenimiento = mantenimiento;
         this.consultasEmpleados = consultasEmpleados;
         this.jefesDepartamentoRepo = jefesDepartamentoRepo;
+        this.servicioEmail = servicioEmail;
     }
 
     /**
@@ -256,10 +259,11 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     /**
      * Rechaza la solicitud segun las reglas definidas.
      * @param id parametro de entrada de la operacion.
+     * @param comentarios parametro de entrada de la operacion.
      * @param auth parametro de entrada de la operacion.
      * @return resultado de la operacion.
      */
-    public RespuestaHorasExtraDTO rechazarPorJefe(Long id, Authentication auth) {
+    public RespuestaHorasExtraDTO rechazarPorJefe(Long id, String comentarios, Authentication auth) {
         Empleados jefe = obtenerEmpleadoAutenticado(auth);
         HorasExtra he = consulta.obtenerPorId(id);
         if (he == null) throw new ResourceNotFoundException("HorasExtra", "id", id);
@@ -272,6 +276,7 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         }
 
         he.setEstadoSolicitud(EstadoSolicitud.RECHAZADA_POR_JEFE);
+        he.setComentariosRH(comentarios);
         HorasExtra actualizado = mantenimiento.actualizar(he);
         enviarEmailCambioEstado(actualizado);
         return deEntidadDtoARespuesta(actualizado);
@@ -302,10 +307,11 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
     /**
      * Rechaza la solicitud segun las reglas definidas.
      * @param id parametro de entrada de la operacion.
+     * @param comentarios parametro de entrada de la operacion.
      * @param auth parametro de entrada de la operacion.
      * @return resultado de la operacion.
      */
-    public RespuestaHorasExtraDTO rechazarPorRH(Long id, Authentication auth) {
+    public RespuestaHorasExtraDTO rechazarPorRH(Long id, String comentarios, Authentication auth) {
         User usuario = obtenerUsuarioAutenticado(auth);
         String role = usuario.getRole().name();
         if (!role.equals("HR") && !role.equals("ADMIN")) {
@@ -316,6 +322,7 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         if (he == null) throw new ResourceNotFoundException("HorasExtra", "id", id);
 
         he.setEstadoSolicitud(EstadoSolicitud.RECHAZADA_POR_RH);
+        he.setComentariosRH(comentarios);
         HorasExtra actualizado = mantenimiento.actualizar(he);
         enviarEmailCambioEstado(actualizado);
         return deEntidadDtoARespuesta(actualizado);
@@ -334,14 +341,47 @@ public class ServicioExtras implements ServicioInterface<RespuestaHorasExtraDTO,
         return jefesDepartamentoRepo.findByEmpleadoIdAndDepartamentoIdAndEstaActivoTrue(posibleJefe.getId(), idDepartamento).isPresent();
     }
 
-    // Email notifications for Horas Extra are intentionally disabled.
+    // Email notifications for Horas Extra are now enabled.
     /**
-     * Envia la informacion solicitada.
+     * Envia notificación por email sobre la aprobación o rechazo de horas extra.
      * @param horaExtra parametro de entrada de la operacion.
      */
     private void enviarEmailCambioEstado(HorasExtra horaExtra) {
-        Long id = horaExtra != null ? horaExtra.getId() : null;
-        log.info("Notificación por email deshabilitada para HorasExtra (ID: {})", id);
+        try {
+            if (horaExtra == null) {
+                log.warn("No se puede enviar email de horas extra: objeto nulo");
+                return;
+            }
+
+            Empleados empleado = horaExtra.getEmpleado();
+            if (empleado == null || empleado.getCorreoPersonal() == null || empleado.getCorreoPersonal().isEmpty()) {
+                log.warn("El empleado {} no tiene correo registrado", empleado != null ? empleado.getId() : "indefinido");
+                return;
+            }
+
+            String nombreCompleto = empleado.getNombre() + " " + empleado.getPrimerApellido();
+            String correoDestino = empleado.getCorreoPersonal();
+            
+            // Determinar si fue aprobado o rechazado
+            Boolean aprobado = horaExtra.getEstadoSolicitud().equals(EstadoSolicitud.APROBADA) ||
+                               horaExtra.getEstadoSolicitud().equals(EstadoSolicitud.APROBADA_POR_JEFE);
+            
+            // Enviar correo con los detalles de las horas extra
+            servicioEmail.enviarNotificacionHorasExtra(
+                correoDestino,
+                nombreCompleto,
+                aprobado,
+                horaExtra.getComentariosRH(),
+                horaExtra.getCantidadDeHoras(),
+                horaExtra.getFechaSolicitud().toString()
+            );
+
+            log.info("Email de horas extra enviado a {}", correoDestino);
+
+        } catch (Exception e) {
+            log.error("Error al enviar email de cambio de estado de horas extra: {}", e.getMessage());
+            // No lanzamos excepción para no interrumpir el flujo principal
+        }
     }
 
     // =================== HELPERS AUTH ====================

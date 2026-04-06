@@ -12,6 +12,7 @@ public class RespuestaHorasExtraDTO {
     public String motivo;
     public Boolean aprobado;
     public Boolean procesado;
+    public String comentariosRH;
     public String estadoSolicitud;
     public String tipoTarifa;
     public Long idEmpleado;

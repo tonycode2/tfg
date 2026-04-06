@@ -41,6 +41,9 @@ public class HorasExtra {
     String motivo;
     Boolean aprobado;
     Boolean procesado;
+    
+    @Column(name = "comentarios_rh", columnDefinition = "TEXT")
+    String comentariosRH;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado_solicitud")

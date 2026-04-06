@@ -43,4 +43,6 @@ public class SolicitudHorasExtraDTO {
 
     @NotNull
     public Long idEmpleado;
+    
+    public String comentariosRH;
 }

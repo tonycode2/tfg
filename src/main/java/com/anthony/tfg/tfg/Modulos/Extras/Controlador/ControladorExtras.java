@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.anthony.tfg.tfg.DTOs.Respuesta.RespuestaHorasExtraDTO;
 import com.anthony.tfg.tfg.DTOs.Solicitud.SolicitudHorasExtraDTO;
+import com.anthony.tfg.tfg.DTOs.Solicitud.AccionHorasExtraDTO;
 import com.anthony.tfg.tfg.Modulos.Extras.Servicio.ServicioExtras;
 
 import jakarta.validation.Valid;
@@ -87,12 +88,14 @@ public class ControladorExtras {
 
     /** 
      * @param id
+     * @param accion
      * @param auth
      * @return ResponseEntity<RespuestaHorasExtraDTO>
      */
     @PutMapping("/{id}/rechazar-jefe")
-    public ResponseEntity<RespuestaHorasExtraDTO> rechazarPorJefe(@PathVariable Long id, Authentication auth) {
-        RespuestaHorasExtraDTO respuesta = servicio.rechazarPorJefe(id, auth);
+    public ResponseEntity<RespuestaHorasExtraDTO> rechazarPorJefe(@PathVariable Long id, 
+            @Valid @RequestBody AccionHorasExtraDTO accion, Authentication auth) {
+        RespuestaHorasExtraDTO respuesta = servicio.rechazarPorJefe(id, accion.comentarios, auth);
         return ResponseEntity.ok(respuesta);
     }
 
@@ -109,12 +112,14 @@ public class ControladorExtras {
 
     /** 
      * @param id
+     * @param accion
      * @param auth
      * @return ResponseEntity<RespuestaHorasExtraDTO>
      */
     @PutMapping("/{id}/rechazar-rh")
-    public ResponseEntity<RespuestaHorasExtraDTO> rechazarPorRH(@PathVariable Long id, Authentication auth) {
-        RespuestaHorasExtraDTO respuesta = servicio.rechazarPorRH(id, auth);
+    public ResponseEntity<RespuestaHorasExtraDTO> rechazarPorRH(@PathVariable Long id, 
+            @Valid @RequestBody AccionHorasExtraDTO accion, Authentication auth) {
+        RespuestaHorasExtraDTO respuesta = servicio.rechazarPorRH(id, accion.comentarios, auth);
         return ResponseEntity.ok(respuesta);
     }
 
