@@ -14,6 +14,7 @@ import com.anthony.tfg.tfg.Entidades.Empleados;
 import com.anthony.tfg.tfg.Exceptions.BadRequestException;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasEmpleados;
 import com.anthony.tfg.tfg.Modulos.Consultas.ConsultasHorasExtras;
+import com.anthony.tfg.tfg.Modulos.Empleados.Servicio.ServicioEmail;
 import com.anthony.tfg.tfg.Modulos.Mantenimientos.MantenimientosHorasExtras;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.Role;
 import com.anthony.tfg.tfg.Modulos.Seguridad.user.User;
@@ -27,9 +28,10 @@ class ServicioExtrasTest {
         MantenimientosHorasExtras mantenimiento = mock(MantenimientosHorasExtras.class);
         ConsultasEmpleados consultasEmpleados = mock(ConsultasEmpleados.class);
         JefesDepartamentoRepositorio jefesDepartamentoRepo = mock(JefesDepartamentoRepositorio.class);
+        ServicioEmail servicioEmail = mock(ServicioEmail.class);
         Authentication auth = mock(Authentication.class);
 
-        ServicioExtras servicio = new ServicioExtras(consulta, mantenimiento, consultasEmpleados, jefesDepartamentoRepo);
+        ServicioExtras servicio = new ServicioExtras(consulta, mantenimiento, consultasEmpleados, jefesDepartamentoRepo, servicioEmail);
 
         Empleados empleado = Empleados.builder().id(1L).build();
         User usuario = User.builder()
