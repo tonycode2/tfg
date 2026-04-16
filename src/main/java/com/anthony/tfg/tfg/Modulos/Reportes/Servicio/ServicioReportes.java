@@ -54,6 +54,9 @@ public class ServicioReportes {
 	private static final DateTimeFormatter FORMATO_FECHA_HORA_ES = DateTimeFormatter
 		.ofPattern(ReportesConstantes.FORMATO_FECHA_HORA_REPORTE, Locale.of("es", "CR"));
 
+    private static final DateTimeFormatter FORMATO_MES_ES = DateTimeFormatter
+        .ofPattern("MMMM", Locale.of("es", "CR"));
+
     public ServicioReportes(EmpleadosRepositorio empleadosRepositorio,
 			    PlanillaEncabezadoRepositorio planillaEncabezadoRepositorio,
 			    PlanillaDetalleRepositorio planillaDetalleRepositorio,
@@ -199,7 +202,7 @@ public class ServicioReportes {
 
 	    if (salarioBrutoMes > 0) {
 		mesesDetalle.add(ReporteAguinaldoDTO.DetalleMensualAguinaldoDTO.builder()
-			.mes(actual.getMonth().toString())
+			.mes(actual.format(FORMATO_MES_ES))
 			.anioMes(actual.getYear())
 			.mesNumero(actual.getMonthValue())
 			.salarioBruto(salarioBrutoMes)

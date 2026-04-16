@@ -5,6 +5,7 @@ import { SimpleDataTable } from '@/components/SimpleDataTable';
 import { Modal } from '@/components/Modal';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { DatePicker } from '@/components/ui/date-picker';
 import { obtenerDepartamentosAccesibles } from '@/services/asistenciaService';
 import evaluacionesService, { type EmpleadoEvaluacionResumen, obtenerEvaluacionesPorEmpleado } from '@/services/evaluacionesService';
 import { evaluacionesService as apiEvaluaciones, departamentosService, type EvaluacionDesempeno } from '@/services/apiService';
@@ -203,7 +204,14 @@ export function EvaluacionesView() {
         <div className="space-y-3">
           <div>
             <Label>Fecha</Label>
-            <Input value={fecha} onChange={(e) => { setFecha(e.target.value); setErrors(prev => { const c = { ...prev }; delete c.fecha; return c; }); }} type="date" />
+            <DatePicker
+              value={fecha}
+              onChange={(date) => {
+                setFecha(date);
+                setErrors(prev => { const c = { ...prev }; delete c.fecha; return c; });
+              }}
+              placeholder="Seleccionar fecha de evaluación"
+            />
             {errors.fecha ? <p className="text-xs text-red-400 mt-1">{errors.fecha}</p> : null}
           </div>
           <div>

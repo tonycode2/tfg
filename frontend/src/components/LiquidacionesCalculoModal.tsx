@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Modal } from './Modal';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
+import { DatePicker } from './ui/date-picker';
 import { SearchableSelect, type SearchableSelectOption } from './ui/searchable-select';
 import { empleadosService } from '@/services/apiService';
 import { calcularLiquidacion, type SolicitudCalculoLiquidacion, type LiquidacionCalculada } from '@/services/liquidacionesService';
@@ -98,7 +99,11 @@ export function LiquidacionesCalculoModal({ isOpen, onClose, onCalculated }: Pro
 
         <div>
           <Label>Fecha de salida</Label>
-          <Input type="date" value={fechaSalida} onChange={(e) => setFechaSalida(e.target.value)} />
+          <DatePicker
+            value={fechaSalida}
+            onChange={(date) => setFechaSalida(date)}
+            placeholder="Seleccionar fecha de salida"
+          />
         </div>
 
         <div>
